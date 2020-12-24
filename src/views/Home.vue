@@ -184,6 +184,7 @@ export default {
       this.show.files=true
       this.show.search=false
       this.show.preview=false
+      this.show.readme=false
       this.preview_show={
         image:false,
         video:false,
