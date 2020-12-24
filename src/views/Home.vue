@@ -376,16 +376,21 @@ export default {
 #home-icon{
   margin-right: 10px;
 }
-.files{
+/* .files{
   
-}
+} */
 .file-icon{
   margin-right: 10px;
   font-size: 20px;
-  color: #53b0f6;
+  color: #1890ff;
 }
-.preview{
+/* .preview{
 
+} */
+
+#d-player{
+  height: 80vh;
+  width: 100%;
 }
 
 .doc-preview{
