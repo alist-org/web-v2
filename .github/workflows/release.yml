@@ -5,7 +5,7 @@ on:
       - '*'
 
 jobs:
-  goreleaser:
+  release:
     runs-on: ubuntu-latest
     steps:
       -
