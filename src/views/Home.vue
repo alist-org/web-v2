@@ -2,7 +2,8 @@
   <div class="home">
     <div class="layout">
     <div class="header">
-      <router-link to="/"><img src="../assets/alist.png" alt="AList" style="height:100%;width:auto;"></router-link>
+      <router-link to="/"><img src="../assets/alist.png" alt="AList" style="height:56px;width:auto;" id="logo"></router-link>
+      <a class="down_btn" v-if="show.preview&&(!preview_show.other)" target="_blank" :href="url"><a-button type="primary" shape="circle" icon="download" size="large" /></a>
     </div>
     <a-divider class="header-content" />
     <div class="content">
@@ -37,11 +38,29 @@
       <div class="readme" v-show="show.readme">
         <a-card title="Readme.md" style="width: 100%" size="small">
           <!-- <a slot="extra" href="#">more</a> -->
-          <p>card content</p>
+          <MarkdownPreview :initialValue="readme" />
         </a-card>
       </div>
-      <div class="preview">
-
+      <div class="preview" v-show="show.preview">
+        <a-result title="该文件不支持预览" v-if="preview_show.other">
+          <template #extra>
+            <a target="_blank" :href="url">
+              <a-button type="primary">
+                Download
+              </a-button>
+            </a>
+          </template>
+        </a-result>
+        <iframe :src="url" class="doc-preview" v-if="preview_show.doc"></iframe>
+        <div class="img-preview" v-if="preview_show.image"><img :src="url"/></div>
+        <div class="video-preview" v-if="preview_show.video">
+          <d-player id="d-player" screenshot=true autoplay=true :options="video_options"></d-player>
+        </div>
+        <div class="audio-preview" v-if="preview_show.audio">
+          <aplayer autoplay
+            :music="audio_options"
+          />
+        </div>
       </div>
     </div>
     <a-divider id="footer-line"/>
@@ -59,12 +78,20 @@
 
 <script>
 
-import {list,get,search} from '../utils/api'
+import {list,get,search,info} from '../utils/api'
 import {formatDate} from '../utils/date'
 import {getFileSize} from '../utils/file_size'
+import { MarkdownPreview } from 'vue-meditor'
+import VueDPlayer from 'vue-dplayer'
+import 'vue-dplayer/dist/vue-dplayer.css'
+import Aplayer from 'vue-aplayer'
 
 export default {
   name: 'Home',
+  components:{
+    MarkdownPreview,Aplayer,
+    'd-player': VueDPlayer,
+  },
   watch:{
     '$route'(to,from){
       this.init()
@@ -95,17 +122,28 @@ export default {
         readme:false,
         password:false,
       },
+      preview_show:{
+        image:false,
+        video:false,
+        audio:false,
+        doc:false,
+        other:false,
+      },
+      url:'',
+      video_options:{},
+      audio_options:{},
       file_id:undefined,
       password:undefined,
       routes:[],
-      
+      readme: '',
       file_extensions:{
+        exe:'windows',
         xls:'file-excel',
         xlsx:'file-excel',
         md:'file-markdown',
         pdf:'file-pdf',
         ppt:'file-ppt',
-        pptx:'file-pptx',
+        pptx:'file-ppt',
         doc:'file-word',
         docx:'file-word',
         // jpg:'file-jpg',
@@ -115,19 +153,44 @@ export default {
         "7z":'file-zip',
         tar:'file-zip',
         jar:'file-zip',
-        xz:'file-zip'
+        xz:'file-zip',
+        apk:'android',
       },
       categorys:{
         image:'file-image',
         doc:'file-text',
-        video:'video-camera',
+        video:'youtube',
+        audio:'customer-service',
       },
     }
   },
   methods:{
+    initInfo(){
+      info().then(res=>{
+        if (res.meta.code==200) {
+          if (res.data.title && res.data.title!="") {
+            document.title=res.data.title
+          }
+          if (res.data.logo && res.data.logo!="") {
+            document.querySelector("#logo").src=res.data.logo
+          }
+        }else{
+          this.$msg.error(res.meta.msg)
+        }
+      })
+    },
     init(){
       this.show.routes=true
       this.show.files=true
+      this.show.search=false
+      this.show.preview=false
+      this.preview_show={
+        image:false,
+        video:false,
+        audio:false,
+        doc:false,
+        other:false,
+      }
       this.file_id=this.$route.params.id
       if(this.file_id==undefined){
         this.file_id="root"
@@ -155,10 +218,11 @@ export default {
             if (res.meta.code==200) {
               //获取成功 是文件
               this.showRoutes(res.data.paths)
-              showFile()
+              this.showFile(res.data)
             }else{
               // 也不是文件
               this.$msg.warning(res.meta.msg)
+              this.show.routes=false
             }
           })
         }
@@ -197,14 +261,47 @@ export default {
       return 'file'
     },
     showReadme(readme){
+      this.readme=readme
       if (readme!=""){
         this.show.readme=true
       }else{
         this.show.readme=false
       }
     },
-    showFile(){
-      
+    showFile(file){
+      this.url=file.download_url
+      this.show.preview=true
+      if (file.category=='doc') {
+        // TODO 无法预览,为啥啊
+        // this.preview_show.doc=true
+        // this.url='https://view.officeapps.live.com/op/view.aspx?src='+encodeURIComponent(file.download_url)
+      }
+      if (file.category=='image') {
+        // 预览图片
+        this.preview_show.image=true
+        return
+      }
+      if (file.category=='video') {
+        // 预览视频
+        this.video_options={
+          video:{
+            url:this.url
+          }
+        }
+        this.preview_show.video=true
+        return
+      }
+      if (file.category=='audio'){
+        this.audio_options={
+          title: file.name,
+          artist: '',
+          src: this.url,
+          pic: 'https://img.oez.cc/2020/12/07/f6e43dc79d74a.png'
+        }
+        this.preview_show.audio=true
+        return
+      }
+      this.preview_show.other=true
     },
     customRow(record, index){
       return{
@@ -224,6 +321,7 @@ export default {
     }
   },
   mounted(){
+    this.initInfo()
     this.init()
   }
 }
@@ -252,7 +350,8 @@ export default {
   width: 100%;
   display: flex;
   display: -webkit-flex; /* Safari */
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
 }
 .header-content{
   margin: 10px 0 5px 0;
@@ -287,6 +386,25 @@ export default {
 .preview{
 
 }
+
+.doc-preview{
+  width: 100%;
+  height: 80vh;
+  box-sizing: inherit;
+}
+
+.img-preview{
+  width: 100%;
+  height: 80vh;
+}
+
+.img-preview img  {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: auto;
+}
+
 .footer{
   width: 100%;
   text-align: center;

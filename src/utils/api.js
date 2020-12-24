@@ -31,3 +31,9 @@ export const search = (query) =>{
     })
 }
 
+export const info = () =>{
+    return request({
+        url:"info",
+        method:"get",
+    })
+}

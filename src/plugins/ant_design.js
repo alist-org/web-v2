@@ -4,7 +4,7 @@ import Vue from 'vue'
 // import Button from 'ant-design-vue/lib/button'
 
 import {
-    Button,Divider,Tag,Card,Breadcrumb,Table,message,Icon,Modal,Input,
+    Button,Divider,Tag,Card,Breadcrumb,Table,message,Icon,Modal,Input,Result,
 } from 'ant-design-vue';
 
 // Vue.component(Button.name, Button);
@@ -17,4 +17,5 @@ Vue.use(Table)
 Vue.use(Icon)
 Vue.use(Modal)
 Vue.use(Input)
+Vue.use(Result)
 Vue.prototype.$msg=message
