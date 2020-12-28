@@ -26,6 +26,12 @@ jobs:
         name: compress
         run: tar -czvf dist.tar.gz dist
       -
+        name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      -
         name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -34,6 +40,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+          body: ${{steps.github_release.outputs.changelog}}
           draft: false
           prerelease: false
       -
