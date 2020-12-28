@@ -2,8 +2,14 @@
   <div class="home">
     <div class="layout">
     <div class="header">
-      <router-link to="/"><img src="../assets/alist.png" alt="AList" style="height:56px;width:auto;" id="logo"></router-link>
-      <a class="down_btn" v-if="show.preview&&(!preview_show.other)" target="_blank" :href="url"><a-button type="primary" shape="circle" icon="download" size="large" /></a>
+      <router-link to="/">
+        <img v-if="info.logo" :src="info.logo" alt="AList" style="height:56px;width:auto;" id="logo">
+        <a-spin v-else />
+      </router-link>
+      <div v-if="show.preview&&(!preview_show.other)">
+        <a-button type="primary" shape="circle" icon="copy" size="large" @click="copyFileLink" />
+        <a class="down-btn"  target="_blank" :href="file.download_url"><a-button type="primary" shape="circle" icon="download" size="large" /></a>
+      </div>
     </div>
     <a-divider class="header-content" />
     <div class="content">
@@ -42,13 +48,19 @@
         </a-card>
       </div>
       <div class="preview" v-show="show.preview">
-        <a-result title="该文件不支持预览" v-if="preview_show.other">
+        <a-result :title="file.name" v-if="preview_show.other">
+          <template #icon>
+            <a-icon :type="file.icon" theme="filled" />
+          </template>
           <template #extra>
-            <a target="_blank" :href="url">
+            <a target="_blank" :href="file.download_url">
               <a-button type="primary">
-                Download
+                下载
               </a-button>
             </a>
+            <a-button type="primary" @click="copyFileLink">
+              复制直链
+            </a-button>
           </template>
         </a-result>
         <iframe :src="url" class="doc-preview" v-if="preview_show.doc"></iframe>
@@ -66,8 +78,8 @@
     <a-divider id="footer-line"/>
     <div class="footer">
       Powered By <a target="_blank" href="https://github.com/Xhofe/alist">AList</a>
-      <a-divider type="vertical" />
-      <a target="_blank" href="https://nn.ci">Xhofe's Blog</a>
+      <a-divider v-if="info.footer_text" type="vertical" />
+      <a v-if="info.footer_text" target="_blank" :href="info.footer_url">{{info.footer_text}}</a>
     </div>
     <a-modal v-model="show.password" title="Input password" @ok="handleOkPassword" @cancel="cancelPassword">
       <a-input-password placeholder="input password" v-model="password" @pressEnter="handleOkPassword"/>
@@ -79,6 +91,7 @@
 <script>
 
 import {list,get,search,info} from '../utils/api'
+import {copyToClip} from '../utils/copy_clip'
 import {formatDate} from '../utils/date'
 import {getFileSize} from '../utils/file_size'
 import { MarkdownPreview } from 'vue-meditor'
@@ -99,6 +112,7 @@ export default {
   },
   data(){
     return{
+      //表格列
       columns:[{align:'left',dataIndex:'name',title:'文件',scopedSlots:{customRender:'name'},
                 sorter:(a,b)=>{
                   return a.name<b.name?1:-1
@@ -112,8 +126,9 @@ export default {
                 sorter:(a,b)=>{
                   return a.time<b.time?1:-1
                 }}],
-      files:[],
+      files:[],//当前文件夹下文件
       files_loading:true,
+      //是否展示的组件
       show:{
         search:false,
         routes:true,
@@ -122,6 +137,7 @@ export default {
         readme:false,
         password:false,
       },
+      //预览组件展示
       preview_show:{
         image:false,
         video:false,
@@ -129,13 +145,23 @@ export default {
         doc:false,
         other:false,
       },
+      //当前文件
+      file:{},
+      //当前文件预览url
       url:'',
+      //预览视频选项
       video_options:{},
+      //预览音频选项
       audio_options:{},
+      //当前请求file_id
       file_id:undefined,
+      //请求的密码
       password:undefined,
+      //当前路径
       routes:[],
+      //readme内容
       readme: '',
+      // 文件与图标对应关系
       file_extensions:{
         exe:'windows',
         xls:'file-excel',
@@ -162,17 +188,22 @@ export default {
         video:'youtube',
         audio:'customer-service',
       },
+      //自定义内容
+      info:{
+        
+      }
     }
   },
   methods:{
     initInfo(){
       info().then(res=>{
         if (res.meta.code==200) {
+          this.info=res.data
           if (res.data.title && res.data.title!="") {
             document.title=res.data.title
           }
-          if (res.data.logo && res.data.logo!="") {
-            document.querySelector("#logo").src=res.data.logo
+          if(!this.info.logo){
+            this.info.logo=require('../assets/alist.png')
           }
         }else{
           this.$msg.error(res.meta.msg)
@@ -270,6 +301,8 @@ export default {
       }
     },
     showFile(file){
+      this.file=file
+      this.file.icon=this.getIcon(file)
       this.url=file.download_url
       this.show.preview=true
       if (file.category=='doc') {
@@ -297,7 +330,7 @@ export default {
           title: file.name,
           artist: '',
           src: this.url,
-          pic: 'https://img.oez.cc/2020/12/07/f6e43dc79d74a.png'
+          pic: this.info.music_img?this.info.music_img:'https://img.oez.cc/2020/12/07/f6e43dc79d74a.png'
         }
         this.preview_show.audio=true
         return
@@ -319,6 +352,11 @@ export default {
     },
     cancelPassword(){
       this.$router.go(-1)
+    },
+    copyFileLink(){
+      let content=this.info.backend_url+"/d/"+this.file_id
+      copyToClip(content)
+      this.$msg.success('链接已复制到剪贴板.');
     }
   },
   mounted(){
@@ -418,6 +456,10 @@ export default {
 }
 #footer-line{
   margin: 10px 0;
+}
+
+.down-btn{
+  margin-left: 4px;
 }
 
 </style>
