@@ -1,19 +1,30 @@
 <template>
   <div class="home">
     <div class="layout">
+    <!--头部 ------------------------------------------------------------------------------------------------------- -->
     <div class="header">
       <router-link to="/">
         <img v-if="info.logo" :src="info.logo" alt="AList" style="height:56px;width:auto;" id="logo">
         <a-spin v-else />
       </router-link>
-      <div v-if="show.preview&&(!preview_show.other)">
+      <a-space>
+        <a-popover title="二维码" class="qrcode">
+          <template slot="content">
+            <img :src="'https://wenhairu.com/static/api/qr/?size=200&text='+info.site_url+'/'+file_id"/>
+          </template>
+          <a-button type="primary" shape="circle" icon="qrcode" size="large" />
+        </a-popover>
+        <a-space v-if="show.preview&&(!preview_show.other)">
         <a-button type="primary" shape="circle" icon="copy" size="large" @click="copyFileLink" />
-        <a class="down-btn"  target="_blank" :href="file.download_url"><a-button type="primary" shape="circle" icon="download" size="large" /></a>
-      </div>
+        <a target="_blank" :href="file.download_url"><a-button type="primary" shape="circle" icon="download" size="large" /></a>
+        </a-space>
+      </a-space>
     </div>
     <a-divider class="header-content" />
+    <!--主题内容 ------------------------------------------------------------------------------------------------------- -->
     <div class="content">
       <div class="tool">
+        <!--路径 ------------------------------------------------------------------------------------------------------- -->
         <div class="routes" v-show="show.routes">
           <a-icon type="home" id="home-icon"/>
           <a-breadcrumb :routes="routes">
@@ -29,6 +40,7 @@
         </div>
       </div>
       <a-divider class="header-content" />
+      <!--文件列表 ------------------------------------------------------------------------------------------------------- -->
       <div class="files" v-show="show.files">
         <a-table 
           :columns="columns" :data-source="files" :pagination="false"
@@ -42,12 +54,14 @@
         </a-table>
       </div>
       <br/>
+      <!--Readme ------------------------------------------------------------------------------------------------------- -->
       <div class="readme" v-show="show.readme">
         <a-card title="Readme.md" style="width: 100%" size="small">
           <!-- <a slot="extra" href="#">more</a> -->
           <MarkdownPreview :initialValue="readme" />
         </a-card>
       </div>
+      <!--预览 ------------------------------------------------------------------------------------------------------- -->
       <div class="preview" v-show="show.preview">
         <a-result :title="file.name" v-if="preview_show.other">
           <template #icon>
@@ -55,13 +69,15 @@
           </template>
           <template #extra>
             <a target="_blank" :href="file.download_url">
-              <a-button type="primary">
-                下载
-              </a-button>
+              <a-button type="primary">下载</a-button>
             </a>
-            <a-button type="primary" @click="copyFileLink">
-              复制直链
-            </a-button>
+            <a-button type="primary" @click="copyFileLink">复制直链</a-button>
+            <!-- <a-popover title="二维码" class="qrcode">
+              <template slot="content">
+                <img :src="'https://wenhairu.com/static/api/qr/?size=200&text='+info.site_url+'/'+file_id"/>
+              </template>
+              <a-button type="primary">二维码</a-button>
+            </a-popover> -->
           </template>
         </a-result>
         <iframe :src="url" class="doc-preview" v-if="preview_show.doc"></iframe>
@@ -459,8 +475,10 @@ export default {
   margin: 10px 0;
 }
 
-.down-btn{
-  margin-left: 4px;
+@media screen and (max-width: 600px) {
+    .qrcode {
+        display: none;
+    }
 }
 
 </style>
