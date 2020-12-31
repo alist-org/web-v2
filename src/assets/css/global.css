@@ -1,4 +1,5 @@
 html,body,#app{
+    height: 100vh;
     margin: 0;
     padding: 0;
 }
@@ -18,4 +19,20 @@ html,body,#app{
 .ant-table-body{
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
+}
+
+.ant-table-fixed>.ant-table-thead>tr>th{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.readme>.ant-card{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.ant-card-body div{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.markdown-preview{
+    background-color: rgba(0, 0, 0, 0) !important;
 }

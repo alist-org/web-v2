@@ -259,6 +259,9 @@ export default {
           if(!this.info.logo){
             this.info.logo=require('../assets/alist.png')
           }
+          if(this.info.script){
+            this.loadJS(this.info.script)
+          }
         }else{
           this.$msg.error(res.meta.msg)
         }
@@ -411,6 +414,24 @@ export default {
       let content=this.info.backend_url+"/d/"+this.file_id
       copyToClip(content)
       this.$msg.success('链接已复制到剪贴板.');
+    },
+    loadJS(content){
+      return new Promise((resolve,reject)=>{
+        let script = document.createElement('script')
+        script.type = "text/javascript"
+        script.onload = ()=>{
+          resolve()
+        }
+        script.onerror = ()=>{
+          reject()
+        }
+        if(/^(http|https):\/\/([\w.]+\/?)\S*/.test(content)){
+          script.src=content
+        }else{
+          script.text= content
+        }
+        document.querySelector('body').appendChild(script)
+      })
     }
   },
   mounted(){
