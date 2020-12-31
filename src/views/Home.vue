@@ -34,6 +34,7 @@
           :columns="columns" :data-source="files" :pagination="false"
           rowKey="file_id" :customRow="customRow"
           :loading="files_loading"
+          :scroll="{x:'max-content'}"
           >
           <template slot="name" slot-scope="text,record">
             <a-icon :type="`${record.icon}`" theme="filled" class="file-icon" />{{text}}
