@@ -4,7 +4,7 @@ import Vue from 'vue'
 // import Button from 'ant-design-vue/lib/button'
 
 import {
-    Button,Divider,Tag,Card,Breadcrumb,Table,message,Icon,Modal,Input,Result,Spin,Popover,Space,
+    Button,Divider,Tag,Card,Breadcrumb,Table,message,Icon,Modal,Input,Result,Spin,Popover,Space,notification,
 } from 'ant-design-vue';
 
 // Vue.component(Button.name, Button);
@@ -22,3 +22,4 @@ Vue.use(Spin)
 Vue.use(Popover)
 Vue.use(Space)
 Vue.prototype.$msg=message
+Vue.prototype.$notify=notification

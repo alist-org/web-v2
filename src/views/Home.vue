@@ -107,7 +107,7 @@
 
 <script>
 
-import {list,get,search,info} from '../utils/api'
+import {list,get,search,info,getWebLatest,getBackLatest} from '../utils/api'
 import {copyToClip} from '../utils/copy_clip'
 import {formatDate} from '../utils/date'
 import {getFileSize} from '../utils/file_size'
@@ -129,6 +129,7 @@ export default {
   },
   data(){
     return{
+      version:'v0.1.3',
       //表格列
       columns:[{align:'left',dataIndex:'name',title:'文件',scopedSlots:{customRender:'name'},
                 sorter:(a,b)=>{
@@ -212,10 +213,46 @@ export default {
     }
   },
   methods:{
+    async checkBackUpdate(){
+      getBackLatest().then(res=>{
+        if(res.data.tag_name!=this.version){
+          this.$notify.open({
+            message: '发现新版本',
+            description:
+              '后端新版本:'+res.data.tag_name+', 请至'+res.data.html_url+'获取新版本',
+            icon: <a-icon type="smile" style="color: #1890ff" />,
+          });
+        }else{
+          //已经是最新版本
+        }
+      }).catch(err=>{
+        console.log("failed check update",error);
+      })
+    },
+    async checkWebUpdate(){
+      getWebLatest().then(res=>{
+        if(res.data.tag_name!=this.version){
+          this.$notify.open({
+            message: '发现新版本',
+            description:
+              '前端新版本:'+res.data.tag_name+', 请至'+res.data.html_url+'获取新版本',
+            icon: <a-icon type="smile" style="color: #1890ff" />,
+          });
+        }else{
+          //已经是最新版本
+        }
+      }).catch(err=>{
+        console.log("failed check update",error);
+      })
+    },
     initInfo(){
       info().then(res=>{
         if (res.meta.code==200) {
           this.info=res.data
+          if(res.data.check_update){
+            this.checkBackUpdate()
+            this.checkWebUpdate()
+          }
           if (res.data.title && res.data.title!="") {
             document.title=res.data.title
           }
@@ -377,6 +414,7 @@ export default {
     }
   },
   mounted(){
+    console.log("\n %c Alist %c https://github.com/Xhofe/alist \n\n","color: #fadfa3; background: #030307; padding:5px 0;","background: #fadfa3; padding:5px 0;")
     this.initInfo()
     this.init()
   }

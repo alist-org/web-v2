@@ -1,3 +1,4 @@
+import axios from 'axios'
 import request from './request'
 
 export const list = (parent_file_id,password)=>{
@@ -36,4 +37,12 @@ export const info = () =>{
         url:"info",
         method:"get",
     })
+}
+
+export const getWebLatest = ()=>{
+    return axios.get('https://api.github.com/repos/Xhofe/alist-web/releases/latest')
+}
+
+export const getBackLatest = ()=>{
+    return axios.get('https://api.github.com/repos/Xhofe/alist/releases/latest')
 }
