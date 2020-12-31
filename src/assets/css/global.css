@@ -36,3 +36,7 @@ html,body,#app{
 .markdown-preview{
     background-color: rgba(0, 0, 0, 0) !important;
 }
+
+.markdown-preview *{
+    background-color: rgba(0, 0, 0, 0) !important;
+}
