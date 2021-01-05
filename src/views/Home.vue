@@ -80,7 +80,7 @@
             </a-popover> -->
           </template>
         </a-result>
-        <iframe :src="url" class="doc-preview" v-if="preview_show.doc"></iframe>
+        <iframe :src="url" class="doc-preview" frameborder="no" v-if="preview_show.doc"></iframe>
         <div class="img-preview" v-if="preview_show.image"><img :src="url"/></div>
         <div class="video-preview" v-if="preview_show.video">
           <d-player id="d-player" screenshot=true autoplay=true :options="video_options"></d-player>
@@ -115,6 +115,7 @@ import { MarkdownPreview } from 'vue-meditor'
 import VueDPlayer from 'vue-dplayer'
 import 'vue-dplayer/dist/vue-dplayer.css'
 import Aplayer from 'vue-aplayer'
+import {Base64} from '../utils/base64'
 
 export default {
   name: 'Home',
@@ -209,7 +210,7 @@ export default {
       //自定义内容
       info:{
         
-      }
+      },
     }
   },
   methods:{
@@ -362,11 +363,11 @@ export default {
       this.file.icon=this.getIcon(file)
       this.url=file.download_url
       this.show.preview=true
-      if (file.category=='doc') {
-        // TODO 无法预览,为啥啊
-        // this.preview_show.doc=true
-        // this.url='https://view.officeapps.live.com/op/view.aspx?src='+encodeURIComponent(file.download_url)
-      }
+      // if (file.category=='doc') {
+      //   // TODO 无法预览,为啥啊
+      //   this.preview_show.doc=true
+      //   this.url='https://view.officeapps.live.com/op/view.aspx?src='+encodeURIComponent(file.download_url)
+      // }
       if (file.category=='image') {
         // 预览图片
         this.preview_show.image=true
@@ -392,6 +393,34 @@ export default {
         }
         this.preview_show.audio=true
         return
+      }
+      this.showOther(file)
+      // this.preview_show.other=true
+    },
+    showOther(file){
+      if (this.info.preview.extensions.includes(file.file_extension)) {
+        if (file.size<=this.info.preview.max_size) {
+          let direct_url=this.info.backend_url+"/d/"+this.file_id+'/'+file.name
+          for(const v of this.info.preview.pre_process){
+            switch (v){
+              case 'base64':
+                direct_url=Base64.encode(direct_url)
+                break
+              case 'encodeURIComponent':
+                direct_url=encodeURIComponent(direct_url)
+                break
+              default:
+                this.$msg.warning('配置文件中不支持的encode.')
+                this.preview_show.other=true
+                return
+            }
+          }
+          this.url=this.info.preview.url+direct_url
+          this.preview_show.doc=true
+          return
+        }else{
+          this.$msg.warning("文件过大.")
+        }
       }
       this.preview_show.other=true
     },
@@ -458,7 +487,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: min(980px,98vw);
+  width: min(1200px,98vw);
 }
 .header{
   padding-top: 3px;
