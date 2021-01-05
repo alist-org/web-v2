@@ -133,7 +133,7 @@ export default {
   },
   data(){
     return{
-      version:'v0.1.3',
+      version:'v0.1.4',
       //表格列
       columns:[{align:'left',dataIndex:'name',title:'文件',scopedSlots:{customRender:'name'},
                 sorter:(a,b)=>{
