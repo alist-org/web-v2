@@ -10,7 +10,7 @@
       <a-space>
         <a-popover title="二维码" class="qrcode">
           <template slot="content">
-            <img :src="'https://wenhairu.com/static/api/qr/?size=200&text='+info.site_url+'/'+file_id"/>
+            <img :src="'https://api.xhofe.top/qr?size=200&text='+info.site_url+'/'+file_id"/>
           </template>
           <a-button type="primary" shape="circle" icon="qrcode" size="large" />
         </a-popover>
@@ -74,7 +74,7 @@
             <a-button type="primary" @click="copyFileLink">复制直链</a-button>
             <!-- <a-popover title="二维码" class="qrcode">
               <template slot="content">
-                <img :src="'https://wenhairu.com/static/api/qr/?size=200&text='+info.site_url+'/'+file_id"/>
+                <img :src="'https://api.xhofe.top/qr?size=200&text='+info.site_url+'/'+file_id"/>
               </template>
               <a-button type="primary">二维码</a-button>
             </a-popover> -->
@@ -377,7 +377,8 @@ export default {
         this.video_options={
           video:{
             url:this.url
-          }
+          },
+          autoplay:this.info.autoplay?true:false,
         }
         this.preview_show.video=true
         return
