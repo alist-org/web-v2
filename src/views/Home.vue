@@ -401,7 +401,7 @@ export default {
         this.preview_show.audio=true
         return
       }
-      if (this.info.preview.text.includes(file.file_extension)){
+      if (this.info.preview.text.includes(file.file_extension.toLowerCase())){
         this.showText(file)
         return
       }
@@ -412,7 +412,11 @@ export default {
       this.text_content=''
       this.preview_show.text=true
       getText(file.url).then(res=>{
-        this.text_content='```'+file.file_extension+'\n'+res.data+'\n```'
+        if (file.file_extension.toLowerCase()=='md') {
+          this.text_content=res.data
+        }else{
+          this.text_content='```'+file.file_extension+'\n'+res.data+'\n```'
+        }
       })
     },
     showOther(file){
