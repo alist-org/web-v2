@@ -46,3 +46,7 @@ export const getWebLatest = ()=>{
 export const getBackLatest = ()=>{
     return axios.get('https://api.github.com/repos/Xhofe/alist/releases/latest')
 }
+
+export const getText = (url)=>{
+    return axios.get(url)
+}

@@ -80,15 +80,18 @@
             </a-popover> -->
           </template>
         </a-result>
-        <iframe :src="url" class="doc-preview" frameborder="no" v-if="preview_show.doc"></iframe>
+        <a-spin :spinning="iframe_spinning" v-if="preview_show.doc">
+          <iframe :src="url" class="doc-preview" frameborder="no" @load="iframe_spinning=false"></iframe>
+        </a-spin>
         <div class="img-preview" v-if="preview_show.image"><img :src="url"/></div>
         <div class="video-preview" v-if="preview_show.video">
           <d-player id="d-player" screenshot=true autoplay=true :options="video_options"></d-player>
         </div>
         <div class="audio-preview" v-if="preview_show.audio">
-          <aplayer autoplay
-            :music="audio_options"
-          />
+          <aplayer autoplay :music="audio_options" />
+        </div>
+        <div class="text-preview" v-if="preview_show.text">
+          <MarkdownPreview :initialValue="text_content" />
         </div>
       </div>
     </div>
@@ -107,7 +110,7 @@
 
 <script>
 
-import {list,get,search,info,getWebLatest,getBackLatest} from '../utils/api'
+import {list,get,search,info,getWebLatest,getBackLatest,getText} from '../utils/api'
 import {copyToClip} from '../utils/copy_clip'
 import {formatDate} from '../utils/date'
 import {getFileSize} from '../utils/file_size'
@@ -163,6 +166,7 @@ export default {
         audio:false,
         doc:false,
         other:false,
+        text:false,
       },
       //当前文件
       file:{},
@@ -211,6 +215,8 @@ export default {
       info:{
         
       },
+      text_content:'',//文本内容
+      iframe_spinning:true,
     }
   },
   methods:{
@@ -280,6 +286,7 @@ export default {
         audio:false,
         doc:false,
         other:false,
+        text:false,
       }
       this.file_id=this.$route.params.id
       if(this.file_id==undefined){
@@ -394,8 +401,19 @@ export default {
         this.preview_show.audio=true
         return
       }
+      if (this.info.preview.text.includes(file.file_extension)){
+        this.showText(file)
+        return
+      }
       this.showOther(file)
       // this.preview_show.other=true
+    },
+    showText(file){
+      this.text_content=''
+      this.preview_show.text=true
+      getText(file.url).then(res=>{
+        this.text_content='```'+file.file_extension+'\n'+res.data+'\n```'
+      })
     },
     showOther(file){
       if (this.info.preview.extensions.includes(file.file_extension)) {
@@ -409,17 +427,21 @@ export default {
               case 'encodeURIComponent':
                 direct_url=encodeURIComponent(direct_url)
                 break
+              case 'encodeURI':
+                direct_url=encodeURI(direct_url)
+                break
               default:
                 this.$msg.warning('配置文件中不支持的encode.')
                 this.preview_show.other=true
                 return
             }
           }
+          this.iframe_spinning=true
           this.url=this.info.preview.url+direct_url
           this.preview_show.doc=true
           return
         }else{
-          this.$msg.warning("文件过大.")
+          this.$msg.warning("文件过大,请下载查看.")
         }
       }
       this.preview_show.other=true
