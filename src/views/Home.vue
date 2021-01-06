@@ -222,7 +222,7 @@ export default {
   methods:{
     async checkBackUpdate(){
       getBackLatest().then(res=>{
-        if(res.data.tag_name!=this.version){
+        if(res.data.tag_name!=this.info.version){
           this.$notify.open({
             message: '发现新版本',
             description:
@@ -257,7 +257,7 @@ export default {
         if (res.meta.code==200) {
           this.info=res.data
           if(res.data.check_update){
-            this.checkBackUpdate()
+            // this.checkBackUpdate()
             this.checkWebUpdate()
           }
           if (res.data.title && res.data.title!="") {

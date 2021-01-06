@@ -5,6 +5,8 @@ module.exports = {
   assetsDir: 'static',
   //指定生成的 index.html 的输出路径
   indexPath: 'index.html',
+  //去除map
+  productionSourceMap:false,
   devServer: {
     port: 5277,
     proxy: {
