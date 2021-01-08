@@ -10,7 +10,7 @@
       <a-space>
         <a-popover title="二维码" class="qrcode">
           <template slot="content">
-            <img :src="'https://api.xhofe.top/qr?size=200&text='+info.site_url+'/'+file_id"/>
+            <img :src="'https://api.xhofe.top/qr?size=200&text='+info.url"/>
           </template>
           <a-button type="primary" shape="circle" icon="qrcode" size="large" />
         </a-popover>
@@ -72,12 +72,6 @@
               <a-button type="primary">下载</a-button>
             </a>
             <a-button type="primary" @click="copyFileLink">复制直链</a-button>
-            <!-- <a-popover title="二维码" class="qrcode">
-              <template slot="content">
-                <img :src="'https://api.xhofe.top/qr?size=200&text='+info.site_url+'/'+file_id"/>
-              </template>
-              <a-button type="primary">二维码</a-button>
-            </a-popover> -->
           </template>
         </a-result>
         <a-spin :spinning="iframe_spinning" v-if="preview_show.doc">
@@ -269,6 +263,7 @@ export default {
           if(this.info.script){
             this.loadJS(this.info.script)
           }
+          this.info.url=window.location.href
         }else{
           this.$msg.error(res.meta.msg)
         }
