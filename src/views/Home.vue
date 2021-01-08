@@ -270,6 +270,7 @@ export default {
       })
     },
     init(){
+      this.info.url=window.location.href
       this.show.routes=true
       this.show.files=true
       this.show.search=false
