@@ -113,6 +113,7 @@ import DPlayer from 'dplayer'
 import Aplayer from 'vue-aplayer'
 import {Base64} from '../utils/base64'
 import {getUrl} from '../utils/get_url'
+import {versionStringCompare} from '../utils/version_compare'
 
 export default {
   name: 'Home',
@@ -126,7 +127,7 @@ export default {
   },
   data(){
     return{
-      version:'v0.1.4',
+      version:'v0.1.5',
       //表格列
       columns:[{align:'left',dataIndex:'name',title:'文件',scopedSlots:{customRender:'name'},
                 sorter:(a,b)=>{
@@ -216,7 +217,9 @@ export default {
   methods:{
     async checkBackUpdate(){
       getBackLatest().then(res=>{
-        if(res.data.tag_name!=this.info.version){
+        let lasted=res.data.tag_name.substring(1)
+        let now=this.info.version.substring(1)
+        if(versionStringCompare(lasted,now)==1){
           this.$notify.open({
             message: '发现新版本',
             description:
@@ -233,7 +236,9 @@ export default {
     },
     async checkWebUpdate(){
       getWebLatest().then(res=>{
-        if(res.data.tag_name!=this.version){
+        let lasted=res.data.tag_name.substring(1)
+        let now=this.version.substring(1)
+        if(versionStringCompare(lasted,now)==1){
           this.$notify.open({
             message: '发现新版本',
             description:
