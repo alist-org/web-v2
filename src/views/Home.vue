@@ -78,8 +78,8 @@
           <iframe :src="url" class="doc-preview" frameborder="no" @load="iframe_spinning=false"></iframe>
         </a-spin>
         <div class="img-preview" v-if="preview_show.image"><img :src="url"/></div>
-        <div class="video-preview" v-if="preview_show.video">
-          <d-player id="d-player" screenshot=true autoplay=true :options="video_options"></d-player>
+        <div class="video-preview" v-show="preview_show.video" id="video-preview">
+          <!-- <d-player id="d-player" screenshot=true autoplay=true :options="video_options"></d-player> -->
         </div>
         <div class="audio-preview" v-if="preview_show.audio">
           <aplayer autoplay :music="audio_options" />
@@ -109,16 +109,15 @@ import {copyToClip} from '../utils/copy_clip'
 import {formatDate} from '../utils/date'
 import {getFileSize} from '../utils/file_size'
 import { MarkdownPreview } from 'vue-meditor'
-import VueDPlayer from 'vue-dplayer'
-import 'vue-dplayer/dist/vue-dplayer.css'
+import DPlayer from 'dplayer'
 import Aplayer from 'vue-aplayer'
 import {Base64} from '../utils/base64'
+import {getUrl} from '../utils/get_url'
 
 export default {
   name: 'Home',
   components:{
     MarkdownPreview,Aplayer,
-    'd-player': VueDPlayer,
   },
   watch:{
     '$route'(to,from){
@@ -211,6 +210,7 @@ export default {
       },
       text_content:'',//文本内容
       iframe_spinning:true,
+      dp:undefined,
     }
   },
   methods:{
@@ -225,6 +225,7 @@ export default {
           });
         }else{
           //已经是最新版本
+          console.log(this.version)
         }
       }).catch(err=>{
         console.log("failed check update",error);
@@ -241,6 +242,7 @@ export default {
           });
         }else{
           //已经是最新版本
+          console.log(this.version)
         }
       }).catch(err=>{
         console.log("failed check update",error);
@@ -264,6 +266,7 @@ export default {
             this.loadJS(this.info.script)
           }
           this.info.url=window.location.href
+          this.info.backend_url=process.env.VUE_APP_API_URL!='/api/'?getUrl(process.env.VUE_APP_API_URL):getUrl()
         }else{
           this.$msg.error(res.meta.msg)
         }
@@ -378,13 +381,16 @@ export default {
       }
       if (file.category=='video') {
         // 预览视频
+        this.preview_show.video=true
         this.video_options={
+          container: document.getElementById('video-preview'),
           video:{
             url:this.url
           },
           autoplay:this.info.autoplay?true:false,
+          screenshot:true,
         }
-        this.preview_show.video=true
+        this.dp=new DPlayer(this.video_options)
         return
       }
       if (file.category=='audio'){
@@ -554,17 +560,12 @@ export default {
 
 } */
 
-/* .video-preview{
-
-} */
-
-#d-player{
-  /* height: 80vh; */
+.video-preview{
   width: 100%;
 }
 
 @media screen and (min-width: 600px) {
-  #d-player{
+  #video-preview{
     height: 80vh;
   }
 }

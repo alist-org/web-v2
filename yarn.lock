@@ -3278,7 +3278,7 @@ dotenv@^8.2.0:
   resolved "https://registry.npm.taobao.org/dotenv/download/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha1-l+YZJZradQ7qPk6j4mvO6lQksWo=
 
-dplayer@^1.22.2:
+dplayer@^1.26.0:
   version "1.26.0"
   resolved "https://registry.yarnpkg.com/dplayer/-/dplayer-1.26.0.tgz#d366200b1962bd09e91226066f2aadea6f35c71b"
   integrity sha512-uOE0w/WdlX7N9d0ppIEcAYrcnUjY52TMX+MBL4lj9Mj+JMljVuaEc5w88HkZp5Q11VqvN/jxnM8ktx2Dr7/MgA==
@@ -7924,19 +7924,6 @@ vue-aplayer@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/vue-aplayer/-/vue-aplayer-1.6.1.tgz#17fd419b091e09425bc737fa9e84f55565160df6"
   integrity sha512-c+ZAwZ63bVDsKkcHeKLAonIL2gY4nrVRdKypoPRXSkh+8B1cVhFT2tx8HSTNT6eX6WZyDtaYrEJfcgetrfvcdQ==
-
-vue-dplayer@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/vue-dplayer/-/vue-dplayer-0.0.10.tgz#d30b8d144c90844ba7f4e4b5ed212aa611ed3bd3"
-  integrity sha512-l6d6OnhEUO87lhAees9mEBUFsG5Thqv/VeEVZlSQ993/S0oxvWTDLjjkzH59hO2PALimBK2kB6yNYsHyJBgotw==
-  dependencies:
-    dplayer "^1.22.2"
-    vue-github-badge "1.0.1"
-
-vue-github-badge@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/vue-github-badge/-/vue-github-badge-1.0.1.tgz#dff7ce07320e64a218edf106b15a43176ec06106"
-  integrity sha1-3/fOBzIOZKIY7fEGsVpDF27AYQY=
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
