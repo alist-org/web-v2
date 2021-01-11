@@ -6,8 +6,7 @@ const instance = axios.create({
     headers: {
         'Content-Type': "application/json;charset=utf-8"
     },
-    withCredentials: true,
-    // withCredentials: true,
+    withCredentials: false,
 })
 
 instance.interceptors.request.use(
