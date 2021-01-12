@@ -271,7 +271,7 @@ export default {
             this.loadJS(this.info.script)
           }
           this.info.url=window.location.href
-          this.info.backend_url=process.env.VUE_APP_API_URL!='/api/'?getUrl(process.env.VUE_APP_API_URL):getUrl()
+          this.info.backend_url=process.env.VUE_APP_API_URL!='./'?process.env.VUE_APP_API_URL:getUrl()
         }else{
           this.$msg.error(res.meta.msg)
         }
@@ -429,7 +429,7 @@ export default {
     showOther(file){
       if (this.info.preview.extensions.includes(file.file_extension)) {
         if (file.size<=this.info.preview.max_size) {
-          let direct_url=this.info.backend_url+"/d/"+this.file_id+'/'+file.name
+          let direct_url=this.info.backend_url+"d/"+this.file_id+'/'+file.name
           for(const v of this.info.preview.pre_process){
             switch (v){
               case 'base64':
@@ -474,7 +474,7 @@ export default {
       this.$router.go(-1)
     },
     copyFileLink(){
-      let content=this.info.backend_url+"/d/"+this.file_id
+      let content=this.info.backend_url+"d/"+this.file_id
       copyToClip(content)
       this.$msg.success('链接已复制到剪贴板.');
     },

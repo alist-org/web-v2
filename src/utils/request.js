@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: process.env.VUE_APP_API_URL,
+    baseURL: process.env.VUE_APP_API_URL+'api/',
     // timeout: 5000
     headers: {
         'Content-Type': "application/json;charset=utf-8"
