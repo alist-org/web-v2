@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div :class="isAdrWx?'home-wx':'home'" >
     <div class="layout">
     <!--头部 ------------------------------------------------------------------------------------------------------- -->
     <div class="header">
@@ -212,6 +212,7 @@ export default {
       text_content:'',//文本内容
       iframe_spinning:true,
       dp:undefined,
+      isAdrWx:false,
     }
   },
   methods:{
@@ -499,6 +500,10 @@ export default {
   },
   mounted(){
     console.log("\n %c Alist %c https://github.com/Xhofe/alist \n\n","color: #fadfa3; background: #030307; padding:5px 0;","background: #fadfa3; padding:5px 0;")
+    // 判断是否安卓微信
+    if(navigator.userAgent.match(/MicroMessenger/i)&&navigator.userAgent.match(/android/i)){
+      this.isAdrWx=true
+    }
     this.initInfo()
     this.init()
   }
@@ -514,6 +519,15 @@ export default {
   padding: 0;
   margin: 0;
 }
+.home-wx{
+  width: 100%;
+  display: flex;
+  display: -webkit-flex; /* Safari */
+  /* justify-content: center; */
+  padding: 0;
+  margin: 0;
+}
+
 .layout{
   display: flex;
   display: -webkit-flex; /* Safari */
