@@ -198,6 +198,8 @@ export default {
         jar:'file-zip',
         xz:'file-zip',
         apk:'android',
+        dmg:'apple',
+        ipa:'apple',
       },
       categorys:{
         image:'file-image',
