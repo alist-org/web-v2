@@ -127,7 +127,7 @@ export default {
   },
   data(){
     return{
-      version:'v0.1.5',
+      version:'v0.1.6',
       //表格列
       columns:[{align:'left',dataIndex:'name',title:'文件',scopedSlots:{customRender:'name'},
                 sorter:(a,b)=>{
@@ -281,6 +281,9 @@ export default {
       })
     },
     init(){
+      if (this.dp) {
+        this.dp.destroy()
+      }
       this.info.url=window.location.href
       this.show.routes=true
       this.show.files=true
