@@ -244,7 +244,7 @@ export default {
           console.log(this.version)
         }
       }).catch(err=>{
-        console.log("failed check update",error);
+        console.log("failed check update",err);
       })
     },
     // 检查前端更新
@@ -264,7 +264,7 @@ export default {
           console.log(this.version)
         }
       }).catch(err=>{
-        console.log("failed check update",error);
+        console.log("failed check update",err);
       })
     },
     // 初始化一些信息
@@ -496,7 +496,7 @@ export default {
           this.preview_show.spinning=true
           this.preview_spinning=true
           this.url=this.info.preview.url+direct_url
-          this.preview_show.doc=true
+          this.preview_show.iframe=true
           return
         }else{
           this.$msg.warning("文件过大,请下载查看.")
