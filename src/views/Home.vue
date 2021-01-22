@@ -74,12 +74,16 @@
             <a-button type="primary" @click="copyFileLink">复制直链</a-button>
           </template>
         </a-result>
-        <a-spin :spinning="iframe_spinning" v-if="preview_show.doc">
-          <iframe :src="url" class="doc-preview" frameborder="no" @load="iframe_spinning=false"></iframe>
+        <a-spin :spinning="preview_spinning" v-if="preview_show.spinning">
+          <div class="doc-preview" id="doc-preview" v-if="preview_show.doc"></div>
+          <iframe :src="url" id="iframe-preview" ref="iframe-preview" v-if="preview_show.iframe"
+          allowfullscreen="allowfullscreen" webkitallowfullscreen="true" mozallowfullscreen="true"
+          class="iframe-preview" frameborder="no" @load="preview_spinning=false"></iframe>
+
+          <div class="img-preview" v-if="preview_show.image"><img @load="preview_spinning=false" :src="url"/></div>
+
         </a-spin>
-        <div class="img-preview" v-if="preview_show.image"><img :src="url"/></div>
         <div class="video-preview" v-show="preview_show.video" id="video-preview">
-          <!-- <d-player id="d-player" screenshot=true autoplay=true :options="video_options"></d-player> -->
         </div>
         <div class="audio-preview" v-if="preview_show.audio">
           <aplayer autoplay :music="audio_options" />
@@ -104,7 +108,7 @@
 
 <script>
 
-import {list,get,search,info,getWebLatest,getBackLatest,getText} from '../utils/api'
+import {list,get,search,info,getWebLatest,getBackLatest,getText,office_preview} from '../utils/api'
 import {copyToClip} from '../utils/copy_clip'
 import {formatDate} from '../utils/date'
 import {getFileSize} from '../utils/file_size'
@@ -161,6 +165,8 @@ export default {
         doc:false,
         other:false,
         text:false,
+        iframe:false,
+        spinning:false,
       },
       //当前文件
       file:{},
@@ -212,7 +218,7 @@ export default {
         
       },
       text_content:'',//文本内容
-      iframe_spinning:true,
+      preview_spinning:true,
       dp:undefined,
       isAdrWx:false,
     }
@@ -380,13 +386,14 @@ export default {
       this.file.icon=this.getIcon(file)
       this.url=file.download_url
       this.show.preview=true
-      // if (file.category=='doc') {
-      //   // TODO 无法预览,为啥啊
-      //   this.preview_show.doc=true
-      //   this.url='https://view.officeapps.live.com/op/view.aspx?src='+encodeURIComponent(file.download_url)
-      // }
+      if (file.category=='doc') {
+        this.showDoc(file)
+        return
+      }
       if (file.category=='image') {
         // 预览图片
+        this.preview_show.spinning=true
+        this.preview_spinning=true
         this.preview_show.image=true
         return
       }
@@ -409,7 +416,7 @@ export default {
           title: file.name,
           artist: '',
           src: this.url,
-          pic: this.info.music_img?this.info.music_img:'https://img.oez.cc/2020/12/07/f6e43dc79d74a.png'
+          pic: this.info.music_img?this.info.music_img:'https://img.xhofe.top/2020/12/07/f6e43dc79d74a.png'
         }
         this.preview_show.audio=true
         return
@@ -418,7 +425,7 @@ export default {
         this.showText(file)
         return
       }
-      this.showOther(file)
+      this.showIframe(file)
       // this.preview_show.other=true
     },
     showText(file){
@@ -432,7 +439,24 @@ export default {
         }
       })
     },
-    showOther(file){
+    showDoc(file){
+      this.preview_show.spinning=true
+      this.preview_spinning=true
+      this.preview_show.doc=true
+      office_preview(this.file_id).then(res=>{
+        if (res.meta.code==200) {
+          let doc_options=aliyun.config({
+            mount: document.querySelector('#doc-preview'),
+            url: res.data.preview_url //设置文档预览URL地址。
+          })
+          doc_options.setToken({token: res.data.access_token})
+          setTimeout(()=>{this.preview_spinning=false},200)
+        }else{
+          this.$msg.error(res.meta.msg)
+        }
+      })
+    },
+    showIframe(file){
       if (this.info.preview.extensions.includes(file.file_extension)) {
         if (file.size<=this.info.preview.max_size) {
           let direct_url=this.info.backend_url+"d/"+this.file_id+'/'+file.name
@@ -453,7 +477,8 @@ export default {
                 return
             }
           }
-          this.iframe_spinning=true
+          this.preview_show.spinning=true
+          this.preview_spinning=true
           this.url=this.info.preview.url+direct_url
           this.preview_show.doc=true
           return
@@ -572,17 +597,12 @@ export default {
 #home-icon{
   margin-right: 10px;
 }
-/* .files{
-  
-} */
+
 .file-icon{
   margin-right: 10px;
   font-size: 20px;
   color: #1890ff;
 }
-/* .preview{
-
-} */
 
 .video-preview{
   width: 100%;
@@ -594,10 +614,15 @@ export default {
   }
 }
 
-.doc-preview{
+.iframe-preview{
   width: 100%;
   height: 80vh;
   box-sizing: inherit;
+}
+
+.doc-preview{
+  width: 100%;
+  height: 80vh;
 }
 
 .img-preview{

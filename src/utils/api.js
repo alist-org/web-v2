@@ -39,6 +39,16 @@ export const info = () =>{
     })
 }
 
+export const office_preview = (file_id) =>{
+    return request({
+        url:"office_preview",
+        method:"post",
+        data:{
+            file_id:file_id
+        }
+    })
+}
+
 export const getWebLatest = ()=>{
     return axios.get('https://api.github.com/repos/Xhofe/alist-web/releases/latest')
 }
