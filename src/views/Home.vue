@@ -210,6 +210,7 @@ export default {
         dmg:'apple',
         ipa:'apple',
       },
+      doc:['pdf','doc','docx','ppt','pptx','xls','xlsx'],
       categorys:{
         image:'file-image',
         doc:'file-text',
@@ -273,7 +274,7 @@ export default {
         if (res.meta.code==200) {
           this.info=res.data
           if(res.data.check_update){
-            this.checkBackUpdate()
+            // this.checkBackUpdate()
             this.checkWebUpdate()
           }
           if (res.data.title && res.data.title!="") {
@@ -399,7 +400,7 @@ export default {
       this.file.icon=this.getIcon(file)
       this.url=file.download_url
       this.show.preview=true
-      if (file.category=='doc') {
+      if (this.doc.includes(file.file_extension.toLowerCase())) {
         this.showDoc(file)
         return
       }
