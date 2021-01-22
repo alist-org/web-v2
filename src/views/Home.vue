@@ -63,6 +63,7 @@
       </div>
       <!--预览 ------------------------------------------------------------------------------------------------------- -->
       <div class="preview" v-show="show.preview">
+        <!-- 无法预览，显示下载与直链 -->
         <a-result :title="file.name" v-if="preview_show.other">
           <template #icon>
             <a-icon :type="file.icon" theme="filled" />
@@ -74,20 +75,22 @@
             <a-button type="primary" @click="copyFileLink">复制直链</a-button>
           </template>
         </a-result>
+        <!-- 显示加载的部分 -->
         <a-spin :spinning="preview_spinning" v-if="preview_show.spinning">
           <div class="doc-preview" id="doc-preview" v-if="preview_show.doc"></div>
           <iframe :src="url" id="iframe-preview" ref="iframe-preview" v-if="preview_show.iframe"
           allowfullscreen="allowfullscreen" webkitallowfullscreen="true" mozallowfullscreen="true"
           class="iframe-preview" frameborder="no" @load="preview_spinning=false"></iframe>
-
           <div class="img-preview" v-if="preview_show.image"><img @load="preview_spinning=false" :src="url"/></div>
-
         </a-spin>
+        <!-- 视频预览 -->
         <div class="video-preview" v-show="preview_show.video" id="video-preview">
         </div>
+        <!-- 音频预览 -->
         <div class="audio-preview" v-if="preview_show.audio">
           <aplayer autoplay :music="audio_options" />
         </div>
+        <!-- 文本预览 -->
         <div class="text-preview" v-if="preview_show.text">
           <MarkdownPreview :initialValue="text_content" />
         </div>
@@ -131,7 +134,7 @@ export default {
   },
   data(){
     return{
-      version:'v0.1.6',
+      version:'v0.1.7',
       //表格列
       columns:[{align:'left',dataIndex:'name',title:'文件',scopedSlots:{customRender:'name'},
                 sorter:(a,b)=>{
@@ -224,6 +227,7 @@ export default {
     }
   },
   methods:{
+    // 检查后端更新
     async checkBackUpdate(){
       getBackLatest().then(res=>{
         let lasted=res.data.tag_name.substring(1)
@@ -243,6 +247,7 @@ export default {
         console.log("failed check update",error);
       })
     },
+    // 检查前端更新
     async checkWebUpdate(){
       getWebLatest().then(res=>{
         let lasted=res.data.tag_name.substring(1)
@@ -262,12 +267,13 @@ export default {
         console.log("failed check update",error);
       })
     },
+    // 初始化一些信息
     initInfo(){
       info().then(res=>{
         if (res.meta.code==200) {
           this.info=res.data
           if(res.data.check_update){
-            // this.checkBackUpdate()
+            this.checkBackUpdate()
             this.checkWebUpdate()
           }
           if (res.data.title && res.data.title!="") {
@@ -286,6 +292,7 @@ export default {
         }
       })
     },
+    // 页面初始化
     init(){
       if (this.dp) {
         this.dp.destroy()
@@ -310,6 +317,7 @@ export default {
       }
       this.refreshFileId()
     },
+    // 更换了文件/目录，重新请求
     refreshFileId(){
       //首先获取列表看是不是
       this.files_loading=true
@@ -341,6 +349,7 @@ export default {
         }
       })
     },
+    // 显示面包屑导航
     showRoutes(paths){
       this.routes=paths.reverse().map(item=>{
         item.path=item.file_id
@@ -348,6 +357,7 @@ export default {
         return item
       })
     },
+    // 显示文件列表
     showFiles(files){
       this.files_loading=false
       this.files=files.map(item=>{
@@ -361,6 +371,7 @@ export default {
         return item
       })
     },
+    // 获取文件对应ICON
     getIcon(record){
       if (record.type=='folder'){
         return 'folder'
@@ -373,6 +384,7 @@ export default {
       }
       return 'file'
     },
+    // 展示Readme信息
     showReadme(readme){
       this.readme=readme
       if (readme!=""){
@@ -381,6 +393,7 @@ export default {
         this.show.readme=false
       }
     },
+    // 展示/预览文件
     showFile(file){
       this.file=file
       this.file.icon=this.getIcon(file)
@@ -428,6 +441,7 @@ export default {
       this.showIframe(file)
       // this.preview_show.other=true
     },
+    // 展示文本
     showText(file){
       this.text_content=''
       this.preview_show.text=true
@@ -439,6 +453,7 @@ export default {
         }
       })
     },
+    // 展示文档
     showDoc(file){
       this.preview_show.spinning=true
       this.preview_spinning=true
@@ -456,6 +471,7 @@ export default {
         }
       })
     },
+    // 展示Iframe
     showIframe(file){
       if (this.info.preview.extensions.includes(file.file_extension)) {
         if (file.size<=this.info.preview.max_size) {
@@ -488,6 +504,7 @@ export default {
       }
       this.preview_show.other=true
     },
+    // 监听表格点击
     customRow(record, index){
       return{
         on:{
@@ -497,18 +514,22 @@ export default {
         }
       }
     },
+    // 处理确认输入密码
     handleOkPassword(){
       this.show.password=false
       this.refreshFileId()
     },
+    // 取消输入密码
     cancelPassword(){
       this.$router.go(-1)
     },
+    // 复制文件直链
     copyFileLink(){
       let content=this.info.backend_url+"d/"+this.file_id
       copyToClip(content)
       this.$msg.success('链接已复制到剪贴板.');
     },
+    // 加载自定义的脚本内容
     loadJS(content){
       return new Promise((resolve,reject)=>{
         let script = document.createElement('script')
