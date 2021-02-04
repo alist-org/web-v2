@@ -9,14 +9,14 @@ module.exports = {
   productionSourceMap:false,
   devServer: {
     port: 5277,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5244',
-        changeOrigin: true,
-        // pathRewrite:{
-        //   '^/api':''
-        // }
-      }
-    }
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:5244',
+    //     changeOrigin: true,
+    //     // pathRewrite:{
+    //     //   '^/api':''
+    //     // }
+    //   }
+    // }
   }
 }

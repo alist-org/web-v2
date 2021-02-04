@@ -90,7 +90,7 @@
         </div>
         <!-- 音频预览 -->
         <div class="audio-preview" v-if="preview_show.audio">
-          <aplayer autoplay :music="audio_options" />
+          <aplayer autoplay :music="audio_options" :list="audio_list" />
         </div>
         <!-- 文本预览 -->
         <div class="text-preview" v-if="preview_show.text">
@@ -224,10 +224,11 @@ export default {
         
       },
       text_content:'',//文本内容
-      preview_spinning:true,
-      readme_spinning:true,
-      dp:undefined,
-      isAdrWx:false,
+      preview_spinning:true,//预览加载中
+      readme_spinning:true,//readme加载中
+      dp:undefined,//dplayer对象
+      isAdrWx:false,//是否是安卓微信
+      audio_list:[],//音乐列表
     }
   },
   methods:{
@@ -364,7 +365,6 @@ export default {
     },
     // 显示文件列表
     showFiles(files){
-      this.files_loading=false
       this.files=files.map(item=>{
         item.time=formatDate(item.updated_at)
         if(item.type=='folder'){
@@ -375,6 +375,18 @@ export default {
         item.icon=this.getIcon(item)
         return item
       })
+      this.files_loading=false
+      this.audio_list=[]
+      for(let file of files){
+        if(file.category=='audio'){
+          this.audio_list.push({
+            title: file.name,
+            artist: '',
+            src: this.info.backend_url+"d/"+file.file_id,
+            pic: this.info.music_img?this.info.music_img:'https://img.xhofe.top/2020/12/07/f6e43dc79d74a.png'
+          })
+        }
+      }
     },
     // 获取文件对应ICON
     getIcon(record){
@@ -391,13 +403,16 @@ export default {
     },
     // 展示Readme信息
     showReadme(files){
+      this.readme=""
       for(let file of files){
         if(file.type=='file'&&file.name.toLowerCase()=='readme.md'){
           this.show.readme=true
           this.readme_spinning=true
-          getText(this.info.backend_url+"d/"+file.file_id).then(res=>{
-            this.readme=res.data
-            this.readme_spinning=false
+          get(file.file_id).then(res=>{
+            getText(res.data.url).then(res=>{
+              this.readme=res.data
+              this.readme_spinning=false
+            })
           })
           return
         }
@@ -439,7 +454,7 @@ export default {
         this.audio_options={
           title: file.name,
           artist: '',
-          src: this.url,
+          src: this.info.backend_url+"d/"+file.file_id,//this.url
           pic: this.info.music_img?this.info.music_img:'https://img.xhofe.top/2020/12/07/f6e43dc79d74a.png'
         }
         this.preview_show.audio=true
@@ -596,7 +611,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: min(1200px,98vw);
+  width: min(980px,98vw);
 }
 .header{
   padding-top: 3px;
