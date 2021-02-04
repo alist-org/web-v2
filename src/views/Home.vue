@@ -184,7 +184,7 @@ export default {
       //当前请求file_id
       file_id:undefined,
       //请求的密码
-      password:undefined,
+      password:localStorage.getItem('password'),
       //当前路径
       routes:[],
       //readme内容
@@ -328,6 +328,7 @@ export default {
       list(this.file_id,this.password).then(res=>{
         if (res.meta.code==200) {
           //获取成功 是文件夹
+          localStorage.setItem('password',this.password)
           this.showRoutes(res.data.paths)
           this.showFiles(res.data.items)
           //展示Readme?
