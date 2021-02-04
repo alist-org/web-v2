@@ -56,10 +56,12 @@
       <br/>
       <!--Readme ------------------------------------------------------------------------------------------------------- -->
       <div class="readme" v-show="show.readme">
-        <a-card title="Readme.md" style="width: 100%" size="small">
-          <!-- <a slot="extra" href="#">more</a> -->
-          <MarkdownPreview :initialValue="readme" />
-        </a-card>
+        <a-spin :spinning="readme_spinning">
+          <a-card title="Readme.md" style="width: 100%" size="small">
+            <!-- <a slot="extra" href="#">more</a> -->
+            <MarkdownPreview :initialValue="readme" />
+          </a-card>
+        </a-spin>
       </div>
       <!--预览 ------------------------------------------------------------------------------------------------------- -->
       <div class="preview" v-show="show.preview">
@@ -134,7 +136,7 @@ export default {
   },
   data(){
     return{
-      version:'v0.1.7',
+      version:'v0.1.8',
       //表格列
       columns:[{align:'left',dataIndex:'name',title:'文件',scopedSlots:{customRender:'name'},
                 sorter:(a,b)=>{
@@ -223,6 +225,7 @@ export default {
       },
       text_content:'',//文本内容
       preview_spinning:true,
+      readme_spinning:true,
       dp:undefined,
       isAdrWx:false,
     }
@@ -328,7 +331,7 @@ export default {
           this.showRoutes(res.data.paths)
           this.showFiles(res.data.items)
           //展示Readme?
-          this.showReadme(res.data.readme)
+          this.showReadme(res.data.items)
         }else if(res.meta.code==401){
           //需要密码
           this.$msg.error(res.meta.msg)
@@ -386,13 +389,19 @@ export default {
       return 'file'
     },
     // 展示Readme信息
-    showReadme(readme){
-      this.readme=readme
-      if (readme!=""){
-        this.show.readme=true
-      }else{
-        this.show.readme=false
+    showReadme(files){
+      for(let file of files){
+        if(file.type=='file'&&file.name.toLowerCase()=='readme.md'){
+          this.show.readme=true
+          this.readme_spinning=true
+          getText(this.info.backend_url+"d/"+file.file_id).then(res=>{
+            this.readme=res.data
+            this.readme_spinning=false
+          })
+          return
+        }
       }
+      this.show.readme=false
     },
     // 展示/预览文件
     showFile(file){
