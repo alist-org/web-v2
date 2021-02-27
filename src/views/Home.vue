@@ -655,11 +655,11 @@ export default {
   width: 100%;
 }
 
-@media screen and (min-width: 600px) {
+/* @media screen and (min-width: 600px) {
   #video-preview{
     height: 80vh;
   }
-}
+} */
 
 .iframe-preview{
   width: 100%;
