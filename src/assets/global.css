@@ -1,0 +1,44 @@
+html,body,#app{
+  /* height: 100vh; */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  /* overflow: hidden; */
+}
+
+.ant-table-row{
+  cursor: pointer;
+}
+
+.ant-table td { 
+  white-space: nowrap; 
+}
+
+.ant-table-body::-webkit-scrollbar {
+  width: 0 !important 
+}
+
+.ant-table-body{
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+
+.ant-table-fixed>.ant-table-thead>tr>th{
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.readme>.ant-card{
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.ant-card-body div{
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.markdown-preview{
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.markdown-preview *{
+  background-color: rgba(0, 0, 0, 0) !important;
+}
