@@ -71,7 +71,7 @@ export default createStore<GlobalDataProps>({
   state: {
     info: {},
     loading: true,
-    password: "",
+    password: localStorage.getItem('password')||'',
     meta: {
       code: 200,
     },
@@ -85,6 +85,7 @@ export default createStore<GlobalDataProps>({
     },
     setPassword(state, password) {
       state.password = password
+      localStorage.setItem('password', password)
     },
     setInfo(state, info) {
       state.info = info
@@ -138,11 +139,12 @@ export default createStore<GlobalDataProps>({
       }else{
         const {data} = await pathPost(path, state.password)
         const {meta} =data
+        commit('setMeta', meta)
         if(meta.code !== 200){
           message.error(meta.msg)
         }
         if(meta.code === 401){
-          console.log('')
+          return
         }
         commit('setData',data.data)
       }

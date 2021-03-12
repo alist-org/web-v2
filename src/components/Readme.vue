@@ -1,16 +1,53 @@
 <template>
-  <div>
-    readme
+  <div class="readme" v-show="readme!==undefined">
+    <a-spin :spinning="readmeSpinning">
+      <a-card title="Readme.md" style="width: 100%" size="small">
+        <v-md-preview :text="readmeValue"></v-md-preview>
+      </a-card>
+    </a-spin>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { FileProps, GlobalDataProps } from "@/store";
+import { useStore } from "vuex";
+import { computed, defineComponent, ref, watch } from "vue";
+import { getPost, getText } from "@/utils/api";
 
 export default defineComponent({
   name: 'Readme',
   setup() {
-      console.log('readme')
+    const store = useStore<GlobalDataProps>()
+    const type = computed(() => store.state.type)
+    const readmeSpinning = ref<boolean>(true)
+    const readme = computed(()=>{
+      const file = store.state.data as FileProps
+      if(file.type){
+        return undefined
+      }
+      const files = store.state.data as FileProps[]
+      return files.find(item => item.name.toLowerCase() === 'readme.md')
+    })
+    const readmeValue = ref<string>('')
+    watch(readme,()=>{
+      if(readme.value!==undefined){
+        getPost(readme.value.dir+readme.value.name, store.state.password).then(resp=>{
+          const res = resp.data
+          if(res.meta.code===200){
+            getText(res.data.url).then(resp=>{
+              readmeValue.value=resp.data
+              readmeSpinning.value=false
+            })
+          }
+        })
+      }
+    })
+    return{
+      type,
+      readme,
+      readmeValue,
+      readmeSpinning,
+    }
   },
 });
 </script>

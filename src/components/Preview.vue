@@ -16,7 +16,7 @@
     <a-spin :spinning="previewSpinning" v-if="previewShow.spinning">
       <div class="doc-preview" id="doc-preview" v-if="previewShow.doc"></div>
       <iframe
-        :src="url"
+        :src="downloadUrl"
         id="iframe-preview"
         ref="iframe-preview"
         v-if="previewShow.iframe"
@@ -30,6 +30,10 @@
       <div class="img-preview" v-if="previewShow.image">
         <img @load="previewSpinning = false" :src="downloadUrl" />
       </div>
+      <!-- 文本预览 -->
+      <div class="text-preview" v-if="previewShow.text">
+        <v-md-preview :text="text"></v-md-preview>
+      </div>
     </a-spin>
     <!-- 视频预览 -->
     <div
@@ -39,17 +43,13 @@
     ></div>
     <!-- 音频预览 -->
     <div class="audio-preview" v-show="previewShow.audio" id="audio-preview"></div>
-    <!-- 文本预览 -->
-    <div class="text-preview" v-if="previewShow.text">
-      <!-- <MarkdownPreview :initialValue="text_content" /> -->
-    </div>
   </div>
 </template>
 
 <script lang="ts">
 import useDownloadUrl from "@/hooks/useDownloadUrl";
 import { FileProps, GlobalDataProps } from "@/store";
-import { getPost, officePreviewPost } from "@/utils/api";
+import { getPost, getText, officePreviewPost } from "@/utils/api";
 import { doc } from "@/utils/const";
 import { getIcon } from "@/utils/get_icon";
 import { message } from "ant-design-vue";
@@ -103,6 +103,7 @@ export default defineComponent({
     });
     let dp,ap
     const audios = computed(() => store.state.audios)
+    const text = ref<string>('')
     const showDoc = (file: FileProps) => {
       previewShow.value.spinning = true
       previewSpinning.value = true
@@ -165,6 +166,27 @@ export default defineComponent({
         ap = new APlayer(audioOptions)
         return
       }
+      if(info.value.preview?.text.includes(file.file_extension.toLowerCase())){
+        previewShow.value.text = true
+        previewSpinning.value = true
+        previewShow.value.spinning = true
+        getPost(file.dir+file.name, store.state.password).then(resp=>{
+          const res = resp.data
+          if(res.meta.code===200){
+            getText(res.data.url).then(resp=>{
+              if(file.file_extension.toLowerCase()==='md'){
+                text.value = resp.data
+              }else{
+                text.value = '```'+file.file_extension.toLowerCase()+'\n'+resp.data+'\n```'
+              }
+              previewSpinning.value = false
+            })
+          }else{
+            message.error(res.meta.msg)
+          }
+        })
+        return
+      }
       previewShow.value.other = true
     };
     onMounted(() => {
@@ -183,7 +205,8 @@ export default defineComponent({
       previewSpinning,
       previewShow,
       downloadUrl,
-      copyFileLink
+      copyFileLink,
+      text,
     };
   },
 });

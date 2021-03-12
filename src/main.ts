@@ -11,12 +11,20 @@ import {
   FileFilled, FolderFilled, CopyOutlined, DownloadOutlined
 } from '@ant-design/icons-vue'
 import 'ant-design-vue/dist/antd.css'
+import VMdPreview from '@kangc/v-md-editor/lib/preview';
+import '@kangc/v-md-editor/lib/style/preview.css';
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
 import './assets/global.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 
 const app = createApp(App)
+
+VMdPreview.use(githubTheme)
+app.use(VMdPreview)
+
 app.use(Button)
 app.use(Divider)
 app.use(Tag)

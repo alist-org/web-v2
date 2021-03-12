@@ -28,7 +28,6 @@ instance.interceptors.response.use(
   response => {
     store.commit('setLoading', false)
     const res = response.data
-    store.commit('setMeta', res.meta)
     return response
   },
   error => {

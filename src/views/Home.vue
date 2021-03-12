@@ -8,12 +8,16 @@
         </div>
         <a-divider style="margin: 10px 0 5px 0;" />
         <Files v-if="type === 'folder'"/>
+        <Readme v-if="type === 'folder'"/>
         <Preview v-if="type === 'file'" />
         <NotFound v-if="type === 'no'" />
       </div>
       <Footer />
     </div>
   </div>
+  <a-modal v-model:visible="showPassword" title="Input password" @ok="okPassword" @cancel="cancelPassword">
+    <a-input-password placeholder="input password" v-model:value="password" @pressEnter="okPassword"/>
+  </a-modal>
 </template>
 
 <script lang="ts">
@@ -23,10 +27,12 @@ import Header from '@/components/Header.vue';
 import NotFound from '@/components/NotFound.vue';
 import Path from '@/components/Path.vue'
 import Preview from '@/components/Preview.vue';
+import Readme from '@/components/Readme.vue';
 import { GlobalDataProps } from '@/store';
-import { computed, defineComponent, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import useRefresh from '../hooks/useRefresh'
 
 export default defineComponent({
   name: 'Home',
@@ -36,26 +42,42 @@ export default defineComponent({
     Path,
     Files,
     Preview,
-    NotFound
+    NotFound,
+    Readme
   },
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const store = useStore<GlobalDataProps>()
+    store.dispatch("fetchInfo")
     let isAdrWx = false
     if(navigator.userAgent.match(/MicroMessenger/i)&&navigator.userAgent.match(/android/i)){
       isAdrWx=true
     }
     const type = computed(()=>store.state.type)
-    watch(()=>route.fullPath,(newVal) => {
-      store.dispatch('fetchPathOrSearch',{path: decodeURI(route.path.substring(1)), query: route.query['q']})
+    const {refresh}=useRefresh()
+    watch(()=>route.fullPath,() => {
+      refresh()
     })
     onMounted(() => {
-      store.dispatch("fetchInfo")
-      store.dispatch('fetchPathOrSearch',{path: decodeURI(route.path.substring(1)), query: route.query['q']})
+      refresh()
     })
+    const showPassword = computed<boolean>(() => store.state.meta.code===401)
+    const password = ref<string>(store.state.password)
+    const okPassword = () => {
+      store.commit('setPassword',password.value)
+      refresh()
+    }
+    const cancelPassword = () => {
+      router.go(-1)
+    }
     return{
       isAdrWx,
-      type
+      type,
+      showPassword,
+      password,
+      okPassword,
+      cancelPassword,
     }
   }
 });
