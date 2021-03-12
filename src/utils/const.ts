@@ -1,6 +1,6 @@
 import { getUrl } from "./get_url"
 
-export const fileExtensions = {
+export const fileExtensions: { [key: string]: string } = {
   exe: 'windows',
   xls: 'file-excel',
   xlsx: 'file-excel',
@@ -25,11 +25,11 @@ export const fileExtensions = {
 
 export const doc = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx']
 
-export const categorys = {
+export const categorys: { [key: string]: string } = {
   image: 'file-image',
   doc: 'file-text',
   video: 'youtube',
   audio: 'customer-service',
 }
 
-export const backendUrl: string = process.env.VUE_APP_API_URL!='./'?process.env.VUE_APP_API_URL:getUrl('')
+export const backendUrl: string = process.env.VUE_APP_API_URL != './' ? process.env.VUE_APP_API_URL : getUrl('')

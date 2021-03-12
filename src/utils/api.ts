@@ -1,6 +1,17 @@
 import axios from 'axios'
 import request from './request'
 
+export const getPost = (path: string, password: string) => {
+  return request({
+    url: "get",
+    method: "post",
+    data: {
+      path: path,
+      password: password
+    }
+  })
+}
+
 export const pathPost = (path: string, password: string) => {
   return request({
     url: "path",

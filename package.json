@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
+    "@types/dplayer": "^1.25.1",
     "ant-design-vue": "^2.0.1",
+    "aplayer": "^1.10.1",
     "axios": "^0.21.1",
+    "dplayer": "^1.26.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"

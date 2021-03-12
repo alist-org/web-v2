@@ -7,7 +7,9 @@
           <Path />
         </div>
         <a-divider style="margin: 10px 0 5px 0;" />
-        <Files v-if="!isFile"/>
+        <Files v-if="type === 'folder'"/>
+        <Preview v-if="type === 'file'" />
+        <NotFound v-if="type === 'no'" />
       </div>
       <Footer />
     </div>
@@ -18,7 +20,9 @@
 import Files from '@/components/Files.vue';
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';
+import NotFound from '@/components/NotFound.vue';
 import Path from '@/components/Path.vue'
+import Preview from '@/components/Preview.vue';
 import { GlobalDataProps } from '@/store';
 import { computed, defineComponent, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router'
@@ -30,7 +34,9 @@ export default defineComponent({
     Header,
     Footer,
     Path,
-    Files
+    Files,
+    Preview,
+    NotFound
   },
   setup() {
     const route = useRoute()
@@ -39,16 +45,17 @@ export default defineComponent({
     if(navigator.userAgent.match(/MicroMessenger/i)&&navigator.userAgent.match(/android/i)){
       isAdrWx=true
     }
-    const isFile = computed(()=>store.state.isFile)
-    watch(route,(newVal) => {
+    const type = computed(()=>store.state.type)
+    watch(()=>route.fullPath,(newVal) => {
       store.dispatch('fetchPathOrSearch',{path: decodeURI(route.path.substring(1)), query: route.query['q']})
     })
     onMounted(() => {
+      store.dispatch("fetchInfo")
       store.dispatch('fetchPathOrSearch',{path: decodeURI(route.path.substring(1)), query: route.query['q']})
     })
     return{
       isAdrWx,
-      isFile
+      type
     }
   }
 });

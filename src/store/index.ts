@@ -1,3 +1,5 @@
+import { backendUrl } from '@/utils/const'
+import { message } from 'ant-design-vue'
 import { createStore } from 'vuex'
 import { infoGet, pathPost, searchPost, rebuildGet } from '../utils/api'
 
@@ -49,13 +51,20 @@ export interface FileProps {
   icon: string;
 }
 
+interface Audio {
+  name: string;
+  url: string;
+  cover: string;
+}
+
 export interface GlobalDataProps {
   loading: boolean;
   info: InfoProps;
   password: string;
   meta: MetaProps;
   data: FileProps|FileProps[];
-  isFile: boolean;
+  type: string;
+  audios: Audio[];
 }
 
 export default createStore<GlobalDataProps>({
@@ -67,7 +76,8 @@ export default createStore<GlobalDataProps>({
       code: 200,
     },
     data: [],
-    isFile: false,
+    type: 'folder',
+    audios: [],
   },
   mutations: {
     setLoading(state, loading) {
@@ -83,10 +93,27 @@ export default createStore<GlobalDataProps>({
       state.meta = meta
     },
     setData(state, data) {
+      if(!data) {
+        state.type = 'no'
+        state.data = []
+        return
+      }
       if(data.type){
-        state.isFile = true
+        state.type = 'file'
       }else{
-        state.isFile = false
+        state.type = 'folder'
+        const audios: Audio[] = []
+        const files = data as FileProps[]
+        for(const file of files){
+          if(file.category === 'audio'){
+            audios.push({
+              name: file.name,
+              url: backendUrl+'d/'+file.dir+file.name,
+              cover: state.info.music_img||'https://img.oez.cc/2020/12/19/0f8b57866bdb5.gif'
+            })
+          }
+        }
+        state.audios = audios
       }
       state.data = data
     }
@@ -102,11 +129,21 @@ export default createStore<GlobalDataProps>({
     },
     async fetchPathOrSearch({state, commit}, {path, query}){
       if(query){
-        console.log('query:',query)
         const {data} = await searchPost(query, path)
+        const {meta} =data
+        if(meta.code !== 200){
+          message.error(meta.msg)
+        }
         commit('setData',data.data)
       }else{
         const {data} = await pathPost(path, state.password)
+        const {meta} =data
+        if(meta.code !== 200){
+          message.error(meta.msg)
+        }
+        if(meta.code === 401){
+          console.log('')
+        }
         commit('setData',data.data)
       }
     }
