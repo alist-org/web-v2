@@ -14,7 +14,7 @@
       <a-space v-if="type === 'folder'">
         <a-input-search
           v-model:value="keyword"
-          placeholder="搜索文件"
+          placeholder="搜索文件(夹)"
           style="width: 200px"
           @search="onSearch"
         />

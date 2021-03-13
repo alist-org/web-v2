@@ -6,6 +6,10 @@ html,body,#app{
   /* overflow: hidden; */
 }
 
+.ant-input-search,.ant-input-search input {
+  background-color: transparent;
+}
+
 .ant-table-row{
   cursor: pointer;
 }
@@ -19,26 +23,7 @@ html,body,#app{
 }
 
 .ant-table-body{
-  overflow: -moz-scrollbars-none;
-  -ms-overflow-style: none;
-}
-
-.ant-table-fixed>.ant-table-thead>tr>th{
-  background-color: rgba(0, 0, 0, 0);
-}
-
-.readme>.ant-card{
-  background-color: rgba(0, 0, 0, 0);
-}
-
-.ant-card-body div{
-  background-color: rgba(0, 0, 0, 0);
-}
-
-.markdown-preview{
-  background-color: rgba(0, 0, 0, 0) !important;
-}
-
-.markdown-preview *{
-  background-color: rgba(0, 0, 0, 0) !important;
+  overflow-x: overlay !important;
+  overflow: -moz-scrollbars-none !important;
+   -ms-overflow-style: none !important;
 }

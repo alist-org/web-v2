@@ -1,4 +1,6 @@
+import checkWebUpdate from '@/utils/check_update'
 import { backendUrl } from '@/utils/const'
+import loadJS from '@/utils/load_js'
 import { message } from 'ant-design-vue'
 import { createStore } from 'vuex'
 import { infoGet, pathPost, searchPost, rebuildGet } from '../utils/api'
@@ -24,7 +26,7 @@ interface InfoProps {
   footer_url?: string;
   music_img?: string;
   check_update?: string;
-  scrip?: string;
+  script?: string;
   autoplay?: boolean;
   preview?: {
     url: string;
@@ -123,6 +125,13 @@ export default createStore<GlobalDataProps>({
     async fetchInfo({state, commit}) {
       const {data} = await infoGet()
       const infoData: InfoProps = data.data
+      document.title = infoData.title||'Alist'
+      if(infoData.check_update){
+        checkWebUpdate()
+      }
+      if(infoData.script){
+        loadJS(infoData.script)
+      }
       if(!infoData.logo){
         infoData.logo = require('../assets/alist.png')
       }

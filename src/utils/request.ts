@@ -28,7 +28,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   response => {
     store.commit('setLoading', false)
-    const res = response.data
+    // const res = response.data
     return response
   },
   error => {

@@ -1,5 +1,7 @@
 import { getUrl } from "./get_url"
 
+export const VERSION = 'v1.0'
+
 export const fileExtensions: { [key: string]: string } = {
   exe: 'windows',
   xls: 'file-excel',
