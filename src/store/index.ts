@@ -138,6 +138,7 @@ export default createStore<GlobalDataProps>({
       commit('setInfo',infoData)
     },
     async fetchPathOrSearch({state, commit}, {path, query}){
+      commit('setLoading', true)
       if(query){
         const {data} = await searchPost(query, path)
         const {meta} =data
@@ -157,6 +158,7 @@ export default createStore<GlobalDataProps>({
         }
         commit('setData',data.data)
       }
+      commit('setLoading', false)
     }
   },
   getters: {

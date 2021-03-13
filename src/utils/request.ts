@@ -1,6 +1,5 @@
 import { message } from 'ant-design-vue'
 import axios from 'axios'
-import store from '../store'
 
 const instance = axios.create({
   baseURL: process.env.VUE_APP_API_URL+'api/',
@@ -14,7 +13,6 @@ const instance = axios.create({
 instance.interceptors.request.use(
   config => {
     // do something before request is sent
-    store.commit('setLoading', true)
     return config
   },
   error => {
@@ -27,13 +25,11 @@ instance.interceptors.request.use(
 // response interceptor
 instance.interceptors.response.use(
   response => {
-    store.commit('setLoading', false)
     // const res = response.data
     return response
   },
   error => {
     // 响应失败
-    store.commit('setLoading', false)
     console.log(error)  // for debug
     if (!error.response||error.response.data.meta == undefined){
         message.error('后端网络异常,请检查后端程序是否运行或检查网络连接!')
