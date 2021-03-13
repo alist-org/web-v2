@@ -1,3 +1,4 @@
+import { message } from 'ant-design-vue'
 import axios from 'axios'
 import store from '../store'
 
@@ -34,8 +35,8 @@ instance.interceptors.response.use(
     // 响应失败
     store.commit('setLoading', false)
     console.log(error)  // for debug
-    if (error.response.data.meta == undefined){
-        alert("后端网络异常,请检查后端程序是否运行或检查网络连接!")
+    if (!error.response||error.response.data.meta == undefined){
+        message.error('后端网络异常,请检查后端程序是否运行或检查网络连接!')
         return Promise.reject(error)
     }
     // return Promise.reject(error)

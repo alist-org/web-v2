@@ -11,7 +11,6 @@
     >
       <template #name="{ text,record }">
         <component :is="record.icon" class="file-icon"/>
-        <!-- <a-icon :type="`${record.icon}`" theme="filled" class="file-icon" /> -->
         {{ text }}
       </template>
     </a-table>

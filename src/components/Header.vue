@@ -19,14 +19,6 @@
           @search="onSearch"
         />
       </a-space>
-      <a-popover title="二维码" class="qrcode">
-        <template #content>
-          <img :src="'https://api.xhofe.top/qr?size=200&text=' + url" />
-        </template>
-        <a-button type="primary" shape="circle" size="large">
-          <template #icon><component :is="'qr-code'" /></template>
-        </a-button>
-      </a-popover>
       <a-space v-if="type === 'file'">
         <a-button
           type="primary"
@@ -42,6 +34,14 @@
           </a-button>
         </a>
       </a-space>
+      <a-popover title="二维码" class="qrcode">
+        <template #content>
+          <img :src="'https://api.xhofe.top/qr?size=200&text=' + url" />
+        </template>
+        <a-button type="primary" shape="circle" size="large">
+          <template #icon><component :is="'qr-code'" /></template>
+        </a-button>
+      </a-popover>
     </a-space>
   </div>
   <a-divider class="header-content" />
@@ -52,9 +52,7 @@ import { GlobalDataProps } from "@/store"
 import { computed, defineComponent, ref, watch } from "vue"
 import { useStore } from "vuex"
 import { useRoute, useRouter } from "vue-router"
-import { message } from "ant-design-vue"
 import useDownloadUrl from "../hooks/useDownloadUrl"
-import { copyToClip } from "../utils/copy_clip"
 export default defineComponent({
   name: "Header",
   setup() {

@@ -14,7 +14,9 @@
     </a-result>
     <!-- 显示加载的部分 -->
     <a-spin :spinning="previewSpinning" v-if="previewShow.spinning">
+      <!-- 文档预览 -->
       <div class="doc-preview" id="doc-preview" v-if="previewShow.doc"></div>
+      <!-- iframe -->
       <iframe
         :src="downloadUrl"
         id="iframe-preview"
@@ -27,6 +29,7 @@
         frameborder="no"
         @load="previewSpinning = false"
       ></iframe>
+      <!-- 图片预览 -->
       <div class="img-preview" v-if="previewShow.image">
         <img @load="previewSpinning = false" :src="downloadUrl" />
       </div>

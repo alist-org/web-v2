@@ -3,7 +3,7 @@
   <div class="footer">
     Powered By <a target="_blank" href="https://github.com/Xhofe/alist">AList</a>
     <a-divider type="vertical" />
-    <a-button type="link" @click="showPassword = true">ReBuild</a-button>
+    <a-button type="link" size="small" @click="showPassword = true">ReBuild</a-button>
     <a-divider v-if="info.footer_text" type="vertical" />
     <a v-if="info.footer_text" target="_blank" :href="info.footer_url">{{info.footer_text}}</a>
   </div>

@@ -3,7 +3,7 @@
     <home style="margin-right: 10px;"/>
     <a-breadcrumb :routes="routes">
       <template #itemRender="{ route, routes, paths }">
-        <span v-if="routes.indexOf(route) === routes.length - 1">
+        <span v-if="!q&&routes.indexOf(route) === routes.length - 1">
           {{ route.breadcrumbName }}
         </span>
         <router-link v-else :to="`/${paths.join('/')}`">
@@ -22,6 +22,7 @@ export default defineComponent({
   name: 'Path',
   setup() {
     const route = useRoute()
+    const q = computed(() => route.query.q)
     const routes = computed(() => {
       const paths = route.params.path as string[]
       return paths.map(item => {
@@ -32,7 +33,8 @@ export default defineComponent({
       })
     })
     return {
-      routes
+      routes,
+      q
     }
   },
 })
