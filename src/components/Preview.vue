@@ -143,14 +143,31 @@ export default defineComponent({
       if (file.category==='video') {
         // 预览视频
         previewShow.value.video=true
+        const ex = file.file_extension
+        let type = 'auto'
+        if(ex==='flv'){
+          type = 'flv'
+        }
+        // if(ex==='ts'){
+        //   type = 'hls'
+        // }
         const videoOptions: DPlayerOptions={
           container: document.getElementById('video-preview'),
           video:{
-            url:data.data.url
+            url: data.data.url,
+            type: type
+          },
+          pluginOptions: {
+            flv: {
+              config: {
+                referrerPolicy: 'no-referrer'
+              }
+            }
           },
           autoplay:info.value.autoplay?true:false,
           screenshot:true,
         }
+        console.log(videoOptions)
         dp=new DPlayer(videoOptions)
         return
       }
