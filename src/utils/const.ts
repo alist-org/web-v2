@@ -34,4 +34,4 @@ export const categorys: { [key: string]: string } = {
   audio: 'customer-service',
 }
 
-export const backendUrl: string = process.env.VUE_APP_API_URL != './' ? process.env.VUE_APP_API_URL : getUrl('')
+export const backendUrl: string = process.env.VUE_APP_API_URL != '/' ? process.env.VUE_APP_API_URL : getUrl('')
