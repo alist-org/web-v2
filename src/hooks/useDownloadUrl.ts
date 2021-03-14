@@ -5,11 +5,19 @@ import { message } from "ant-design-vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import { Md5 } from 'ts-md5/dist/md5'
 
 function useDownloadUrl() {
   const store = useStore<GlobalDataProps>()
   const route = useRoute()
-  const downloadUrl = computed(() => backendUrl + "d" + decodeURI(route.path) + '?pw=' + store.state.password)
+  const downloadUrl = computed(() => {
+    let url = backendUrl + "d" + decodeURI(route.path)
+    if(store.state.password){
+      const md5 = Md5.hashStr(store.state.password) as string
+      url += '?pw=' + md5.substring(8, 24)
+    }
+    return url
+  })
   const copyFileLink = () => {
     copyToClip(downloadUrl.value)
     message.success("链接已复制到剪贴板.")
