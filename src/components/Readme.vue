@@ -20,18 +20,10 @@ export default defineComponent({
     const store = useStore<GlobalDataProps>()
     const type = computed(() => store.state.type)
     const readmeSpinning = ref<boolean>(true)
-    const readme = computed(()=>{
-      const file = store.state.data as FileProps
-      if(file.type){
-        return undefined
-      }
-      const files = store.state.data as FileProps[]
-      return files.find(item => item.name.toLowerCase() === 'readme.md')
-    })
     const readmeValue = ref<string>('')
-    watch(readme,()=>{
-      if(readme.value!==undefined){
-        getPost(readme.value.dir+readme.value.name, store.state.password).then(resp=>{
+    const refreshReadme = (readmeFile: FileProps|undefined) => {
+      if(readmeFile!==undefined){
+        getPost(readmeFile.dir+readmeFile.name, store.state.password).then(resp=>{
           const res = resp.data
           if(res.meta.code===200){
             getText(res.data.url).then(resp=>{
@@ -41,6 +33,16 @@ export default defineComponent({
           }
         })
       }
+    }
+    const readme = computed(()=>{
+      const file = store.state.data as FileProps
+      if(file.type){
+        return undefined
+      }
+      const files = store.state.data as FileProps[]
+      const readmeFile = files.find(item => item.name.toLowerCase() === 'readme.md')
+      refreshReadme(readmeFile)
+      return readmeFile
     })
     return{
       type,
