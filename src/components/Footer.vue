@@ -10,6 +10,9 @@
   <a-modal v-model:visible="showPassword" title="重建目录密码" @ok="rebuild" @cancel="showPassword = false">
     <a-input-password placeholder="input password" v-model:value="password" @pressEnter="rebuild"/>
   </a-modal>
+  <div class="rebuilding" v-if="rebuilding">
+    <a-spin size="large" tip="重建目录中..." />
+  </div>
 </template>
 
 <script lang="ts">
@@ -28,10 +31,13 @@ export default defineComponent({
     const showPassword = ref<boolean>(false)
     const password = ref<string>(localStorage.getItem('rebuild-password')||'')
     const {refresh} = useRefresh()
+    const rebuilding = ref<boolean>(false)
     const rebuild = ()=>{
       localStorage.setItem('rebuild-password', password.value)
       showPassword.value = false
+      rebuilding.value = true
       rebuildGet(password.value).then(resp=>{
+        rebuilding.value = false
         const res =resp.data
         if(res.meta.code===200){
           message.success(res.meta.msg)
@@ -46,6 +52,7 @@ export default defineComponent({
       rebuild,
       showPassword,
       password,
+      rebuilding,
     }
   },
 })
@@ -59,5 +66,18 @@ export default defineComponent({
 }
 #footer-line{
   margin: 10px 0;
+}
+.rebuilding{
+  margin: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  text-align: center;
+  padding-top: 40vh;
 }
 </style>
