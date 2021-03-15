@@ -16,7 +16,7 @@
     </div>
   </div>
   <a-modal v-model:visible="showPassword" title="Input password" @ok="okPassword" @cancel="cancelPassword">
-    <a-input-password placeholder="input password" v-model:value="password" @pressEnter="okPassword"/>
+    <a-input-password ref="inputRef" placeholder="input password" v-model:value="password" @pressEnter="okPassword"/>
   </a-modal>
 </template>
 
@@ -62,7 +62,17 @@ export default defineComponent({
     onMounted(() => {
       refresh()
     })
-    const showPassword = computed<boolean>(() => store.state.meta.code===401)
+    const showPassword = computed<boolean>(() => {
+      return store.state.meta.code===401
+    })
+    const inputRef = ref()
+    watch(showPassword, ()=>{
+      setTimeout(()=>{
+        if(showPassword.value&&inputRef.value){
+          inputRef.value.focus()
+        }
+      },50)
+    })
     const password = ref<string>(store.state.password)
     const okPassword = () => {
       store.commit('setPassword',password.value)
@@ -78,6 +88,7 @@ export default defineComponent({
       password,
       okPassword,
       cancelPassword,
+      inputRef,
     }
   }
 });

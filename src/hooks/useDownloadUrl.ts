@@ -1,4 +1,4 @@
-import { GlobalDataProps } from "@/store";
+import { FileProps, GlobalDataProps } from "@/store";
 import { backendUrl } from "@/utils/const";
 import { copyToClip } from "@/utils/copy_clip";
 import { message } from "ant-design-vue";
@@ -25,6 +25,26 @@ function useDownloadUrl() {
   return {
     downloadUrl,
     copyFileLink
+  }
+}
+
+export const useDownloadFile = () =>{
+  const store = useStore<GlobalDataProps>()
+  const getFileDownLink = (file: FileProps)=>{
+    let url = backendUrl + 'd/' + file.dir + file.name
+    if(store.state.password){
+      const md5 = Md5.hashStr(store.state.password) as string
+      url += '?pw=' + md5.substring(8, 24)
+    }
+    return url
+  }
+  const copyFileLink = (file: FileProps) => {
+    copyToClip(getFileDownLink(file))
+    message.success("链接已复制到剪贴板.")
+  }
+  return {
+    getFileDownLink,
+    copyFileLink,
   }
 }
 

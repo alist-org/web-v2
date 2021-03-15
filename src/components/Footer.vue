@@ -3,12 +3,12 @@
   <div class="footer">
     Powered By <a target="_blank" href="https://github.com/Xhofe/alist">AList</a>
     <a-divider type="vertical" />
-    <a-button type="link" size="small" @click="showPassword = true">ReBuild</a-button>
+    <a-button type="link" size="small" @click="preRebuild">ReBuild</a-button>
     <a-divider v-if="info.footer_text" type="vertical" />
     <a v-if="info.footer_text" target="_blank" :href="info.footer_url">{{info.footer_text}}</a>
   </div>
   <a-modal v-model:visible="showPassword" title="重建目录密码" @ok="rebuild" @cancel="showPassword = false">
-    <a-input-password placeholder="input password" v-model:value="password" @pressEnter="rebuild"/>
+    <a-input-password ref="inputRef" placeholder="input password" v-model:value="password" @pressEnter="rebuild"/>
   </a-modal>
   <div class="rebuilding" v-if="rebuilding">
     <a-spin size="large" tip="重建目录中..." />
@@ -47,12 +47,21 @@ export default defineComponent({
         }
       })
     }
+    const inputRef = ref()
+    const preRebuild = () => {
+      showPassword.value = true
+      setTimeout(()=>{
+        inputRef.value.focus()
+      },50)
+    }
     return {
       info,
       rebuild,
       showPassword,
       password,
       rebuilding,
+      preRebuild,
+      inputRef
     }
   },
 })

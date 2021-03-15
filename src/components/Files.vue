@@ -12,6 +12,12 @@
       <template #name="{ text,record }">
         <component :is="record.icon" class="file-icon"/>
         {{ text }}
+        <span v-if="record.type==='file'" class="action">
+          <copy id="action-1" @click="copyFileLink(record)" />
+          <a target="_blank" :href="getFileDownLink(record)">
+            <download class="action" id="action-2"></download>
+          </a>
+        </span>
       </template>
     </a-table>
   </div>
@@ -26,6 +32,7 @@ import { useRouter } from 'vue-router'
 import { getFileSize } from '../utils/file_size'
 import { formatDate } from '../utils/date'
 import { getIcon } from '../utils/get_icon'
+import { useDownloadFile } from "@/hooks/useDownloadUrl";
 
 export default defineComponent({
   name: "Files",
@@ -79,16 +86,20 @@ export default defineComponent({
     })
     const customRow = (record) => {
       return{
-        onClick:()=>{
+        onClick:(e)=>{
+          if(e.target&&e.target.tagName==='svg'){return}
           router.push('/'+record.dir+record.name)
         }
       }
     }
+    const {getFileDownLink, copyFileLink} = useDownloadFile()
     return {
       columns,
       files,
       filesLoading,
-      customRow
+      customRow,
+      getFileDownLink,
+      copyFileLink,
     }
   },
 });
@@ -99,5 +110,8 @@ export default defineComponent({
   margin-right: 10px;
   font-size: 20px;
   color: #1890ff;
+}
+.action {
+  color: gray;
 }
 </style>
