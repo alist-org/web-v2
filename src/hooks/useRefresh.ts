@@ -6,6 +6,10 @@ function useRefresh() {
   const store = useStore<GlobalDataProps>()
   const route = useRoute()
   const refresh = () => {
+    const paths = route.params.path as string[]
+    if(paths){
+      store.commit('setDrive',paths[0])
+    }
     store.dispatch('fetchPathOrSearch',{path: decodeURI(route.path.substring(1)), query: route.query['q']})
   }
   return {

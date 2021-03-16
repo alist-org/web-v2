@@ -2,11 +2,11 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'Home',
-    redirect: '/root'
-  },
+  // {
+  //   path: '/',
+  //   name: 'Home',
+  //   redirect: '/root'
+  // },
   {
     path: '/about',
     name: 'About',

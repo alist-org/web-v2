@@ -111,7 +111,7 @@ export default defineComponent({
       previewShow.value.spinning = true
       previewSpinning.value = true
       previewShow.value.doc = true
-      officePreviewPost(file.file_id).then((resp) => {
+      officePreviewPost(store.state.drive, file.file_id).then((resp) => {
         const res = resp.data
         if (res.meta.code === 200) {
           const docOptions = aliyun.config({

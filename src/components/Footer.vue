@@ -36,7 +36,7 @@ export default defineComponent({
       localStorage.setItem('rebuild-password', password.value)
       showPassword.value = false
       rebuilding.value = true
-      rebuildGet(password.value).then(resp=>{
+      rebuildGet(store.state.drive, password.value).then(resp=>{
         rebuilding.value = false
         const res =resp.data
         if(res.meta.code===200){

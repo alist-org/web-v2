@@ -49,7 +49,6 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const store = useStore<GlobalDataProps>()
-    store.dispatch("fetchInfo")
     let isAdrWx = false
     if(navigator.userAgent.match(/MicroMessenger/i)&&navigator.userAgent.match(/android/i)){
       isAdrWx=true
@@ -57,10 +56,20 @@ export default defineComponent({
     const type = computed(()=>store.state.type)
     const {refresh}=useRefresh()
     watch(()=>route.fullPath,() => {
-      refresh()
+      if(route.fullPath!=='/'){
+        refresh()
+      }else{
+        if(store.state.info.roots)router.push(store.state.info.roots[0])
+      }
     })
     onMounted(() => {
-      refresh()
+      store.dispatch("fetchInfo").then(()=>{
+        if(route.fullPath!=='/'){
+          refresh()
+        }else{
+          if(store.state.info.roots)router.push(store.state.info.roots[0])
+        }
+      })
     })
     const showPassword = computed<boolean>(() => {
       return store.state.meta.code===401

@@ -41,16 +41,16 @@ export const infoGet = () => {
   })
 }
 
-export const rebuildGet = (password: string) => {
+export const rebuildGet = (drive, password: string) => {
   return request({
-    url: "rebuild/" + password,
+    url: `rebuild/${drive}/${password}`,
     method: "get",
   })
 }
 
-export const officePreviewPost = (fileId: string) => {
+export const officePreviewPost = (drive, fileId: string) => {
   return request({
-    url: "office_preview",
+    url: `office_preview/${drive}`,
     method: "post",
     data: {
       'file_id': fileId

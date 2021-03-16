@@ -25,6 +25,9 @@ export default defineComponent({
     const q = computed(() => route.query.q)
     const routes = computed(() => {
       const paths = route.params.path as string[]
+      if(!paths){
+        return[]
+      }
       return paths.map(item => {
         return{
           path: item,

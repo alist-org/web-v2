@@ -61,7 +61,7 @@ export default defineComponent({
     const router = useRouter()
     const info = computed(() => store.state.info)
     const url = ref<string>(window.location.href)
-    watch(()=>route.fullPath, (newVal) => {
+    watch(()=>route.fullPath, () => {
       url.value = window.location.href
     })
     const type = computed(() => store.state.type)

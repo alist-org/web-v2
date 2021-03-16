@@ -21,6 +21,7 @@ export interface ListProps<P> {
 
 interface InfoProps {
   title?: string;
+  roots?: string[];
   logo?: string;
   footer_text?: string;
   footer_url?: string;
@@ -47,7 +48,7 @@ export interface FileProps {
   category: string;
   content_type: string;
   size: number;
-  password: "";
+  password: string;
   sizeStr: string;
   time: string;
   icon: string;
@@ -67,6 +68,7 @@ export interface GlobalDataProps {
   data: FileProps|FileProps[];
   type: string;
   audios: Audio[];
+  drive: string;
 }
 
 export default createStore<GlobalDataProps>({
@@ -80,6 +82,7 @@ export default createStore<GlobalDataProps>({
     data: [],
     type: 'folder',
     audios: [],
+    drive: '',
   },
   mutations: {
     setLoading(state, loading) {
@@ -94,6 +97,9 @@ export default createStore<GlobalDataProps>({
     },
     setMeta(state, meta) {
       state.meta = meta
+    },
+    setDrive(state, drive) {
+      state.drive = drive
     },
     setData(state, data) {
       if(!data) {
