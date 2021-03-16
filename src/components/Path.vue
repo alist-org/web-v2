@@ -1,9 +1,12 @@
 <template>
   <div class="path">
-    <home style="margin-right: 10px;"/>
+    <!-- <home style="margin-right: 10px;"/> -->
     <a-breadcrumb :routes="routes">
       <template #itemRender="{ route, routes, paths }">
-        <span v-if="!q&&routes.indexOf(route) === routes.length - 1">
+        <router-link v-if="routes.indexOf(route) === 0" :to="`/${paths.join('/')}`">
+          <home style="margin-right: 1px;"/>
+        </router-link>
+        <span v-else-if="!q&&routes.indexOf(route) === routes.length - 1">
           {{ route.breadcrumbName }}
         </span>
         <router-link v-else :to="`/${paths.join('/')}`">
@@ -15,8 +18,18 @@
 </template>
 
 <script lang="ts">
+import store from '@/store'
 import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
+
+interface Route {
+  path: string;
+  breadcrumbName: string;
+  children?: Array<{
+    path: string;
+    breadcrumbName: string;
+  }>;
+}
 
 export default defineComponent({
   name: 'Path',
@@ -28,12 +41,24 @@ export default defineComponent({
       if(!paths){
         return[]
       }
-      return paths.map(item => {
+      const res: Route[] = paths.map(item => {
         return{
           path: item,
           breadcrumbName: item
         }
       })
+      const roots: Route[] = store.state.info.roots?.map(item => {
+        return {
+          path: item,
+          breadcrumbName: item
+        }
+      })||[]
+      res.unshift({
+        path: '',
+        breadcrumbName: 'root',
+        children: roots
+      })
+      return res
     })
     return {
       routes,
