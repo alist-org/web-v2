@@ -1,6 +1,13 @@
 <template>
   <div class="files">
-    <a-table
+    <div v-if="isImages&&showImages">
+      <ul id="images">
+        <li v-for="image in images" :key="image.name" class="image">
+          <img :src="getFileDownLink(image)" :alt="image.name">
+        </li>
+      </ul>
+    </div>
+    <a-table v-else
       :columns="columns"
       :data-source="files"
       :pagination="false"
@@ -25,14 +32,14 @@
 </template>
 
 <script lang="ts">
-import { FileProps, GlobalDataProps } from "@/store";
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { FileProps, GlobalDataProps } from "@/store"
+import { computed, defineComponent } from "vue"
+import { useStore } from "vuex"
 import { useRouter } from 'vue-router'
 import { getFileSize } from '../utils/file_size'
 import { formatDate } from '../utils/date'
 import { getIcon } from '../utils/get_icon'
-import { useDownloadFile } from "@/hooks/useDownloadUrl";
+import { useDownloadFile } from "@/hooks/useDownloadUrl"
 
 export default defineComponent({
   name: "Files",
@@ -93,6 +100,9 @@ export default defineComponent({
       }
     }
     const {getFileDownLink, copyFileLink} = useDownloadFile()
+    const isImages = computed(() => store.state.isImages)
+    const showImages = computed(() => store.state.showImages)
+    const images = computed(() => files.value.filter(item=>item.category==='image'))
     return {
       columns,
       files,
@@ -100,6 +110,9 @@ export default defineComponent({
       customRow,
       getFileDownLink,
       copyFileLink,
+      isImages,
+      showImages,
+      images
     }
   },
 });
@@ -113,5 +126,26 @@ export default defineComponent({
 }
 .action {
   color: gray;
+}
+#images {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: center;
+  list-style: none;
+}
+.image {
+  height:120px;
+  margin: 4px;
+  padding: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  background-color: rgba(240, 248, 255,0.8);
+  cursor: pointer;
+}
+.image img {
+  height: 100%;
+  width: auto;
 }
 </style>

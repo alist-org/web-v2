@@ -19,6 +19,16 @@
           @search="onSearch"
         />
       </a-space>
+      <a-space v-if="isImages">
+        <a-button
+          type="primary"
+          shape="circle"
+          size="large"
+          @click="switchShow"
+        >
+          <template #icon><retweet /></template>
+        </a-button>
+      </a-space>
       <a-space v-if="type === 'file'">
         <a-button
           type="primary"
@@ -53,6 +63,8 @@ import { computed, defineComponent, ref, watch } from "vue"
 import { useStore } from "vuex"
 import { useRoute, useRouter } from "vue-router"
 import useDownloadUrl from "../hooks/useDownloadUrl"
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'viewerjs'
 export default defineComponent({
   name: "Header",
   setup() {
@@ -71,6 +83,20 @@ export default defineComponent({
     const onSearch = (searchValue: string) => {
       router.push(route.path+'?q='+searchValue)
     };
+
+    const isImages = computed(() => store.state.isImages)
+    const switchShow = () => {
+      store.commit('setShowImages', !store.state.showImages)
+      if(store.state.showImages){
+        setTimeout(()=>{
+          const images = document.getElementById('images')
+          if(images){
+            console.log('---')
+            new Viewer(images);
+          }
+        },100)
+      }
+    }
     return {
       info,
       url,
@@ -78,7 +104,9 @@ export default defineComponent({
       copyFileLink,
       downloadUrl,
       keyword,
-      onSearch
+      onSearch,
+      isImages,
+      switchShow
     };
   },
 });

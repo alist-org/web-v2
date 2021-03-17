@@ -8,7 +8,8 @@ import {
   FilePptFilled, FileWordFilled, FileZipFilled,
   AndroidFilled, AppleFilled, FileImageFilled,
   FileTextFilled, YoutubeFilled, CustomerServiceFilled,
-  FileFilled, FolderFilled, CopyOutlined, DownloadOutlined
+  FileFilled, FolderFilled, 
+  CopyOutlined, DownloadOutlined, RetweetOutlined
 } from '@ant-design/icons-vue'
 import 'ant-design-vue/dist/antd.css'
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
@@ -56,6 +57,7 @@ app.component('file', FileFilled)
 app.component('folder', FolderFilled)
 app.component('copy', CopyOutlined)
 app.component('download', DownloadOutlined)
+app.component('retweet', RetweetOutlined)
 
 app.use(store).use(router)
 app.mount('#app')

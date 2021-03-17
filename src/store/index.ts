@@ -69,6 +69,8 @@ export interface GlobalDataProps {
   type: string;
   audios: Audio[];
   drive: string;
+  isImages: boolean;
+  showImages: boolean;
 }
 
 export default createStore<GlobalDataProps>({
@@ -83,8 +85,16 @@ export default createStore<GlobalDataProps>({
     type: 'folder',
     audios: [],
     drive: '',
+    isImages: false,
+    showImages: false,
   },
   mutations: {
+    setIsImages(state, isImages){
+      state.isImages = isImages
+    },
+    setShowImages(state, showImages){
+      state.showImages = showImages
+    },
     setLoading(state, loading) {
       state.loading = loading
     },
@@ -102,6 +112,7 @@ export default createStore<GlobalDataProps>({
       state.drive = drive
     },
     setData(state, data) {
+      state.isImages = false
       if(!data) {
         state.type = 'no'
         state.data = []
@@ -122,6 +133,7 @@ export default createStore<GlobalDataProps>({
             })
           }
         }
+        state.isImages = files.filter(item => item.category === 'image').length > 0
         state.audios = audios
       }
       state.data = data

@@ -8299,6 +8299,11 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
+viewerjs@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/viewerjs/-/viewerjs-1.9.0.tgz#6dfaf54440c3b2f7691b85666ba6d27708ed9592"
+  integrity sha512-2D1OdGatb5aCZbZvaCdbJYuoDObjD9ITe7GZp0SoG7rgw3arOIZoIO1ygmfG+I4+RvEuDo+aZ75kNgwmYS9j3w==
+
 vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.npm.taobao.org/vm-browserify/download/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
