@@ -1,10 +1,16 @@
 <template>
   <div class="path">
-    <!-- <home style="margin-right: 10px;"/> -->
+    <router-link :to="'/'+routes[0].path">
+      <home style="margin-right: 10px;"/>
+    </router-link>
     <a-breadcrumb :routes="routes">
       <template #itemRender="{ route, routes, paths }">
-        <router-link v-if="routes.indexOf(route) === 0" :to="`/${paths.join('/')}`">
-          <home style="margin-right: 1px;"/>
+        <span v-if="routes.indexOf(route) === 0" :to="`/${paths.join('/')}`">
+          <!-- <home style="margin-right: 1px;"/> -->
+          {{ route.breadcrumbName }}
+        </span>
+        <router-link v-else-if="routes[0].children.indexOf(route) !== -1" :to="`/${paths[1]}`">
+          {{ route.breadcrumbName }}
         </router-link>
         <span v-else-if="!q&&routes.indexOf(route) === routes.length - 1">
           {{ route.breadcrumbName }}
@@ -53,16 +59,18 @@ export default defineComponent({
           breadcrumbName: item
         }
       })||[]
-      res.unshift({
-        path: '',
-        breadcrumbName: 'root',
-        children: roots
-      })
+      res[0].children = roots
+      // res.unshift({
+      //   path: '',
+      //   breadcrumbName: 'root',
+      //   children: roots
+      // })
       return res
     })
     return {
       routes,
-      q
+      q,
+      route
     }
   },
 })
@@ -76,5 +84,6 @@ export default defineComponent({
   display: flex;
   display: -webkit-flex; 
   font-size: 20px;
+  align-items: center;
 }
 </style>
