@@ -39,11 +39,14 @@
       </div>
     </a-spin>
     <!-- 视频预览 -->
-    <div
-      class="video-preview"
-      v-show="previewShow.video"
-      id="video-preview"
-    ></div>
+    <div v-show="previewShow.video">
+      <a-switch checked-children="转码" un-checked-children="原画" v-model:checked="videoTranscoding" />
+      <div
+        class="video-preview"
+        id="video-preview"
+      ></div>
+    </div>
+    
     <!-- 音频预览 -->
     <div class="audio-preview" v-show="previewShow.audio" id="audio-preview"></div>
   </div>
@@ -52,11 +55,11 @@
 <script lang="ts">
 import useDownloadUrl from "@/hooks/useDownloadUrl";
 import { FileProps, GlobalDataProps } from "@/store";
-import { getPost, getText, officePreviewPost } from "@/utils/api";
+import { getPost, getText, officePreviewPost, videoPreviewPost } from "@/utils/api";
 import { doc } from "@/utils/const";
 import { getIcon } from "@/utils/get_icon";
 import { message } from "ant-design-vue";
-import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, defineComponent, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import DPlayer, { DPlayerOptions } from 'dplayer'
 import { useRoute } from "vue-router";
@@ -128,7 +131,6 @@ export default defineComponent({
       });
     };
     const showFile = async (file: FileProps) => {
-      const {data} = await getPost(decodeURI(route.path.substring(1)),store.state.password)
       if (doc.includes(file.file_extension.toLowerCase())) {
         showDoc(file)
         return
@@ -142,6 +144,7 @@ export default defineComponent({
       }
       if (file.category==='video') {
         // 预览视频
+        const {data} = await getPost(decodeURI(route.path.substring(1)),store.state.password)
         previewShow.value.video=true
         const ex = file.file_extension
         let type = 'auto'
@@ -167,7 +170,6 @@ export default defineComponent({
           autoplay:info.value.autoplay?true:false,
           screenshot:true,
         }
-        console.log(videoOptions)
         dp=new DPlayer(videoOptions)
         return
       }
@@ -222,6 +224,72 @@ export default defineComponent({
         dp.destroy()
       }
     })
+    const videoTranscoding = ref<boolean>(false);
+    watch(videoTranscoding, async () => {
+      if(dp){
+        dp.destroy()
+      }
+      if(!videoTranscoding.value) {
+        const {data} = await getPost(decodeURI(route.path.substring(1)),store.state.password)
+        const ex = file.value.file_extension
+        let type = 'auto'
+        if(ex==='flv'){
+          type = 'flv'
+        }
+        // if(ex==='ts'){
+        //   type = 'hls'
+        // }
+        const videoOptions: DPlayerOptions={
+          container: document.getElementById('video-preview'),
+          video:{
+            url: data.data.url,
+            type: type
+          },
+          pluginOptions: {
+            flv: {
+              config: {
+                referrerPolicy: 'no-referrer'
+              }
+            }
+          },
+          autoplay:info.value.autoplay?true:false,
+          screenshot:true,
+        }
+        dp=new DPlayer(videoOptions)
+      }else{
+        videoPreviewPost(store.state.drive, file.value.file_id).then(resp => {
+          const res = resp.data
+          if (res.meta.code === 200) {
+            const videoOptions: DPlayerOptions={
+            container: document.getElementById('video-preview'),
+            video:{
+              url:'',
+              quality: res.data.template_list.map(item => {
+                return{
+                  name: item.template_id,
+                  url: item.url,
+                  type: 'auto'
+                }
+              }),
+              defaultQuality: 0,
+            },
+            pluginOptions: {
+              flv: {
+                config: {
+                  referrerPolicy: 'no-referrer'
+                }
+              }
+            },
+            autoplay:info.value.autoplay?true:false,
+            // screenshot:true,
+          }
+          dp=new DPlayer(videoOptions)
+          } else {
+            message.error(res.meta.msg)
+          }
+        })
+      }
+    })
     return {
       file,
       previewSpinning,
@@ -229,6 +297,7 @@ export default defineComponent({
       downloadUrl,
       copyFileLink,
       text,
+      videoTranscoding,
     };
   },
 });
@@ -237,6 +306,7 @@ export default defineComponent({
 <style scoped>
 .video-preview {
   width: 100%;
+  margin-top: 5px;
 }
 /* @media screen and (min-width: 600px) {
   #video-preview{

@@ -33,13 +33,14 @@
 
 <script lang="ts">
 import { FileProps, GlobalDataProps } from "@/store"
-import { computed, defineComponent } from "vue"
+import { computed, defineComponent, watch } from "vue"
 import { useStore } from "vuex"
 import { useRouter } from 'vue-router'
 import { getFileSize } from '../utils/file_size'
 import { formatDate } from '../utils/date'
 import { getIcon } from '../utils/get_icon'
 import { useDownloadFile } from "@/hooks/useDownloadUrl"
+import Viewer from 'viewerjs'
 
 export default defineComponent({
   name: "Files",
@@ -76,6 +77,18 @@ export default defineComponent({
       },
     ];
     const filesLoading = computed(() => store.state.loading)
+
+    watch(filesLoading,() => {
+      if(!filesLoading.value && store.state.showImages){
+        setTimeout(()=>{
+          const images = document.getElementById('images')
+          if(images){
+            console.log('---')
+            new Viewer(images);
+          }
+        },100)
+      }
+    })
 
     const files = computed(() => {
       const data = store.state.data as FileProps[]
@@ -128,24 +141,28 @@ export default defineComponent({
   color: gray;
 }
 #images {
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  /* grid-gap: 24px; */
   list-style: none;
+  justify-items: center;
 }
 .image {
-  height:120px;
-  margin: 4px;
-  padding: 2px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-  background-color: rgba(240, 248, 255,0.8);
+  width: 100px;
+  height: 90px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 .image img {
-  height: 100%;
-  width: auto;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
 </style>

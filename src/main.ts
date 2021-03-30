@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import {
   Button, Divider, Tag, Card, Breadcrumb, Table, Modal, Input, Result, Spin, Popover, Space,
+  Switch
 } from 'ant-design-vue'
 import {
   QrcodeOutlined, HomeOutlined, WindowsFilled,
@@ -38,6 +39,7 @@ app.use(Result)
 app.use(Spin)
 app.use(Popover)
 app.use(Space)
+app.use(Switch)
 app.component('qr-code', QrcodeOutlined)
 app.component('home', HomeOutlined)
 app.component('windows', WindowsFilled)

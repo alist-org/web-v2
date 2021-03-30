@@ -58,6 +58,16 @@ export const officePreviewPost = (drive, fileId: string) => {
   })
 }
 
+export const videoPreviewPost = (drive, fileId: string) => {
+  return request({
+    url: `video_preview/${drive}`,
+    method: "post",
+    data: {
+      'file_id': fileId
+    }
+  })
+}
+
 export const getWebLatest = () => {
   return axios.get('https://api.github.com/repos/Xhofe/alist-web/releases/latest')
 }
