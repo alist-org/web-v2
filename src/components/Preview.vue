@@ -108,6 +108,72 @@ export default defineComponent({
       spinning: false,
     });
     let dp,ap
+    const videoTranscoding = ref<boolean>(true);
+    const switchVideoTrans = async () => {
+      if(dp){
+        dp.destroy()
+      }
+      if(!videoTranscoding.value) {
+        const {data} = await getPost(decodeURI(route.path.substring(1)),store.state.password)
+        const ex = file.value.file_extension
+        let type = 'auto'
+        if(ex==='flv'){
+          type = 'flv'
+        }
+        const videoOptions: DPlayerOptions={
+          container: document.getElementById('video-preview'),
+          video:{
+            url: data.data.url,
+            type: type
+          },
+          pluginOptions: {
+            flv: {
+              config: {
+                referrerPolicy: 'no-referrer'
+              }
+            }
+          },
+          autoplay:info.value.autoplay?true:false,
+          screenshot:true,
+        }
+        dp=new DPlayer(videoOptions)
+      }else{
+        videoPreviewPost(store.state.drive, file.value.file_id).then(resp => {
+          const res = resp.data
+          if (res.meta.code === 200) {
+            const videoOptions: DPlayerOptions={
+            container: document.getElementById('video-preview'),
+            video:{
+              url:'',
+              quality: res.data.template_list.map(item => {
+                return{
+                  name: item.template_id,
+                  url: item.url,
+                  type: 'auto'
+                }
+              }),
+              defaultQuality: res.data.template_list.length-1,
+            },
+            pluginOptions: {
+              flv: {
+                config: {
+                  referrerPolicy: 'no-referrer'
+                }
+              }
+            },
+            autoplay:info.value.autoplay?true:false,
+            // screenshot:true,
+          }
+          dp=new DPlayer(videoOptions)
+          } else {
+            message.error(res.meta.msg)
+          }
+        })
+      }
+    }
+    watch(videoTranscoding, async () => {
+      switchVideoTrans()
+    })
     const audios = computed(() => store.state.audios)
     const text = ref<string>('')
     const showDoc = (file: FileProps) => {
@@ -144,33 +210,8 @@ export default defineComponent({
       }
       if (file.category==='video') {
         // 预览视频
-        const {data} = await getPost(decodeURI(route.path.substring(1)),store.state.password)
         previewShow.value.video=true
-        const ex = file.file_extension
-        let type = 'auto'
-        if(ex==='flv'){
-          type = 'flv'
-        }
-        // if(ex==='ts'){
-        //   type = 'hls'
-        // }
-        const videoOptions: DPlayerOptions={
-          container: document.getElementById('video-preview'),
-          video:{
-            url: data.data.url,
-            type: type
-          },
-          pluginOptions: {
-            flv: {
-              config: {
-                referrerPolicy: 'no-referrer'
-              }
-            }
-          },
-          autoplay:info.value.autoplay?true:false,
-          screenshot:true,
-        }
-        dp=new DPlayer(videoOptions)
+        switchVideoTrans()
         return
       }
       if (file.category ==='audio') {
@@ -224,72 +265,7 @@ export default defineComponent({
         dp.destroy()
       }
     })
-    const videoTranscoding = ref<boolean>(false);
-    watch(videoTranscoding, async () => {
-      if(dp){
-        dp.destroy()
-      }
-      if(!videoTranscoding.value) {
-        const {data} = await getPost(decodeURI(route.path.substring(1)),store.state.password)
-        const ex = file.value.file_extension
-        let type = 'auto'
-        if(ex==='flv'){
-          type = 'flv'
-        }
-        // if(ex==='ts'){
-        //   type = 'hls'
-        // }
-        const videoOptions: DPlayerOptions={
-          container: document.getElementById('video-preview'),
-          video:{
-            url: data.data.url,
-            type: type
-          },
-          pluginOptions: {
-            flv: {
-              config: {
-                referrerPolicy: 'no-referrer'
-              }
-            }
-          },
-          autoplay:info.value.autoplay?true:false,
-          screenshot:true,
-        }
-        dp=new DPlayer(videoOptions)
-      }else{
-        videoPreviewPost(store.state.drive, file.value.file_id).then(resp => {
-          const res = resp.data
-          if (res.meta.code === 200) {
-            const videoOptions: DPlayerOptions={
-            container: document.getElementById('video-preview'),
-            video:{
-              url:'',
-              quality: res.data.template_list.map(item => {
-                return{
-                  name: item.template_id,
-                  url: item.url,
-                  type: 'auto'
-                }
-              }),
-              defaultQuality: 0,
-            },
-            pluginOptions: {
-              flv: {
-                config: {
-                  referrerPolicy: 'no-referrer'
-                }
-              }
-            },
-            autoplay:info.value.autoplay?true:false,
-            // screenshot:true,
-          }
-          dp=new DPlayer(videoOptions)
-          } else {
-            message.error(res.meta.msg)
-          }
-        })
-      }
-    })
+    
     return {
       file,
       previewSpinning,

@@ -45,7 +45,7 @@ export default defineComponent({
     const routes = computed(() => {
       const paths = route.params.path as string[]
       if(!paths){
-        return[]
+        return[{path: '/', breadcrumbName: 'home'}]
       }
       const res: Route[] = paths.map(item => {
         return{
@@ -60,11 +60,6 @@ export default defineComponent({
         }
       })||[]
       res[0].children = roots
-      // res.unshift({
-      //   path: '',
-      //   breadcrumbName: 'root',
-      //   children: roots
-      // })
       return res
     })
     return {
