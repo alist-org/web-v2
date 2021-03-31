@@ -1,6 +1,6 @@
 
 module.exports = {
-  publicPath: 'https://cdn.jsdelivr.net/gh/Xhofe/alist-web@1.0.2/dist/',
+  publicPath: '/',
   outputDir: 'dist',
   //放置生成的静态资源 (js、css、img、fonts) 的目录
   assetsDir: 'static',
