@@ -18,9 +18,9 @@ html,body,#app{
   white-space: nowrap; 
 }
 
-.ant-table-body::-webkit-scrollbar {
+/* .ant-table-body::-webkit-scrollbar {
   width: 0 !important 
-}
+} */
 
 .ant-table-body{
   overflow-x: overlay !important;

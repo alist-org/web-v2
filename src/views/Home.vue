@@ -1,5 +1,5 @@
 <template>
-  <div :class="isAdrWx?'home-wx':'home'">
+  <div class="home">
     <div class="layout">
       <Header />
       <div class="content">
@@ -49,10 +49,6 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const store = useStore<GlobalDataProps>()
-    let isAdrWx = false
-    if(navigator.userAgent.match(/MicroMessenger/i)&&navigator.userAgent.match(/android/i)){
-      isAdrWx=true
-    }
     const type = computed(()=>store.state.type)
     const {refresh}=useRefresh()
     watch(()=>route.fullPath,() => {
@@ -91,7 +87,6 @@ export default defineComponent({
       router.go(-1)
     }
     return{
-      isAdrWx,
       type,
       showPassword,
       password,
@@ -112,22 +107,22 @@ export default defineComponent({
   padding: 0;
   margin: 0;
 }
-.home-wx{
-  width: 100%;
-  display: flex;
-  display: -webkit-flex; /* Safari */
-  /* justify-content: center; */
-  padding: 0;
-  margin: 0;
-}
+
 .layout{
   display: flex;
   display: -webkit-flex; /* Safari */
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: min(980px,98vw);
+  width: min(98vw, 980px);
 }
+
+@media screen and (max-width: 980px) {
+  .layout{
+    width: 98vw;
+  }
+}
+
 .content{
   min-height: 80vh;
   width: 100%;
