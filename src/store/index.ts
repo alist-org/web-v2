@@ -3,7 +3,7 @@ import { backendUrl } from '@/utils/const'
 import loadJS from '@/utils/load_js'
 import { message } from 'ant-design-vue'
 import { createStore } from 'vuex'
-import { infoGet, pathPost, searchPost, rebuildGet } from '../utils/api'
+import { infoGet, pathPost, searchPost } from '../utils/api'
 import { Md5 } from 'ts-md5/dist/md5'
 
 interface MetaProps {
@@ -129,7 +129,7 @@ export default createStore<GlobalDataProps>({
           if(file.category === 'audio'){
             audios.push({
               name: file.name,
-              url: backendUrl+'d/'+file.dir+file.name+"?pw="+Md5.hashStr(state.password),
+              url: backendUrl+'d/'+ encodeURI(file.dir + file.name) +"?pw="+Md5.hashStr(state.password),
               cover: state.info.music_img||'https://img.oez.cc/2020/12/19/0f8b57866bdb5.gif'
             })
           }

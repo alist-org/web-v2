@@ -11,7 +11,7 @@ function useDownloadUrl() {
   const store = useStore<GlobalDataProps>()
   const route = useRoute()
   const downloadUrl = computed(() => {
-    let url = backendUrl + "d" + decodeURI(route.path)
+    let url = backendUrl + "d" + route.path
     const file = store.state.data as FileProps
     if(file.password === 'y' && store.state.password){
       const md5 = Md5.hashStr(store.state.password) as string
@@ -32,7 +32,7 @@ function useDownloadUrl() {
 export const useDownloadFile = () =>{
   const store = useStore<GlobalDataProps>()
   const getFileDownLink = (file: FileProps)=>{
-    let url = backendUrl + 'd/' + file.dir + file.name
+    let url = backendUrl + 'd/' + encodeURI(file.dir + file.name)
     if(file.password === 'y' && store.state.password){
       const md5 = Md5.hashStr(store.state.password) as string
       url += '?pw=' + md5.substring(8, 24)

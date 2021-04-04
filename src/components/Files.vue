@@ -83,7 +83,6 @@ export default defineComponent({
         setTimeout(()=>{
           const images = document.getElementById('images')
           if(images){
-            console.log('---')
             new Viewer(images);
           }
         },100)
