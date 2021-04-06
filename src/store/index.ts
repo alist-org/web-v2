@@ -127,9 +127,10 @@ export default createStore<GlobalDataProps>({
         const files = data as FileProps[]
         for(const file of files){
           if(file.category === 'audio'){
+            const md5 = Md5.hashStr(state.password) as string
             audios.push({
               name: file.name,
-              url: backendUrl+'d/'+ encodeURI(file.dir + file.name) +"?pw="+Md5.hashStr(state.password),
+              url: backendUrl+'d/'+ encodeURI(file.dir + file.name) +"?pw=" + md5.substring(8, 24),
               cover: state.info.music_img||'https://img.oez.cc/2020/12/19/0f8b57866bdb5.gif'
             })
           }
