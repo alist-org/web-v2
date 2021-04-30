@@ -90,13 +90,14 @@ export default createStore<GlobalDataProps>({
     drive: '',
     isImages: false,
     showImages: false,
-    isMultiple: false,
+    isMultiple: localStorage.getItem('isMultiple')==='true',
   },
   mutations: {
     setIsImages(state, isImages){
       state.isImages = isImages
     },
-    setIsMultiple(state, isMultiple){
+    setIsMultiple(state, isMultiple: boolean){
+      localStorage.setItem('isMultiple',isMultiple?"true":"false")
       state.isMultiple = isMultiple
     },
     setShowImages(state, showImages){

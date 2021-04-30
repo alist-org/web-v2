@@ -32,7 +32,7 @@
     </div>
     <br />
     <context-menu>
-      <context-menu-item @click="multipleChoice" :divider="true">多选</context-menu-item>
+      <context-menu-item @click="multipleChoice" :divider="true">{{isMultiple?"✓":""}}多选</context-menu-item>
       <context-menu-submenu :label="'操作'">
         <context-menu-item :disabled="!isMultiple" @click="download">下载</context-menu-item>
         <context-menu-item :disabled="!isMultiple" @click="copyDownloadLink">复制直链</context-menu-item>
