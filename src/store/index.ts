@@ -53,6 +53,7 @@ export interface FileProps {
   sizeStr: string;
   time: string;
   icon: string;
+  content_hash: string;
 }
 
 interface Audio {
@@ -72,6 +73,7 @@ export interface GlobalDataProps {
   drive: string;
   isImages: boolean;
   showImages: boolean;
+  isMultiple: boolean;
 }
 
 export default createStore<GlobalDataProps>({
@@ -88,10 +90,14 @@ export default createStore<GlobalDataProps>({
     drive: '',
     isImages: false,
     showImages: false,
+    isMultiple: false,
   },
   mutations: {
     setIsImages(state, isImages){
       state.isImages = isImages
+    },
+    setIsMultiple(state, isMultiple){
+      state.isMultiple = isMultiple
     },
     setShowImages(state, showImages){
       state.showImages = showImages

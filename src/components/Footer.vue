@@ -7,8 +7,9 @@
     <a-divider v-if="info.footer_text" type="vertical" />
     <a v-if="info.footer_text" target="_blank" :href="info.footer_url">{{info.footer_text}}</a>
   </div>
-  <a-modal v-model:visible="showPassword" title="重建目录密码" @ok="rebuild" @cancel="showPassword = false">
-    <a-input-password ref="inputRef" placeholder="input password" v-model:value="password" @pressEnter="rebuild"/>
+  <a-modal v-model:visible="showPassword" title="重建目录(深度为负数则不限制)" @ok="rebuild" @cancel="showPassword = false">
+    <a-input ref="inputRef" placeholder="重建目录深度" v-model:value="depth" type="number" @pressEnter="rebuild"></a-input>
+    <a-input-password placeholder="重建目录密码" v-model:value="password" @pressEnter="rebuild"/>
   </a-modal>
   <div class="rebuilding" v-if="rebuilding">
     <a-spin size="large" tip="重建目录中..." />
@@ -17,11 +18,12 @@
 
 <script lang="ts">
 import { GlobalDataProps } from '@/store'
-import { rebuildGet } from '@/utils/api'
+import { rebuildPost } from '@/utils/api'
 import { message } from 'ant-design-vue'
 import { computed, defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 import useRefresh from '@/hooks/useRefresh'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'Footer',
@@ -32,11 +34,13 @@ export default defineComponent({
     const password = ref<string>(localStorage.getItem('rebuild-password')||'')
     const {refresh} = useRefresh()
     const rebuilding = ref<boolean>(false)
+    const route = useRoute();
+    const depth = ref<number>(3);
     const rebuild = ()=>{
       localStorage.setItem('rebuild-password', password.value)
       showPassword.value = false
       rebuilding.value = true
-      rebuildGet(store.state.drive, password.value).then(resp=>{
+      rebuildPost(decodeURI(route.path.substring(1)), password.value,depth.value).then(resp=>{
         rebuilding.value = false
         const res =resp.data
         if(res.meta.code===200){
@@ -61,7 +65,8 @@ export default defineComponent({
       password,
       rebuilding,
       preRebuild,
-      inputRef
+      inputRef,
+      depth,
     }
   },
 })

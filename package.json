@@ -20,6 +20,7 @@
     "viewerjs": "^1.9.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue3-contextmenu": "^0.2.10",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {

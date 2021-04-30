@@ -41,10 +41,15 @@ export const infoGet = () => {
   })
 }
 
-export const rebuildGet = (drive, password: string) => {
+export const rebuildPost = (path, password: string, depth) => {
   return request({
-    url: `rebuild/${drive}/${password}`,
-    method: "get",
+    url: `rebuild`,
+    method: "post",
+    data: {
+      path: path,
+      password: password,
+      depth: parseInt(depth),
+    }
   })
 }
 

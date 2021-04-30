@@ -2069,6 +2069,11 @@ copy-webpack-plugin@^5.1.1:
     serialize-javascript "^4.0.0"
     webpack-log "^2.0.0"
 
+core-js@^3.6.5:
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.11.1.tgz#f920392bf8ed63a0ec8e4e729857bfa3d121c525"
+  integrity sha512-k93Isqg7e4txZWMGNYwevZL9MiogLk8pd1PtwrmFmi8IBq4GXqUaVW/a33Llt6amSI36uSjd0GWwc9pTT9ALlQ==
+
 core-js@^3.8.0:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.9.1.tgz#cec8de593db8eb2a85ffb0dbdeb312cb6e5460ae"
@@ -5449,6 +5454,11 @@ mississippi@^3.0.0:
     stream-each "^1.1.0"
     through2 "^2.0.0"
 
+mitt@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-2.1.0.tgz#f740577c23176c6205b121b2973514eade1b2230"
+  integrity sha512-ILj2TpLiysu2wkBbWjAmww7TkZb65aiQO+DkVdUTBpBXq+MHYiETENkKFMtsJZX1Lf4pe4QOrTSjIfUwN5lRdg==
+
 mixin-deep@^1.2.0:
   version "1.3.2"
   resolved "https://registry.npm.taobao.org/mixin-deep/download/mixin-deep-1.3.2.tgz#1120b43dc359a785dce65b55b82e257ccf479566"
@@ -8375,6 +8385,15 @@ vue-types@^3.0.0:
   integrity sha512-IwUC0Aq2zwaXqy74h4WCvFCUtoV0iSWr0snWnE9TnU18S66GAQyqQbRf2qfJtUuiFsBf6qp0MEwdonlwznlcrw==
   dependencies:
     is-plain-object "3.0.1"
+
+vue3-contextmenu@^0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/vue3-contextmenu/-/vue3-contextmenu-0.2.10.tgz#528c7cc76a68e4b9e5ff2e1d02c45b84ad93e82c"
+  integrity sha512-zFgCl7tkeGiEuQwbsII0ygT0vZTuWBYM6Q3zMOanxw5vFWqn1YwH3Rc1ejIHf1eNZVW+NWZtk62sFBOLm+MloQ==
+  dependencies:
+    core-js "^3.6.5"
+    mitt "^2.1.0"
+    vue "^3.0.0"
 
 vue@^3.0.0:
   version "3.0.7"
