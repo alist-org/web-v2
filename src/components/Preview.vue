@@ -46,7 +46,7 @@
         id="video-preview"
       ></div>
     </div>
-    
+    <div v-show="previewShow.m3u8" id="m3u8-preview"></div>
     <!-- 音频预览 -->
     <div class="audio-preview" v-show="previewShow.audio" id="audio-preview"></div>
   </div>
@@ -81,6 +81,7 @@ interface PreviewShow {
   other: boolean;
   text: boolean;
   iframe: boolean;
+  m3u8: boolean;
   spinning: boolean;
 }
 
@@ -105,6 +106,7 @@ export default defineComponent({
       other: false,
       text: false,
       iframe: false,
+      m3u8: false,
       spinning: false,
     });
     let dp,ap
@@ -227,6 +229,28 @@ export default defineComponent({
           listMaxHeight: '65vh'
         }
         ap = new APlayer(audioOptions)
+        return
+      }
+      if (file.file_extension === 'm3u8'){
+        previewShow.value.m3u8 = true
+        const {data} = await getPost(decodeURI(route.path.substring(1)),store.state.password)
+        const videoOptions: DPlayerOptions={
+          container: document.getElementById('m3u8-preview'),
+          video:{
+            url: data.data.url,
+            type: 'hls'
+          },
+          pluginOptions: {
+            hls: {
+              config: {
+                referrerPolicy: 'no-referrer'
+              }
+            }
+          },
+          autoplay:info.value.autoplay?true:false,
+          screenshot:true,
+        }
+        dp=new DPlayer(videoOptions)
         return
       }
       if(info.value.preview?.text.includes(file.file_extension.toLowerCase())){

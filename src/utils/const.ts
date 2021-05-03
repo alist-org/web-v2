@@ -23,6 +23,7 @@ export const fileExtensions: { [key: string]: string } = {
   apk: 'android',
   dmg: 'apple',
   ipa: 'apple',
+  m3u8: 'youtube',
 }
 
 export const doc = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx']
