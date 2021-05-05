@@ -248,7 +248,7 @@ export default defineComponent({
             }
           },
           autoplay:info.value.autoplay?true:false,
-          screenshot:true,
+          // screenshot:true,
         }
         dp=new DPlayer(videoOptions)
         return
