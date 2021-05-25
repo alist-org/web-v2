@@ -25,8 +25,8 @@
 
 <script lang="ts">
 import store from '@/store'
-import { computed, defineComponent } from 'vue'
-import { useRoute } from 'vue-router'
+import {computed, defineComponent} from 'vue'
+import {useRoute} from 'vue-router'
 
 interface Route {
   path: string;
@@ -53,13 +53,12 @@ export default defineComponent({
           breadcrumbName: item
         }
       })
-      const roots: Route[] = store.state.info.roots?.map(item => {
+      res[0].children = store.state.info.roots?.map(item => {
         return {
           path: item,
           breadcrumbName: item
         }
-      })||[]
-      res[0].children = roots
+      }) || []
       return res
     })
     return {

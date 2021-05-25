@@ -3,21 +3,12 @@ import { backendUrl } from '@/utils/const'
 import loadJS from '@/utils/load_js'
 import { message } from 'ant-design-vue'
 import { createStore } from 'vuex'
-import { infoGet, pathPost, searchPost } from '../utils/api'
+import { infoGet, pathPost, searchPost } from '@/utils/api'
 import { Md5 } from 'ts-md5/dist/md5'
 
 interface MetaProps {
   code: number;
   msg?: string;
-}
-
-interface RespProps<P> {
-  meta: MetaProps;
-  data: P;
-}
-
-export interface ListProps<P> {
-  [index: number]: P;
 }
 
 interface InfoProps {
@@ -93,9 +84,6 @@ export default createStore<GlobalDataProps>({
     isMultiple: localStorage.getItem('isMultiple')==='true',
   },
   mutations: {
-    setIsImages(state, isImages){
-      state.isImages = isImages
-    },
     setIsMultiple(state, isMultiple: boolean){
       localStorage.setItem('isMultiple',isMultiple?"true":"false")
       state.isMultiple = isMultiple
@@ -157,7 +145,7 @@ export default createStore<GlobalDataProps>({
         checkWebUpdate()
       }
       if(infoData.script){
-        loadJS(infoData.script)
+        await loadJS(infoData.script)
       }
       if(!infoData.logo){
         infoData.logo = require('../assets/alist.png')
@@ -168,19 +156,17 @@ export default createStore<GlobalDataProps>({
       commit('setLoading', true)
       if(query){
         const {data} = await searchPost(query, path)
-        const {meta} =data
-        if(meta.code !== 200){
-          message.error(meta.msg)
+        if(data.code !== 200){
+          message.error(data.msg)
         }
         commit('setData',data.data)
       }else{
         const {data} = await pathPost(path, state.password)
-        const {meta} =data
-        commit('setMeta', meta)
-        if(meta.code !== 200){
-          message.error(meta.msg)
+        commit('setMeta', data)
+        if(data.code !== 200){
+          message.error(data.message)
         }
-        if(meta.code === 401){
+        if(data.code === 401){
           return
         }
         commit('setData',data.data)

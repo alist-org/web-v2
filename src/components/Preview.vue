@@ -64,7 +64,7 @@ import { useStore } from "vuex";
 import DPlayer, { DPlayerOptions } from 'dplayer'
 import { useRoute } from "vue-router";
 import 'aplayer/dist/APlayer.min.css';
-import APlayer from 'aplayer';
+import APlayer from "aplayer";
 
 declare namespace aliyun {
   class Config {
@@ -135,14 +135,15 @@ export default defineComponent({
               }
             }
           },
-          autoplay:info.value.autoplay?true:false,
+          autoplay:!!info.value.autoplay,
           screenshot:true,
         }
         dp=new DPlayer(videoOptions)
       }else{
+        //多清晰度视频
         videoPreviewPost(store.state.drive, file.value.file_id).then(resp => {
           const res = resp.data
-          if (res.meta.code === 200) {
+          if (res.code === 200) {
             const videoOptions: DPlayerOptions={
             container: document.getElementById('video-preview'),
             video:{
@@ -163,28 +164,29 @@ export default defineComponent({
                 }
               }
             },
-            autoplay:info.value.autoplay?true:false,
+            autoplay:!!info.value.autoplay,
             // screenshot:true,
           }
           dp=new DPlayer(videoOptions)
           } else {
-            message.error(res.meta.msg)
+            message.error(res.data.message)
           }
         })
       }
     }
     watch(videoTranscoding, async () => {
-      switchVideoTrans()
+      await switchVideoTrans()
     })
     const audios = computed(() => store.state.audios)
     const text = ref<string>('')
+    //文档加载
     const showDoc = (file: FileProps) => {
       previewShow.value.spinning = true
       previewSpinning.value = true
       previewShow.value.doc = true
       officePreviewPost(store.state.drive, file.file_id).then((resp) => {
         const res = resp.data
-        if (res.meta.code === 200) {
+        if (res.data.code === 200) {
           const docOptions = aliyun.config({
             mount: document.querySelector("#doc-preview"),
             url: res.data.preview_url, //设置文档预览URL地址。
@@ -194,10 +196,11 @@ export default defineComponent({
             previewSpinning.value = false
           }, 200)
         } else {
-          message.error(res.meta.msg)
+          message.error(res.data.msg)
         }
       });
     };
+    //预览文件
     const showFile = async (file: FileProps) => {
       if (doc.includes(file.file_extension.toLowerCase())) {
         showDoc(file)
@@ -213,17 +216,21 @@ export default defineComponent({
       if (file.category==='video') {
         // 预览视频
         previewShow.value.video=true
-        switchVideoTrans()
+        await switchVideoTrans()
         return
       }
+      //音频播放
       if (file.category ==='audio') {
         previewShow.value.audio=true
         const audioOptions = {
           container: document.getElementById('audio-preview'),
-          autoplay: true,
+          autoplay: false,
           audio: [{
+            //音频名称
             name: file.name,
+            //音频url
             url: downloadUrl.value,
+            //音频照片
             cover: info.value.music_img,
           }, ...audios.value],
           listMaxHeight: '65vh'
@@ -247,7 +254,7 @@ export default defineComponent({
               }
             }
           },
-          autoplay:info.value.autoplay?true:false,
+          autoplay:!!info.value.autoplay,
           // screenshot:true,
         }
         dp=new DPlayer(videoOptions)
@@ -259,7 +266,7 @@ export default defineComponent({
         previewShow.value.spinning = true
         getPost(file.dir+file.name, store.state.password).then(resp=>{
           const res = resp.data
-          if(res.meta.code===200){
+          if(res.data.code===200){
             getText(res.data.url).then(resp=>{
               if(file.file_extension.toLowerCase()==='md'){
                 text.value = resp.data
@@ -271,7 +278,7 @@ export default defineComponent({
               previewSpinning.value = false
             })
           }else{
-            message.error(res.meta.msg)
+            message.error(res.data.msg)
           }
         })
         return

@@ -1,6 +1,6 @@
 <template>
   <div class="not-found">
-  <a-result status="404" title="404" sub-title="Sorry, the path you visited does not exist.">
+  <a-result status="404" title="404" sub-title="抱歉,找不到信息...">
     <template #extra>
       <a-button type="primary">
         <router-link to="/">
