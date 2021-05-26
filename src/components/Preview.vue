@@ -169,7 +169,7 @@ export default defineComponent({
           }
           dp=new DPlayer(videoOptions)
           } else {
-            message.error(res.data.message)
+            message.error(res.message)
           }
         })
       }
@@ -186,7 +186,7 @@ export default defineComponent({
       previewShow.value.doc = true
       officePreviewPost(store.state.drive, file.file_id).then((resp) => {
         const res = resp.data
-        if (res.data.code === 200) {
+        if (res.code === 200) {
           const docOptions = aliyun.config({
             mount: document.querySelector("#doc-preview"),
             url: res.data.preview_url, //设置文档预览URL地址。
@@ -196,7 +196,7 @@ export default defineComponent({
             previewSpinning.value = false
           }, 200)
         } else {
-          message.error(res.data.msg)
+          message.error(res.message)
         }
       });
     };
@@ -266,7 +266,7 @@ export default defineComponent({
         previewShow.value.spinning = true
         getPost(file.dir+file.name, store.state.password).then(resp=>{
           const res = resp.data
-          if(res.data.code===200){
+          if(res.code===200){
             getText(res.data.url).then(resp=>{
               if(file.file_extension.toLowerCase()==='md'){
                 text.value = resp.data
@@ -278,7 +278,7 @@ export default defineComponent({
               previewSpinning.value = false
             })
           }else{
-            message.error(res.data.msg)
+            message.error(res.message)
           }
         })
         return

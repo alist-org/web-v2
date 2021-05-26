@@ -1,6 +1,7 @@
 <template>
   <a-divider id="footer-line"/>
   <div class="footer">
+    Powered By <a target="_blank" href="https://github.com/Xhofe/alist">AList</a>
     <a-divider type="vertical" />
     <a-button type="link" size="small" @click="preRebuild">重构目录</a-button>
     <a-divider v-if="info.footer_text" type="vertical" />

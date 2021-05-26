@@ -25,7 +25,7 @@ export default defineComponent({
       if(readmeFile!==undefined){
         getPost(readmeFile.dir+readmeFile.name, store.state.password).then(resp=>{
           const res = resp.data
-          if(res.data.code===200){
+          if(res.code===200){
             getText(res.data.url).then(resp=>{
               readmeValue.value=resp.data
               readmeSpinning.value=false
