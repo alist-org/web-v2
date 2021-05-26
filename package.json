@@ -15,6 +15,7 @@
     "aplayer": "^1.10.1",
     "axios": "^0.21.1",
     "dplayer": "^1.26.0",
+    "moment": "^2.29.1",
     "ts-md5": "^1.2.7",
     "tslib": "^2.1.0",
     "viewerjs": "^1.9.0",
@@ -35,6 +36,7 @@
     "@vue/eslint-config-typescript": "^5.0.2",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
-    "typescript": "~3.9.3"
+    "typescript": "~3.9.3",
+    "xgplayer-flv.js": "^2.3.0"
   }
 }

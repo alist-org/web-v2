@@ -15,8 +15,8 @@
       <Footer />
     </div>
   </div>
-  <a-modal v-model:visible="showPassword" title="Input password" @ok="okPassword" @cancel="cancelPassword">
-    <a-input-password ref="inputRef" placeholder="input password" v-model:value="password" @pressEnter="okPassword"/>
+  <a-modal v-model:visible="showPassword" title="请输入密码" @ok="okPassword" @cancel="cancelPassword">
+    <a-input-password ref="inputRef" placeholder="此处为盘符密码" v-model:value="password" @pressEnter="okPassword"/>
   </a-modal>
 </template>
 

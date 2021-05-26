@@ -44,19 +44,19 @@
 </template>
 
 <script lang="ts">
-import { FileProps, GlobalDataProps } from "@/store"
-import { computed, defineComponent, ref, watch } from "vue"
-import { useStore } from "vuex"
-import { useRouter } from 'vue-router'
-import { getFileSize } from '../utils/file_size'
-import { formatDate } from '../utils/date'
-import { getIcon } from '../utils/get_icon'
-import { useDownloadFile } from "@/hooks/useDownloadUrl"
+import {FileProps, GlobalDataProps} from "@/store"
+import {computed, defineComponent, ref, watch} from "vue"
+import {useStore} from "vuex"
+import {useRouter} from 'vue-router'
+import {getFileSize} from '@/utils/file_size'
+import {formatDate} from '@/utils/date'
+import {getIcon} from '@/utils/get_icon'
+import {useDownloadFile} from "@/hooks/useDownloadUrl"
 import Viewer from 'viewerjs'
-import { ColumnProps } from 'ant-design-vue/es/table/interface';
+import {ColumnProps} from 'ant-design-vue/es/table/interface';
 import downloadText from '../utils/downText'
-import { message } from "ant-design-vue"
-import { copyToClip } from "@/utils/copy_clip"
+import {message} from "ant-design-vue"
+import {copyToClip} from "@/utils/copy_clip"
 
 type Key = ColumnProps['key'];
 
@@ -69,7 +69,7 @@ export default defineComponent({
       {
         align: "left",
         dataIndex: "name",
-        title: "文件",
+        title: "文件名称",
         slots: { customRender: "name" },
         sorter: (a, b) => {
           return a.name < b.name ? 1 : -1;
@@ -87,7 +87,7 @@ export default defineComponent({
       {
         align: "right",
         dataIndex: "time",
-        title: "时间",
+        title: "修改时间",
         width: 170,
         sorter: (a, b) => {
           return a.time < b.time ? 1 : -1;
@@ -108,17 +108,16 @@ export default defineComponent({
     })
     const files = computed(() => {
       const data = store.state.data as FileProps[]
-      const res = data.map(item => {
+      return data.map(item => {
         item.time = formatDate(item.updated_at)
-        if(item.type=='folder'){
-          item.sizeStr='-'
-        }else{
-          item.sizeStr=getFileSize(item.size)
+        if (item.type == 'folder') {
+          item.sizeStr = '-'
+        } else {
+          item.sizeStr = getFileSize(item.size)
         }
         item.icon = getIcon(item)
         return item
       })
-      return res
     })
     const selectedRowKeys = ref<Key[]>([])
     const selectedRows = ref<FileProps[]>([])
