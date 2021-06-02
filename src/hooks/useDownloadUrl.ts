@@ -11,7 +11,7 @@ function useDownloadUrl() {
   const store = useStore<GlobalDataProps>()
   const route = useRoute()
   const downloadUrl = computed(() => {
-    let url = backendUrl + "d" + encodeURI(route.path)
+    let url = backendUrl + "d" + encodeURI(decodeURI(route.path))
     const file = store.state.data as FileProps
     if(file.password === 'y' && store.state.password){
       const md5 = Md5.hashStr(store.state.password) as string
