@@ -100,12 +100,15 @@ export default defineComponent({
 
 <style scoped>
 .home{
+  /* background-color: var(--bgColor, white); */
+  color: var(--textColor, black);
   width: 100%;
   display: flex;
   display: -webkit-flex; /* Safari */
   justify-content: center;
   padding: 0;
   margin: 0;
+  /* filter: invert(1) hue-rotate(180deg); */
 }
 
 .layout{

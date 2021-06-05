@@ -15,8 +15,10 @@ import {
 import 'ant-design-vue/dist/antd.css'
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
 import '@kangc/v-md-editor/lib/style/preview.css';
-import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
+// import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+// import '@kangc/v-md-editor/lib/theme/style/github.css';
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import './assets/global.css'
 import App from './App.vue'
 import router from './router'
@@ -29,7 +31,8 @@ const app = createApp(App)
 
 app.use(contextmenu)
 
-VMdPreview.use(githubTheme)
+// VMdPreview.use(githubTheme)
+VMdPreview.use(vuepressTheme)
 app.use(VMdPreview)
 
 app.use(Button)

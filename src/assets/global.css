@@ -1,9 +1,22 @@
+/* @media (prefers-color-scheme: dark) {
+  body {
+    --bgColor: #121212;
+    --textColor: #d9d9d9;
+  }
+} */
+
+/* body {
+  --bgColor: #121212;
+  --textColor: #d9d9d9;
+} */
+
 html,body,#app{
   /* height: 100vh; */
   width: 100%;
   margin: 0;
   padding: 0;
   /* overflow: hidden; */
+  background-color: var(--bgColor, white);
 }
 
 .ant-input-search,.ant-input-search input {
@@ -26,4 +39,62 @@ html,body,#app{
   overflow-x: overlay !important;
   overflow: -moz-scrollbars-none !important;
    -ms-overflow-style: none !important;
+}
+
+/* 暗色模式 */
+.anticon-down svg, .ant-breadcrumb-separator{
+  color: var(--textColor, black);
+}
+
+.ant-table-column-title{
+  color: var(--textColor, black);
+}
+
+.ant-table-column-has-actions {
+  color: var(--textColor, black);
+  background-color: transparent;
+}
+
+th.ant-table-column-has-sorters {
+  background-color: transparent !important;
+}
+
+.ant-table {
+  background-color: transparent !important;
+}
+
+.ant-table-placeholder {
+  background-color: transparent;
+}
+
+.ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td, .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td, .ant-table-thead > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td, .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td{
+  background-color: var(--bg2Color, #e6f7ff);
+}
+
+.ant-empty-description {
+  color: var(--textColor, black);
+}
+
+.ant-result-title {
+  color: var(--textColor, black);
+}
+
+.ant-card {
+  background-color: transparent;
+}
+
+.ant-card-head-title {
+  color: var(--textColor, black);
+}
+
+.v-md-editor-preview {
+  color: var(--textColor, black);
+}
+
+.vuepress-markdown-body tr:nth-child(2n) {
+  background-color: var(--bg2Color, #f6f8fa);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--textColor, black);
 }

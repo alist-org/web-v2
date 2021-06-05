@@ -5,17 +5,17 @@
     </router-link>
     <a-breadcrumb :routes="routes">
       <template #itemRender="{ route, routes, paths }">
-        <span v-if="routes.indexOf(route) === 0" :to="`/${paths.join('/')}`">
+        <span v-if="routes.indexOf(route) === 0" :to="`/${paths.join('/')}`" class="path-item">
           <!-- <home style="margin-right: 1px;"/> -->
           {{ route.breadcrumbName }}
         </span>
-        <router-link v-else-if="routes[0].children.indexOf(route) !== -1" :to="`/${paths[1]}`">
+        <router-link v-else-if="routes[0].children.indexOf(route) !== -1" :to="`/${paths[1]}`" class="path-item">
           {{ route.breadcrumbName }}
         </router-link>
-        <span v-else-if="!q&&routes.indexOf(route) === routes.length - 1">
+        <span v-else-if="!q&&routes.indexOf(route) === routes.length - 1" class="path-item">
           {{ route.breadcrumbName }}
         </span>
-        <router-link v-else :to="`/${paths.join('/')}`">
+        <router-link v-else :to="`/${paths.join('/')}`" class="path-item">
           {{ route.breadcrumbName }}
         </router-link>
       </template>
@@ -79,5 +79,8 @@ export default defineComponent({
   display: -webkit-flex; 
   font-size: 20px;
   align-items: center;
+}
+.path-item {
+  color: var(--textColor, black);
 }
 </style>

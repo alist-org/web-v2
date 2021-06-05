@@ -5,7 +5,7 @@
         v-if="info.logo"
         :src="info.logo"
         alt="AList"
-        style="height: 56px; width: auto"
+        style="height: 35px; width: auto"
         id="logo"
       />
       <a-spin v-else />
