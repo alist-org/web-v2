@@ -21,12 +21,15 @@ export default defineComponent({
       if(isDark.value){
         // document.querySelector('body')?.style.setProperty('--bgColor','#121212')
         document.querySelector('body')?.style.setProperty('--bgColor','#27282b')
+        // document.querySelector('body')?.style.setProperty('--textColor','#d9d9d9')
         document.querySelector('body')?.style.setProperty('--textColor','#d9d9d9')
         document.querySelector('body')?.style.setProperty('--bg2Color','#4e4e4e')
+        document.querySelector('body')?.style.setProperty('--lineColor','transparent')
       }else{
         document.querySelector('body')?.style.removeProperty('--bgColor')
         document.querySelector('body')?.style.removeProperty('--textColor')
         document.querySelector('body')?.style.removeProperty('--bg2Color')
+        document.querySelector('body')?.style.removeProperty('--lineColor')
       }
     }
     darkMedia.onchange = ()=>{

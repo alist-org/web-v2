@@ -98,3 +98,39 @@ th.ant-table-column-has-sorters {
 h1, h2, h3, h4, h5, h6 {
   color: var(--textColor, black);
 }
+
+.aplayer{
+  background-color: transparent !important;
+}
+
+.aplayer .aplayer-list ol li.aplayer-list-light{
+  background-color: var(--bg2Color,#e9e9e9) !important;
+}
+
+.aplayer .aplayer-list ol li:hover{
+  background-color: var(--bg2Color,#efefef) !important;
+}
+
+.ant-input {
+  color: var(--textColor, rgba(0, 0, 0, 0.85));
+}
+
+/* 框线 */
+.ant-input-affix-wrapper{
+  border-color: var(--lineColor, #d9d9d9);
+}
+
+.ant-divider {
+  background: var(--lineColor, #f0f0f0);
+}
+
+.ant-table-tbody > tr > td, .ant-table-thead > tr > th {
+  border-color: var(--lineColor, #f0f0f0);
+}
+
+.ant-card-bordered {
+  border-color: var(--lineColor, #f0f0f0);
+}
+.aplayer .aplayer-list ol li{
+  border-color: var(--lineColor, #f0f0f0) !important;
+}
