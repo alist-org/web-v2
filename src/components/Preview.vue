@@ -140,7 +140,7 @@ export default defineComponent({
         }
         dp=new DPlayer(videoOptions)
       }else{
-        //多清晰度视频
+        //多清晰度视频支持
         videoPreviewPost(store.state.drive, file.value.file_id).then(resp => {
           const res = resp.data
           if (res.code === 200) {
