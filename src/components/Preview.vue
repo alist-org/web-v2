@@ -110,7 +110,7 @@ export default defineComponent({
       spinning: false,
     });
     let dp,ap
-    const videoTranscoding = ref<boolean>(true);
+    const videoTranscoding = ref<boolean>(false);
     const switchVideoTrans = async () => {
       if(dp){
         dp.destroy()
