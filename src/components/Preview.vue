@@ -55,7 +55,7 @@
 <script lang="ts">
 import useDownloadUrl from "@/hooks/useDownloadUrl";
 import { FileProps, GlobalDataProps } from "@/store";
-import { getPost, getText, officePreviewPost, videoPreviewPost } from "@/utils/api";
+import { getPost, getText, officePreviewPost, videoPreviewPlayInfoPost } from "@/utils/api";
 import { doc } from "@/utils/const";
 import { getIcon } from "@/utils/get_icon";
 import { message } from "ant-design-vue";
@@ -141,33 +141,64 @@ export default defineComponent({
         dp=new DPlayer(videoOptions)
       }else{
         //多清晰度视频
-        videoPreviewPost(store.state.drive, file.value.file_id).then(resp => {
+        // videoPreviewPost(store.state.drive, file.value.file_id).then(resp => {
+        //   const res = resp.data
+        //   if (res.code === 200) {
+        //     const videoOptions: DPlayerOptions={
+        //     container: document.getElementById('video-preview'),
+        //     video:{
+        //       url:'',
+        //       quality: res.data.template_list.map(item => {
+        //         return{
+        //           name: item.template_id,
+        //           url: item.url,
+        //           type: 'auto'
+        //         }
+        //       }),
+        //       defaultQuality: res.data.template_list.length-1,
+        //     },
+        //     pluginOptions: {
+        //       flv: {
+        //         config: {
+        //           referrerPolicy: 'no-referrer'
+        //         }
+        //       }
+        //     },
+        //     autoplay:!!info.value.autoplay,
+        //     // screenshot:true,
+        //   }
+        //   dp=new DPlayer(videoOptions)
+        //   } else {
+        //     message.error(res.message)
+        //   }
+        // })
+        videoPreviewPlayInfoPost(store.state.drive,file.value.file_id).then(resp => {
           const res = resp.data
-          if (res.code === 200) {
+          if (res.code === 200){
             const videoOptions: DPlayerOptions={
-            container: document.getElementById('video-preview'),
-            video:{
-              url:'',
-              quality: res.data.template_list.map(item => {
-                return{
-                  name: item.template_id,
-                  url: item.url,
-                  type: 'auto'
+              container: document.getElementById('video-preview'),
+              video:{
+                url:'',
+                quality: res.data.video_preview_play_info.live_transcoding_task_list.map(item => {
+                  return{
+                    name: item.template_id,
+                    url: item.url,
+                    type: 'hls'
+                  }
+                }),
+                defaultQuality: 0,
+              },
+              pluginOptions: {
+                hls: {
+                  config: {
+                    referrerPolicy: 'no-referrer'
+                  }
                 }
-              }),
-              defaultQuality: res.data.template_list.length-1,
-            },
-            pluginOptions: {
-              flv: {
-                config: {
-                  referrerPolicy: 'no-referrer'
-                }
-              }
-            },
-            autoplay:!!info.value.autoplay,
-            // screenshot:true,
-          }
-          dp=new DPlayer(videoOptions)
+              },
+              autoplay:!!info.value.autoplay,
+              screenshot:true,
+            }
+            dp=new DPlayer(videoOptions)
           } else {
             message.error(res.message)
           }

@@ -1,6 +1,6 @@
 import { getUrl } from "./get_url"
 
-export const VERSION = 'v1.0.5'
+export const VERSION = 'v1.0.6'
 
 export const fileExtensions: { [key: string]: string } = {
   exe: 'windows',
