@@ -4,7 +4,7 @@
       <div v-if="isImages&&showImages">
         <ul id="images">
           <li v-for="image in images" :key="image.name" class="image">
-            <img :src="getFileDownLink(image)" :alt="image.name">
+            <img :src="getFileDownLink(image)" :alt="image.name" loading="lazy">
           </li>
         </ul>
       </div>
