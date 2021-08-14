@@ -44,7 +44,7 @@ export default defineComponent({
     const q = computed(() => route.query.q)
     const routes = computed(() => {
       // const paths = route.params.path as string[]
-      const paths = route.fullPath.substring(1).split('?')[0].split('/')
+      const paths = decodeURI(route.fullPath.substring(1)).split('?')[0].split('/')
       console.log(paths)
       if(!paths){
         return[{path: '/', breadcrumbName: 'home'}]

@@ -92,5 +92,5 @@ export const getBackLatest = () => {
 }
 
 export const getText = (url: string) => {
-  return axios.get(url)
+  return axios.get(url,{transformResponse: [(data) => { return data; }],})
 }

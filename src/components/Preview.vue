@@ -301,9 +301,8 @@ export default defineComponent({
             getText(res.data.url).then(resp=>{
               if(file.file_extension.toLowerCase()==='md'){
                 text.value = resp.data
-              }else if(file.file_extension.toLowerCase()==='json'){
-                text.value = '```'+file.file_extension.toLowerCase()+'\n'+JSON.stringify(resp.data, null, 2)+'\n```'
-              }else{
+              }
+              else{
                 text.value = '```'+file.file_extension.toLowerCase()+'\n'+resp.data+'\n```'
               }
               previewSpinning.value = false
