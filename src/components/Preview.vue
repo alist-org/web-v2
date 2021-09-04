@@ -115,6 +115,8 @@ export default defineComponent({
       if(dp){
         dp.destroy()
       }
+      const videoUrl = downloadUrl.value
+      const subtitleUrl = videoUrl.replace('/d/','/p/').slice(0,videoUrl.lastIndexOf('.'))+'.vtt'
       if(!videoTranscoding.value) {
         const {data} = await getPost(decodeURI(route.path.substring(1)),store.state.password)
         const ex = file.value.file_extension
@@ -127,6 +129,9 @@ export default defineComponent({
           video:{
             url: data.data.url,
             type: type
+          },
+          subtitle:{
+            url: subtitleUrl
           },
           pluginOptions: {
             flv: {
@@ -187,6 +192,9 @@ export default defineComponent({
                   }
                 }),
                 defaultQuality: 0,
+              },
+              subtitle:{
+                url: subtitleUrl
               },
               pluginOptions: {
                 hls: {
