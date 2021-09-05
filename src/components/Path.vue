@@ -45,7 +45,6 @@ export default defineComponent({
     const routes = computed(() => {
       // const paths = route.params.path as string[]
       const paths = decodeURI(route.fullPath.substring(1)).split('?')[0].split('/')
-      console.log(paths)
       if(!paths){
         return[{path: '/', breadcrumbName: 'home'}]
       }
