@@ -65,6 +65,7 @@ export default defineComponent({
   setup() {
     const store = useStore<GlobalDataProps>();
     const router = useRouter()
+    const sort = computed(() => store.state.info.sort?.split('-') || ['',''])
     const columns = [
       {
         align: "left",
@@ -74,6 +75,7 @@ export default defineComponent({
         sorter: (a, b) => {
           return a.name < b.name ? 1 : -1;
         },
+        defaultSortOrder: sort.value[0] === 'name' ? sort.value[1] : undefined,
       },
       {
         align: "right",
@@ -83,6 +85,7 @@ export default defineComponent({
         sorter: (a, b) => {
           return a.size - b.size;
         },
+        defaultSortOrder: sort.value[0] === 'size' ? sort.value[1] : undefined,
       },
       {
         align: "right",
@@ -92,6 +95,7 @@ export default defineComponent({
         sorter: (a, b) => {
           return a.time < b.time ? 1 : -1;
         },
+        defaultSortOrder: sort.value[0] === 'time' ? sort.value[1] : undefined,
       },
     ];
 

@@ -21,6 +21,7 @@ interface InfoProps {
   check_update?: string;
   script?: string;
   autoplay?: boolean;
+  sort?: string;
   preview?: {
     url: string;
     pre_process: string[];
@@ -76,7 +77,7 @@ export default createStore<GlobalDataProps>({
       code: 200,
     },
     data: [],
-    type: 'folder',
+    type: 'file',
     audios: [],
     drive: '',
     isImages: false,
