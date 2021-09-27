@@ -77,7 +77,7 @@ export default createStore<GlobalDataProps>({
       code: 200,
     },
     data: [],
-    type: 'file',
+    type: 'no',
     audios: [],
     drive: '',
     isImages: false,
