@@ -7,6 +7,7 @@
           <Path />
         </div>
         <a-divider style="margin: 10px 0 5px 0;" />
+        <a-spin v-if="type === 'loading'" size="large" />
         <Files v-if="type === 'folder'"/>
         <Readme v-if="type === 'folder'"/>
         <Preview v-if="type === 'file'" />
