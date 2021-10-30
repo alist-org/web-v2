@@ -51,7 +51,7 @@ const ListItem = ({ file }: { file: File }) => {
               w={{ base: 3 / 4, md: "50%" }}
             >
               <Icon
-                color={getSetting("icon_color")}
+                color={getSetting("icon color")}
                 boxSize={6}
                 as={getIcon(file.type, file.name.split(".").pop() || "")}
                 mr={2}
@@ -151,7 +151,7 @@ const Card = ({ file }: { file: File }) => {
                 />
               ) : (
                 <Icon
-                  color={getSetting("icon_color")}
+                  color={getSetting("icon color")}
                   boxSize={10}
                   as={getIcon(file.type, file.name.split(".").pop() || "")}
                 />

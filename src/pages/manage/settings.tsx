@@ -41,10 +41,7 @@ const Settings = () => {
   }, []);
   return (
     <Box p="4" w="full">
-      <SimpleGrid
-        minChildWidth="250px"
-        spacing="2"
-      >
+      <SimpleGrid minChildWidth="250px" spacing="2">
         {settings.map((item) => (
           <FormControl key={item.key} shadow="md" p="2" rounded="lg">
             <FormLabel>{t(item.key)}</FormLabel>
@@ -78,32 +75,32 @@ const Settings = () => {
           </FormControl>
         ))}
       </SimpleGrid>
-      <Flex justify="end">
-      <Button
-        mt="2"
-        onClick={() => {
-          admin.post("settings", settings).then((resp) => {
-            const res = resp.data;
-            if (res.code !== 200) {
-              toast({
-                title: t(res.message),
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-              });
-            } else {
-              toast({
-                title: t(res.message),
-                status: "success",
-                duration: 3000,
-                isClosable: true,
-              });
-            }
-          });
-        }}
-      >
-        {t("save")}
-      </Button>
+      <Flex mt="2" justify="end">
+        {/* <Button mr="2" colorScheme="twitter">{t("add")}</Button> */}
+        <Button
+          onClick={() => {
+            admin.post("settings", settings).then((resp) => {
+              const res = resp.data;
+              if (res.code !== 200) {
+                toast({
+                  title: t(res.message),
+                  status: "error",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              } else {
+                toast({
+                  title: t(res.message),
+                  status: "success",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              }
+            });
+          }}
+        >
+          {t("save")}
+        </Button>
       </Flex>
     </Box>
   );

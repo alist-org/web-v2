@@ -154,7 +154,10 @@ const KuttyHero = () => {
       <Modal
         initialFocusRef={initialRef.current}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={()=>{
+          history.goBack();
+          onClose();
+        }}
       >
         <ModalOverlay />
         <ModalContent>

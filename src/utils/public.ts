@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Md5 } from 'ts-md5'
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5244/api/public/',
+  baseURL: import.meta.env.VITE_SERVER_URL+'api/public/',
   // timeout: 5000
   headers: {
     'Content-Type': "application/json;charset=utf-8",

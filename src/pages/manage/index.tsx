@@ -66,7 +66,7 @@ export default function Swibc() {
     admin.get("login").then((resp) => {
       const res = resp.data;
       let url = match.url;
-      if (url.charAt(url.length - 1) !== "/") {
+      if (!url.endsWith("/")) {
         url = url + "/";
       }
       if (res.code === 401) {
@@ -133,7 +133,7 @@ export default function Swibc() {
       shadow="md"
       {...props}
     >
-      <Link to="/">
+      <Link to="/@manage">
         <Flex px="4" py="5" align="center">
           {/* <Logo /> */}
           <Text
