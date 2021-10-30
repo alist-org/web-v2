@@ -16,7 +16,7 @@ const Nav = () => {
     <Breadcrumb w="full" py="1" px="2">
       <BreadcrumbItem>
         <BreadcrumbLink as={Link} to="/">
-          {t("home")}
+          {t("Home")}
         </BreadcrumbLink>
       </BreadcrumbItem>
       {location.pathname

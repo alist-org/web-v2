@@ -47,6 +47,7 @@ const zh = {
   "Modified": "修改时间",
   "Name": "文件名",
   "Download": "下载",
+  "Home": "首页",
 }
 
 export default zh

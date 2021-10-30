@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from "react";
+import React, { createContext, useEffect, useMemo } from "react";
 import {
   Box,
   useColorModeValue,
@@ -25,11 +25,13 @@ import Footer from "./footer";
 import Files from "./files";
 import File from "./file";
 import Nav from "./nav";
+import Markdown from "./preview/markdown";
 
 export interface File {
   name: string;
   size: number;
   type: number;
+  driver: string;
   updated_at: string;
   thumbnail: string;
 }
@@ -74,6 +76,9 @@ const KuttyHero = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const [files, setFiles] = React.useState<File[]>([]);
+  const readme = useMemo(() => {
+    return files.find((file) => file.name.toLowerCase() === "readme.md");
+  }, [files]);
   const [type, setType] = React.useState<"file" | "folder">("folder");
   const [loading, setLoading] = React.useState<boolean>(true);
   const [password, setPassword] = React.useState<string>(
@@ -130,6 +135,7 @@ const KuttyHero = () => {
     refresh();
   }, [location.pathname]);
   const initialRef = React.useRef();
+  const bgColor = useColorModeValue("transparent", "gray.700")
   return (
     <Center w="full">
       <IContext.Provider
@@ -141,7 +147,7 @@ const KuttyHero = () => {
           <Box
             rounded="lg"
             shadow="lg"
-            bgColor={useColorModeValue("transparent", "gray.700")}
+            bgColor={bgColor}
             w="full"
           >
             {loading ? (
@@ -154,11 +160,22 @@ const KuttyHero = () => {
               </Box>
             )}
           </Box>
+          {readme && (
+            <Box
+              rounded="lg"
+              shadow="lg"
+              bgColor={bgColor}
+              w="full"
+              p="2"
+            >
+              <Markdown file={readme} />
+            </Box>
+          )}
           <Footer />
         </VStack>
       </IContext.Provider>
       <Modal
-        initialFocusRef={initialRef.current}
+        initialFocusRef={initialRef as any}
         isOpen={isOpen}
         onClose={() => {
           history.goBack();
@@ -172,7 +189,7 @@ const KuttyHero = () => {
           <ModalBody pb={6}>
             <Input
               type="password"
-              ref={initialRef.current}
+              ref={initialRef as any}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);

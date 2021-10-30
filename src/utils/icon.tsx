@@ -12,6 +12,7 @@ import {
   BsApple,
   BsWindows,
   BsFillFileEarmarkZipFill,
+  BsFillMarkdownFill,
 } from "react-icons/bs";
 import { DiAndroid } from "react-icons/di";
 import { FaDatabase } from "react-icons/fa";
@@ -23,9 +24,15 @@ const iconMap = {
   "zip,gz,rar,7z,tar,jar,xz": BsFillFileEarmarkZipFill,
   apk: DiAndroid,
   db: FaDatabase,
+  md: BsFillMarkdownFill,
 };
 
 const getIcon = (type: number, ext: string) => {
+  for (const [extensions, icon] of Object.entries(iconMap)) {
+    if (extensions.split(",").includes(ext.toLowerCase())) {
+      return icon;
+    }
+  }
   switch (type) {
     case 1:
       return IoIosFolder;
@@ -51,11 +58,6 @@ const getIcon = (type: number, ext: string) => {
     case 6:
       return BsFillFileEarmarkImageFill;
     default:
-      for (const [extensions, icon] of Object.entries(iconMap)) {
-        if (extensions.split(",").includes(ext.toLowerCase())) {
-          return icon;
-        }
-      }
       return BsFillFileEarmarkMinusFill;
   }
 };
