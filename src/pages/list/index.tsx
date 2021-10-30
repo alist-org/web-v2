@@ -1,7 +1,7 @@
 import React, { createContext, useEffect } from "react";
 import {
   Box,
-  Heading,
+  useColorModeValue,
   useDisclosure,
   useToast,
   Modal,
@@ -24,6 +24,7 @@ import Header from "./header";
 import Footer from "./footer";
 import Files from "./files";
 import File from "./file";
+import Nav from "./nav";
 
 export interface File {
   name: string;
@@ -33,13 +34,26 @@ export interface File {
   thumbnail: string;
 }
 
-interface Settings {}
+interface Setting {
+  key: string;
+  value: string;
+  type: string;
+}
+
+var Settings: Setting[] = [];
+
+export const getSetting = (key: string): string => {
+  const setting = Settings.find((setting) => setting.key === key);
+  return setting ? setting.value : "";
+};
 
 export interface ContextProps {
   files: File[];
   type: "file" | "folder";
   loading: boolean;
   show: string;
+  setShow?: (show: string) => void;
+  getSetting: (key: string) => string;
 }
 
 export const IContext = createContext<ContextProps>({
@@ -47,6 +61,7 @@ export const IContext = createContext<ContextProps>({
   type: "folder",
   loading: true,
   show: "list",
+  getSetting: getSetting,
 });
 
 const KuttyHero = () => {
@@ -61,7 +76,9 @@ const KuttyHero = () => {
     localStorage.getItem("password") || ""
   );
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [show, setShow] = React.useState<string>("grid");
+  const [show, setShow] = React.useState<string>(
+    localStorage.getItem("show") || "list"
+  );
   const refresh = () => {
     setLoading(true);
     request
@@ -85,20 +102,52 @@ const KuttyHero = () => {
         }
       });
   };
+
+  const initialSettings = () => {
+    request.get("settings").then((resp) => {
+      const res = resp.data;
+      if (res.code === 200) {
+        Settings = res.data;
+        document.title = getSetting("title");
+      } else {
+        toast({
+          title: t(res.message),
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    });
+  };
   useEffect(() => {
+    initialSettings();
     refresh();
   }, [location.pathname]);
   const initialRef = React.useRef();
   return (
     <Center w="full">
-      <IContext.Provider value={{ files, type, loading, show }}>
-        <VStack w={{ base: "full", md: "980px" }}>
+      <IContext.Provider
+        value={{ files, type, loading, show, setShow, getSetting }}
+      >
+        <VStack w={{ base: "95%", lg: "980px" }}>
           <Header />
-          {loading ? (
-            <Spinner size="xl" />
-          ) : (
-            <Box minH="60vh" w="full" px="4">{type === "folder" ? <Files /> : <File />}</Box>
-          )}
+          <Nav />
+          <Box
+            rounded="lg"
+            shadow="lg"
+            bgColor={useColorModeValue("transparent", "gray.700")}
+            w="full"
+          >
+            {loading ? (
+              <Center w="full" py="4">
+                <Spinner size="xl" />
+              </Center>
+            ) : (
+              <Box w="full" p="2">
+                {type === "folder" ? <Files /> : <File />}
+              </Box>
+            )}
+          </Box>
           <Footer />
         </VStack>
       </IContext.Provider>

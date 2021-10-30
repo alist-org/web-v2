@@ -246,7 +246,7 @@ const Accounts = () => {
               </FormControl>
               {["order_by", "order_direction"].map((item) => {
                 return (
-                  <FormControl shadow="md" p="2" rounded="lg">
+                  <FormControl key={item} shadow="md" p="2" rounded="lg">
                     <FormLabel>{t(item)}</FormLabel>
                     <Input
                       value={(currentAccount as any)[item]}

@@ -6,6 +6,7 @@ const en = {
   "dark": "dark",
   "light": "light",
   "home": "home",
+  "Powered by project": "Powered by {{project}}",
 }
 
 export default en

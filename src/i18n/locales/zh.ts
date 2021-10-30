@@ -1,11 +1,12 @@
 const zh = {
   "Welcome to React": "欢迎使用React。",
   "Go to page": "前往{{page}}",
+  "Powered by project": "由{{project}}驱动",
   "Change language": "更改语言",
   "Switch to color mode": "切换到{{color}}模式",
   "dark": "深色",
   "light": "浅色",
-  "home": "主页",
+  "home": "首页",
   "Manage": "管理",
   "Settings": "设置",
   "Accounts": "账号",
@@ -41,6 +42,10 @@ const zh = {
   "AliDrive": "阿里云盘",
   "input password": "请输入密码",
   "ok": "确定",
+  "copied": "已复制",
+  "Size": "大小",
+  "Modified": "修改时间",
+  "Name": "文件名",
 }
 
 export default zh

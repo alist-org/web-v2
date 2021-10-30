@@ -1,5 +1,5 @@
 import {
-  BsFillFolderFill,
+  // BsFillFolderFill,
   BsFileEarmarkWordFill,
   BsFillFileEarmarkExcelFill,
   BsFillFileEarmarkPptFill,
@@ -11,10 +11,12 @@ import {
   BsFillFileEarmarkMinusFill,
 } from "react-icons/bs";
 
+import {IoIosFolder} from "react-icons/io";
+
 const getIcon = (type: number, extention: string) => {
   switch (type) {
     case 1:
-      return BsFillFolderFill;
+      return IoIosFolder;
     case 2: {
       if (extention === "doc" || extention === "docx") {
         return BsFileEarmarkWordFill;
