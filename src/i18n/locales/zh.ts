@@ -46,6 +46,7 @@ const zh = {
   "Size": "大小",
   "Modified": "修改时间",
   "Name": "文件名",
+  "Download": "下载",
 }
 
 export default zh

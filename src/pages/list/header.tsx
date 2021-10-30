@@ -6,10 +6,11 @@ import { AiTwotoneCopy } from "react-icons/ai";
 import { BsFillGridFill } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
+import useDownLink from "../../hooks/useDownLink";
 
 const Header = () => {
   const { t } = useTranslation();
-  const location = useLocation();
+  const link = useDownLink()
   const toast = useToast();
   const { show, setShow, type, getSetting } = useContext(IContext);
   return (
@@ -28,8 +29,7 @@ const Header = () => {
             boxSize={6}
             as={AiTwotoneCopy}
             onClick={() => {
-              const host = window.location.host;
-              navigator.clipboard.writeText(`${host}/d${location.pathname}`);
+              navigator.clipboard.writeText(link);
               toast({
                 title: t("copied"),
                 status: "success",

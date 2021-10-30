@@ -263,11 +263,11 @@ const Accounts = () => {
               <FormControl shadow="md" p="2" rounded="lg">
                 <FormLabel>{t("proxy")}</FormLabel>
                 <Switch
-                  value={currentAccount.proxy ? "true" : "false"}
+                  isChecked={currentAccount.proxy}
                   onChange={(e) => {
                     setcurrentAccount({
                       ...currentAccount,
-                      proxy: e.target.value === "true",
+                      proxy: !currentAccount.proxy,
                     });
                   }}
                 />
@@ -295,15 +295,13 @@ const Accounts = () => {
                         />
                       ) : item.type === "bool" ? (
                         <Switch
-                          value={
+                          isChecked={
                             (currentAccount as any)[item.name]
-                              ? "true"
-                              : "false"
                           }
                           onChange={(e) => {
                             setcurrentAccount({
                               ...currentAccount,
-                              [item.name]: e.target.value === "true",
+                              [item.name]: !(currentAccount as any)[item.name],
                             });
                           }}
                         />

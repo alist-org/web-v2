@@ -34,6 +34,10 @@ export interface File {
   thumbnail: string;
 }
 
+export interface FileProps {
+  file: File;
+}
+
 interface Setting {
   key: string;
   value: string;
@@ -121,6 +125,8 @@ const KuttyHero = () => {
   };
   useEffect(() => {
     initialSettings();
+  }, []);
+  useEffect(() => {
     refresh();
   }, [location.pathname]);
   const initialRef = React.useRef();
@@ -154,7 +160,7 @@ const KuttyHero = () => {
       <Modal
         initialFocusRef={initialRef.current}
         isOpen={isOpen}
-        onClose={()=>{
+        onClose={() => {
           history.goBack();
           onClose();
         }}

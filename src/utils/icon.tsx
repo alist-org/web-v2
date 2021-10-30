@@ -9,22 +9,34 @@ import {
   BsFillFileEarmarkFontFill,
   BsFillFileEarmarkImageFill,
   BsFillFileEarmarkMinusFill,
+  BsApple,
+  BsWindows,
+  BsFillFileEarmarkZipFill,
 } from "react-icons/bs";
+import { DiAndroid } from "react-icons/di";
+import { FaDatabase } from "react-icons/fa";
+import { IoIosFolder } from "react-icons/io";
 
-import {IoIosFolder} from "react-icons/io";
+const iconMap = {
+  "dmg,ipa": BsApple,
+  exe: BsWindows,
+  "zip,gz,rar,7z,tar,jar,xz": BsFillFileEarmarkZipFill,
+  apk: DiAndroid,
+  db: FaDatabase,
+};
 
-const getIcon = (type: number, extention: string) => {
+const getIcon = (type: number, ext: string) => {
   switch (type) {
     case 1:
       return IoIosFolder;
     case 2: {
-      if (extention === "doc" || extention === "docx") {
+      if (ext === "doc" || ext === "docx") {
         return BsFileEarmarkWordFill;
       }
-      if (extention === "xls" || extention === "xlsx") {
+      if (ext === "xls" || ext === "xlsx") {
         return BsFillFileEarmarkExcelFill;
       }
-      if (extention === "ppt" || extention === "pptx") {
+      if (ext === "ppt" || ext === "pptx") {
         return BsFillFileEarmarkPptFill;
       } else {
         return BsFillFileEarmarkPdfFill;
@@ -39,6 +51,11 @@ const getIcon = (type: number, extention: string) => {
     case 6:
       return BsFillFileEarmarkImageFill;
     default:
+      for (const [extensions, icon] of Object.entries(iconMap)) {
+        if (extensions.split(",").includes(ext.toLowerCase())) {
+          return icon;
+        }
+      }
       return BsFillFileEarmarkMinusFill;
   }
 };

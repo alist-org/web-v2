@@ -15,12 +15,12 @@ import {
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
-import { IContext, File } from ".";
+import { IContext, File, FileProps } from ".";
 import { formatDate } from "../../utils/date";
 import { getFileSize } from "../../utils/file";
 import getIcon from "../../utils/icon";
 
-const ListItem = ({ file }: { file: File }) => {
+const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const {getSetting} = useContext(IContext);
@@ -115,7 +115,7 @@ const List = ({ files }: { files: File[] }) => {
   );
 };
 
-const Card = ({ file }: { file: File }) => {
+const Card = ({ file }: FileProps) => {
   const location = useLocation();
   const { getSetting } = useContext(IContext);
   return (

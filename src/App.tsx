@@ -6,6 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Overlay from './components/overlay';
 const Index = lazy(() => import('./pages/list/'))
 const Manage = lazy(() => import('./pages/manage'))
 
@@ -14,6 +15,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <Overlay />
         <Suspense fallback={<Center h='full'><Spinner size="xl" /></Center>}>
         <Switch>
           <Route path="/@manage/">
