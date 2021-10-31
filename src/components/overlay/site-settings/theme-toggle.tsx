@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Icon,
   IconButton,
   Tooltip,
   useColorMode,
@@ -22,12 +23,11 @@ export const ThemeToggle = () => {
     >
       <IconButton
         size="md"
-        fontSize="lg"
         aria-label={t("Switch to color mode", {color: t(text)})}
         variant="ghost"
         colorScheme="brand"
         onClick={toggleMode}
-        icon={<SwitchIcon />}
+        icon={<Icon as={SwitchIcon} boxSize={5} />}
       />
     </Tooltip>
   );

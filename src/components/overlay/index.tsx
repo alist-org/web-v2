@@ -2,9 +2,9 @@ import React from 'react';
 import ToTop from './to-top';
 import Ss from './site-settings';
 
-const Overlay = () => {
+const Overlay = (props:any) => {
   return <div className="overlay">
-    <Ss />
+    <Ss {...props} />
     <ToTop />
     </div>;
 };

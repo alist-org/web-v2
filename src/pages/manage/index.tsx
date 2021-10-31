@@ -29,6 +29,7 @@ import {
 } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import admin, { changeToken } from "../../utils/admin";
+import Overlay from "../../components/overlay";
 
 const TestPage = lazy(() => import("../test"));
 const Login = lazy(() => import("./login"));
@@ -169,6 +170,7 @@ export default function Swibc() {
       bg={useColorModeValue("gray.50", "gray.700")}
       minH="100vh"
     >
+      <Overlay />
       <SidebarContent display={{ base: "none", md: "unset" }} />
       <Drawer
         isOpen={sidebar.isOpen}

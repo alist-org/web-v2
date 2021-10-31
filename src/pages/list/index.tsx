@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo } from "react";
+import React, { createContext, lazy, useEffect, useMemo } from "react";
 import {
   Box,
   useColorModeValue,
@@ -22,10 +22,12 @@ import request from "../../utils/public";
 import { useTranslation } from "react-i18next";
 import Header from "./header";
 import Footer from "./footer";
-import Files from "./files";
-import File from "./file";
 import Nav from "./nav";
 import Markdown from "./preview/markdown";
+import Overlay from "../../components/overlay";
+
+const Files = lazy(() => import("./files"));
+const File = lazy(() => import("./file"));
 
 export interface File {
   name: string;
@@ -61,6 +63,10 @@ export interface ContextProps {
   show: string;
   setShow?: (show: string) => void;
   getSetting: (key: string) => string;
+  showUnfold?: boolean;
+  setShowUnfold?: (showFolder: boolean) => void;
+  unfold?: boolean;
+  setUnfold?: (fold: boolean) => void;
 }
 
 export const IContext = createContext<ContextProps>({
@@ -137,18 +143,35 @@ const KuttyHero = () => {
   }, [location.pathname]);
   const initialRef = React.useRef();
   const bgColor = useColorModeValue("transparent", "gray.700");
+  const [showUnfold, setShowUnfold] = React.useState<boolean>(false);
+  const [unfold, setUnfold] = React.useState<boolean>(false);
   return (
     <Center w="full">
       <IContext.Provider
-        value={{ files, type, loading, show, setShow, getSetting }}
+        value={{
+          files,
+          type,
+          loading,
+          show,
+          setShow,
+          getSetting,
+          showUnfold,
+          setShowUnfold,
+          unfold,
+          setUnfold,
+        }}
       >
+        <Overlay list />
         <VStack w={{ base: "95%", lg: "980px" }}>
           <Header />
           <Nav />
           <Box rounded="lg" shadow="lg" bgColor={bgColor} w="full">
             {loading ? (
               <Center w="full" py="4">
-                <Spinner color={getSetting("icon color")||"teal.300"} size="xl" />
+                <Spinner
+                  color={getSetting("icon color") || "teal.300"}
+                  size="xl"
+                />
               </Center>
             ) : (
               <Box w="full" p="2">

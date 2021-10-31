@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Icon,
   IconButton,
   Tooltip,
 } from "@chakra-ui/react";
@@ -24,12 +25,11 @@ export const Language = () => {
     >
       <IconButton
         size="md"
-        fontSize="2xl"
         aria-label={t("Change language")}
         variant="ghost"
         colorScheme="brand"
         onClick={change}
-        icon={<MdLanguage />}
+        icon={<Icon boxSize={6} as={MdLanguage} />}
       />
     </Tooltip>
   );

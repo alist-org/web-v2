@@ -1,8 +1,9 @@
 import { Box } from "@chakra-ui/layout";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router";
-import { FileProps } from "..";
+import { FileProps, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
+import useUnfold from "../../../hooks/useUnfold";
 import request from "../../../utils/public";
 
 export const type = 2;
@@ -18,6 +19,7 @@ declare namespace aliyun {
 const Office = ({ file }: FileProps) => {
   const { pathname } = useLocation();
   const link = useDownLink();
+  const { unfold, setShowUnfold } = useUnfold(false);
   const refresh = () => {
     if (file.driver === "AliDrive") {
       request.post("preview", { path: pathname }).then((resp) => {
@@ -28,13 +30,23 @@ const Office = ({ file }: FileProps) => {
         });
         docOptions.setToken({ token: res.data.access_token });
       });
+    } else {
+      setShowUnfold!(true);
     }
   };
   useEffect(() => {
     refresh();
   }, [pathname]);
   return (
-    <Box w="full" h="75vh" id="office-preview">
+    <Box
+      w="full"
+      h={unfold ? "full" : "75vh"}
+      pos={unfold ? "fixed" : "unset"}
+      left={unfold ? "0" : "unset"}
+      top={unfold ? "0" : "unset"}
+      id="office-preview"
+      transition="all 0.3s"
+    >
       {file.driver !== "AliDrive" && (
         <iframe
           width="100%"

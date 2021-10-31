@@ -48,6 +48,8 @@ const zh = {
   "Name": "文件名",
   "Download": "下载",
   "Home": "首页",
+  "fold": "折叠",
+  "unfold": "展开",
 }
 
 export default zh

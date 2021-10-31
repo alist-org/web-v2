@@ -15,7 +15,6 @@ export const Github = () => {
       <Link href="https://github.com/Xhofe/alist" isExternal>
         <IconButton
           size="md"
-          fontSize="lg"
           aria-label={t("Go to page",{page:t("Github")})}
           variant="ghost"
           colorScheme="brand"

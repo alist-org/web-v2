@@ -4,6 +4,7 @@ import { ThemeToggle } from "./theme-toggle";
 import { useColorModeValue, Stack } from "@chakra-ui/react";
 import { Github } from './github';
 import { Language } from './language';
+import { Unfold } from './unfold';
 
 function inIframe() {
   try {
@@ -13,7 +14,7 @@ function inIframe() {
   }
 }
 
-export default function Ss() {
+export default function Ss(props:any) {
   return (
     !inIframe() ? (
       <Stack
@@ -28,6 +29,7 @@ export default function Ss() {
         roundedLeft="lg"
         bg={useColorModeValue("transparent", "gray.700")}
       >
+        {props.list&&<Unfold />}
         <Language /> 
         <ThemeToggle />
         {/* <Github /> */}

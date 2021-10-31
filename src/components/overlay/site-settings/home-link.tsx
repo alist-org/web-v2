@@ -16,7 +16,6 @@ export const HomeLink = () => {
       <Link as={ReactLink} to="/">
         <IconButton
           size="md"
-          fontSize="lg"
           aria-label={t("Go to page",{page:t("home")})}
           variant="ghost"
           colorScheme="brand"
