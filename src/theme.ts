@@ -21,6 +21,9 @@ const styles: Styles = {
     ".test": {
       bg: mode("white", "gray.800")(props),
     },
+    ".md": {
+      bg: "transparent !important",
+    }
   }),
 };
 

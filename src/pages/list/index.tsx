@@ -38,6 +38,7 @@ export interface File {
 
 export interface FileProps {
   file: File;
+  readme?: boolean;
 }
 
 interface Setting {
@@ -135,7 +136,7 @@ const KuttyHero = () => {
     refresh();
   }, [location.pathname]);
   const initialRef = React.useRef();
-  const bgColor = useColorModeValue("transparent", "gray.700")
+  const bgColor = useColorModeValue("transparent", "gray.700");
   return (
     <Center w="full">
       <IContext.Provider
@@ -144,12 +145,7 @@ const KuttyHero = () => {
         <VStack w={{ base: "95%", lg: "980px" }}>
           <Header />
           <Nav />
-          <Box
-            rounded="lg"
-            shadow="lg"
-            bgColor={bgColor}
-            w="full"
-          >
+          <Box rounded="lg" shadow="lg" bgColor={bgColor} w="full">
             {loading ? (
               <Center w="full" py="4">
                 <Spinner size="xl" />
@@ -161,14 +157,8 @@ const KuttyHero = () => {
             )}
           </Box>
           {readme && (
-            <Box
-              rounded="lg"
-              shadow="lg"
-              bgColor={bgColor}
-              w="full"
-              p="2"
-            >
-              <Markdown file={readme} />
+            <Box rounded="lg" shadow="lg" bgColor={bgColor} w="full" p="4">
+              <Markdown file={readme} readme />
             </Box>
           )}
           <Footer />
