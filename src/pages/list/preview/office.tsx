@@ -12,7 +12,7 @@ declare namespace aliyun {
   class Config {
     setToken(token: { token: string }): any;
   }
-  function config({ mount: Element, url: string }): Config;
+  function config(options: { mount: Element; url: string }): Config;
 }
 
 const Office = ({ file }: FileProps) => {
@@ -23,7 +23,7 @@ const Office = ({ file }: FileProps) => {
       request.post("preview", { path: pathname }).then((resp) => {
         const res = resp.data;
         const docOptions = aliyun.config({
-          mount: document.querySelector("#office-preview"),
+          mount: document.querySelector("#office-preview")!,
           url: res.data.preview_url, //设置文档预览URL地址。
         });
         docOptions.setToken({ token: res.data.access_token });
