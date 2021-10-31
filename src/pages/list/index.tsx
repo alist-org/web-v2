@@ -148,7 +148,7 @@ const KuttyHero = () => {
           <Box rounded="lg" shadow="lg" bgColor={bgColor} w="full">
             {loading ? (
               <Center w="full" py="4">
-                <Spinner size="xl" />
+                <Spinner color={getSetting("icon color")||"teal.300"} size="xl" />
               </Center>
             ) : (
               <Box w="full" p="2">

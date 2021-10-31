@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { FileProps } from "..";
+import { FileProps, getSetting } from "..";
 import useDownLink from "../../../hooks/useDownLink";
 import axios from "axios";
 import Editor from "md-editor-rt";
-import "md-editor-rt/lib/style.css"
+import "md-editor-rt/lib/style.css";
 import { useColorModeValue } from "@chakra-ui/color-mode";
+import { Spinner } from "@chakra-ui/spinner";
+import { Center } from "@chakra-ui/layout";
 
 export const type = 5;
 export const exts = [];
@@ -29,14 +31,32 @@ const Markdown = ({ file, readme }: FileProps) => {
       })
       .then((resp) => {
         const res = resp.data;
-        setContent(res);
+        if (file.name.endsWith(".md")) {
+          setContent(res);
+        } else {
+          setContent(
+            "```" + file.name.split(".").pop() + "\n" + res + "\n" + "```"
+          );
+        }
       });
   };
   useEffect(() => {
     refresh();
   }, [pathname]);
-
-  return <Editor previewTheme="vuepress" modelValue={content} previewOnly theme={theme} />;
+  if (content) {
+    return (
+      <Editor
+        previewTheme="vuepress"
+        modelValue={content}
+        previewOnly
+        theme={theme}
+      />
+    );
+  } else {
+    return <Center w="full">
+      <Spinner color={getSetting("icon color")||"teal.300"} size="lg" />
+    </Center>;
+  }
 };
 
 export default Markdown;
