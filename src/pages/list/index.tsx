@@ -37,6 +37,7 @@ export interface File {
   driver: string;
   updated_at: string;
   thumbnail: string;
+  url: string;
 }
 
 export interface FileProps {

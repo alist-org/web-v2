@@ -1074,6 +1074,14 @@ aria-hidden@^1.1.1:
   dependencies:
     tslib "^1.0.0"
 
+artplayer@^3.5.31:
+  version "3.5.31"
+  resolved "https://registry.yarnpkg.com/artplayer/-/artplayer-3.5.31.tgz#53ddbdf8e29aee8c5ab9264ff2d77fb16c60f12f"
+  integrity sha512-xuuU8+NKdurlAxjHzZmesve/WKAz4PRCpwREDsZAyhxKeSknDbVDs1QwWiBrGhRQrQJs/qDEMV5y860imtv2ig==
+  dependencies:
+    option-validator "^2.0.6"
+    screenfull "^5.1.0"
+
 axios@^0.24.0:
   version "0.24.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
@@ -1432,6 +1440,11 @@ json5@^2.1.2:
   dependencies:
     minimist "^1.2.5"
 
+kind-of@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
+  integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
+
 lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
@@ -1515,6 +1528,13 @@ object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
+
+option-validator@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/option-validator/-/option-validator-2.0.6.tgz#a314dae65e26db5f948ef0ff96fc88f18bb76ed6"
+  integrity sha512-tmZDan2LRIRQyhUGvkff68/O0R8UmF+Btmiiz0SmSw2ng3CfPZB9wJlIjHpe/MKUZqyIZkVIXCrwr1tIN+0Dzg==
+  dependencies:
+    kind-of "^6.0.3"
 
 parent-module@^1.0.0:
   version "1.0.1"
@@ -1784,6 +1804,11 @@ schema-utils@^3.0.0:
     "@types/json-schema" "^7.0.8"
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
+
+screenfull@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-5.1.0.tgz#85c13c70f4ead4c1b8a935c70010dfdcd2c0e5c8"
+  integrity sha512-dYaNuOdzr+kc6J6CFcBrzkLCfyGcMg+gWkJ8us93IQ7y1cevhQAugFsaCdMHb6lw8KV3xPzSxzH7zM1dQap9mA==
 
 semver@^6.3.0:
   version "6.3.0"

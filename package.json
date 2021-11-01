@@ -11,6 +11,7 @@
     "@chakra-ui/react": "^1.6.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "artplayer": "^3.5.31",
     "axios": "^0.24.0",
     "framer-motion": "^4",
     "i18next": "^21.3.3",
