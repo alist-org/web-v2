@@ -200,10 +200,14 @@ const Grid_ = ({ files }: { files: File[] }) => {
 };
 
 const Files = () => {
-  const { files, show } = useContext(IContext);
+  const { files, show,getSetting } = useContext(IContext);
+  let files_ = files
+  if(getSetting("readme file")==="hide"){
+    files_ = files_.filter(file=>file.name.toLowerCase()!=="readme.md")
+  }
   return (
     <Box w="full">
-      {show === "list" ? <List files={files} /> : <Grid_ files={files} />}
+      {show === "list" ? <List files={files_} /> : <Grid_ files={files_} />}
     </Box>
   );
 };

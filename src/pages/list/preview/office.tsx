@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/layout";
-import React, { useContext, useEffect } from "react";
+import React, { lazy, useContext, useEffect } from "react";
 import { useLocation } from "react-router";
 import { FileProps, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
@@ -16,27 +16,40 @@ declare namespace aliyun {
   function config(options: { mount: Element; url: string }): Config;
 }
 
+const Pdf = lazy(() => import("./pdf"));
+
 const Office = ({ file }: FileProps) => {
   const { pathname } = useLocation();
   const link = useDownLink();
   const { unfold, setShowUnfold } = useUnfold(false);
+  const [show, setShow] = React.useState<string>("");
+  const [pdf, setPdf] = React.useState("");
   const refresh = () => {
     if (file.driver === "AliDrive") {
       request.post("preview", { path: pathname }).then((resp) => {
         const res = resp.data;
+        if (res.code !== 200) {
+          return;
+        }
         const docOptions = aliyun.config({
           mount: document.querySelector("#office-preview")!,
           url: res.data.preview_url, //设置文档预览URL地址。
         });
         docOptions.setToken({ token: res.data.access_token });
       });
-    } else {
+    } else if (file.driver === "Native") {
+      if (file.name.endsWith(".pdf")) {
+        setPdf(link);
+        setShow("pdf");
+      } else {
+        setShow("office");
+      }
       setShowUnfold!(true);
     }
   };
   useEffect(() => {
     refresh();
-  }, [pathname]);
+  }, []);
   return (
     <Box
       w="full"
@@ -46,8 +59,9 @@ const Office = ({ file }: FileProps) => {
       top={unfold ? "0" : "unset"}
       id="office-preview"
       transition="all 0.3s"
+      backdropFilter="blur(10px)"
     >
-      {file.driver !== "AliDrive" && (
+      {show === "office" && (
         <iframe
           width="100%"
           height="100%"
@@ -57,6 +71,7 @@ const Office = ({ file }: FileProps) => {
           frameBorder="0"
         />
       )}
+      {show === "pdf" && <Pdf url={pdf} unfold={unfold || false} />}
     </Box>
   );
 };

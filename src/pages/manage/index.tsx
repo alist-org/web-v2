@@ -12,10 +12,11 @@ import {
   useColorModeValue,
   useDisclosure,
   Link as Clink,
+  useToast,
 } from "@chakra-ui/react";
 import { BsGearFill } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
-import { MdStorage } from "react-icons/md";
+import { MdCached, MdStorage } from "react-icons/md";
 import { SiMetabase } from "react-icons/si";
 import { DiGithubAlt } from "react-icons/di";
 import { BiExit } from "react-icons/bi";
@@ -63,6 +64,7 @@ export default function Swibc() {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
+  const toast = useToast();
   useEffect(() => {
     admin.get("login").then((resp) => {
       const res = resp.data;
@@ -213,6 +215,33 @@ export default function Swibc() {
                 cursor="pointer"
               />
             </Clink>
+            <IconButton
+              colorScheme="whiteAlpha"
+              aria-label={t("clear buffer")}
+              icon={<Icon boxSize={6} color="gray.500" as={MdCached} />}
+              onClick={() => {
+                admin.get("clear_cache").then((resp) => {
+                  const res = resp.data;
+                  if (res.code === 200) {
+                    if (res.code === 200) {
+                      toast({
+                        title: t(res.message),
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    } else {
+                      toast({
+                        title: t(res.message),
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    }
+                  }
+                });
+              }}
+            />
             <IconButton
               onClick={() => {
                 changeToken("");

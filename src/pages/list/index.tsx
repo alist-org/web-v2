@@ -1,4 +1,4 @@
-import React, { createContext, lazy, useEffect, useMemo } from "react";
+import React, { createContext, lazy, useEffect, useMemo, useState } from "react";
 import {
   Box,
   useColorModeValue,
@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next";
 import Header from "./header";
 import Footer from "./footer";
 import Nav from "./nav";
+import Error from "./error";
 import Markdown from "./preview/markdown";
 import Overlay from "../../components/overlay";
 
@@ -58,7 +59,7 @@ export const getSetting = (key: string): string => {
 
 export interface ContextProps {
   files: File[];
-  type: "file" | "folder";
+  type: "file" | "folder" | "error";
   loading: boolean;
   show: string;
   setShow?: (show: string) => void;
@@ -83,10 +84,14 @@ const KuttyHero = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const [files, setFiles] = React.useState<File[]>([]);
+  const [type, setType] = React.useState<"file" | "folder" | "error">("folder");
+  const [msg, setMsg] = useState("")
   const readme = useMemo(() => {
+    if (type === "file") {
+      return undefined;
+    }
     return files.find((file) => file.name.toLowerCase() === "readme.md");
-  }, [files]);
-  const [type, setType] = React.useState<"file" | "folder">("folder");
+  }, [files, type]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [password, setPassword] = React.useState<string>(
     localStorage.getItem("password") || ""
@@ -102,18 +107,21 @@ const KuttyHero = () => {
       .then((resp) => {
         setLoading(false);
         const res = resp.data;
+        setMsg(res.message)
         if (res.code === 200) {
           setFiles(res.data);
           setType(res.message);
         } else {
-          toast({
-            title: t(res.message),
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
+          // toast({
+          //   title: t(res.message),
+          //   status: "error",
+          //   duration: 3000,
+          //   isClosable: true,
+          // });
           if (res.code === 401) {
             onOpen();
+          }else{
+            setType("error")
           }
         }
       });
@@ -175,7 +183,13 @@ const KuttyHero = () => {
               </Center>
             ) : (
               <Box w="full" p="2">
-                {type === "folder" ? <Files /> : <File />}
+                {type === "folder" ? (
+                  <Files />
+                ) : type === "file" ? (
+                  <File />
+                ) : (
+                  <Error msg={msg} />
+                )}
               </Box>
             )}
           </Box>

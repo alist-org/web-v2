@@ -50,6 +50,10 @@ const zh = {
   "Home": "首页",
   "fold": "折叠",
   "unfold": "展开",
+  "Already the first page": "已经是第一页了",
+  "Already the last page": "已经是最后一页了",
+  "Back Home": "返回首页",
+  "Input is illegal": "输入不合法",
 }
 
 export default zh
