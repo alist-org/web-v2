@@ -1,4 +1,10 @@
-import React, { createContext, lazy, useEffect, useMemo, useState } from "react";
+import React, {
+  createContext,
+  lazy,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   Box,
   useColorModeValue,
@@ -89,7 +95,7 @@ const KuttyHero = () => {
   const [files, setFiles] = React.useState<File[]>([]);
   const [lastFiles, setLastFiles] = React.useState<File[]>([]);
   const [type, setType] = React.useState<"file" | "folder" | "error">("folder");
-  const [msg, setMsg] = useState("")
+  const [msg, setMsg] = useState("");
   const readme = useMemo(() => {
     if (type === "file") {
       return undefined;
@@ -107,12 +113,14 @@ const KuttyHero = () => {
   const refresh = () => {
     setLoading(true);
     setLastFiles(files);
+    setType("error");
+    setFiles([]);
     request
       .post("path", { path: location.pathname, password: password })
       .then((resp) => {
         setLoading(false);
         const res = resp.data;
-        setMsg(res.message)
+        setMsg(res.message);
         if (res.code === 200) {
           setFiles(res.data);
           setType(res.message);
@@ -125,8 +133,8 @@ const KuttyHero = () => {
           // });
           if (res.code === 401) {
             onOpen();
-          }else{
-            setType("error")
+          } else {
+            setType("error");
           }
         }
       });
@@ -199,7 +207,7 @@ const KuttyHero = () => {
               </Box>
             )}
           </Box>
-          {readme && (
+          {!loading && readme && (
             <Box rounded="lg" shadow="lg" bgColor={bgColor} w="full" p="4">
               <Markdown file={readme} readme />
             </Box>

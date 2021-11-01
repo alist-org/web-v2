@@ -44,7 +44,10 @@ const Markdown = ({ file, readme }: FileProps) => {
   };
   useEffect(() => {
     refresh();
-  }, [pathname]);
+    return () => {
+      setContent("");
+    };
+  }, []);
   if (content) {
     return (
       <Editor
