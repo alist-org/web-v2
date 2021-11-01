@@ -8,6 +8,7 @@ import "md-editor-rt/lib/style.css";
 import { useColorModeValue } from "@chakra-ui/color-mode";
 import { Spinner } from "@chakra-ui/spinner";
 import { Center } from "@chakra-ui/layout";
+import { useTranslation } from "react-i18next";
 
 export const type = 5;
 export const exts = [];
@@ -17,6 +18,7 @@ const Markdown = ({ file, readme }: FileProps) => {
   const [content, setContent] = React.useState("");
   const { pathname } = useLocation();
   let link = useDownLink(true);
+  const {i18n} = useTranslation()
   const refresh = () => {
     if (readme) {
       link = `${link.endsWith("/") ? link.slice(0, -1) : link}/${file.name}`;
@@ -50,6 +52,7 @@ const Markdown = ({ file, readme }: FileProps) => {
         modelValue={content}
         previewOnly
         theme={theme}
+        language={i18n.language==="zh"? "zh-CN": "en-US"}
       />
     );
   } else {

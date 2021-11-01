@@ -68,6 +68,7 @@ export interface ContextProps {
   setShowUnfold?: (showFolder: boolean) => void;
   unfold?: boolean;
   setUnfold?: (fold: boolean) => void;
+  lastFiles: File[];
 }
 
 export const IContext = createContext<ContextProps>({
@@ -76,6 +77,7 @@ export const IContext = createContext<ContextProps>({
   loading: true,
   show: "list",
   getSetting: getSetting,
+  lastFiles: [],
 });
 
 const KuttyHero = () => {
@@ -84,6 +86,7 @@ const KuttyHero = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const [files, setFiles] = React.useState<File[]>([]);
+  const [lastFiles, setLastFiles] = React.useState<File[]>([]);
   const [type, setType] = React.useState<"file" | "folder" | "error">("folder");
   const [msg, setMsg] = useState("")
   const readme = useMemo(() => {
@@ -102,6 +105,7 @@ const KuttyHero = () => {
   );
   const refresh = () => {
     setLoading(true);
+    setLastFiles(files);
     request
       .post("path", { path: location.pathname, password: password })
       .then((resp) => {
@@ -167,6 +171,7 @@ const KuttyHero = () => {
           setShowUnfold,
           unfold,
           setUnfold,
+          lastFiles,
         }}
       >
         <Overlay list />
