@@ -23,7 +23,18 @@ const styles: Styles = {
     },
     ".md": {
       bg: "transparent !important",
-    }
+    },
+    // react jinke music player
+    ".react-jinke-music-player-main svg": {
+      display: "unset",
+    },
+    ".react-jinke-music-player-main.dark-theme .react-jinke-music-player-mobile":
+      {
+        bg: "gray.800",
+      },
+    ".react-jinke-music-player-main.dark-theme .music-player-panel": {
+      bg: "transparent",
+    },
   }),
 };
 

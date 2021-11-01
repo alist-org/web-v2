@@ -21,6 +21,7 @@
     "react-dom": "^17.0.0",
     "react-i18next": "^11.13.0",
     "react-icons": "^4.3.1",
+    "react-jinke-music-player": "^4.24.2",
     "react-pdf": "^5.5.0",
     "react-router-dom": "^5.2.1",
     "ts-md5": "^1.2.9"

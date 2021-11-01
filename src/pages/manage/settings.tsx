@@ -59,19 +59,17 @@ const Settings = () => {
                 );
               }}
             ></Input>
-            {item.description && (
-              <FormHelperText>
-                {t(item.description)}(
-                {t(
-                  item.group === 0
-                    ? "public"
-                    : item.group === 1
-                    ? "private"
-                    : "readonly"
-                )}
-                )
-              </FormHelperText>
-            )}
+            <FormHelperText>
+              {t(item.description)}(
+              {t(
+                item.group === 0
+                  ? "public"
+                  : item.group === 1
+                  ? "private"
+                  : "readonly"
+              )}
+              )
+            </FormHelperText>
           </FormControl>
         ))}
       </SimpleGrid>

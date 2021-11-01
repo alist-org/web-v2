@@ -54,6 +54,8 @@ const zh = {
   "Already the last page": "已经是最后一页了",
   "Back Home": "返回首页",
   "Input is illegal": "输入不合法",
+  "Enjoy the music": "享受音乐",
+  "unknown": "未知",
 }
 
 export default zh
