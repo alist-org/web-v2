@@ -13,6 +13,7 @@
     "@emotion/styled": "^11",
     "artplayer": "^3.5.31",
     "axios": "^0.24.0",
+    "flv.js": "^1.6.2",
     "framer-motion": "^4",
     "i18next": "^21.3.3",
     "md-editor-rt": "^1.1.1",

@@ -4,6 +4,7 @@ import Artplayer from "artplayer";
 import useDownLink from "../../../hooks/useDownLink";
 import { Box } from "@chakra-ui/layout";
 import { useTranslation } from "react-i18next";
+import flvjs from "flv.js";
 
 export const type = 3;
 export const exts = [];
@@ -13,7 +14,7 @@ const Video = ({ file }: FileProps) => {
   const url = file.driver === "Native" ? useDownLink() : file.url;
   let art: any;
   useEffect(() => {
-    art = new Artplayer({
+    let options:any = {
       container: "#video-player",
       title: file.name,
       url: url,
@@ -35,11 +36,28 @@ const Video = ({ file }: FileProps) => {
       lang: i18n.language === "zh" ? "zh-cn" : "en",
       setting: true,
       pip: true,
-      screenshot: !file.name.endsWith(".m3u8"),
+      // screenshot: !file.name.endsWith(".m3u8"),
       // moreVideoAttr: {
       //   crossOrigin: "anonymous",
       // },
-    });
+      customType: {
+        flv: function (video: HTMLMediaElement, url: string, art: Artplayer) {
+          const flvPlayer = flvjs.createPlayer(
+            {
+              type: "flv",
+              url: url,
+            },
+            { referrerPolicy: "no-referrer" }
+          );
+          flvPlayer.attachMediaElement(video);
+          flvPlayer.load();
+        },
+      },
+    };
+    if(file.name.toLowerCase().endsWith(".flv")){
+      options.type = "flv";
+    }
+    art = new Artplayer(options);
     return () => {
       if (art && art.destroy) {
         art.destroy();
