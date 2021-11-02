@@ -24,6 +24,7 @@
     "react-jinke-music-player": "^4.24.2",
     "react-pdf": "^5.5.0",
     "react-router-dom": "^5.2.1",
+    "react-viewer": "^3.2.2",
     "ts-md5": "^1.2.9"
   },
   "devDependencies": {

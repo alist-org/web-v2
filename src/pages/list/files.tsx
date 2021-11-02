@@ -19,6 +19,8 @@ import { IContext, File, FileProps } from ".";
 import { formatDate } from "../../utils/date";
 import { getFileSize } from "../../utils/file";
 import getIcon from "../../utils/icon";
+import Viewer from "react-viewer";
+import useDownLink from "../../hooks/useDownLink";
 
 const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();
@@ -116,13 +118,35 @@ const List = ({ files }: { files: File[] }) => {
   );
 };
 
-const Card = ({ file }: FileProps) => {
+const Card = ({
+  file,
+  setShowImage,
+}: {
+  file: File;
+  setShowImage: (name: string) => void;
+}) => {
   const location = useLocation();
   const { getSetting } = useContext(IContext);
+  const to = `${
+    location.pathname.endsWith("/")
+      ? location.pathname.slice(0, -1)
+      : location.pathname
+  }/${file.name}`;
+  const isImage = file.type === 6;
+  const ComponentBox = isImage ? Box : LinkBox;
+  const ComponentLink = isImage ? Box : LinkOverlay;
   return (
     <ScaleFade initialScale={0.9} in={true}>
       <Tooltip label={file.name} gutter={8} placement="auto">
-        <LinkBox w="full" p="1" h="full">
+        <ComponentBox
+          w="full"
+          p="1"
+          h="full"
+          cursor="pointer"
+          onClick={() => {
+            setShowImage(file.name);
+          }}
+        >
           <Flex
             direction="column"
             justify="center"
@@ -158,14 +182,10 @@ const Card = ({ file }: FileProps) => {
                 />
               )}
             </Flex>
-            <LinkOverlay
+            <ComponentLink
               w="full"
-              as={Link}
-              to={`${
-                location.pathname.endsWith("/")
-                  ? location.pathname.slice(0, -1)
-                  : location.pathname
-              }/${file.name}`}
+              as={isImage ? Box : Link}
+              to={isImage ? "" : to}
             >
               <Text
                 px="1"
@@ -179,21 +199,27 @@ const Card = ({ file }: FileProps) => {
               >
                 {file.name}
               </Text>
-            </LinkOverlay>
+            </ComponentLink>
           </Flex>
-        </LinkBox>
+        </ComponentBox>
       </Tooltip>
     </ScaleFade>
   );
 };
 
-const Grid_ = ({ files }: { files: File[] }) => {
+const Grid_ = ({
+  files,
+  setShowImage,
+}: {
+  files: File[];
+  setShowImage: (name: string) => void;
+}) => {
   const location = useLocation();
   return (
     <Box>
       <Grid templateColumns="repeat(auto-fill, minmax(100px,1fr))" gap="2">
         {files.map((file) => (
-          <Card key={file.name} file={file} />
+          <Card key={file.name} file={file} setShowImage={setShowImage} />
         ))}
       </Grid>
     </Box>
@@ -206,9 +232,38 @@ const Files = () => {
   if (getSetting("readme file") === "hide") {
     files_ = files_.filter((file) => file.name.toLowerCase() !== "readme.md");
   }
+  const link = useDownLink();
+  const images = files_
+    .filter((file) => file.type === 6)
+    .map((file) => {
+      return { src: `${link}/${file.name}`, alt: file.name };
+    });
+  const [visible, setVisible] = React.useState(false);
+  const [index, setIndex] = React.useState(0);
   return (
     <Box w="full">
-      {show === "list" ? <List files={files_} /> : <Grid_ files={files_} />}
+      {show === "list" ? (
+        <List files={files_} />
+      ) : (
+        <Grid_
+          setShowImage={(name) => {
+            setVisible(true);
+            setIndex(images.findIndex((image) => image.alt === name));
+          }}
+          files={files_}
+        />
+      )}
+      <Viewer
+        visible={visible}
+        activeIndex={index}
+        onClose={() => {
+          setVisible(false);
+        }}
+        onChange={(_, index) => {
+          setIndex(index);
+        }}
+        images={images}
+      />
     </Box>
   );
 };
