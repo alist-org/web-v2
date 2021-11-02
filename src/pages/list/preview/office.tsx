@@ -33,11 +33,11 @@ const Office = ({ file }: FileProps) => {
         }
         const docOptions = aliyun.config({
           mount: document.querySelector("#office-preview")!,
-          url: res.data.preview_url, //设置文档预览URL地址。
+          url: res.data.preview_url,
         });
         docOptions.setToken({ token: res.data.access_token });
       });
-    } else if (file.driver === "Native") {
+    } else { // if (file.driver === "Native")
       if (file.name.endsWith(".pdf")) {
         setPdf(link);
         setShow("pdf");

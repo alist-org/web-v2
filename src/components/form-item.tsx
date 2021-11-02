@@ -3,6 +3,7 @@ import {
   FormHelperText,
   FormLabel,
   Input,
+  Select,
   Switch,
 } from "@chakra-ui/react";
 import React from "react";
@@ -12,10 +13,11 @@ export interface FormItemProps {
   label: string;
   value: string | boolean;
   required?: boolean;
-  type: "string" | "bool" | "number";
+  type: "string" | "bool" | "number" | "select";
   description?: string;
   readOnly?: boolean;
   onChange?: (value?: string) => void;
+  values?: string[];
 }
 const FormItem = (props: FormItemProps) => {
   const { t } = useTranslation();
@@ -42,6 +44,25 @@ const FormItem = (props: FormItemProps) => {
             }
           }}
         />
+      ) : props.type === "select" ? (
+        <Select
+          isDisabled={props.readOnly}
+          value={props.value as string}
+          onChange={(e) => {
+            if (props.onChange) {
+              props.onChange(e.target.value);
+            }
+          }}
+        >
+          <option value="">{t("select")}</option>
+          {props.values?.map((key) => {
+            return (
+              <option key={key} value={key}>
+                {t(key)}
+              </option>
+            );
+          })}
+        </Select>
       ) : null}
       {props.description && (
         <FormHelperText>{t(props.description)}</FormHelperText>

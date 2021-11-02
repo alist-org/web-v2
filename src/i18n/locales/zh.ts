@@ -62,6 +62,15 @@ const zh = {
   "operation": "操作",
   "path": "路径",
   "hide": "隐藏",
+  "refresh token": "刷新令牌",
+  "root folder file_id":"根目录file_id",
+  "root folder path": "根目录路径",
+  "zone": "区域",
+  "onedrive type": "Onedrive类型",
+  "client id": "客户端ID",
+  "client secret": "客户端密钥",
+  "redirect uri": "重定向URI",
+  "site url": "sharepoint站点URL",
 }
 
 export default zh

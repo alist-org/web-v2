@@ -44,6 +44,13 @@ interface Account {
   order_direction: string;
   proxy: boolean;
   status: string;
+  search: boolean;
+  client_id: string;
+  client_secret: string;
+  zone: string;
+  redirect_uri: string;
+  site_url: string;
+  onedrive_type: string;
 }
 
 const EmptyAccount: Account = {
@@ -59,14 +66,22 @@ const EmptyAccount: Account = {
   order_direction: "",
   proxy: false,
   status: "",
+  search: false,
+  client_id: "",
+  client_secret: "",
+  zone: "",
+  redirect_uri: "",
+  site_url: "",
+  onedrive_type: "",
 };
 
 interface PropItem {
   name: string;
   label: string;
-  type: "string" | "bool";
+  type: "string" | "bool" | "select";
   required: boolean;
   description: string;
+  values: string;
 }
 
 interface Drivers {
@@ -217,28 +232,17 @@ const Accounts = () => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <SimpleGrid minChildWidth="250px" spacing="2">
-              <FormControl shadow="md" p="2" rounded="lg">
-                <FormLabel>{t("type")}</FormLabel>
-                <Select
-                  isDisabled={isEdit}
-                  value={currentAccount.type}
-                  onChange={(e) => {
-                    setcurrentAccount({
-                      ...currentAccount,
-                      type: e.target.value,
-                    });
-                  }}
-                >
-                  <option value="">{t("select")}</option>
-                  {Object.keys(drivers).map((key) => {
-                    return (
-                      <option key={key} value={key}>
-                        {t(key)}
-                      </option>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+              <FormItem
+                type="select"
+                readOnly={isEdit}
+                required
+                label={t("type")}
+                value={currentAccount.type}
+                values={Object.keys(drivers)}
+                onChange={(value) => {
+                  setcurrentAccount({ ...currentAccount, type: value || "" });
+                }}
+              />
               <FormControl shadow="md" p="2" rounded="lg" isRequired>
                 <FormLabel>{t("name")}</FormLabel>
                 <Input
@@ -285,12 +289,13 @@ const Accounts = () => {
                     <FormItem
                       key={item.name}
                       type={item.type}
-                      label={item.name}
+                      label={item.label}
                       value={(currentAccount as any)[item.name]}
                       description={t(item.description)}
                       required={item.required}
+                      values={item.values.split(",")}
                       onChange={(value) => {
-                        if (item.type === "string") {
+                        if (item.type === "string" || item.type === "select") {
                           setcurrentAccount({
                             ...currentAccount,
                             [item.name]: value,
