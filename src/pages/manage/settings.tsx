@@ -12,12 +12,13 @@ import {
 } from "@chakra-ui/react";
 import admin from "../../utils/admin";
 import { useTranslation } from "react-i18next";
+import FormItem from "../../components/form-item";
 
 interface SettingItem {
   key: string;
   value: string;
   description: string;
-  type: string;
+  type: "string" | "bool";
   group: number;
 }
 const Settings = () => {
@@ -40,37 +41,33 @@ const Settings = () => {
     });
   }, []);
   return (
-    <Box p="4" w="full">
+    <Box w="full">
       <SimpleGrid minChildWidth="250px" spacing="2">
         {settings.map((item) => (
-          <FormControl key={item.key} shadow="md" p="2" rounded="lg">
-            <FormLabel>{t(item.key)}</FormLabel>
-            <Input
-              value={item.value}
-              isReadOnly={item.group === 2}
-              onChange={(e) => {
-                setSettings(
-                  settings.map((setting) => {
-                    if (setting.key === item.key) {
-                      return { ...setting, value: e.target.value };
-                    }
-                    return setting;
-                  })
-                );
-              }}
-            ></Input>
-            <FormHelperText>
-              {t(item.description)}(
-              {t(
-                item.group === 0
-                  ? "public"
-                  : item.group === 1
-                  ? "private"
-                  : "readonly"
-              )}
-              )
-            </FormHelperText>
-          </FormControl>
+          <FormItem
+            key={item.key}
+            type={item.type}
+            label={item.key}
+            value={item.value}
+            readOnly={item.group === 2}
+            description={`${item.description}(${t(
+              item.group === 0
+                ? "public"
+                : item.group === 1
+                ? "private"
+                : "readonly"
+            )})`}
+            onChange={(value) => {
+              setSettings(
+                settings.map((setting) => {
+                  if (setting.key === item.key) {
+                    return { ...setting, value: value || "" };
+                  }
+                  return setting;
+                })
+              );
+            }}
+          />
         ))}
       </SimpleGrid>
       <Flex mt="2" justify="end">

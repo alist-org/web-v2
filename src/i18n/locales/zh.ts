@@ -56,6 +56,12 @@ const zh = {
   "Input is illegal": "输入不合法",
   "Enjoy the music": "享受音乐",
   "unknown": "未知",
+  "Path": "路径",
+  "Password": "密码",
+  "Hide Files(split by ,)": "隐藏文件/文件夹(以逗号分隔)",
+  "operation": "操作",
+  "path": "路径",
+  "hide": "隐藏",
 }
 
 export default zh

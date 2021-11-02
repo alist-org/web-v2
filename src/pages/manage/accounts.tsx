@@ -18,11 +18,18 @@ import {
   Input,
   FormHelperText,
   Switch,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
 import admin from "../../utils/admin";
 import { useTranslation } from "react-i18next";
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td } from "@chakra-ui/react";
+import FormItem from "../../components/form-item";
 
 interface Account {
   name: string;
@@ -57,7 +64,7 @@ const EmptyAccount: Account = {
 interface PropItem {
   name: string;
   label: string;
-  type: string;
+  type: "string" | "bool";
   required: boolean;
   description: string;
 }
@@ -113,7 +120,7 @@ const Accounts = () => {
     initialDrivers();
   }, []);
   return (
-    <Box p="4" w="full">
+    <Box w="full">
       <HStack>
         <Button
           onClick={() => {
@@ -275,39 +282,27 @@ const Accounts = () => {
               {currentAccount.type &&
                 drivers[currentAccount.type].map((item) => {
                   return (
-                    <FormControl
-                      shadow="md"
-                      p="2"
-                      rounded="lg"
+                    <FormItem
                       key={item.name}
-                      isRequired={item.required}
-                    >
-                      <FormLabel>{t(item.name)}</FormLabel>
-                      {item.type === "string" ? (
-                        <Input
-                          value={(currentAccount as any)[item.name]}
-                          onChange={(e) => {
-                            setcurrentAccount({
-                              ...currentAccount,
-                              [item.name]: e.target.value,
-                            });
-                          }}
-                        />
-                      ) : item.type === "bool" ? (
-                        <Switch
-                          isChecked={
-                            (currentAccount as any)[item.name]
-                          }
-                          onChange={(e) => {
-                            setcurrentAccount({
-                              ...currentAccount,
-                              [item.name]: !(currentAccount as any)[item.name],
-                            });
-                          }}
-                        />
-                      ) : null}
-                      <FormHelperText>{t(item.description)}</FormHelperText>
-                    </FormControl>
+                      type={item.type}
+                      label={item.name}
+                      value={(currentAccount as any)[item.name]}
+                      description={t(item.description)}
+                      required={item.required}
+                      onChange={(value) => {
+                        if (item.type === "string") {
+                          setcurrentAccount({
+                            ...currentAccount,
+                            [item.name]: value,
+                          });
+                        } else {
+                          setcurrentAccount({
+                            ...currentAccount,
+                            [item.name]: !(currentAccount as any)[item.name],
+                          });
+                        }
+                      }}
+                    />
                   );
                 })}
             </SimpleGrid>

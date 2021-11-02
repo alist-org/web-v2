@@ -125,12 +125,12 @@ const KuttyHero = () => {
           setFiles(res.data);
           setType(res.message);
         } else {
-          // toast({
-          //   title: t(res.message),
-          //   status: "error",
-          //   duration: 3000,
-          //   isClosable: true,
-          // });
+          toast({
+            title: t(res.message),
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
           if (res.code === 401) {
             onOpen();
           } else {

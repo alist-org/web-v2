@@ -32,10 +32,10 @@ import { useTranslation } from "react-i18next";
 import admin, { changeToken } from "../../utils/admin";
 import Overlay from "../../components/overlay";
 
-const TestPage = lazy(() => import("../test"));
 const Login = lazy(() => import("./login"));
 const Settings = lazy(() => import("./settings"));
 const Accounts = lazy(() => import("./accounts"));
+const Metas = lazy(() => import("./metas"));
 
 const NavItems = [
   {
@@ -54,7 +54,7 @@ const NavItems = [
     name: "Meta",
     to: "meta",
     icon: SiMetabase,
-    component: TestPage,
+    component: Metas,
   },
 ];
 
@@ -255,12 +255,13 @@ export default function Swibc() {
         </Flex>
 
         <Box as="main" p="2">
-          {/* Add content here, remove div below  */}
           <Box
             borderWidth="1px"
             borderStyle="dashed"
             rounded="md"
             h="calc( 100vh - 80px)"
+            overflowY="auto"
+            p="2"
           >
             <Suspense
               fallback={

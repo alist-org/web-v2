@@ -17,7 +17,7 @@ const NoPreview = ({ file }: FileProps) => {
     <Center p="4">
       <VStack spacing="8">
         <Icon
-          color={getSetting("icon color")}
+          color={getSetting("icon color")||"teal.300"}
           boxSize={20}
           as={getIcon(file.type, ext)}
         />

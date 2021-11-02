@@ -1,4 +1,4 @@
-import { Box, Center, Heading, useColorModeValue } from "@chakra-ui/react";
+import { Box, Center, Heading, Icon, useColorModeValue } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ReactJkMusicPlayer, {
@@ -7,6 +7,7 @@ import ReactJkMusicPlayer, {
 import "react-jinke-music-player/assets/index.css";
 import { FileProps, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
+import getIcon from "../../../utils/icon";
 
 export const type = 4;
 export const exts = [];
@@ -47,7 +48,13 @@ const Audio = ({ file }: FileProps) => {
   return (
     <Box w="full">
       <Center p="8" w="full">
-        <Heading>{t("Enjoy the music")}...</Heading>
+        <Heading display="inline-flex" alignItems="center">
+          <Icon
+            color={getSetting("icon color") || "teal.300"}
+            as={getIcon(file.type, "")}
+          />
+          {t("Enjoy the music")}...
+        </Heading>
       </Center>
       <ReactJkMusicPlayer
         audioLists={audioLists}

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { FileProps } from "..";
+import React, { useContext, useEffect, useState } from "react";
+import { FileProps, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
-import { Image, Center } from "@chakra-ui/react";
+import { Image, Center, Spinner } from "@chakra-ui/react";
 
 export const type = 6;
 export const exts = [];
@@ -9,10 +9,24 @@ export const exts = [];
 const ImagePreview = ({ file }: FileProps) => {
   const link = useDownLink();
   const [url, setUrl] = useState("");
+  const { getSetting } = useContext(IContext);
   useEffect(() => {
     setUrl(link);
   }, []);
-  return <Center w="full">{url && <Image rounded="lg" src={url} />}</Center>;
+  return (
+    <Center w="full">
+      {url && (
+        <Image
+          maxH="75vh"
+          fallback={
+            <Spinner color={getSetting("icon color") || "teal.300"} size="xl" />
+          }
+          rounded="lg"
+          src={url}
+        />
+      )}
+    </Center>
+  );
 };
 
 export default ImagePreview;

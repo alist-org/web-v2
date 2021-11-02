@@ -23,7 +23,7 @@ import getIcon from "../../utils/icon";
 const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const {getSetting} = useContext(IContext);
+  const { getSetting } = useContext(IContext);
   return (
     <ScaleFade style={{ width: "100%" }} initialScale={0.9} in={true}>
       <LinkBox
@@ -43,21 +43,22 @@ const ListItem = ({ file }: FileProps) => {
           }`}
         >
           <HStack spacing={2}>
-            <Text
-              textOverflow="ellipsis"
-              whiteSpace="nowrap"
-              overflow="hidden"
-              verticalAlign="middle"
-              w={{ base: 3 / 4, md: "50%" }}
-            >
+            <Flex align="center" w={{ base: 3 / 4, md: "50%" }}>
               <Icon
                 color={getSetting("icon color")}
                 boxSize={6}
                 as={getIcon(file.type, file.name.split(".").pop() || "")}
                 mr={2}
               />
-              {file.name}
-            </Text>
+              <Text
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
+                overflow="hidden"
+                fontSize="md"
+              >
+                {file.name}
+              </Text>
+            </Flex>
             <Text w={{ base: 1 / 4, md: 1 / 6 }} textAlign="right">
               {getFileSize(file.size)}
             </Text>
@@ -138,7 +139,7 @@ const Card = ({ file }: FileProps) => {
               direction="column"
               justify="center"
               align="center"
-              h="80px"
+              h="70px"
               p="1"
             >
               {file.thumbnail ? (
@@ -200,10 +201,10 @@ const Grid_ = ({ files }: { files: File[] }) => {
 };
 
 const Files = () => {
-  const { files, show,getSetting } = useContext(IContext);
-  let files_ = files
-  if(getSetting("readme file")==="hide"){
-    files_ = files_.filter(file=>file.name.toLowerCase()!=="readme.md")
+  const { files, show, getSetting } = useContext(IContext);
+  let files_ = files;
+  if (getSetting("readme file") === "hide") {
+    files_ = files_.filter((file) => file.name.toLowerCase() !== "readme.md");
   }
   return (
     <Box w="full">

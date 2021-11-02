@@ -1,8 +1,15 @@
-import { Box, Center, useBreakpointValue, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Center,
+  Spinner,
+  useBreakpointValue,
+  useToast,
+} from "@chakra-ui/react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import { IContext } from "..";
 import Pagination from "../../../components/pagination";
 
 export const type = -1;
@@ -15,6 +22,7 @@ const Pdf = ({ url, unfold }: { url: string; unfold: boolean }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const toast = useToast();
   const { t } = useTranslation();
+  const {getSetting} = useContext(IContext)
 
   const keyEvent = (e: any) => {
     if ([37, 38].includes(e.keyCode)) {
@@ -61,6 +69,9 @@ const Pdf = ({ url, unfold }: { url: string; unfold: boolean }) => {
           renderMode="canvas"
           file={url}
           onLoadSuccess={onDocumentLoadSuccess}
+          loading={
+            <Spinner color={getSetting("icon color") || "teal.300"} size="xl" />
+          }
         >
           <Page
             height={document.body.clientHeight * (unfold ? 1 : 0.75)}
