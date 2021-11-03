@@ -49,6 +49,7 @@
     <div v-show="previewShow.m3u8" id="m3u8-preview"></div>
     <!-- 音频预览 -->
     <div class="audio-preview" v-show="previewShow.audio" id="audio-preview"></div>
+    <iframe class="html-preview" v-show="previewShow.html" id="html-preview" v-bind:srcdoc="text" style="width: 100%; box-shadow: #00000031 0px 1px 10px 5px" frameborder="0" />
   </div>
 </template>
 
@@ -83,6 +84,7 @@ interface PreviewShow {
   iframe: boolean;
   m3u8: boolean;
   spinning: boolean;
+  html: boolean;
 }
 
 export default defineComponent({
@@ -108,6 +110,7 @@ export default defineComponent({
       iframe: false,
       m3u8: false,
       spinning: false,
+      html: false,
     });
     let dp,ap
     const videoTranscoding = ref<boolean>(true);
@@ -297,6 +300,28 @@ export default defineComponent({
           // screenshot:true,
         }
         dp=new DPlayer(videoOptions)
+        return
+      }
+      if (file.file_extension === 'html') {
+        previewShow.value.html = true
+        previewSpinning.value = true
+        previewShow.value.spinning = true
+        getPost(file.dir+file.name, store.state.password).then(resp=>{
+          const res = resp.data
+          if(res.code===200){
+            getText(res.data.url).then(resp=>{
+              text.value = resp.data;
+              setTimeout(function(){
+                const htmlDom = window.frames['html-preview']
+                if(!htmlDom) return;
+                htmlDom.setAttribute('height', htmlDom.contentWindow.document.body.scrollHeight)
+                }, 200)
+              previewSpinning.value = false
+            })
+          }else{
+            message.error(res.message)
+          }
+        })
         return
       }
       if(info.value.preview?.text.includes(file.file_extension.toLowerCase())){
