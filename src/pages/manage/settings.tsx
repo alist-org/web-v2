@@ -61,7 +61,7 @@ const Settings = () => {
               setSettings(
                 settings.map((setting) => {
                   if (setting.key === item.key) {
-                    return { ...setting, value: value || "" };
+                    return { ...setting, value: value as string };
                   }
                   return setting;
                 })

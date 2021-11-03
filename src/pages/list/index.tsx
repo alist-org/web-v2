@@ -146,6 +146,10 @@ const KuttyHero = () => {
       if (res.code === 200) {
         Settings = res.data;
         document.title = getSetting("title");
+        const version = getSetting("version") || "Unknown"
+        if(getSetting("version")){
+          console.log(`%c Alist %c ${version} %c https://github.com/Xhofe/alist`, "color: #fff; background: #5f5f5f", "color: #fff; background: #4bc729", "")
+        }
       } else {
         toast({
           title: t(res.message),
