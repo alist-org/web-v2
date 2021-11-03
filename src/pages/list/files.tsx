@@ -12,7 +12,7 @@ import {
   Flex,
   HStack,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { IContext, File, FileProps } from ".";
@@ -80,38 +80,53 @@ const ListItem = ({ file }: FileProps) => {
 
 const List = ({ files }: { files: File[] }) => {
   const { t } = useTranslation();
+  const [sort, setSort] = React.useState<"name" | "updated_at" | "size">();
+  const [reverse, setReverse] = React.useState(false);
+  const files_ = useMemo(() => {
+    if (!sort) return files;
+    return files.sort((a, b) => {
+      if (a[sort] < b[sort]) return reverse ? 1 : -1;
+      if (a[sort] > b[sort]) return reverse ? -1 : 1;
+      return 0;
+    });
+  }, [files, sort, reverse]);
   return (
     <VStack w="full">
       <HStack w="full" p="2">
-        <Text
-          w={{ base: 2 / 3, md: "50%" }}
-          fontSize="sm"
-          fontWeight="bold"
-          color="gray.500"
-        >
-          {t("Name")}
-        </Text>
-        <Text
-          w={{ base: 1 / 3, md: 1 / 6 }}
-          fontSize="sm"
-          fontWeight="bold"
-          color="gray.500"
-          textAlign="right"
-        >
-          {t("Size")}
-        </Text>
-        <Text
-          w={{ base: 0, md: 1 / 3 }}
-          display={{ base: "none", md: "unset" }}
-          fontSize="sm"
-          fontWeight="bold"
-          color="gray.500"
-          textAlign="right"
-        >
-          {t("Modified")}
-        </Text>
+        {[
+          { name: "name", base: 2 / 3, md: "50%", textAlign: "left" },
+          { name: "size", base: 1 / 3, md: 1 / 6, textAlign: "right" },
+          { name: "updated_at", base: 0, md: 1 / 3, textAlign: "right" },
+        ].map((item) => {
+          return (
+            <Text
+              key={item.name}
+              w={{ base: item.base, md: item.md }}
+              fontSize="sm"
+              fontWeight="bold"
+              color="gray.500"
+              textAlign={item.textAlign as any}
+              cursor="pointer"
+              display={
+                item.name === "updated_at"
+                  ? { base: "none", md: "unset" }
+                  : "unset"
+              }
+              onClick={() => {
+                if (sort === item.name) {
+                  setReverse(!reverse);
+                } else {
+                  setSort(item.name as any);
+                  setReverse(false);
+                }
+              }}
+            >
+              {t(item.name)}
+            </Text>
+          );
+        })}
       </HStack>
-      {files.map((file) => {
+      {files_.map((file) => {
         return <ListItem key={file.name} file={file} />;
       })}
     </VStack>
