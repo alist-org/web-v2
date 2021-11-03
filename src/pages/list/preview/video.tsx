@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { FileProps } from "..";
 import Artplayer from "artplayer";
 import useDownLink from "../../../hooks/useDownLink";
-import { Box } from "@chakra-ui/layout";
+import { Box, Button, Center, Link, chakra, HStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import flvjs from "flv.js";
 
@@ -14,7 +14,7 @@ const Video = ({ file }: FileProps) => {
   const url = file.driver === "Native" ? useDownLink() : file.url;
   let art: any;
   useEffect(() => {
-    let options:any = {
+    let options: any = {
       container: "#video-player",
       title: file.name,
       url: url,
@@ -54,7 +54,7 @@ const Video = ({ file }: FileProps) => {
         },
       },
     };
-    if(file.name.toLowerCase().endsWith(".flv")){
+    if (file.name.toLowerCase().endsWith(".flv")) {
       options.type = "flv";
     }
     art = new Artplayer(options);
@@ -65,8 +65,29 @@ const Video = ({ file }: FileProps) => {
     };
   }, []);
   return (
-    <Box w="full" h="75vh" id="video-player">
-      video
+    <Box w="full">
+      <Box w="full" h="70vh" id="video-player"></Box>
+      <Center mt="2" w="full">
+        <HStack spacing="2">
+          <Button
+            colorScheme="telegram"
+            as={chakra.a}
+            href={`iina://weblink?url=${url}`}
+          >
+            IINA
+          </Button>
+          <Button
+            colorScheme="yellow"
+            as={chakra.a}
+            href={`potplayer://${url}`}
+          >
+            PotPlayer
+          </Button>
+          <Button colorScheme="orange" as={chakra.a} href={`vlc://${url}`}>
+            VLC
+          </Button>
+        </HStack>
+      </Center>
     </Box>
   );
 };
