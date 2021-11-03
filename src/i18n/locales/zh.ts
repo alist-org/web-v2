@@ -71,6 +71,13 @@ const zh = {
   "client secret": "客户端密钥",
   "redirect uri": "重定向URI",
   "site url": "sharepoint站点URL",
+  "index": "索引",
+  "for sort": "用于排序",
+  "icon color": "图标颜色",
+  "text types": "文本类型",
+  "readme file": "readme文件",
+  "music cover": "音乐封面",
+  "site beian": "站点备案",
 }
 
 export default zh

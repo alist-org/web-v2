@@ -3,6 +3,11 @@ import {
   FormHelperText,
   FormLabel,
   Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Select,
   Switch,
 } from "@chakra-ui/react";
@@ -11,12 +16,12 @@ import { useTranslation } from "react-i18next";
 
 export interface FormItemProps {
   label: string;
-  value: string | boolean;
+  value: string | boolean | number;
   required?: boolean;
   type: "string" | "bool" | "number" | "select";
   description?: string;
   readOnly?: boolean;
-  onChange?: (value?: string) => void;
+  onChange?: (value?: string|number) => void;
   values?: string[];
 }
 const FormItem = (props: FormItemProps) => {
@@ -63,6 +68,21 @@ const FormItem = (props: FormItemProps) => {
             );
           })}
         </Select>
+      ) : props.type === "number" ? (
+        <NumberInput
+          defaultValue={props.value as number}
+          onChange={(str, num) => {
+            if (props.onChange) {
+              props.onChange(num);
+            }
+          }}
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
       ) : null}
       {props.description && (
         <FormHelperText>{t(props.description)}</FormHelperText>

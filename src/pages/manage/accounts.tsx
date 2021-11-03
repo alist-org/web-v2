@@ -51,6 +51,7 @@ interface Account {
   redirect_uri: string;
   site_url: string;
   onedrive_type: string;
+  index: number;
 }
 
 const EmptyAccount: Account = {
@@ -73,16 +74,51 @@ const EmptyAccount: Account = {
   redirect_uri: "",
   site_url: "",
   onedrive_type: "",
+  index: 0,
 };
 
 interface PropItem {
   name: string;
   label: string;
-  type: "string" | "bool" | "select";
+  type: "string" | "bool" | "select" | "number";
   required: boolean;
-  description: string;
-  values: string;
+  description?: string;
+  values?: string;
 }
+
+const CommonItems: PropItem[] = [
+  {
+    name: "name",
+    label: "name",
+    type: "string",
+    required: true,
+  },
+  {
+    name: "index",
+    label: "index",
+    type: "number",
+    required: true,
+    description: "for sort",
+  },
+  {
+    name: "order_by",
+    label: "order_by",
+    type: "string",
+    required: false,
+  },
+  {
+    name: "order_direction",
+    label: "order_direction",
+    type: "string",
+    required: false,
+  },
+  {
+    name: "proxy",
+    label: "proxy",
+    type: "bool",
+    required: false,
+  },
+];
 
 interface Drivers {
   [name: string]: PropItem[];
@@ -163,6 +199,7 @@ const Accounts = () => {
               <Th>{t("name")}</Th>
               <Th>{t("type")}</Th>
               <Th>{t("root_folder")}</Th>
+              <Th>{t("index")}</Th>
               <Th>{t("status")}</Th>
               <Th>{t("operation")}</Th>
             </Tr>
@@ -174,6 +211,7 @@ const Accounts = () => {
                   <Td>{account.name}</Td>
                   <Td>{account.type}</Td>
                   <Td>{account.root_folder}</Td>
+                  <Td>{account.index}</Td>
                   <Td>{account.status}</Td>
                   <Td>
                     <Button
@@ -240,49 +278,38 @@ const Accounts = () => {
                 value={currentAccount.type}
                 values={Object.keys(drivers)}
                 onChange={(value) => {
-                  setcurrentAccount({ ...currentAccount, type: value || "" });
+                  setcurrentAccount({
+                    ...currentAccount,
+                    type: value as string,
+                  });
                 }}
               />
-              <FormControl shadow="md" p="2" rounded="lg" isRequired>
-                <FormLabel>{t("name")}</FormLabel>
-                <Input
-                  value={currentAccount.name}
-                  onChange={(e) => {
-                    setcurrentAccount({
-                      ...currentAccount,
-                      name: e.target.value,
-                    });
-                  }}
-                />
-              </FormControl>
-              {["order_by", "order_direction"].map((item) => {
+              {CommonItems.map((item) => {
                 return (
-                  <FormControl key={item} shadow="md" p="2" rounded="lg">
-                    <FormLabel>{t(item)}</FormLabel>
-                    <Input
-                      value={(currentAccount as any)[item]}
-                      onChange={(e) => {
+                  <FormItem
+                    key={item.name}
+                    type={item.type}
+                    label={item.label}
+                    value={(currentAccount as any)[item.name]}
+                    description={item.description}
+                    required={item.required}
+                    values={item.values?.split(",")}
+                    onChange={(value) => {
+                      if (item.type !== "bool") {
                         setcurrentAccount({
                           ...currentAccount,
-                          [item]: e.target.value,
+                          [item.name]: value,
                         });
-                      }}
-                    />
-                  </FormControl>
+                      } else {
+                        setcurrentAccount({
+                          ...currentAccount,
+                          [item.name]: !(currentAccount as any)[item.name],
+                        });
+                      }
+                    }}
+                  />
                 );
               })}
-              <FormControl shadow="md" p="2" rounded="lg">
-                <FormLabel>{t("proxy")}</FormLabel>
-                <Switch
-                  isChecked={currentAccount.proxy}
-                  onChange={(e) => {
-                    setcurrentAccount({
-                      ...currentAccount,
-                      proxy: !currentAccount.proxy,
-                    });
-                  }}
-                />
-              </FormControl>
               {currentAccount.type &&
                 drivers[currentAccount.type].map((item) => {
                   return (
@@ -291,11 +318,11 @@ const Accounts = () => {
                       type={item.type}
                       label={item.label}
                       value={(currentAccount as any)[item.name]}
-                      description={t(item.description)}
+                      description={item.description}
                       required={item.required}
-                      values={item.values.split(",")}
+                      values={item.values?.split(",")}
                       onChange={(value) => {
-                        if (item.type === "string" || item.type === "select") {
+                        if (item.type !== "bool") {
                           setcurrentAccount({
                             ...currentAccount,
                             [item.name]: value,
