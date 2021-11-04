@@ -162,8 +162,13 @@ const KuttyHero = () => {
         Settings = res.data;
         document.title = getSetting("title");
         const version = getSetting("version") || "Unknown"
-        if(getSetting("version")){
-          console.log(`%c Alist %c ${version} %c https://github.com/Xhofe/alist`, "color: #fff; background: #5f5f5f", "color: #fff; background: #4bc729", "")
+        console.log(`%c Alist %c ${version} %c https://github.com/Xhofe/alist`, "color: #fff; background: #5f5f5f", "color: #fff; background: #4bc729", "")
+        if(getSetting("favicon")){
+          const link = (document.querySelector("link[rel*='icon']") || document.createElement('link')) as HTMLLinkElement;
+          link.type = 'image/x-icon';
+          link.rel = 'shortcut icon';
+          link.href = getSetting("favicon");
+          document.getElementsByTagName('head')[0].appendChild(link);
         }
       } else {
         toast({
