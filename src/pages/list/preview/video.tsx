@@ -11,7 +11,8 @@ export const exts = [];
 
 const Video = ({ file }: FileProps) => {
   const { i18n } = useTranslation();
-  const url = file.driver === "Native" ? useDownLink() : file.url;
+  const link = useDownLink();
+  const url = file.driver === "Native" ? link : file.url;
   let art: any;
   useEffect(() => {
     let options: any = {
@@ -72,18 +73,18 @@ const Video = ({ file }: FileProps) => {
           <Button
             colorScheme="telegram"
             as={chakra.a}
-            href={`iina://weblink?url=${url}`}
+            href={`iina://weblink?url=${link}`}
           >
             IINA
           </Button>
           <Button
             colorScheme="yellow"
             as={chakra.a}
-            href={`potplayer://${url}`}
+            href={`potplayer://${link}`}
           >
             PotPlayer
           </Button>
-          <Button colorScheme="orange" as={chakra.a} href={`vlc://${url}`}>
+          <Button colorScheme="orange" as={chakra.a} href={`vlc://${link}`}>
             VLC
           </Button>
         </HStack>

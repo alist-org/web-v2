@@ -54,7 +54,7 @@ export interface FileProps {
 interface Setting {
   key: string;
   value: string;
-  type: string;
+  // type: string;
 }
 
 var Settings: Setting[] = [];
@@ -100,6 +100,18 @@ const KuttyHero = () => {
     if (type === "file") {
       return undefined;
     }
+    if (location.pathname === "/" && getSetting("home readme url")) {
+      const homeReadmeFile: File = {
+        name: "README.md",
+        size: 0,
+        type: -1,
+        driver: "local",
+        updated_at: "",
+        thumbnail: "",
+        url: getSetting("home readme url"),
+      };
+      return homeReadmeFile;
+    }
     return files.find((file) => file.name.toLowerCase() === "readme.md");
   }, [files, type]);
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -131,6 +143,9 @@ const KuttyHero = () => {
             duration: 3000,
             isClosable: true,
           });
+          if (res.code === 1001) {
+            history.push("/@manage");
+          }
           if (res.code === 401) {
             onOpen();
           } else {
@@ -254,6 +269,7 @@ const KuttyHero = () => {
               {t("ok")}
             </Button>
             <Button
+              colorScheme="gray"
               onClick={() => {
                 history.goBack();
                 onClose();

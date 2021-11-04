@@ -73,6 +73,7 @@ const zh = {
   "client secret": "客户端密钥",
   "redirect uri": "重定向URI",
   "site url": "sharepoint站点URL",
+  "site id": "sharepoint站点ID",
   "index": "索引",
   "for sort": "用于排序",
   "icon color": "图标颜色",

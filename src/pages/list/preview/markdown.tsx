@@ -21,7 +21,11 @@ const Markdown = ({ file, readme }: FileProps) => {
   const {i18n} = useTranslation()
   const refresh = () => {
     if (readme) {
-      link = `${link.endsWith("/") ? link.slice(0, -1) : link}/${file.name}`;
+      if(file.type === -1){
+        link = file.url
+      }else{
+        link = `${link.endsWith("/") ? link.slice(0, -1) : link}/${file.name}`;
+      }
     }
     axios
       .get(link, {
