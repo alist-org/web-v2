@@ -100,7 +100,12 @@ const KuttyHero = () => {
     if (type === "file") {
       return undefined;
     }
-    if (location.pathname === "/" && getSetting("home readme url")) {
+    const file = files.find((file) => file.name.toLowerCase() === "readme.md");
+    if (
+      file === undefined &&
+      location.pathname === "/" &&
+      getSetting("home readme url")
+    ) {
       const homeReadmeFile: File = {
         name: "README.md",
         size: 0,
@@ -112,7 +117,7 @@ const KuttyHero = () => {
       };
       return homeReadmeFile;
     }
-    return files.find((file) => file.name.toLowerCase() === "readme.md");
+    return file;
   }, [files, type]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [password, setPassword] = React.useState<string>(
@@ -161,14 +166,20 @@ const KuttyHero = () => {
       if (res.code === 200) {
         Settings = res.data;
         document.title = getSetting("title");
-        const version = getSetting("version") || "Unknown"
-        console.log(`%c Alist %c ${version} %c https://github.com/Xhofe/alist`, "color: #fff; background: #5f5f5f", "color: #fff; background: #4bc729", "")
-        if(getSetting("favicon")){
-          const link = (document.querySelector("link[rel*='icon']") || document.createElement('link')) as HTMLLinkElement;
-          link.type = 'image/x-icon';
-          link.rel = 'shortcut icon';
+        const version = getSetting("version") || "Unknown";
+        console.log(
+          `%c Alist %c ${version} %c https://github.com/Xhofe/alist`,
+          "color: #fff; background: #5f5f5f",
+          "color: #fff; background: #4bc729",
+          ""
+        );
+        if (getSetting("favicon")) {
+          const link = (document.querySelector("link[rel*='icon']") ||
+            document.createElement("link")) as HTMLLinkElement;
+          link.type = "image/x-icon";
+          link.rel = "shortcut icon";
           link.href = getSetting("favicon");
-          document.getElementsByTagName('head')[0].appendChild(link);
+          document.getElementsByTagName("head")[0].appendChild(link);
         }
       } else {
         toast({
