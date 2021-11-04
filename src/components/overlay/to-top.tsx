@@ -9,7 +9,9 @@ const ToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     setIsVisible(() => getVisible());
-    window.onscroll = () => setIsVisible(() => getVisible());
+    const onScroll = () => setIsVisible(() => getVisible());
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
     <IconButton
