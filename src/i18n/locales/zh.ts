@@ -81,6 +81,7 @@ const zh = {
   "readme file": "readme文件",
   "music cover": "音乐封面",
   "site beian": "站点备案",
+  "ERROR": "错误",
 }
 
 export default zh
