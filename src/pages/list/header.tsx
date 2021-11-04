@@ -1,4 +1,4 @@
-import { Flex, Heading, HStack, Image, Icon, useToast } from "@chakra-ui/react";
+import { Flex, Heading, HStack, Image, Icon, useToast, Spinner } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { IContext } from ".";
 import { FaListUl } from "react-icons/fa";
@@ -17,7 +17,7 @@ const Header = () => {
     <Flex px="2" py="2" justify="space-between" w="full">
       <Link to="/">
         {getSetting("logo").includes("http") ? (
-          <Image rounded="lg" h="44px" w="auto" src={getSetting("logo")} />
+          <Image fallback={<Spinner color={getSetting("icon color") || "teal.300"} />} rounded="lg" h="44px" w="auto" src={getSetting("logo")} />
         ) : (
           <Heading>{getSetting("logo")}</Heading>
         )}
