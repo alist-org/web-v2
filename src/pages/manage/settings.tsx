@@ -18,7 +18,7 @@ interface SettingItem {
   key: string;
   value: string;
   description: string;
-  type: "string" | "bool";
+  // type: "string" | "bool";
   group: number;
 }
 const Settings = () => {
@@ -46,7 +46,7 @@ const Settings = () => {
         {settings.map((item) => (
           <FormItem
             key={item.key}
-            type={item.type}
+            type="string"
             label={item.key}
             value={item.value}
             readOnly={item.group === 2}
