@@ -31,6 +31,7 @@ import {
 import { useTranslation } from "react-i18next";
 import admin, { changeToken } from "../../utils/admin";
 import Overlay from "../../components/overlay";
+import useTitle from "../../hooks/useTitle";
 
 const Login = lazy(() => import("./login"));
 const Settings = lazy(() => import("./settings"));
@@ -65,6 +66,7 @@ export default function Swibc() {
   const history = useHistory();
   const location = useLocation();
   const toast = useToast();
+  useTitle(t("Alist Manage"));
   useEffect(() => {
     admin.get("login").then((resp) => {
       const res = resp.data;

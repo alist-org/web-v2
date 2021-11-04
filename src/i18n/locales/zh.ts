@@ -82,6 +82,7 @@ const zh = {
   "music cover": "音乐封面",
   "site beian": "站点备案",
   "ERROR": "错误",
+  "Alist Manage": "Alist管理",
 }
 
 export default zh

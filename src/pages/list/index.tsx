@@ -165,7 +165,7 @@ const KuttyHero = () => {
       const res = resp.data;
       if (res.code === 200) {
         Settings = res.data;
-        document.title = getSetting("title");
+        document.title = getSetting("title") || "Alist";
         const version = getSetting("version") || "Unknown";
         console.log(
           `%c Alist %c ${version} %c https://github.com/Xhofe/alist`,
