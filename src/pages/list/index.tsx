@@ -97,6 +97,7 @@ const KuttyHero = () => {
   const [lastFiles, setLastFiles] = React.useState<File[]>([]);
   const [type, setType] = React.useState<"file" | "folder" | "error">("folder");
   const [msg, setMsg] = useState("");
+  const [settingLoaded, setSettingLoaded] = React.useState<boolean>(false);
   const readme = useMemo(() => {
     if (type === "file") {
       return undefined;
@@ -119,7 +120,7 @@ const KuttyHero = () => {
       return homeReadmeFile;
     }
     return file;
-  }, [files, type]);
+  }, [files, type, settingLoaded]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [password, setPassword] = React.useState<string>(
     localStorage.getItem("password") || ""
@@ -160,7 +161,6 @@ const KuttyHero = () => {
         }
       });
   };
-  const [settingLoaded, setSettingLoaded] = React.useState<boolean>(false);
   const initialSettings = () => {
     request.get("settings").then((resp) => {
       const res = resp.data;
