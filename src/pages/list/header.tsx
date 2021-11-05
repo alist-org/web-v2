@@ -82,7 +82,9 @@ const Header = () => {
           shouldWrapChildren
           hasArrow
           placement="bottom"
-          label={t("switch to layout view", { layout: show })}
+          label={t("switch to layout view", {
+            layout: t(show === "list" ? "grid" : "list"),
+          })}
         >
           <Icon
             boxSize={6}
