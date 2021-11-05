@@ -21,7 +21,7 @@ const Header = () => {
   const { t } = useTranslation();
   const link = useDownLink();
   const toast = useToast();
-  const { show, setShow, type, getSetting } = useContext(IContext);
+  const { show, setShow, type, getSetting, files } = useContext(IContext);
   return (
     <Flex px="2" py="2" justify="space-between" w="full">
       <Link to="/">
@@ -40,16 +40,25 @@ const Header = () => {
         )}
       </Link>
       <HStack spacing="2">
-        {type === "file" && (
+        {type !== "error" && (
           <Icon
             cursor="pointer"
             boxSize={6}
             as={AiTwotoneCopy}
             onClick={() => {
-              if (navigator.clipboard) {
-                navigator.clipboard.writeText(link);
+              let content = "";
+              if (type === "file") {
+                content = link;
               } else {
-                copyToClip(link);
+                content = files
+                  .filter((file) => file.type !== 1)
+                  .map((file) => `${link}/${file.name}`)
+                  .join("\n");
+              }
+              if (navigator.clipboard) {
+                navigator.clipboard.writeText(content);
+              } else {
+                copyToClip(content);
               }
               toast({
                 title: t("copied"),
