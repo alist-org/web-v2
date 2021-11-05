@@ -83,6 +83,13 @@ const zh = {
   "site beian": "站点备案",
   "ERROR": "错误",
   "Alist Manage": "Alist管理",
+  "list": "列表",
+  "grid": "网格",
+  "switch to layout view": "切换为{{layout}}布局",
+  "copy direct link": "复制直链",
+  "wrong password": "密码错误",
+  "clear buffer": "清除缓存",
+  "logout": "注销",
 }
 
 export default zh

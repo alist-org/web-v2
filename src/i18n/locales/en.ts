@@ -10,6 +10,7 @@ const en = {
   "name": "Name",
   "size": "Size",
   "updated_at": "Modified",
+  "switch to layout view": "Switch to {{layout}} view",
 }
 
 export default en

@@ -6,11 +6,13 @@ import {
   Icon,
   useToast,
   Spinner,
+  Tooltip,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { IContext } from ".";
 import { FaListUl } from "react-icons/fa";
-import { AiTwotoneCopy } from "react-icons/ai";
+// import { AiTwotoneCopy } from "react-icons/ai";
+import { IoIosCopy } from "react-icons/io";
 import { BsFillGridFill } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
@@ -41,43 +43,57 @@ const Header = () => {
       </Link>
       <HStack spacing="2">
         {type !== "error" && (
-          <Icon
-            cursor="pointer"
-            boxSize={6}
-            as={AiTwotoneCopy}
-            onClick={() => {
-              let content = "";
-              if (type === "file") {
-                content = link;
-              } else {
-                content = files
-                  .filter((file) => file.type !== 1)
-                  .map((file) => `${link}/${file.name}`)
-                  .join("\n");
-              }
-              if (navigator.clipboard) {
-                navigator.clipboard.writeText(content);
-              } else {
-                copyToClip(content);
-              }
-              toast({
-                title: t("copied"),
-                status: "success",
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          />
+          <Tooltip
+            shouldWrapChildren
+            hasArrow
+            placement="bottom"
+            label={t("copy direct link")}
+          >
+            <Icon
+              cursor="pointer"
+              boxSize={6}
+              as={IoIosCopy}
+              onClick={() => {
+                let content = "";
+                if (type === "file") {
+                  content = link;
+                } else {
+                  content = files
+                    .filter((file) => file.type !== 1)
+                    .map((file) => `${link}/${file.name}`)
+                    .join("\n");
+                }
+                if (navigator.clipboard) {
+                  navigator.clipboard.writeText(content);
+                } else {
+                  copyToClip(content);
+                }
+                toast({
+                  title: t("copied"),
+                  status: "success",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              }}
+            />
+          </Tooltip>
         )}
-        <Icon
-          boxSize={6}
-          cursor="pointer"
-          onClick={() => {
-            setShow!(show === "list" ? "grid" : "list");
-            localStorage.setItem("show", show === "list" ? "grid" : "list");
-          }}
-          as={show === "list" ? BsFillGridFill : FaListUl}
-        />
+        <Tooltip
+          shouldWrapChildren
+          hasArrow
+          placement="bottom"
+          label={t("switch to layout view", { layout: show })}
+        >
+          <Icon
+            boxSize={6}
+            cursor="pointer"
+            onClick={() => {
+              setShow!(show === "list" ? "grid" : "list");
+              localStorage.setItem("show", show === "list" ? "grid" : "list");
+            }}
+            as={show === "list" ? BsFillGridFill : FaListUl}
+          />
+        </Tooltip>
       </HStack>
     </Flex>
   );

@@ -13,6 +13,7 @@ import {
   useDisclosure,
   Link as Clink,
   useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 import { BsGearFill } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
@@ -82,7 +83,7 @@ export default function Swibc() {
         }
       }
     });
-  }, []);
+  }, [location.pathname]);
 
   const NavItem = (props: any) => {
     const { icon, children, ...rest } = props;
@@ -217,42 +218,56 @@ export default function Swibc() {
                 cursor="pointer"
               />
             </Clink>
-            <IconButton
-              colorScheme="whiteAlpha"
-              aria-label={t("clear buffer")}
-              icon={<Icon boxSize={6} color="gray.500" as={MdCached} />}
-              onClick={() => {
-                admin.get("clear_cache").then((resp) => {
-                  const res = resp.data;
-                  if (res.code === 200) {
+            <Tooltip
+              shouldWrapChildren
+              hasArrow
+              placement="bottom"
+              label={t("clear buffer")}
+            >
+              <IconButton
+                colorScheme="whiteAlpha"
+                aria-label={t("clear buffer")}
+                icon={<Icon boxSize={6} color="gray.500" as={MdCached} />}
+                onClick={() => {
+                  admin.get("clear_cache").then((resp) => {
+                    const res = resp.data;
                     if (res.code === 200) {
-                      toast({
-                        title: t(res.message),
-                        status: "success",
-                        duration: 3000,
-                        isClosable: true,
-                      });
-                    } else {
-                      toast({
-                        title: t(res.message),
-                        status: "error",
-                        duration: 3000,
-                        isClosable: true,
-                      });
+                      if (res.code === 200) {
+                        toast({
+                          title: t(res.message),
+                          status: "success",
+                          duration: 3000,
+                          isClosable: true,
+                        });
+                      } else {
+                        toast({
+                          title: t(res.message),
+                          status: "error",
+                          duration: 3000,
+                          isClosable: true,
+                        });
+                      }
                     }
-                  }
-                });
-              }}
-            />
+                  });
+                }}
+              />
+            </Tooltip>
+            <Tooltip
+              shouldWrapChildren
+              hasArrow
+              placement="bottom"
+              label={t("logout")}
+            >
             <IconButton
               onClick={() => {
                 changeToken("");
                 history.push(`${match.url}/login`);
               }}
               colorScheme="blank"
-              aria-label={t("exit")}
+              aria-label={t("logout")}
               icon={<Icon boxSize={6} color="gray.500" as={BiExit} />}
             ></IconButton>
+            </Tooltip>
           </Flex>
         </Flex>
 
