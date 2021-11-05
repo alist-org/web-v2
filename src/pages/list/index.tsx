@@ -160,12 +160,13 @@ const KuttyHero = () => {
         }
       });
   };
-
+  const [settingLoaded, setSettingLoaded] = React.useState<boolean>(false);
   const initialSettings = () => {
     request.get("settings").then((resp) => {
       const res = resp.data;
       if (res.code === 200) {
         Settings = res.data;
+        setSettingLoaded(true);
         document.title = getSetting("title") || "Alist";
         const version = getSetting("version") || "Unknown";
         console.log(
@@ -202,6 +203,13 @@ const KuttyHero = () => {
   const bgColor = useColorModeValue("transparent", "gray.700");
   const [showUnfold, setShowUnfold] = React.useState<boolean>(false);
   const [unfold, setUnfold] = React.useState<boolean>(false);
+  if (!settingLoaded) {
+    return (
+      <Center w="full" h="full">
+        <Spinner color={getSetting("icon color") || "teal.300"} size="xl" />
+      </Center>
+    );
+  }
   return (
     <Center w="full">
       <IContext.Provider
@@ -232,17 +240,17 @@ const KuttyHero = () => {
                 />
               </Center>
             ) : (
-              <Suspense
-                fallback={
-                  <Center h="full">
-                    <Spinner
-                      color={getSetting("icon color") || "teal.300"}
-                      size="xl"
-                    />
-                  </Center>
-                }
-              >
-                <Box w="full" p="2">
+              <Box w="full" p="2">
+                <Suspense
+                  fallback={
+                    <Center h="full">
+                      <Spinner
+                        color={getSetting("icon color") || "teal.300"}
+                        size="xl"
+                      />
+                    </Center>
+                  }
+                >
                   {type === "folder" ? (
                     <Files />
                   ) : type === "file" ? (
@@ -250,8 +258,8 @@ const KuttyHero = () => {
                   ) : (
                     <Error msg={msg} />
                   )}
-                </Box>
-              </Suspense>
+                </Suspense>
+              </Box>
             )}
           </Box>
           {!loading && readme && (
