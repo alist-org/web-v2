@@ -1,6 +1,7 @@
 import React, {
   createContext,
   lazy,
+  Suspense,
   useEffect,
   useMemo,
   useState,
@@ -231,15 +232,26 @@ const KuttyHero = () => {
                 />
               </Center>
             ) : (
-              <Box w="full" p="2">
-                {type === "folder" ? (
-                  <Files />
-                ) : type === "file" ? (
-                  <File />
-                ) : (
-                  <Error msg={msg} />
-                )}
-              </Box>
+              <Suspense
+                fallback={
+                  <Center h="full">
+                    <Spinner
+                      color={getSetting("icon color") || "teal.300"}
+                      size="xl"
+                    />
+                  </Center>
+                }
+              >
+                <Box w="full" p="2">
+                  {type === "folder" ? (
+                    <Files />
+                  ) : type === "file" ? (
+                    <File />
+                  ) : (
+                    <Error msg={msg} />
+                  )}
+                </Box>
+              </Suspense>
             )}
           </Box>
           {!loading && readme && (
