@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { FileProps, getSetting } from "..";
+import { FileProps, getSetting, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
 import axios from "axios";
 import Editor from "md-editor-rt";
@@ -16,7 +16,7 @@ export const exts = [];
 const Markdown = ({ file, readme }: FileProps) => {
   const theme = useColorModeValue("light", "dark");
   const [content, setContent] = React.useState("");
-  const { pathname } = useLocation();
+  const { getSetting } = useContext(IContext)
   let link = useDownLink(true);
   const {i18n} = useTranslation()
   const refresh = () => {
@@ -55,7 +55,7 @@ const Markdown = ({ file, readme }: FileProps) => {
   if (content) {
     return (
       <Editor
-        previewTheme="vuepress"
+        previewTheme={getSetting("markdown theme") as any||"vuepress"}
         modelValue={content}
         previewOnly
         theme={theme}

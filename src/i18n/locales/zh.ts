@@ -90,6 +90,7 @@ const zh = {
   "wrong password": "密码错误",
   "clear buffer": "清除缓存",
   "logout": "注销",
+  "markdown theme": "Markdown主题",
 }
 
 export default zh
