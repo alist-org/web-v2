@@ -11,8 +11,9 @@ import {
   Icon,
   Flex,
   HStack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { IContext, File, FileProps } from ".";
@@ -21,11 +22,16 @@ import { getFileSize } from "../../utils/file";
 import getIcon from "../../utils/icon";
 import Viewer from "react-viewer";
 import useDownLink from "../../hooks/useDownLink";
+import { BsArrowDownCircle } from "react-icons/bs";
 
 const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const { getSetting } = useContext(IContext);
+  const [cursor, setCursor] = useState<boolean>(false);
+  const show = useBreakpointValue({ base: false, md: true });
+  const link = useDownLink();
+  const [cursorIcon, setCursorIcon] = useState<boolean>(false);
   return (
     <ScaleFade style={{ width: "100%" }} initialScale={0.9} in={true}>
       <LinkBox
@@ -37,12 +43,18 @@ const ListItem = ({ file }: FileProps) => {
           transform: "scale(1.01)",
           bgColor: "rgba(132,133,141,0.18)",
         }}
+        onMouseOver={() => setCursor(true)}
+        onMouseLeave={() => setCursor(false)}
       >
         <LinkOverlay
           as={Link}
-          to={`${pathname.endsWith("/") ? pathname.slice(0, -1) : pathname}/${
-            file.name
-          }`}
+          to={
+            cursorIcon
+              ? pathname
+              : `${pathname.endsWith("/") ? pathname.slice(0, -1) : pathname}/${
+                  file.name
+                }`
+          }
         >
           <HStack spacing={2}>
             <Flex align="center" w={{ base: 3 / 4, md: "50%" }}>
@@ -60,6 +72,20 @@ const ListItem = ({ file }: FileProps) => {
               >
                 {file.name}
               </Text>
+              <Icon
+                cursor="pointer"
+                ml={2}
+                boxSize={5}
+                as={BsArrowDownCircle}
+                onClick={() => {
+                  console.log(file);
+                  window.open(`${link}/${file.name}`, "_blank");
+                }}
+                display={cursor && show && file.type !== 1 ? "block" : "none"}
+                zIndex={99}
+                onMouseOver={() => setCursorIcon(true)}
+                onMouseLeave={() => setCursorIcon(false)}
+              />
             </Flex>
             <Text w={{ base: 1 / 4, md: 1 / 6 }} textAlign="right">
               {getFileSize(file.size)}
