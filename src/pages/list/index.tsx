@@ -67,7 +67,7 @@ export const getSetting = (key: string): string => {
 
 export interface ContextProps {
   files: File[];
-  type: "file" | "folder" | "error";
+  type: "file" | "folder" | "error" | "loading";
   loading: boolean;
   show: string;
   setShow?: (show: string) => void;
@@ -95,7 +95,7 @@ const KuttyHero = () => {
   const { t } = useTranslation();
   const [files, setFiles] = React.useState<File[]>([]);
   const [lastFiles, setLastFiles] = React.useState<File[]>([]);
-  const [type, setType] = React.useState<"file" | "folder" | "error">("folder");
+  const [type, setType] = React.useState<"file" | "folder" | "error" | "loading">("folder");
   const [msg, setMsg] = useState("");
   const [settingLoaded, setSettingLoaded] = React.useState<boolean>(false);
   const readme = useMemo(() => {
@@ -132,7 +132,7 @@ const KuttyHero = () => {
   const refresh = () => {
     setLoading(true);
     setLastFiles(files);
-    setType("error");
+    setType("loading");
     setFiles([]);
     request
       .post("path", { path: location.pathname, password: password })
