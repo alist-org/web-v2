@@ -232,21 +232,19 @@ export default function Swibc() {
                   admin.get("clear_cache").then((resp) => {
                     const res = resp.data;
                     if (res.code === 200) {
-                      if (res.code === 200) {
-                        toast({
-                          title: t(res.message),
-                          status: "success",
-                          duration: 3000,
-                          isClosable: true,
-                        });
-                      } else {
-                        toast({
-                          title: t(res.message),
-                          status: "error",
-                          duration: 3000,
-                          isClosable: true,
-                        });
-                      }
+                      toast({
+                        title: t(res.message),
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    } else {
+                      toast({
+                        title: t(res.message),
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                      });
                     }
                   });
                 }}
@@ -258,15 +256,15 @@ export default function Swibc() {
               placement="bottom"
               label={t("logout")}
             >
-            <IconButton
-              onClick={() => {
-                changeToken("");
-                history.push(`${match.url}/login`);
-              }}
-              colorScheme="blank"
-              aria-label={t("logout")}
-              icon={<Icon boxSize={6} color="gray.500" as={BiExit} />}
-            ></IconButton>
+              <IconButton
+                onClick={() => {
+                  changeToken("");
+                  history.push(`${match.url}/login`);
+                }}
+                colorScheme="blank"
+                aria-label={t("logout")}
+                icon={<Icon boxSize={6} color="gray.500" as={BiExit} />}
+              ></IconButton>
             </Tooltip>
           </Flex>
         </Flex>
