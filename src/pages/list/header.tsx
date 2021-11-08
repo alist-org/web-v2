@@ -13,6 +13,7 @@ import { IContext } from ".";
 import { FaListUl } from "react-icons/fa";
 // import { AiTwotoneCopy } from "react-icons/ai";
 import { IoIosCopy } from "react-icons/io";
+import { BsFillArrowDownCircleFill } from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
@@ -42,12 +43,29 @@ const Header = () => {
         )}
       </Link>
       <HStack spacing="2">
+        {type === "file" && (
+          <Tooltip
+            shouldWrapChildren
+            hasArrow
+            placement="bottom"
+            label={t("Download")}
+          >
+            <Icon
+              cursor="pointer"
+              boxSize={6}
+              as={BsFillArrowDownCircleFill}
+              onClick={() => {
+                window.open(link, "_blank");
+              }}
+            />
+          </Tooltip>
+        )}
         {type !== "error" && (
           <Tooltip
             shouldWrapChildren
             hasArrow
             placement="bottom"
-            label={t("copy direct link")}
+            label={t("Copy direct link")}
           >
             <Icon
               cursor="pointer"

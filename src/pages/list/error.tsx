@@ -16,7 +16,7 @@ const Error = ({ msg }: { msg: string }) => {
         {t("ERROR")}
       </Heading>
       <Text fontSize="18px" my={3} >
-        {msg}
+        {t(msg)}
       </Text>
       {/* <Text color={'gray.500'} mb={6}>
         {msg}

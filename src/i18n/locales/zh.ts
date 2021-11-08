@@ -86,11 +86,12 @@ const zh = {
   "list": "列表",
   "grid": "网格",
   "switch to layout view": "切换为{{layout}}布局",
-  "copy direct link": "复制直链",
+  "Copy direct link": "复制直链",
   "wrong password": "密码错误",
   "clear buffer": "清除缓存",
   "logout": "注销",
   "markdown theme": "Markdown主题",
+  "path not found": "路径不存在",
 }
 
 export default zh
