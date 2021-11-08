@@ -24,32 +24,32 @@ const Pdf = ({ url, unfold }: { url: string; unfold: boolean }) => {
   const { t } = useTranslation();
   const {getSetting} = useContext(IContext)
 
-  const keyEvent = (e: any) => {
-    if ([37, 38].includes(e.keyCode)) {
-      if (pageNumber > 1) {
-        setPageNumber(pageNumber - 1);
-      } else {
-        toast({
-          title: t("Already the first page"),
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
-    } else if ([39, 40].includes(e.keyCode)) {
-      if (pageNumber < numPages) {
-        setPageNumber(pageNumber + 1);
-      } else {
-        toast({
-          title: t("Already the last page"),
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
-    }
-  };
-
+  // const keyEvent = (e: any) => {
+  //   if ([37, 38].includes(e.keyCode)) {
+  //     if (pageNumber > 1) {
+  //       setPageNumber(pageNumber - 1);
+  //     } else {
+  //       toast({
+  //         title: t("Already the first page"),
+  //         status: "warning",
+  //         duration: 3000,
+  //         isClosable: true,
+  //       });
+  //     }
+  //   } else if ([39, 40].includes(e.keyCode)) {
+  //     if (pageNumber < numPages) {
+  //       setPageNumber(pageNumber + 1);
+  //     } else {
+  //       toast({
+  //         title: t("Already the last page"),
+  //         status: "warning",
+  //         duration: 3000,
+  //         isClosable: true,
+  //       });
+  //     }
+  //   }
+  // };
+  // 
   // useEffect(() => {
   //   document.addEventListener("keydown", keyEvent);
   //   return () => {

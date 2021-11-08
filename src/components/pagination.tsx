@@ -113,6 +113,13 @@ const Pagination = (props: PaginationProps) => {
             if (props.currentPage > 1) {
               setPage(props.currentPage - 1 + "");
               props.onPageChange(props.currentPage - 1);
+            } else {
+              toast({
+                title: t("Already the first page"),
+                status: "warning",
+                duration: 3000,
+                isClosable: true,
+              });
             }
           }}
         >
@@ -140,6 +147,13 @@ const Pagination = (props: PaginationProps) => {
             if (props.currentPage < props.totalPages) {
               setPage(props.currentPage + 1 + "");
               props.onPageChange(props.currentPage + 1);
+            } else {
+              toast({
+                title: t("Already the last page"),
+                status: "warning",
+                duration: 3000,
+                isClosable: true,
+              });
             }
           }}
         >
