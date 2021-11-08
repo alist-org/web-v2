@@ -16,15 +16,15 @@ export const exts = [];
 const Markdown = ({ file, readme }: FileProps) => {
   const theme = useColorModeValue("light", "dark");
   const [content, setContent] = React.useState("");
-  const { getSetting } = useContext(IContext)
+  const { getSetting } = useContext(IContext);
   let link = useDownLink(true);
-  const {i18n} = useTranslation()
+  const { i18n } = useTranslation();
   const refresh = () => {
     if (readme) {
-      if(file.type === -1){
-        link = file.url
-      }else{
-        link = `${link.endsWith("/") ? link.slice(0, -1) : link}/${file.name}`;
+      if (file.type === -1) {
+        link = file.url;
+      } else {
+        link = `${link}/${file.name}`;
       }
     }
     axios
@@ -55,17 +55,19 @@ const Markdown = ({ file, readme }: FileProps) => {
   if (content) {
     return (
       <Editor
-        previewTheme={getSetting("markdown theme") as any||"vuepress"}
+        previewTheme={(getSetting("markdown theme") as any) || "vuepress"}
         modelValue={content}
         previewOnly
         theme={theme}
-        language={i18n.language==="zh"? "zh-CN": "en-US"}
+        language={i18n.language === "zh" ? "zh-CN" : "en-US"}
       />
     );
   } else {
-    return <Center w="full">
-      <Spinner color={getSetting("icon color")||"teal.300"} size="lg" />
-    </Center>;
+    return (
+      <Center w="full">
+        <Spinner color={getSetting("icon color") || "teal.300"} size="lg" />
+      </Center>
+    );
   }
 };
 
