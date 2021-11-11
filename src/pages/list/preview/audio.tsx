@@ -33,7 +33,7 @@ const Audio = ({ file }: FileProps) => {
     };
     const pre = link.slice(0, link.lastIndexOf("/"));
     const audioList = lastFiles
-      .filter((item) => item.name !== file.name)
+      .filter((item) => item.name !== file.name && item.type === type)
       .map((item) => {
         const link = `${pre}/${item.name}`;
         return {
