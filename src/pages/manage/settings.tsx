@@ -18,8 +18,9 @@ interface SettingItem {
   key: string;
   value: string;
   description: string;
-  // type: "string" | "bool";
+  type: "string" | "bool" | "select";
   group: number;
+  values?: string;
 }
 const Settings = () => {
   const toast = useToast();
@@ -46,10 +47,11 @@ const Settings = () => {
         {settings.map((item) => (
           <FormItem
             key={item.key}
-            type="string"
+            type={item.type}
             label={item.key}
-            value={item.value}
+            value={item.type === "bool" ? item.value === "true" : item.value}
             readOnly={item.group === 2}
+            values={item.values?.split(",")}
             description={`${item.description}(${t(
               item.group === 0
                 ? "public"
@@ -61,7 +63,14 @@ const Settings = () => {
               setSettings(
                 settings.map((setting) => {
                   if (setting.key === item.key) {
-                    return { ...setting, value: value as string };
+                    if (item.type !== "bool") {
+                      return { ...setting, value: value as string };
+                    } else {
+                      return {
+                        ...setting,
+                        value: item.value === "true" ? "false" : "true",
+                      };
+                    }
                   }
                   return setting;
                 })

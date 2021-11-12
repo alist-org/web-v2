@@ -100,18 +100,18 @@ const CommonItems: PropItem[] = [
     required: true,
     description: "for sort",
   },
-  {
-    name: "order_by",
-    label: "order_by",
-    type: "string",
-    required: false,
-  },
-  {
-    name: "order_direction",
-    label: "order_direction",
-    type: "string",
-    required: false,
-  },
+  // {
+  //   name: "order_by",
+  //   label: "order_by",
+  //   type: "string",
+  //   required: false,
+  // },
+  // {
+  //   name: "order_direction",
+  //   label: "order_direction",
+  //   type: "string",
+  //   required: false,
+  // },
   {
     name: "proxy",
     label: "proxy",

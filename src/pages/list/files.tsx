@@ -270,7 +270,7 @@ const Grid_ = ({
 const Files = () => {
   const { files, show, getSetting } = useContext(IContext);
   let files_ = files;
-  if (getSetting("readme file") === "hide") {
+  if (getSetting("hide readme file") === "true") {
     files_ = files_.filter((file) => file.name.toLowerCase() !== "readme.md");
   }
   const link = useDownLink();
