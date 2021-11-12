@@ -1,4 +1,10 @@
-import { Box, Center, Heading, Icon, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Heading,
+  Icon,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ReactJkMusicPlayer, {
@@ -61,6 +67,7 @@ const Audio = ({ file }: FileProps) => {
         theme={theme}
         locale={i18n.language === "zh" ? "zh_CN" : "en_US"}
         mode="full"
+        autoPlay={getSetting("autoplay audio") === "true"}
         defaultPosition={{
           left: 20,
           bottom: 20,

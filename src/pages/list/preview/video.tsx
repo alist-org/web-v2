@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { FileProps } from "..";
+import React, { useContext, useEffect } from "react";
+import { FileProps, IContext } from "..";
 import Artplayer from "artplayer";
 import useDownLink from "../../../hooks/useDownLink";
 import { Box, Button, Center, Link, chakra, HStack } from "@chakra-ui/react";
@@ -10,6 +10,7 @@ export const type = 3;
 export const exts = [];
 
 const Video = ({ file }: FileProps) => {
+  const { getSetting } = useContext(IContext);
   const { i18n } = useTranslation();
   const link = useDownLink();
   const url = file.driver === "Native" ? link : file.url;
@@ -19,6 +20,7 @@ const Video = ({ file }: FileProps) => {
       container: "#video-player",
       title: file.name,
       url: url,
+      autoplay: getSetting("autoplay video") === "true",
       autoMini: true,
       autoSize: true,
       playbackRate: true,
