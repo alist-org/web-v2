@@ -230,7 +230,7 @@ const Accounts = () => {
                       ml="1"
                       onClick={() => {
                         admin
-                          .delete("account", { params: { name: account.name } })
+                          .delete("account", { params: { id: account.id } })
                           .then((resp) => {
                             const res = resp.data;
                             if (res.code !== 200) {

@@ -121,7 +121,7 @@ const Metas = () => {
                       ml="1"
                       onClick={() => {
                         admin
-                          .delete("meta", { params: { path: meta.path } })
+                          .delete("meta", { params: { id: meta.id } })
                           .then((resp) => {
                             const res = resp.data;
                             if (res.code !== 200) {
