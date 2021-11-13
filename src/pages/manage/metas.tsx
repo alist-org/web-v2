@@ -26,12 +26,14 @@ import admin from "../../utils/admin";
 import FormItem from "../../components/form-item";
 
 interface Meta {
+  id: number;
   path: string;
   password: string;
   hide: string;
 }
 
 const EmptyMeta = {
+  id: 0,
   path: "",
   password: "",
   hide: "",
@@ -157,7 +159,7 @@ const Metas = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{t("add") + " / " + t("save")}</ModalHeader>
+          <ModalHeader>{isEdit ? t("save") : t("add")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <VStack spacing="2">
@@ -174,7 +176,7 @@ const Metas = () => {
                     description={item.description}
                     value={(currentMeta as any)[item.name]}
                     required={item.name === "path"}
-                    readOnly={isEdit&&item.name==="path"}
+                    // readOnly={isEdit&&item.name==="path"}
                     onChange={(value) => {
                       setCurrentMeta({
                         ...currentMeta,
@@ -192,26 +194,28 @@ const Metas = () => {
               colorScheme="blue"
               mr={3}
               onClick={() => {
-                admin.post("meta", currentMeta).then((resp) => {
-                  const res = resp.data;
-                  if (res.code !== 200) {
-                    toast({
-                      title: t(res.message),
-                      status: "error",
-                      duration: 3000,
-                      isClosable: true,
-                    });
-                  } else {
-                    toast({
-                      title: t(res.message),
-                      status: "success",
-                      duration: 3000,
-                      isClosable: true,
-                    });
-                    refreshMetas();
-                    editDisclosure.onClose();
-                  }
-                });
+                admin
+                  .post(`meta/${isEdit ? "save" : "create"}`, currentMeta)
+                  .then((resp) => {
+                    const res = resp.data;
+                    if (res.code !== 200) {
+                      toast({
+                        title: t(res.message),
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    } else {
+                      toast({
+                        title: t(res.message),
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                      refreshMetas();
+                      editDisclosure.onClose();
+                    }
+                  });
               }}
             >
               {t("save")}

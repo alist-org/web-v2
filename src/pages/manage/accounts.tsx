@@ -32,6 +32,7 @@ import { useTranslation } from "react-i18next";
 import FormItem from "../../components/form-item";
 
 interface Account {
+  id: number;
   name: string;
   type: string;
   username: string;
@@ -55,6 +56,7 @@ interface Account {
 }
 
 const EmptyAccount: Account = {
+  id: 0,
   name: "",
   type: "",
   username: "",
@@ -266,7 +268,7 @@ const Accounts = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{t("add") + " / " + t("save")}</ModalHeader>
+          <ModalHeader>{isEdit ? t("save") : t("add")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <SimpleGrid minChildWidth="250px" spacing="2">
@@ -345,26 +347,28 @@ const Accounts = () => {
               colorScheme="blue"
               mr={3}
               onClick={() => {
-                admin.post("account", currentAccount).then((resp) => {
-                  const res = resp.data;
-                  if (res.code !== 200) {
-                    toast({
-                      title: t(res.message),
-                      status: "error",
-                      duration: 3000,
-                      isClosable: true,
-                    });
-                  } else {
-                    toast({
-                      title: t(res.message),
-                      status: "success",
-                      duration: 3000,
-                      isClosable: true,
-                    });
-                    refreshAccounts();
-                    editDisclosure.onClose();
-                  }
-                });
+                admin
+                  .post(`account/${isEdit ? "save" : "create"}`, currentAccount)
+                  .then((resp) => {
+                    const res = resp.data;
+                    if (res.code !== 200) {
+                      toast({
+                        title: t(res.message),
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    } else {
+                      toast({
+                        title: t(res.message),
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                      refreshAccounts();
+                      editDisclosure.onClose();
+                    }
+                  });
               }}
             >
               {t("save")}
