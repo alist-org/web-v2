@@ -231,7 +231,7 @@ const KuttyHero = () => {
         <VStack w={{ base: "95%", lg: "980px" }}>
           <Header />
           <Nav />
-          <Box rounded="lg" shadow="lg" bgColor={bgColor} w="full">
+          <Box className="main-box" rounded="lg" shadow="lg" bgColor={bgColor} w="full">
             {loading ? (
               <Center w="full" py="4">
                 <Spinner
