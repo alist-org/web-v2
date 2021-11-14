@@ -81,7 +81,7 @@ const zh = {
   "for sort": "用于排序",
   "icon color": "图标颜色",
   "text types": "文本类型",
-  "readme file": "readme文件",
+  "hide readme file": "隐藏readme文件",
   "music cover": "音乐封面",
   "site beian": "站点备案",
   "ERROR": "错误",
@@ -95,6 +95,13 @@ const zh = {
   "logout": "注销",
   "markdown theme": "Markdown主题",
   "path not found": "路径不存在",
+  "customize style": "自定义样式",
+  "customize script": "自定义脚本",
+  "customize style, don't need add <style></style>": "自定义样式，不需要<style></style>",
+  "customize script, don't need add <script></script>": "自定义脚本，不需要<script></script>",
+  "autoplay video": "自动播放视频",
+  "autoplay audio": "自动播放音频",
+  "check parent folder": "检查父文件夹密码",
 }
 
 export default zh

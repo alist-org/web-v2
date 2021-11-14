@@ -18,7 +18,7 @@ interface SettingItem {
   key: string;
   value: string;
   description: string;
-  type: "string" | "bool" | "select";
+  type: "string" | "bool" | "select" | "text";
   group: number;
   values?: string;
 }
@@ -52,7 +52,7 @@ const Settings = () => {
             value={item.type === "bool" ? item.value === "true" : item.value}
             readOnly={item.group === 2}
             values={item.values?.split(",")}
-            description={`${item.description}(${t(
+            description={`${t(item.description)}(${t(
               item.group === 0
                 ? "public"
                 : item.group === 1

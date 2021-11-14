@@ -10,6 +10,7 @@ import {
   NumberInputStepper,
   Select,
   Switch,
+  Textarea,
 } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -18,10 +19,10 @@ export interface FormItemProps {
   label: string;
   value: string | boolean | number;
   required?: boolean;
-  type: "string" | "bool" | "number" | "select";
+  type: "string" | "bool" | "number" | "select" | "text";
   description?: string;
   readOnly?: boolean;
-  onChange?: (value?: string|number) => void;
+  onChange?: (value?: string | number) => void;
   values?: string[];
 }
 const FormItem = (props: FormItemProps) => {
@@ -31,6 +32,16 @@ const FormItem = (props: FormItemProps) => {
       <FormLabel>{t(props.label)}</FormLabel>
       {props.type === "string" ? (
         <Input
+          isReadOnly={props.readOnly}
+          value={props.value as string}
+          onChange={(e) => {
+            if (props.onChange) {
+              props.onChange(e.target.value);
+            }
+          }}
+        />
+      ) : props.type === "text" ? (
+        <Textarea
           isReadOnly={props.readOnly}
           value={props.value as string}
           onChange={(e) => {
