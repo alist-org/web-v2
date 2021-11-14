@@ -63,7 +63,7 @@ const Pdf = ({ url, unfold }: { url: string; unfold: boolean }) => {
   const vertical = useBreakpointValue({ base: false, md: true });
   if (!url.toLowerCase().endsWith(".pdf")) return null;
   return (
-    <Center w="full" h="full">
+    <Center w="full" h="full" className="pdf-preview-box">
       <Box shadow={unfold ? "0 30px 40px 0 rgb(16 36 94 / 20%)" : "unset"}>
         <Document
           renderMode="canvas"

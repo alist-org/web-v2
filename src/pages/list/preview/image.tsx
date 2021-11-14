@@ -14,7 +14,7 @@ const ImagePreview = ({ file }: FileProps) => {
     setUrl(link);
   }, []);
   return (
-    <Center w="full">
+    <Center className="image-box" w="full">
       {url && (
         <Image
           maxH="75vh"

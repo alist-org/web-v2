@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 const Error = ({ msg }: { msg: string }) => {
   const {t} = useTranslation()
   return (
-    <Box textAlign="center" py={10} px={6}>
+    <Box className="error" textAlign="center" py={10} px={6}>
       <Heading
         display="inline-block"
         size="xl"

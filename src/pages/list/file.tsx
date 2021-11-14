@@ -14,7 +14,7 @@ const NoPreview = ({ file }: FileProps) => {
   const link = useDownLink();
   const { t } = useTranslation();
   return (
-    <Center p="4">
+    <Center className="no-preview" p="4">
       <VStack spacing="8">
         <Icon
           color={getSetting("icon color")||"teal.300"}

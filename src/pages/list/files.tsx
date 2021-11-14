@@ -35,6 +35,7 @@ const ListItem = ({ file }: FileProps) => {
   return (
     <ScaleFade style={{ width: "100%" }} initialScale={0.9} in={true}>
       <LinkBox
+        className="list-item"
         p="2"
         w="full"
         rounded="lg"
@@ -57,7 +58,7 @@ const ListItem = ({ file }: FileProps) => {
           }
         >
           <HStack spacing={2}>
-            <Flex align="center" w={{ base: 3 / 4, md: "50%" }}>
+            <Flex className="list-item-name" align="center" w={{ base: 3 / 4, md: "50%" }}>
               <Icon
                 color={getSetting("icon color")}
                 boxSize={6}
@@ -87,10 +88,11 @@ const ListItem = ({ file }: FileProps) => {
                 onMouseLeave={() => setCursorIcon(false)}
               />
             </Flex>
-            <Text w={{ base: 1 / 4, md: 1 / 6 }} textAlign="right">
+            <Text className="list-item-size" w={{ base: 1 / 4, md: 1 / 6 }} textAlign="right">
               {getFileSize(file.size)}
             </Text>
             <Text
+              className="list-item-updated_at"
               w={{ base: 0, md: 1 / 3 }}
               display={{ base: "none", md: "unset" }}
               textAlign="right"
@@ -117,8 +119,8 @@ const List = ({ files }: { files: File[] }) => {
     });
   }, [files, sort, reverse]);
   return (
-    <VStack w="full">
-      <HStack w="full" p="2">
+    <VStack className="list-box" w="full">
+      <HStack className="list-title" w="full" p="2">
         {[
           { name: "name", base: 2 / 3, md: "50%", textAlign: "left" },
           { name: "size", base: 1 / 3, md: 1 / 6, textAlign: "right" },
@@ -126,6 +128,7 @@ const List = ({ files }: { files: File[] }) => {
         ].map((item) => {
           return (
             <Text
+              className={`list-title-${item.name}`}
               key={item.name}
               w={{ base: item.base, md: item.md }}
               fontSize="sm"
@@ -180,6 +183,7 @@ const Card = ({
     <ScaleFade initialScale={0.9} in={true}>
       <Tooltip label={file.name} gutter={8} placement="auto">
         <ComponentBox
+          className="grid-item"
           w="full"
           p="1"
           h="full"
@@ -206,6 +210,7 @@ const Card = ({
               align="center"
               h="70px"
               p="1"
+              className="grid-item-thumbnail"
             >
               {file.thumbnail ? (
                 <Image
@@ -227,6 +232,7 @@ const Card = ({
               w="full"
               as={isImage ? Box : Link}
               to={isImage ? "" : to}
+              className="grid-item-name"
             >
               <Text
                 px="1"
@@ -258,7 +264,7 @@ const Grid_ = ({
   const location = useLocation();
   return (
     <Box>
-      <Grid templateColumns="repeat(auto-fill, minmax(100px,1fr))" gap="2">
+      <Grid className="grid-box" templateColumns="repeat(auto-fill, minmax(100px,1fr))" gap="2">
         {files.map((file) => (
           <Card key={file.name} file={file} setShowImage={setShowImage} />
         ))}
@@ -282,7 +288,7 @@ const Files = () => {
   const [visible, setVisible] = React.useState(false);
   const [index, setIndex] = React.useState(0);
   return (
-    <Box w="full">
+    <Box className="files-box" w="full">
       {show === "list" ? (
         <List files={files_} />
       ) : (

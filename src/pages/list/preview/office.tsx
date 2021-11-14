@@ -60,6 +60,7 @@ const Office = ({ file }: FileProps) => {
       id="office-preview"
       transition="all 0.3s"
       backdropFilter="blur(10px)"
+      className="office-preview-box"
     >
       {show === "office" && (
         <iframe

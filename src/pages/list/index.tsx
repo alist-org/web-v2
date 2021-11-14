@@ -240,7 +240,7 @@ const KuttyHero = () => {
                 />
               </Center>
             ) : (
-              <Box w="full" p="2">
+              <Box className="content-box" w="full" p="2">
                 <Suspense
                   fallback={
                     <Center h="full">
@@ -263,7 +263,7 @@ const KuttyHero = () => {
             )}
           </Box>
           {!loading && readme && (
-            <Box rounded="lg" shadow="lg" bgColor={bgColor} w="full" p="4">
+            <Box className="readme-box" rounded="lg" shadow="lg" bgColor={bgColor} w="full" p="4">
               <Markdown file={readme} readme />
             </Box>
           )}

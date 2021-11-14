@@ -68,7 +68,7 @@ const Video = ({ file }: FileProps) => {
     };
   }, []);
   return (
-    <Box w="full">
+    <Box w="full" className="video-preview-box">
       <Box w="full" h="70vh" id="video-player"></Box>
       <Center mt="2" w="full">
         <HStack spacing="2">

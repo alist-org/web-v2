@@ -7,9 +7,9 @@ const Footer = () => {
   const { t } = useTranslation();
   const { getSetting } = useContext(IContext);
   return (
-    <Center py="4">
+    <Center py="4" className="footer">
       <VStack>
-        <HStack spacing="2">
+        <HStack spacing="2" className="line0">
           <Link isExternal href="https://github.com/Xhofe/alist">
             {t("Powered by project", { project: "Alist" })}
           </Link>
@@ -17,7 +17,7 @@ const Footer = () => {
           <ReactLink to="/@manage">{t("Manage")}</ReactLink>
         </HStack>
         {getSetting("site beian") && (
-          <Link isExternal href="https://beian.miit.gov.cn/">
+          <Link className="line1" isExternal href="https://beian.miit.gov.cn/">
             {getSetting("site beian")}
           </Link>
         )}

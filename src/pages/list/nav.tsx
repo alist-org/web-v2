@@ -13,7 +13,7 @@ const Nav = () => {
   const location = useLocation();
   const {t} = useTranslation();
   return (
-    <Breadcrumb w="full" py="1" px="2">
+    <Breadcrumb className="nav" w="full" py="1" px="2">
       <BreadcrumbItem>
         <BreadcrumbLink as={Link} to="/">
           {t("Home")}

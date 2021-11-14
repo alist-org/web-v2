@@ -52,7 +52,7 @@ const Audio = ({ file }: FileProps) => {
     setAudioLists([audio, ...audioList]);
   }, []);
   return (
-    <Box w="full">
+    <Box className="audio-box" w="full">
       <Center p="8" w="full">
         <Heading display="inline-flex" alignItems="center">
           <Icon

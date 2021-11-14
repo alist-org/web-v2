@@ -26,8 +26,8 @@ const Header = () => {
   const toast = useToast();
   const { show, setShow, type, getSetting, files } = useContext(IContext);
   return (
-    <Flex px="2" py="2" justify="space-between" w="full">
-      <Link to="/">
+    <Flex className="header" px="2" py="2" justify="space-between" w="full">
+      <Link to="/" className="logo">
         {getSetting("logo").includes("http") ? (
           <Image
             fallback={
@@ -42,7 +42,7 @@ const Header = () => {
           <Heading>{getSetting("logo")}</Heading>
         )}
       </Link>
-      <HStack spacing="2">
+      <HStack className="buttons" spacing="2">
         {type === "file" && (
           <Tooltip
             shouldWrapChildren
