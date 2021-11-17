@@ -43,7 +43,7 @@ const Settings = () => {
   }, []);
   return (
     <Box w="full">
-      <SimpleGrid minChildWidth="250px" spacing="2">
+      <SimpleGrid minChildWidth="400px" spacing="2">
         {settings.map((item) => (
           <FormItem
             key={item.key}

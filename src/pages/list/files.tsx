@@ -32,8 +32,13 @@ const ListItem = ({ file }: FileProps) => {
   const show = useBreakpointValue({ base: false, md: true });
   const link = useDownLink();
   const [cursorIcon, setCursorIcon] = useState<boolean>(false);
+  const ItemBox = getSetting("animation")==="true"?ScaleFade:Box;
+  const props = getSetting("animation")==="true"? {
+    initialScale: 0.9,
+    in: true,
+  }: {}
   return (
-    <ScaleFade style={{ width: "100%" }} initialScale={0.9} in={true}>
+    <ItemBox style={{ width: "100%" }} {...props}>
       <LinkBox
         className="list-item"
         p="2"
@@ -102,7 +107,7 @@ const ListItem = ({ file }: FileProps) => {
           </HStack>
         </LinkOverlay>
       </LinkBox>
-    </ScaleFade>
+    </ItemBox>
   );
 };
 
@@ -179,8 +184,13 @@ const Card = ({
   const isImage = file.type === 6;
   const ComponentBox = isImage ? Box : LinkBox;
   const ComponentLink = isImage ? Box : LinkOverlay;
+  const ItemBox = getSetting("animation")==="true"?ScaleFade:Box;
+  const props = getSetting("animation")==="true"? {
+    initialScale: 0.9,
+    in: true,
+  }: {}
   return (
-    <ScaleFade initialScale={0.9} in={true}>
+    <ItemBox {...props}>
       <Tooltip label={file.name} gutter={8} placement="auto">
         <ComponentBox
           className="grid-item"
@@ -250,7 +260,7 @@ const Card = ({
           </Flex>
         </ComponentBox>
       </Tooltip>
-    </ScaleFade>
+    </ItemBox>
   );
 };
 

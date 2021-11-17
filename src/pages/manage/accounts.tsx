@@ -114,12 +114,12 @@ const CommonItems: PropItem[] = [
   //   type: "string",
   //   required: false,
   // },
-  {
-    name: "proxy",
-    label: "proxy",
-    type: "bool",
-    required: false,
-  },
+  // {
+  //   name: "proxy",
+  //   label: "proxy",
+  //   type: "bool",
+  //   required: false,
+  // },
 ];
 
 interface Drivers {

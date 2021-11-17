@@ -8,12 +8,13 @@ import flvjs from "flv.js";
 
 export const type = 3;
 export const exts = [];
+const DirectDrivers = ["Native", "GoogleDrive"];
 
 const Video = ({ file }: FileProps) => {
   const { getSetting } = useContext(IContext);
   const { i18n } = useTranslation();
   const link = useDownLink();
-  const url = file.driver === "Native" ? link : file.url;
+  const url = DirectDrivers.includes(file.driver) ? link : file.url;
   let art: any;
   useEffect(() => {
     let options: any = {

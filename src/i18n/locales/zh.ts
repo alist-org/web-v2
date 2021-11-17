@@ -102,6 +102,8 @@ const zh = {
   "autoplay video": "自动播放视频",
   "autoplay audio": "自动播放音频",
   "check parent folder": "检查父文件夹密码",
+  "animation": "动画",
+  "when there are a lot of files, the animation will freeze when opening": "当文件数量较多时，打开文件时动画会卡顿",
 }
 
 export default zh
