@@ -65,7 +65,7 @@ const Markdown = ({ file, readme }: FileProps) => {
   } else {
     return (
       <Center w="full">
-        <Spinner color={getSetting("icon color") || "teal.300"} size="lg" />
+        <Spinner color={getSetting("icon color") || "teal.300"} size="xl" />
       </Center>
     );
   }
