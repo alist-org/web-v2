@@ -23,20 +23,24 @@ import getIcon from "../../utils/icon";
 import Viewer from "react-viewer";
 import useDownLink from "../../hooks/useDownLink";
 import { BsArrowDownCircle } from "react-icons/bs";
+import { md5_16 } from "../../utils/md5";
 
 const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const { getSetting } = useContext(IContext);
+  const { getSetting, password } = useContext(IContext);
   const [cursor, setCursor] = useState<boolean>(false);
   const show = useBreakpointValue({ base: false, md: true });
   const link = useDownLink();
   const [cursorIcon, setCursorIcon] = useState<boolean>(false);
-  const ItemBox = getSetting("animation")==="true"?ScaleFade:Box;
-  const props = getSetting("animation")==="true"? {
-    initialScale: 0.9,
-    in: true,
-  }: {}
+  const ItemBox = getSetting("animation") === "true" ? ScaleFade : Box;
+  const props =
+    getSetting("animation") === "true"
+      ? {
+          initialScale: 0.9,
+          in: true,
+        }
+      : {};
   return (
     <ItemBox style={{ width: "100%" }} {...props}>
       <LinkBox
@@ -63,7 +67,11 @@ const ListItem = ({ file }: FileProps) => {
           }
         >
           <HStack spacing={2}>
-            <Flex className="list-item-name" align="center" w={{ base: 3 / 4, md: "50%" }}>
+            <Flex
+              className="list-item-name"
+              align="center"
+              w={{ base: 3 / 4, md: "50%" }}
+            >
               <Icon
                 color={getSetting("icon color")}
                 boxSize={6}
@@ -84,8 +92,15 @@ const ListItem = ({ file }: FileProps) => {
                 boxSize={5}
                 as={BsArrowDownCircle}
                 onClick={() => {
-                  console.log(file);
-                  window.open(`${link}/${file.name}`, "_blank");
+                  // console.log(file);
+                  window.open(
+                    `${link}/${file.name}${
+                      getSetting("check down link") === "true"
+                        ? "?pw=" + md5_16(password)
+                        : ""
+                    }`,
+                    "_blank"
+                  );
                 }}
                 display={cursor && show && file.type !== 1 ? "block" : "none"}
                 zIndex={99}
@@ -93,7 +108,11 @@ const ListItem = ({ file }: FileProps) => {
                 onMouseLeave={() => setCursorIcon(false)}
               />
             </Flex>
-            <Text className="list-item-size" w={{ base: 1 / 4, md: 1 / 6 }} textAlign="right">
+            <Text
+              className="list-item-size"
+              w={{ base: 1 / 4, md: 1 / 6 }}
+              textAlign="right"
+            >
               {getFileSize(file.size)}
             </Text>
             <Text
@@ -184,11 +203,14 @@ const Card = ({
   const isImage = file.type === 6;
   const ComponentBox = isImage ? Box : LinkBox;
   const ComponentLink = isImage ? Box : LinkOverlay;
-  const ItemBox = getSetting("animation")==="true"?ScaleFade:Box;
-  const props = getSetting("animation")==="true"? {
-    initialScale: 0.9,
-    in: true,
-  }: {}
+  const ItemBox = getSetting("animation") === "true" ? ScaleFade : Box;
+  const props =
+    getSetting("animation") === "true"
+      ? {
+          initialScale: 0.9,
+          in: true,
+        }
+      : {};
   return (
     <ItemBox {...props}>
       <Tooltip label={file.name} gutter={8} placement="auto">
@@ -274,7 +296,11 @@ const Grid_ = ({
   const location = useLocation();
   return (
     <Box>
-      <Grid className="grid-box" templateColumns="repeat(auto-fill, minmax(100px,1fr))" gap="2">
+      <Grid
+        className="grid-box"
+        templateColumns="repeat(auto-fill, minmax(100px,1fr))"
+        gap="2"
+      >
         {files.map((file) => (
           <Card key={file.name} file={file} setShowImage={setShowImage} />
         ))}
@@ -284,7 +310,7 @@ const Grid_ = ({
 };
 
 const Files = () => {
-  const { files, show, getSetting } = useContext(IContext);
+  const { files, show, getSetting, password } = useContext(IContext);
   let files_ = files;
   if (getSetting("hide readme file") === "true") {
     files_ = files_.filter((file) => file.name.toLowerCase() !== "readme.md");
@@ -293,7 +319,14 @@ const Files = () => {
   const images = files_
     .filter((file) => file.type === 6)
     .map((file) => {
-      return { src: `${link}/${file.name}`, alt: file.name };
+      return {
+        src: `${link}/${file.name}${
+          getSetting("check down link") === "true"
+            ? "?pw=" + md5_16(password)
+            : ""
+        }`,
+        alt: file.name,
+      };
     });
   const [visible, setVisible] = React.useState(false);
   const [index, setIndex] = React.useState(0);

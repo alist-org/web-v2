@@ -9,6 +9,7 @@ import { useColorModeValue } from "@chakra-ui/color-mode";
 import { Spinner } from "@chakra-ui/spinner";
 import { Center } from "@chakra-ui/layout";
 import { useTranslation } from "react-i18next";
+import { md5_16 } from "../../../utils/md5";
 
 export const type = 5;
 export const exts = [];
@@ -16,7 +17,7 @@ export const exts = [];
 const Markdown = ({ file, readme }: FileProps) => {
   const theme = useColorModeValue("light", "dark");
   const [content, setContent] = React.useState("");
-  const { getSetting } = useContext(IContext);
+  const { getSetting, password } = useContext(IContext);
   let link = useDownLink(true);
   const { i18n } = useTranslation();
   const refresh = () => {
@@ -26,6 +27,9 @@ const Markdown = ({ file, readme }: FileProps) => {
       } else {
         link = `${link}/${file.name}`;
       }
+    }
+    if (getSetting("check down link") === "true") {
+      link = `${link}${"?pw=" + md5_16(password)}`;
     }
     axios
       .get(link, {

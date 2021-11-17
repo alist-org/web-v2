@@ -14,12 +14,13 @@ import "react-jinke-music-player/assets/index.css";
 import { FileProps, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
 import getIcon from "../../../utils/icon";
+import { md5_16 } from "../../../utils/md5";
 
 export const type = 4;
 export const exts = [];
 
 const Audio = ({ file }: FileProps) => {
-  const { lastFiles, getSetting } = useContext(IContext);
+  const { lastFiles, getSetting, password } = useContext(IContext);
   const theme = useColorModeValue("light", "dark");
   const { t, i18n } = useTranslation();
   const [audioLists, setAudioLists] = React.useState<
@@ -33,7 +34,11 @@ const Audio = ({ file }: FileProps) => {
   useEffect(() => {
     const audio: ReactJkMusicPlayerAudioListProps = {
       name: file.name,
-      musicSrc: link,
+      musicSrc: `${link}${
+        getSetting("check down link") === "true"
+          ? "?pw=" + md5_16(password)
+          : ""
+      }`,
       cover: cover,
       singer: singer,
     };
@@ -41,7 +46,10 @@ const Audio = ({ file }: FileProps) => {
     const audioList = lastFiles
       .filter((item) => item.name !== file.name && item.type === type)
       .map((item) => {
-        const link = `${pre}/${item.name}`;
+        let link = `${pre}/${item.name}`;
+        if (getSetting("check down link") === "true") {
+          link = link + "?pw=" + md5_16(password);
+        }
         return {
           name: item.name,
           musicSrc: link,

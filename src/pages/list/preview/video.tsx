@@ -5,15 +5,19 @@ import useDownLink from "../../../hooks/useDownLink";
 import { Box, Button, Center, Link, chakra, HStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import flvjs from "flv.js";
+import { md5_16 } from "../../../utils/md5";
 
 export const type = 3;
 export const exts = [];
 const DirectDrivers = ["Native", "GoogleDrive"];
 
 const Video = ({ file }: FileProps) => {
-  const { getSetting } = useContext(IContext);
+  const { getSetting, password } = useContext(IContext);
   const { i18n } = useTranslation();
-  const link = useDownLink();
+  let link = useDownLink();
+  if (getSetting("check down link") === "true") {
+    link += "?pw=" + md5_16(password);
+  }
   const url = DirectDrivers.includes(file.driver) ? link : file.url;
   let art: any;
   useEffect(() => {

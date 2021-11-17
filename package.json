@@ -25,7 +25,7 @@
     "react-pdf": "^5.5.0",
     "react-router-dom": "^5.2.1",
     "react-viewer": "^3.2.2",
-    "ts-md5": "^1.2.9"
+    "ts-md5": "^1.2.10"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",

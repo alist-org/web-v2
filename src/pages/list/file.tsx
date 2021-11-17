@@ -5,11 +5,12 @@ import { FileProps, IContext } from ".";
 import useDownLink from "../../hooks/useDownLink";
 import useTitle from "../../hooks/useTitle";
 import getIcon from "../../utils/icon";
+import { md5_16 } from "../../utils/md5";
 
 const previews = import.meta.globEager("./preview/*.tsx");
 
 const NoPreview = ({ file }: FileProps) => {
-  const { getSetting } = useContext(IContext);
+  const { getSetting, password } = useContext(IContext);
   const ext = file.name.split(".").pop() || "";
   const link = useDownLink();
   const { t } = useTranslation();
@@ -17,14 +18,21 @@ const NoPreview = ({ file }: FileProps) => {
     <Center className="no-preview" p="4">
       <VStack spacing="8">
         <Icon
-          color={getSetting("icon color")||"teal.300"}
+          color={getSetting("icon color") || "teal.300"}
           boxSize={20}
           as={getIcon(file.type, ext)}
         />
         <Heading size="md">{file.name}</Heading>
         <Button
           onClick={() => {
-            window.open(link, "_blank");
+            window.open(
+              `${link}${
+                getSetting("check down link") === "true"
+                  ? "?pw=" + md5_16(password)
+                  : ""
+              }`,
+              "_blank"
+            );
           }}
         >
           {t("Download")}

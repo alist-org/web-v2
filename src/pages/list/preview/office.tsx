@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import { FileProps, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
 import useUnfold from "../../../hooks/useUnfold";
+import { md5_16 } from "../../../utils/md5";
 import request from "../../../utils/public";
 
 export const type = 2;
@@ -20,7 +21,11 @@ const Pdf = lazy(() => import("./pdf"));
 
 const Office = ({ file }: FileProps) => {
   const { pathname } = useLocation();
-  const link = useDownLink();
+  const { getSetting, password } = useContext(IContext);
+  let link = useDownLink();
+  if (getSetting("check down link") === "true") {
+    link += "?pw=" + md5_16(password)
+  }
   const { unfold, setShowUnfold } = useUnfold(false);
   const [show, setShow] = React.useState<string>("");
   const [pdf, setPdf] = React.useState("");
@@ -37,7 +42,8 @@ const Office = ({ file }: FileProps) => {
         });
         docOptions.setToken({ token: res.data.access_token });
       });
-    } else { // if (file.driver === "Native")
+    } else {
+      // if (file.driver === "Native")
       if (file.name.endsWith(".pdf")) {
         setPdf(link);
         setShow("pdf");

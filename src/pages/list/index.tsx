@@ -77,6 +77,7 @@ export interface ContextProps {
   unfold?: boolean;
   setUnfold?: (fold: boolean) => void;
   lastFiles: File[];
+  password: string;
 }
 
 export const IContext = createContext<ContextProps>({
@@ -86,6 +87,7 @@ export const IContext = createContext<ContextProps>({
   show: "list",
   getSetting: getSetting,
   lastFiles: [],
+  password: "",
 });
 
 const KuttyHero = () => {
@@ -225,6 +227,7 @@ const KuttyHero = () => {
           unfold,
           setUnfold,
           lastFiles,
+          password,
         }}
       >
         <Overlay list />

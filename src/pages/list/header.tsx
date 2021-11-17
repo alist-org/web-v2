@@ -19,12 +19,14 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import useDownLink from "../../hooks/useDownLink";
 import { copyToClip } from "../../utils/copy-clip";
+import { md5_16 } from "../../utils/md5";
 
 const Header = () => {
   const { t } = useTranslation();
   const link = useDownLink();
   const toast = useToast();
-  const { show, setShow, type, getSetting, files } = useContext(IContext);
+  const { show, setShow, type, getSetting, files, password } =
+    useContext(IContext);
   return (
     <Flex className="header" px="2" py="2" justify="space-between" w="full">
       <Link to="/" className="logo">
@@ -55,7 +57,11 @@ const Header = () => {
               boxSize={6}
               as={BsFillArrowDownCircleFill}
               onClick={() => {
-                window.open(link, "_blank");
+                let url = link;
+                if (getSetting("check down link") === "true") {
+                  url = `${link}?pw=${md5_16(password)}`;
+                }
+                window.open(url, "_blank");
               }}
             />
           </Tooltip>
@@ -75,10 +81,19 @@ const Header = () => {
                 let content = "";
                 if (type === "file") {
                   content = link;
+                  if (getSetting("check down link") === "true") {
+                    content = `${link}?pw=${md5_16(password)}`;
+                  }
                 } else {
                   content = files
                     .filter((file) => file.type !== 1)
-                    .map((file) => `${link}/${file.name}`)
+                    .map((file) => {
+                      if (getSetting("check down link") === "true") {
+                        return `${link}/${file.name}?pw=${md5_16(password)}`;
+                      } else {
+                        return `${link}/${file.name}`;
+                      }
+                    })
                     .join("\n");
                 }
                 if (navigator.clipboard) {
