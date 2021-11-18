@@ -7,6 +7,7 @@ import {
   useToast,
   Spinner,
   Tooltip,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { IContext } from ".";
@@ -27,10 +28,12 @@ const Header = () => {
   const toast = useToast();
   const { show, setShow, type, getSetting, files, password } =
     useContext(IContext);
+  const logos = getSetting("logo");
+  const logo = useColorModeValue(logos.split(",").shift(), logos.split(",").pop()) as string;
   return (
     <Flex className="header" px="2" py="2" justify="space-between" w="full">
       <Link to="/" className="logo">
-        {getSetting("logo").includes("http") ? (
+        {logo.includes("http") ? (
           <Image
             fallback={
               <Spinner color={getSetting("icon color") || "teal.300"} />
@@ -38,10 +41,10 @@ const Header = () => {
             rounded="lg"
             h="44px"
             w="auto"
-            src={getSetting("logo")}
+            src={logo}
           />
         ) : (
-          <Heading>{getSetting("logo")}</Heading>
+          <Heading>{logo}</Heading>
         )}
       </Link>
       <HStack className="buttons" spacing="2">
