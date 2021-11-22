@@ -343,8 +343,10 @@ const Accounts = () => {
           </ModalBody>
 
           <ModalFooter>
+            <Button mr={3} colorScheme="gray" onClick={editDisclosure.onClose}>
+              {t("cancle")}
+            </Button>
             <Button
-              mr={3}
               onClick={() => {
                 admin
                   .post(`account/${isEdit ? "save" : "create"}`, currentAccount)
@@ -375,9 +377,6 @@ const Accounts = () => {
               }}
             >
               {t("save")}
-            </Button>
-            <Button colorScheme="gray" onClick={editDisclosure.onClose}>
-              {t("cancle")}
             </Button>
           </ModalFooter>
         </ModalContent>

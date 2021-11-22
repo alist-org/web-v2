@@ -106,7 +106,7 @@ const Metas = () => {
                   <Td>{meta.path}</Td>
                   <Td>{meta.password}</Td>
                   <Td>{meta.hide}</Td>
-                  <Td>
+                  <Td whiteSpace="nowrap">
                     <Button
                       onClick={() => {
                         setCurrentMeta(meta);
@@ -190,9 +190,10 @@ const Metas = () => {
           </ModalBody>
 
           <ModalFooter>
+            <Button mr={3} colorScheme="gray" onClick={editDisclosure.onClose}>
+              {t("cancle")}
+            </Button>
             <Button
-              colorScheme="blue"
-              mr={3}
               onClick={() => {
                 admin
                   .post(`meta/${isEdit ? "save" : "create"}`, currentMeta)
@@ -205,6 +206,10 @@ const Metas = () => {
                         duration: 3000,
                         isClosable: true,
                       });
+                      if (!isEdit) {
+                        refreshMetas();
+                        editDisclosure.onClose();
+                      }
                     } else {
                       toast({
                         title: t(res.message),
@@ -220,7 +225,6 @@ const Metas = () => {
             >
               {t("save")}
             </Button>
-            <Button onClick={editDisclosure.onClose}>{t("cancle")}</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
