@@ -1536,10 +1536,10 @@ make-event-props@^1.1.0:
   resolved "https://registry.yarnpkg.com/make-event-props/-/make-event-props-1.3.0.tgz#2434cb390d58bcf40898d009ef5b1f936de9671b"
   integrity sha512-oWiDZMcVB1/A487251hEWza1xzgCzl6MXxe9aF24l5Bt9N9UEbqTqKumEfuuLhmlhRZYnc+suVvW4vUs8bwO7Q==
 
-md-editor-rt@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/md-editor-rt/-/md-editor-rt-1.1.1.tgz#a9299db7098b0d964d7619598974764bdd5afae7"
-  integrity sha512-wUDEe2KT9v1ouUmy8Nl8BLDXI0rV0fVhAwyP9GuyNGagIYehhVitSi7kYglVJKkp5/xIcwkoCBWAHWsI5qLJjA==
+md-editor-rt@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/md-editor-rt/-/md-editor-rt-1.2.2.tgz#cfe90d4ebe0a3971d32e2f79613bbc0ad390a4b3"
+  integrity sha512-/+FbdN61OFrtlAnWKg1EZVHJgaUSCH9OZQv2k8lYzbWijQQTlERgFwWbvHqwmS4CybHAXvgl9r2hV1Xr8i3JnA==
 
 merge-class-names@^1.1.1:
   version "1.4.2"
