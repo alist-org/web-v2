@@ -12,16 +12,9 @@ import {
   SimpleGrid,
   useDisclosure,
   useToast,
-  FormControl,
-  FormLabel,
-  Select,
-  Input,
-  FormHelperText,
-  Switch,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -53,6 +46,7 @@ interface Account {
   site_url: string;
   onedrive_type: string;
   index: number;
+  webdav_proxy: boolean;
 }
 
 const EmptyAccount: Account = {
@@ -77,6 +71,7 @@ const EmptyAccount: Account = {
   site_url: "",
   onedrive_type: "",
   index: 0,
+  webdav_proxy: false,
 };
 
 interface PropItem {
