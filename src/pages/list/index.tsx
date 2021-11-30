@@ -45,6 +45,8 @@ export interface File {
   updated_at: string;
   thumbnail: string;
   url: string;
+  size_str?: string;
+  time_str?: string;
 }
 
 export interface FileProps {

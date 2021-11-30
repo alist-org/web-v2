@@ -113,7 +113,7 @@ const ListItem = ({ file }: FileProps) => {
               w={{ base: 1 / 4, md: 1 / 6 }}
               textAlign="right"
             >
-              {getFileSize(file.size)}
+              {file.size_str ? file.size_str : getFileSize(file.size)}
             </Text>
             <Text
               className="list-item-updated_at"
@@ -121,7 +121,11 @@ const ListItem = ({ file }: FileProps) => {
               display={{ base: "none", md: "unset" }}
               textAlign="right"
             >
-              {formatDate(file.updated_at)}
+              {file.time_str
+                ? file.time_str
+                : file.driver === "Lanzou"
+                ? "-"
+                : formatDate(file.updated_at)}
             </Text>
           </HStack>
         </LinkOverlay>
