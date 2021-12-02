@@ -8,6 +8,7 @@ export const useEncrypt = ()=>{
     if(getSetting('check down link')!=="true" || password===''){
       return url;
     }
-    return `${url}?pw=${md5_16(password)}`;
+    const name = url.split('/').pop();
+    return `${url}?pw=${md5_16("alist"+password+name)}`;
   }
 }
