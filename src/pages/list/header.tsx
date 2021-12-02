@@ -17,14 +17,15 @@ import { IoIosCopy } from "react-icons/io";
 import { BsFillArrowDownCircleFill } from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useDownLink from "../../hooks/useDownLink";
 import { copyToClip } from "../../utils/copy-clip";
-import { md5_16 } from "../../utils/md5";
+import { useEncrypt } from "../../hooks/useEncrypt";
 
 const Header = () => {
   const { t } = useTranslation();
   const link = useDownLink();
+  const encrypt = useEncrypt();
   const toast = useToast();
   const { show, setShow, type, getSetting, files, password } =
     useContext(IContext);
@@ -60,10 +61,7 @@ const Header = () => {
               boxSize={6}
               as={BsFillArrowDownCircleFill}
               onClick={() => {
-                let url = link;
-                if (getSetting("check down link") === "true") {
-                  url = `${link}?pw=${md5_16(password)}`;
-                }
+                let url = encrypt(link);
                 window.open(url, "_blank");
               }}
             />
@@ -83,19 +81,12 @@ const Header = () => {
               onClick={() => {
                 let content = "";
                 if (type === "file") {
-                  content = link;
-                  if (getSetting("check down link") === "true") {
-                    content = `${link}?pw=${md5_16(password)}`;
-                  }
+                  content = encrypt(link);
                 } else {
                   content = files
                     .filter((file) => file.type !== 1)
                     .map((file) => {
-                      if (getSetting("check down link") === "true") {
-                        return `${link}/${file.name}?pw=${md5_16(password)}`;
-                      } else {
-                        return `${link}/${file.name}`;
-                      }
+                      return encrypt(`${link}/${file.name}`);
                     })
                     .join("\n");
                 }

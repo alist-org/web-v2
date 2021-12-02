@@ -23,7 +23,7 @@ import getIcon from "../../utils/icon";
 import Viewer from "react-viewer";
 import useDownLink from "../../hooks/useDownLink";
 import { BsArrowDownCircle } from "react-icons/bs";
-import { md5_16 } from "../../utils/md5";
+import { useEncrypt } from "../../hooks/useEncrypt";
 
 const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();
@@ -34,6 +34,7 @@ const ListItem = ({ file }: FileProps) => {
   const link = useDownLink();
   const [cursorIcon, setCursorIcon] = useState<boolean>(false);
   const ItemBox = getSetting("animation") === "true" ? ScaleFade : Box;
+  const encrypt = useEncrypt();
   const props =
     getSetting("animation") === "true"
       ? {
@@ -93,14 +94,7 @@ const ListItem = ({ file }: FileProps) => {
                 as={BsArrowDownCircle}
                 onClick={() => {
                   // console.log(file);
-                  window.open(
-                    `${link}/${file.name}${
-                      getSetting("check down link") === "true"
-                        ? "?pw=" + md5_16(password)
-                        : ""
-                    }`,
-                    "_blank"
-                  );
+                  window.open(encrypt(`${link}/${file.name}`), "_blank");
                 }}
                 display={cursor && show && file.type !== 1 ? "block" : "none"}
                 zIndex={99}
@@ -320,15 +314,12 @@ const Files = () => {
     files_ = files_.filter((file) => file.name.toLowerCase() !== "readme.md");
   }
   const link = useDownLink();
+  const encrypt = useEncrypt();
   const images = files_
     .filter((file) => file.type === 6)
     .map((file) => {
       return {
-        src: `${link}/${file.name}${
-          getSetting("check down link") === "true"
-            ? "?pw=" + md5_16(password)
-            : ""
-        }`,
+        src: encrypt(`${link}/${file.name}`),
         alt: file.name,
       };
     });

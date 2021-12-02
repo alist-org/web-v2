@@ -13,8 +13,8 @@ import ReactJkMusicPlayer, {
 import "react-jinke-music-player/assets/index.css";
 import { FileProps, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
+import { useEncrypt } from "../../../hooks/useEncrypt";
 import getIcon from "../../../utils/icon";
-import { md5_16 } from "../../../utils/md5";
 
 export const type = 4;
 export const exts = [];
@@ -27,6 +27,7 @@ const Audio = ({ file }: FileProps) => {
     ReactJkMusicPlayerAudioListProps[]
   >([]);
   const link = useDownLink();
+  const encrypt = useEncrypt();
   const cover =
     getSetting("music cover") ||
     "https://store.heytapimage.com/cdo-portal/feedback/202110/30/d43c41c5d257c9bc36366e310374fb19.png";
@@ -34,11 +35,7 @@ const Audio = ({ file }: FileProps) => {
   useEffect(() => {
     const audio: ReactJkMusicPlayerAudioListProps = {
       name: file.name,
-      musicSrc: `${link}${
-        getSetting("check down link") === "true"
-          ? "?pw=" + md5_16(password)
-          : ""
-      }`,
+      musicSrc: encrypt(link),
       cover: cover,
       singer: singer,
     };
@@ -46,10 +43,7 @@ const Audio = ({ file }: FileProps) => {
     const audioList = lastFiles
       .filter((item) => item.name !== file.name && item.type === type)
       .map((item) => {
-        let link = `${pre}/${item.name}`;
-        if (getSetting("check down link") === "true") {
-          link = link + "?pw=" + md5_16(password);
-        }
+        let link = encrypt(`${pre}/${item.name}`);
         return {
           name: item.name,
           musicSrc: link,

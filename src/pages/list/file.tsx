@@ -3,17 +3,18 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { FileProps, IContext } from ".";
 import useDownLink from "../../hooks/useDownLink";
+import { useEncrypt } from "../../hooks/useEncrypt";
 import useTitle from "../../hooks/useTitle";
 import getIcon from "../../utils/icon";
-import { md5_16 } from "../../utils/md5";
 
 const previews = import.meta.globEager("./preview/*.tsx");
 
 const NoPreview = ({ file }: FileProps) => {
-  const { getSetting, password } = useContext(IContext);
+  const { getSetting } = useContext(IContext);
   const ext = file.name.split(".").pop() || "";
   const link = useDownLink();
   const { t } = useTranslation();
+  const encrypt = useEncrypt();
   return (
     <Center className="no-preview" p="4">
       <VStack spacing="8">
@@ -25,14 +26,7 @@ const NoPreview = ({ file }: FileProps) => {
         <Heading size="md">{file.name}</Heading>
         <Button
           onClick={() => {
-            window.open(
-              `${link}${
-                getSetting("check down link") === "true"
-                  ? "?pw=" + md5_16(password)
-                  : ""
-              }`,
-              "_blank"
-            );
+            window.open(encrypt(link), "_blank");
           }}
         >
           {t("Download")}

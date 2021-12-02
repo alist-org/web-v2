@@ -2,23 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { FileProps, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
 import { Image, Center, Spinner } from "@chakra-ui/react";
-import { md5_16 } from "../../../utils/md5";
+import { useEncrypt } from "../../../hooks/useEncrypt";
 
 export const type = 6;
 export const exts = [];
 
 const ImagePreview = ({ file }: FileProps) => {
   const link = useDownLink();
+  const encrypt = useEncrypt();
   const [url, setUrl] = useState("");
   const { getSetting, password } = useContext(IContext);
   useEffect(() => {
-    setUrl(
-      `${link}${
-        getSetting("check down link") === "true"
-          ? "?pw=" + md5_16(password)
-          : ""
-      }`
-    );
+    setUrl(encrypt(link));
   }, []);
   return (
     <Center className="image-box" w="full">

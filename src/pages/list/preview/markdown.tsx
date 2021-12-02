@@ -9,7 +9,7 @@ import { useColorModeValue } from "@chakra-ui/color-mode";
 import { Spinner } from "@chakra-ui/spinner";
 import { Center } from "@chakra-ui/layout";
 import { useTranslation } from "react-i18next";
-import { md5_16 } from "../../../utils/md5";
+import { useEncrypt } from "../../../hooks/useEncrypt";
 
 export const type = 5;
 export const exts = [];
@@ -19,6 +19,7 @@ const Markdown = ({ file, readme }: FileProps) => {
   const [content, setContent] = React.useState("");
   const { getSetting, password } = useContext(IContext);
   let link = useDownLink(true);
+  const encrypt = useEncrypt();
   const { i18n } = useTranslation();
   const refresh = () => {
     if (readme) {
@@ -28,9 +29,7 @@ const Markdown = ({ file, readme }: FileProps) => {
         link = `${link}/${file.name}`;
       }
     }
-    if (getSetting("check down link") === "true") {
-      link = `${link}${"?pw=" + md5_16(password)}`;
-    }
+    link = encrypt(link);
     axios
       .get(link, {
         transformResponse: [
