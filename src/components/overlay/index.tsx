@@ -1,12 +1,13 @@
 import React from 'react';
 import ToTop from './to-top';
 import Ss from './site-settings';
+import { Box } from '@chakra-ui/layout';
 
 const Overlay = (props:any) => {
-  return <div className="overlay">
+  return <Box className="overlay" zIndex="100">
     <Ss {...props} />
     <ToTop />
-    </div>;
+    </Box>;
 };
 
 export default Overlay;
