@@ -99,7 +99,9 @@ const KuttyHero = () => {
   const { t } = useTranslation();
   const [files, setFiles] = React.useState<File[]>([]);
   const [lastFiles, setLastFiles] = React.useState<File[]>([]);
-  const [type, setType] = React.useState<"file" | "folder" | "error" | "loading">("folder");
+  const [type, setType] = React.useState<
+    "file" | "folder" | "error" | "loading"
+  >("folder");
   const [msg, setMsg] = useState("");
   const [settingLoaded, setSettingLoaded] = React.useState<boolean>(false);
   const readme = useMemo(() => {
@@ -236,7 +238,13 @@ const KuttyHero = () => {
         <VStack w={{ base: "95%", lg: "980px" }}>
           <Header />
           <Nav />
-          <Box className="main-box" rounded="lg" shadow="lg" bgColor={bgColor} w="full">
+          <Box
+            className="main-box"
+            rounded="lg"
+            shadow="lg"
+            bgColor={bgColor}
+            w="full"
+          >
             {loading ? (
               <Center w="full" py="4">
                 <Spinner
@@ -268,7 +276,14 @@ const KuttyHero = () => {
             )}
           </Box>
           {!loading && readme && (
-            <Box className="readme-box" rounded="lg" shadow="lg" bgColor={bgColor} w="full" p="4">
+            <Box
+              className="readme-box"
+              rounded="lg"
+              shadow="lg"
+              bgColor={bgColor}
+              w="full"
+              p="4"
+            >
               <Markdown file={readme} readme />
             </Box>
           )}
@@ -294,6 +309,13 @@ const KuttyHero = () => {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
+              }}
+              onKeyUp={(e) => {
+                if (e.key === "Enter") {
+                  localStorage.setItem("password", password);
+                  refresh();
+                  onClose();
+                }
               }}
             />
           </ModalBody>
