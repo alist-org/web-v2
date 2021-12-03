@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Suspense fallback={<Center h='full'><Spinner color="teal.300" size="xl" /></Center>}>
+        <Suspense fallback={<Center h='100vh'><Spinner color="teal.300" size="xl" /></Center>}>
         <Switch>
           <Route path="/@manage/">
             <Manage />

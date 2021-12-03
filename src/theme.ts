@@ -16,7 +16,7 @@ const styles: Styles = {
     "html,body,#root,.App": {
       margin: 0,
       padding: 0,
-      height: "100%",
+      // height: "100%",
     },
     ".test": {
       bg: mode("white", "gray.800")(props),

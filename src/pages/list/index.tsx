@@ -211,7 +211,7 @@ const KuttyHero = () => {
   const [unfold, setUnfold] = React.useState<boolean>(false);
   if (!settingLoaded) {
     return (
-      <Center w="full" h="full">
+      <Center w="full" h="100vh">
         <Spinner color={getSetting("icon color") || "teal.300"} size="xl" />
       </Center>
     );
