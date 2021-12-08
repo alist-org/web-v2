@@ -30,7 +30,7 @@ const Nav = () => {
             .join("/");
           return (
             <BreadcrumbItem key={pathname} isCurrentPage={isLast}>
-              <BreadcrumbLink wordBreak="break-word" as={Link} to={pathname}>
+              <BreadcrumbLink wordBreak="break-word" as={Link} to={encodeURI(pathname)}>
                 {path}
               </BreadcrumbLink>
             </BreadcrumbItem>

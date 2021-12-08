@@ -12,9 +12,9 @@ export const useEncrypt = ()=>{
     const token = localStorage.getItem("admin-token");
     if(token) {
       const sign = md5_16(`alist-${token}-${name}`);
-      return `${url}?sign=${sign}`;
+      return encodeURI(`${url}?sign=${sign}`);
     }
     const pw = md5_16(`alist-${password}-${name}`)
-    return `${url}?pw=${pw}`;
+    return encodeURI(`${url}?pw=${pw}`);
   }
 }

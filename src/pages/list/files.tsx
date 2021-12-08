@@ -59,13 +59,13 @@ const ListItem = ({ file }: FileProps) => {
       >
         <LinkOverlay
           as={Link}
-          to={
+          to={encodeURI(
             cursorIcon
               ? pathname
               : `${pathname.endsWith("/") ? pathname.slice(0, -1) : pathname}/${
                   file.name
                 }`
-          }
+          )}
         >
           <HStack spacing={2}>
             <Flex
@@ -261,7 +261,7 @@ const Card = ({
             <ComponentLink
               w="full"
               as={isImage ? Box : Link}
-              to={isImage ? "" : to}
+              to={isImage ? "" : encodeURI(to)}
               className="grid-item-name"
             >
               <Text
