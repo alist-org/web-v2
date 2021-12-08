@@ -41,4 +41,6 @@ instance.interceptors.response.use(
   }
 )
 
+instance.defaults.headers.common["Authorization"] = localStorage.getItem("admin-token") || ""
+
 export default instance

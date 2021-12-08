@@ -9,6 +9,12 @@ export const useEncrypt = ()=>{
       return url;
     }
     const name = url.split('/').pop();
-    return `${url}?pw=${md5_16("alist-"+password+"-"+name)}`;
+    const token = localStorage.getItem("admin-token");
+    if(token) {
+      const sign = md5_16(`alist-${token}-${name}`);
+      return `${url}?sign=${sign}`;
+    }
+    const pw = md5_16(`alist-${password}-${name}`)
+    return `${url}?pw=${pw}`;
   }
 }
