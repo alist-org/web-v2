@@ -2,6 +2,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Icon,
   Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -14,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { MdDeleteSweep } from "react-icons/md";
 
 export interface FormItemProps {
   label: string;
@@ -24,12 +26,24 @@ export interface FormItemProps {
   readOnly?: boolean;
   onChange?: (value?: string | number) => void;
   values?: string[];
+  onDelete?: () => void;
 }
 const FormItem = (props: FormItemProps) => {
   const { t } = useTranslation();
   return (
     <FormControl shadow="md" p="2" rounded="lg" isRequired={props.required}>
-      <FormLabel>{t(props.label)}</FormLabel>
+      <FormLabel>
+        {t(props.label)}{" "}
+        {props.onDelete && (
+          <Icon
+            color="red.300"
+            boxSize={6}
+            _hover={{ cursor: "pointer" }}
+            as={MdDeleteSweep}
+            onClick={props.onDelete}
+          />
+        )}
+      </FormLabel>
       {props.type === "string" ? (
         <Input
           isReadOnly={props.readOnly}
@@ -95,8 +109,11 @@ const FormItem = (props: FormItemProps) => {
           </NumberInputStepper>
         </NumberInput>
       ) : null}
-      {props.description && (
-        <FormHelperText>{t(props.description)}</FormHelperText>
+      {(props.description || props.onDelete) && (
+        <FormHelperText>
+          {t(props.description ? props.description : "")}{" "}
+          {props.onDelete && t("Deprecated")}
+        </FormHelperText>
       )}
     </FormControl>
   );

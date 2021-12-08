@@ -104,6 +104,7 @@ const zh = {
   "check parent folder": "检查父文件夹密码",
   "animation": "动画",
   "when there are a lot of files, the animation will freeze when opening": "当文件数量较多时，打开文件时动画会卡顿",
+  "Deprecated": "已过时",
 }
 
 export default zh

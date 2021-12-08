@@ -21,12 +21,13 @@ interface SettingItem {
   type: "string" | "bool" | "select" | "text";
   group: number;
   values?: string;
+  version: string;
 }
 const Settings = () => {
   const toast = useToast();
   const { t } = useTranslation();
   const [settings, setSettings] = useState<SettingItem[]>([]);
-  useEffect(() => {
+  const refreshSettings = () => {
     admin.get("settings").then((resp) => {
       const res = resp.data;
       if (res.code !== 200) {
@@ -40,6 +41,9 @@ const Settings = () => {
         setSettings(res.data);
       }
     });
+  };
+  useEffect(() => {
+    refreshSettings();
   }, []);
   return (
     <Box w="full">
@@ -76,6 +80,33 @@ const Settings = () => {
                 })
               );
             }}
+            onDelete={
+              item.version === settings.find((s) => s.key === "version")?.value
+                ? undefined
+                : () => {
+                    admin
+                      .delete("setting", { params: { key: item.key } })
+                      .then((resp) => {
+                        const res = resp.data;
+                        if (res.code !== 200) {
+                          toast({
+                            title: t(res.message),
+                            status: "error",
+                            duration: 3000,
+                            isClosable: true,
+                          });
+                        } else {
+                          toast({
+                            title: t(res.message),
+                            status: "success",
+                            duration: 3000,
+                            isClosable: true,
+                          });
+                          refreshSettings();
+                        }
+                      });
+                  }
+            }
           />
         ))}
       </SimpleGrid>
