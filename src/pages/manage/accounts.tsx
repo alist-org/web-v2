@@ -28,50 +28,55 @@ interface Account {
   id: number;
   name: string;
   type: string;
-  username: string;
-  password: string;
-  refresh_token: string;
-  access_token: string;
+  // username: string;
+  // password: string;
+  // refresh_token: string;
+  // access_token: string;
   root_folder: string;
-  limit: number;
-  order_by: string;
-  order_direction: string;
-  proxy: boolean;
+  // limit: number;
+  // order_by: string;
+  // order_direction: string;
+  // proxy: boolean;
   status: string;
-  search: boolean;
-  client_id: string;
-  client_secret: string;
-  zone: string;
-  redirect_uri: string;
-  site_url: string;
-  onedrive_type: string;
+  // search: boolean;
+  // client_id: string;
+  // client_secret: string;
+  // zone: string;
+  // redirect_uri: string;
+  // site_url: string;
+  // onedrive_type: string;
   index: number;
-  webdav_proxy: boolean;
+  // webdav_proxy: boolean;
+  // proxy_url: string;
+  // allow_proxy: boolean;
+  [key: string]: any;
 }
 
 const EmptyAccount: Account = {
   id: 0,
   name: "",
   type: "",
-  username: "",
-  password: "",
-  refresh_token: "",
-  access_token: "",
+  // username: "",
+  // password: "",
+  // refresh_token: "",
+  // access_token: "",
   root_folder: "",
-  limit: 0,
-  order_by: "",
-  order_direction: "",
-  proxy: false,
+  // limit: 0,
+  // order_by: "",
+  // order_direction: "",
+  // proxy: false,
   status: "",
-  search: false,
-  client_id: "",
-  client_secret: "",
-  zone: "",
-  redirect_uri: "",
-  site_url: "",
-  onedrive_type: "",
+  // search: false,
+  // client_id: "",
+  // client_secret: "",
+  // zone: "",
+  // redirect_uri: "",
+  // site_url: "",
+  // onedrive_type: "",
   index: 0,
-  webdav_proxy: false,
+  // webdav_proxy: false,
+  // proxy_url: "",
+  // allow_proxy: false,
 };
 
 interface PropItem {
@@ -81,6 +86,19 @@ interface PropItem {
   required: boolean;
   description?: string;
   values?: string;
+}
+
+function GetDefaultValue(type:"string" | "bool" | "select" | "number") {
+  switch (type) {
+    case "string":
+      return "";
+    case "bool":
+      return false;
+    case "select":
+      return "";
+    case "number":
+      return 0;
+  }
 }
 
 const CommonItems: PropItem[] = [
@@ -204,7 +222,7 @@ const Accounts = () => {
           <Tbody>
             {accounts.map((account) => {
               return (
-                <Tr key={account.name}>
+                <Tr key={account.id}>
                   <Td>{account.name}</Td>
                   <Td>{account.type}</Td>
                   <Td>{account.root_folder}</Td>
@@ -275,10 +293,18 @@ const Accounts = () => {
                 value={currentAccount.type}
                 values={Object.keys(drivers)}
                 onChange={(value) => {
-                  setcurrentAccount({
-                    ...currentAccount,
-                    type: value as string,
-                  });
+                  const newAccount:any = {...currentAccount};
+                  newAccount.type = value;
+                  for (const item of drivers[value as string]) {
+                    if (!Object.keys(newAccount).includes(item.name)) {
+                      newAccount[item.name] = GetDefaultValue(item.type);
+                    }
+                  }
+                  setcurrentAccount(newAccount);
+                  // setcurrentAccount({
+                  //   ...currentAccount,
+                  //   type: value as string,
+                  // });
                 }}
               />
               {CommonItems.map((item) => {
@@ -343,6 +369,7 @@ const Accounts = () => {
             </Button>
             <Button
               onClick={() => {
+                console.log(currentAccount);
                 admin
                   .post(`account/${isEdit ? "save" : "create"}`, currentAccount)
                   .then((resp) => {
