@@ -9,6 +9,6 @@ export const useEncrypt = ()=>{
       return url;
     }
     const name = url.split('/').pop();
-    return `${url}?pw=${md5_16("alist"+password+name)}`;
+    return `${url}?pw=${md5_16("alist-"+password+"-"+name)}`;
   }
 }
