@@ -25,7 +25,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useHistory, useLocation } from "react-router";
-import request from "../../utils/admin";
+import request from "../../utils/public";
 import { useTranslation } from "react-i18next";
 import Header from "./header";
 import Footer from "./footer";

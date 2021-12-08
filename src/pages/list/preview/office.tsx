@@ -5,7 +5,7 @@ import { FileProps, IContext } from "..";
 import useDownLink from "../../../hooks/useDownLink";
 import { useEncrypt } from "../../../hooks/useEncrypt";
 import useUnfold from "../../../hooks/useUnfold";
-import request from "../../../utils/admin";
+import request from "../../../utils/public";
 
 export const type = 2;
 export const exts = [];

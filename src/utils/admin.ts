@@ -1,4 +1,5 @@
 import axios from 'axios'
+import publicR from './public'
 import { Md5 } from 'ts-md5'
 
 const instance = axios.create({
@@ -42,10 +43,12 @@ instance.interceptors.response.use(
 )
 
 instance.defaults.headers.common["Authorization"] = localStorage.getItem("admin-token") || ""
+publicR.defaults.headers.common["Authorization"] = localStorage.getItem("admin-token") || ""
 
 export const changeToken = (password:string) => {
   const token = Md5.hashStr(`https://github.com/Xhofe/alist-${password}`)
   instance.defaults.headers.common["Authorization"] = token
+  publicR.defaults.headers.common["Authorization"] = token
   localStorage.setItem("admin-token",token)
 }
 
