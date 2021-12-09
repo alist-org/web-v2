@@ -45,7 +45,10 @@ instance.interceptors.response.use(
 instance.defaults.headers.common["Authorization"] = localStorage.getItem("admin-token") || ""
 
 export const changeToken = (password:string) => {
-  const token = Md5.hashStr(`https://github.com/Xhofe/alist-${password}`)
+  let token = ""
+  if (password) {
+    token = Md5.hashStr(`https://github.com/Xhofe/alist-${password}`)
+  }
   instance.defaults.headers.common["Authorization"] = token
   publicR.defaults.headers.common["Authorization"] = token
   localStorage.setItem("admin-token",token)
