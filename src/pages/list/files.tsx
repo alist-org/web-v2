@@ -13,7 +13,7 @@ import {
   HStack,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { IContext, File, FileProps } from ".";
@@ -308,12 +308,13 @@ const Grid_ = ({
 };
 
 const Files = () => {
-  const { files, show, getSetting, password } = useContext(IContext);
+  const { files, show, getSetting } = useContext(IContext);
   let files_ = files;
   if (getSetting("hide readme file") === "true") {
     files_ = files_.filter((file) => file.name.toLowerCase() !== "readme.md");
   }
-  const link = useDownLink();
+  const link_ = useDownLink();
+  const [link, setLink] = React.useState(link_);
   const encrypt = useEncrypt();
   const images = files_
     .filter((file) => file.type === 6)
