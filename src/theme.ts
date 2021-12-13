@@ -35,6 +35,10 @@ const styles: Styles = {
     ".react-jinke-music-player-main.dark-theme .music-player-panel": {
       bg: "transparent",
     },
+    // react-viewer
+    ".react-viewer img": {
+      maxWidth: "unset",
+    },
   }),
 };
 
