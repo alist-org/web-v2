@@ -136,6 +136,7 @@ const KuttyHero = () => {
     localStorage.getItem("show") || "list"
   );
   const refresh = () => {
+    console.log("refresh");
     setLoading(true);
     setLastFiles(files);
     setType("loading");
@@ -217,7 +218,7 @@ const KuttyHero = () => {
     );
   }
   return (
-    <Center w="full">
+    <Center className="index-box" w="full">
       <IContext.Provider
         value={{
           files,
@@ -235,7 +236,7 @@ const KuttyHero = () => {
         }}
       >
         <Overlay list />
-        <VStack w={{ base: "95%", lg: "980px" }}>
+        <VStack className="root-box" w={{ base: "95%", lg: "980px" }}>
           <Header />
           <Nav />
           <Box
