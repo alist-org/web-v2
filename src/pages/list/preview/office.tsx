@@ -21,7 +21,7 @@ const Pdf = lazy(() => import("./pdf"));
 
 const Office = ({ file }: FileProps) => {
   const { pathname } = useLocation();
-  const { getSetting, password } = useContext(IContext);
+  const { password } = useContext(IContext);
   let link = useDownLink();
   const encrypt = useEncrypt();
   link = encrypt(link);
@@ -30,17 +30,19 @@ const Office = ({ file }: FileProps) => {
   const [pdf, setPdf] = React.useState("");
   const refresh = () => {
     if (file.driver === "AliDrive") {
-      request.post("preview", { path: pathname }).then((resp) => {
-        const res = resp.data;
-        if (res.code !== 200) {
-          return;
-        }
-        const docOptions = aliyun.config({
-          mount: document.querySelector("#office-preview")!,
-          url: res.data.preview_url,
+      request
+        .post("preview", { path: pathname, password: password })
+        .then((resp) => {
+          const res = resp.data;
+          if (res.code !== 200) {
+            return;
+          }
+          const docOptions = aliyun.config({
+            mount: document.querySelector("#office-preview")!,
+            url: res.data.preview_url,
+          });
+          docOptions.setToken({ token: res.data.access_token });
         });
-        docOptions.setToken({ token: res.data.access_token });
-      });
     } else {
       // if (file.driver === "Native")
       if (file.name.endsWith(".pdf")) {
