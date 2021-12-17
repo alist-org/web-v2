@@ -136,7 +136,6 @@ const KuttyHero = () => {
     localStorage.getItem("show") || "list"
   );
   const refresh = () => {
-    console.log("refresh");
     setLoading(true);
     setLastFiles(files);
     setType("loading");
