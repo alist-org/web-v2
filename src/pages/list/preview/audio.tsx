@@ -39,17 +39,24 @@ const Audio = ({ file }: FileProps) => {
       cover: cover,
       singer: singer,
     };
+    if (file.thumbnail) {
+      audio.cover = file.thumbnail;
+    }
     const pre = link.slice(0, link.lastIndexOf("/"));
     const audioList = lastFiles
       .filter((item) => item.name !== file.name && item.type === type)
       .map((item) => {
         let link = encrypt(`${pre}/${item.name}`);
-        return {
+        const audio = {
           name: item.name,
           musicSrc: link,
           cover: cover,
           singer: singer,
         };
+        if (item.thumbnail) {
+          audio.cover = item.thumbnail;
+        }
+        return audio;
       });
     setAudioLists([audio, ...audioList]);
   }, []);
