@@ -137,7 +137,9 @@ const KuttyHero = () => {
   );
   const refresh = () => {
     setLoading(true);
-    setLastFiles(files);
+    if (type === "folder") {
+      setLastFiles(files);
+    }
     setType("loading");
     setFiles([]);
     request
