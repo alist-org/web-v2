@@ -1066,10 +1066,10 @@ aria-hidden@^1.1.1:
   dependencies:
     tslib "^1.0.0"
 
-artplayer@^3.5.31:
-  version "3.5.31"
-  resolved "https://registry.yarnpkg.com/artplayer/-/artplayer-3.5.31.tgz#53ddbdf8e29aee8c5ab9264ff2d77fb16c60f12f"
-  integrity sha512-xuuU8+NKdurlAxjHzZmesve/WKAz4PRCpwREDsZAyhxKeSknDbVDs1QwWiBrGhRQrQJs/qDEMV5y860imtv2ig==
+artplayer@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.npmjs.org/artplayer/-/artplayer-4.0.8.tgz#850251248b2ed031eb373deb64c7495214b0b831"
+  integrity sha512-TAK6Gwnb4+4a6UQzsB6OXsK36JGcSKmY+WGAhYu/zDhmfjQV65ynWk0u7DMhgX8a0s7M7kFTkrgDTVMO7GwFOA==
   dependencies:
     option-validator "^2.0.6"
     screenfull "^5.1.0"

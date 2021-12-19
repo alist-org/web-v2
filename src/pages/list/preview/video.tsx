@@ -12,13 +12,14 @@ export const exts = [];
 const DirectDrivers = ["Native", "GoogleDrive"];
 
 const Video = ({ file }: FileProps) => {
-  const { getSetting, password } = useContext(IContext);
+  const { getSetting, lastFiles } = useContext(IContext);
   const { i18n } = useTranslation();
   let link = useDownLink();
+  const proxyLink = useDownLink(true);
   const encrypt = useEncrypt();
   link = encrypt(link);
   const url = DirectDrivers.includes(file.driver) ? link : file.url;
-  let art: any;
+  let art: Artplayer;
   useEffect(() => {
     let options: any = {
       container: "#video-player",
@@ -63,6 +64,41 @@ const Video = ({ file }: FileProps) => {
     };
     if (file.name.toLowerCase().endsWith(".flv")) {
       options.type = "flv";
+    }
+    // try subtitle
+    const filename = file.name.substring(0, file.name.lastIndexOf("."));
+    let subtitleType = "";
+    const subtitle = lastFiles.find((f) => {
+      const fName = f.name;
+      if (!fName.startsWith(filename)) {
+        return false;
+      }
+      if (fName.endsWith(".srt")) {
+        subtitleType = "srt";
+        return true;
+      }
+      if (fName.endsWith(".ass")) {
+        subtitleType = "ass";
+        return true;
+      }
+      if (fName.endsWith(".vtt")) {
+        subtitleType = "vtt";
+        return true;
+      }
+      return false;
+    });
+    if (subtitle) {
+      const preLink = proxyLink.substring(0, link.lastIndexOf("/"));
+      const subLink = preLink + "/" + subtitle.name;
+      options.subtitle = {
+        type: subtitleType,
+        url: encrypt(subLink),
+        bilingual: true,
+        style: {
+          color: "#03A9F4",
+          "font-size": "30px",
+        },
+      };
     }
     art = new Artplayer(options);
     return () => {
