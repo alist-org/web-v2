@@ -108,3 +108,7 @@ const zh = {
 }
 
 export default zh
+export const config = {
+  code: 'zh',
+  text: '简体中文',
+}

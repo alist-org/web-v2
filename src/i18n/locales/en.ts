@@ -14,3 +14,7 @@ const en = {
 }
 
 export default en
+export const config = {
+  code: 'en',
+  text: 'English',
+}
