@@ -73,17 +73,10 @@ const Video = ({ file }: FileProps) => {
       if (!fName.startsWith(filename)) {
         return false;
       }
-      if (fName.endsWith(".srt")) {
-        subtitleType = "srt";
-        return true;
-      }
-      if (fName.endsWith(".ass")) {
-        subtitleType = "ass";
-        return true;
-      }
-      if (fName.endsWith(".vtt")) {
-        subtitleType = "vtt";
-        return true;
+      for (const ext of [".srt", ".ass", ".vtt"]) {
+        if (fName.endsWith(ext)) {
+          return true;
+        }
       }
       return false;
     });
