@@ -2,7 +2,7 @@ import { Center, HStack, Text, Link, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Link as ReactLink } from "react-router-dom";
-import { IContext } from ".";
+import { IContext } from "../context";
 const Footer = () => {
   const { t } = useTranslation();
   const { getSetting } = useContext(IContext);

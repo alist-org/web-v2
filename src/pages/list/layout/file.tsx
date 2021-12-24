@@ -1,13 +1,13 @@
 import { Button, Center, Heading, Icon, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { FileProps, IContext } from ".";
-import useDownLink from "../../hooks/useDownLink";
-import { useEncrypt } from "../../hooks/useEncrypt";
-import useTitle from "../../hooks/useTitle";
-import getIcon from "../../utils/icon";
+import { FileProps, IContext } from "../context";
+import useDownLink from "../../../hooks/useDownLink";
+import { useEncrypt } from "../../../hooks/useEncrypt";
+import useTitle from "../../../hooks/useTitle";
+import getIcon from "../../../utils/icon";
 
-const previews = import.meta.globEager("./preview/*.tsx");
+const previews = import.meta.globEager("../preview/*.tsx");
 
 const NoPreview = ({ file }: FileProps) => {
   const { getSetting } = useContext(IContext);

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { FileProps, IContext } from "..";
+import { FileProps, IContext } from "../context";
 import Artplayer from "artplayer";
 import useDownLink from "../../../hooks/useDownLink";
 import { Box, Button, Center, Link, chakra, HStack } from "@chakra-ui/react";

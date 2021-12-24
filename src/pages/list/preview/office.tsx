@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/layout";
 import React, { lazy, useContext, useEffect } from "react";
 import { useLocation } from "react-router";
-import { FileProps, IContext } from "..";
+import { FileProps, IContext } from "../context";
 import useDownLink from "../../../hooks/useDownLink";
 import { useEncrypt } from "../../../hooks/useEncrypt";
 import useUnfold from "../../../hooks/useUnfold";

@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { Md5 } from 'ts-md5'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_URL+'api/public/',

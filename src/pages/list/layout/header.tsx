@@ -10,7 +10,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { IContext } from ".";
+import { IContext } from "../context";
 import { FaListUl } from "react-icons/fa";
 // import { AiTwotoneCopy } from "react-icons/ai";
 import { IoIosCopy } from "react-icons/io";
@@ -18,9 +18,9 @@ import { BsFillArrowDownCircleFill } from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import useDownLink from "../../hooks/useDownLink";
-import { copyToClip } from "../../utils/copy-clip";
-import { useEncrypt } from "../../hooks/useEncrypt";
+import useDownLink from "../../../hooks/useDownLink";
+import { copyToClip } from "../../../utils/copy-clip";
+import { useEncrypt } from "../../../hooks/useEncrypt";
 
 const Header = () => {
   const { t } = useTranslation();

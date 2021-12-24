@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { IContext } from "../pages/list";
+import { IContext } from "../pages/list/context";
 
 const useUnfold = (display=true) => {
   const { setShowUnfold, unfold } = useContext(IContext);

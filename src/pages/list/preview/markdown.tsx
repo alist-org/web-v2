@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { FileProps, getSetting, IContext } from "..";
+import { FileProps, getSetting, IContext } from "../context";
 import useDownLink from "../../../hooks/useDownLink";
 import axios from "axios";
 import Editor from "md-editor-rt";

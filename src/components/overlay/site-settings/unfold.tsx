@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Icon, IconButton, Tooltip } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { AiOutlineFullscreenExit, AiOutlineFullscreen } from "react-icons/ai";
-import { IContext } from "../../../pages/list";
+import { IContext } from "../../../pages/list/context";
 
 export const Unfold = () => {
   const { t } = useTranslation();

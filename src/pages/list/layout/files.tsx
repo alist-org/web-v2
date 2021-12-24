@@ -16,14 +16,14 @@ import {
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
-import { IContext, File, FileProps } from ".";
-import { formatDate } from "../../utils/date";
-import { getFileSize } from "../../utils/file";
-import getIcon from "../../utils/icon";
+import { IContext, File, FileProps } from "../context";
+import { formatDate } from "../../../utils/date";
+import { getFileSize } from "../../../utils/file";
+import getIcon from "../../../utils/icon";
 import Viewer from "react-viewer";
-import useDownLink from "../../hooks/useDownLink";
+import useDownLink from "../../../hooks/useDownLink";
 import { BsArrowDownCircle } from "react-icons/bs";
-import { useEncrypt } from "../../hooks/useEncrypt";
+import { useEncrypt } from "../../../hooks/useEncrypt";
 
 const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();

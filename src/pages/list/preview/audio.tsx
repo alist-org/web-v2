@@ -11,7 +11,7 @@ import ReactJkMusicPlayer, {
   ReactJkMusicPlayerAudioListProps,
 } from "react-jinke-music-player";
 import "react-jinke-music-player/assets/index.css";
-import { FileProps, IContext } from "..";
+import { FileProps, IContext } from "../context";
 import useDownLink from "../../../hooks/useDownLink";
 import { useEncrypt } from "../../../hooks/useEncrypt";
 import getIcon from "../../../utils/icon";

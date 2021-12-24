@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { IContext } from "../pages/list";
+import { IContext } from "../pages/list/context";
 import { md5_16 } from "../utils/md5";
 
 export const useEncrypt = ()=>{

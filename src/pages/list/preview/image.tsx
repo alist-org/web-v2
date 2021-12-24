@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FileProps, IContext } from "..";
+import { FileProps, IContext } from "../context";
 import useDownLink from "../../../hooks/useDownLink";
 import { Image, Center, Spinner } from "@chakra-ui/react";
 import { useEncrypt } from "../../../hooks/useEncrypt";
