@@ -2,10 +2,22 @@ import React, { useContext, useEffect } from "react";
 import { FileProps, IContext } from "../context";
 import Artplayer from "artplayer";
 import useDownLink from "../../../hooks/useDownLink";
-import { Box, Button, Center, Link, chakra, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  chakra,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Link,
+} from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import flvjs from "flv.js";
 import { useEncrypt } from "../../../hooks/useEncrypt";
+import { Link as ReactLink, useHistory } from "react-router-dom";
 
 export const type = 3;
 export const exts = [];
@@ -13,12 +25,14 @@ const DirectDrivers = ["Native", "GoogleDrive"];
 
 const Video = ({ file }: FileProps) => {
   const { getSetting, lastFiles } = useContext(IContext);
+  const videoFiles = lastFiles.filter((f) => f.type === type);
   const { i18n } = useTranslation();
   let link = useDownLink();
   const proxyLink = useDownLink(true);
   const encrypt = useEncrypt();
   link = encrypt(link);
   const url = DirectDrivers.includes(file.driver) ? link : file.url;
+  const history = useHistory();
   let art: Artplayer;
   useEffect(() => {
     let options: any = {
@@ -94,6 +108,12 @@ const Video = ({ file }: FileProps) => {
       };
     }
     art = new Artplayer(options);
+    art.on("video:ended", () => {
+      const index = videoFiles.findIndex((f) => f.name === file.name);
+      if (index < videoFiles.length - 1) {
+        history.push(encodeURI(videoFiles[index + 1].name));
+      }
+    });
     return () => {
       if (art && art.destroy) {
         art.destroy();
@@ -102,7 +122,28 @@ const Video = ({ file }: FileProps) => {
   }, []);
   return (
     <Box w="full" className="video-preview-box">
-      <Box w="full" h="70vh" id="video-player"></Box>
+      <Menu>
+        <MenuButton w="full" colorScheme="gray" as={Button} mb={2}>
+          {file.name}
+        </MenuButton>
+        <MenuList w="full" zIndex={999}>
+          {videoFiles.map((f) => (
+            <MenuItem key={f.name} w="full">
+              <Link
+                w="full"
+                as={ReactLink}
+                _hover={{
+                  textDecoration: "none",
+                }}
+                to={encodeURI(f.name)}
+              >
+                {f.name}
+              </Link>
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
+      <Box w="full" h="60vh" id="video-player"></Box>
       <Center mt="2" w="full">
         <HStack spacing="2">
           <Button

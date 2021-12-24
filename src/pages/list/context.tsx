@@ -50,7 +50,6 @@ interface Sort {
 export interface ContextProps {
   files: File[];
   type: TypeType;
-  loading: boolean;
   show: string;
   setShow?: (show: string) => void;
   getSetting: (key: string) => string;
@@ -71,7 +70,6 @@ export interface ContextProps {
 export const IContext = createContext<ContextProps>({
   files: [],
   type: "folder",
-  loading: true,
   show: "list",
   getSetting: getSetting,
   lastFiles: [],
