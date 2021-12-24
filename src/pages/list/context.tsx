@@ -1,5 +1,11 @@
 import { useToast } from "@chakra-ui/react";
-import React, { createContext, useState, useMemo, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useLocation } from "react-router-dom";
 import request from "../../utils/public";
@@ -36,6 +42,11 @@ export const getSetting = (key: string): string => {
 
 type TypeType = "file" | "folder" | "error" | "loading" | "unauthorized";
 
+interface Sort {
+  orderBy?: "name" | "updated_at" | "size";
+  reverse: boolean;
+}
+
 export interface ContextProps {
   files: File[];
   type: TypeType;
@@ -53,6 +64,8 @@ export interface ContextProps {
   settingLoaded: boolean;
   refresh: () => void;
   msg: string;
+  sort: Sort;
+  setSort: (sort: Sort) => void;
 }
 
 export const IContext = createContext<ContextProps>({
@@ -66,6 +79,8 @@ export const IContext = createContext<ContextProps>({
   settingLoaded: false,
   refresh: () => {},
   msg: "",
+  sort: { reverse: false },
+  setSort: () => {},
 });
 
 const IContextProvider = (props: any) => {
@@ -75,14 +90,31 @@ const IContextProvider = (props: any) => {
   const { t } = useTranslation();
   const [files, setFiles] = React.useState<File[]>([]);
   const [lastFiles, setLastFiles] = React.useState<File[]>([]);
-  const [type, setType] = React.useState<
-    TypeType
-  >("loading");
+  const [type, setType] = React.useState<TypeType>("loading");
   const [msg, setMsg] = useState("");
   const [settingLoaded, setSettingLoaded] = React.useState<boolean>(false);
   const [password, setPassword] = React.useState<string>(
     localStorage.getItem("password") || ""
   );
+  const [sort, setSort] = useState<Sort>({
+    orderBy: undefined,
+    reverse: false,
+  });
+
+  const sortFiles = (files: File[]) => {
+    const { orderBy, reverse } = sort;
+    if (!orderBy) return files;
+    return files.sort((a, b) => {
+      if (a[orderBy] < b[orderBy]) return reverse ? 1 : -1;
+      if (a[orderBy] > b[orderBy]) return reverse ? -1 : 1;
+      return 0;
+    });
+  };
+
+  useEffect(() => {
+    const files_ = sortFiles(files);
+    setFiles([...files_]);
+  }, [sort]);
 
   const [show, setShow] = React.useState<string>(
     localStorage.getItem("show") || "list"
@@ -92,14 +124,14 @@ const IContextProvider = (props: any) => {
       setLastFiles(files);
     }
     setType("loading");
-    setFiles([]);
+    // setFiles([]);
     request
       .post("path", { path: location.pathname, password: password })
       .then((resp) => {
         const res = resp.data;
         setMsg(res.message);
         if (res.code === 200) {
-          setFiles(res.data);
+          setFiles(sortFiles(res.data));
           setType(res.message);
         } else {
           toast({
@@ -119,7 +151,7 @@ const IContextProvider = (props: any) => {
         }
       });
   };
-  const initialSettings = () => {
+  const initialSettings = useCallback(() => {
     request.get("settings").then((resp) => {
       const res = resp.data;
       if (res.code === 200) {
@@ -150,7 +182,7 @@ const IContextProvider = (props: any) => {
         });
       }
     });
-  };
+  }, []);
   useEffect(() => {
     initialSettings();
   }, []);
@@ -178,6 +210,8 @@ const IContextProvider = (props: any) => {
         settingLoaded,
         refresh,
         msg,
+        sort,
+        setSort,
       }}
       {...props}
     />

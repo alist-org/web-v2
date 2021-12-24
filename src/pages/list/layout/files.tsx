@@ -28,7 +28,7 @@ import { useEncrypt } from "../../../hooks/useEncrypt";
 const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const { getSetting, password } = useContext(IContext);
+  const { getSetting } = useContext(IContext);
   const [cursor, setCursor] = useState<boolean>(false);
   const show = useBreakpointValue({ base: false, md: true });
   const link = useDownLink();
@@ -130,16 +130,17 @@ const ListItem = ({ file }: FileProps) => {
 
 const List = ({ files }: { files: File[] }) => {
   const { t } = useTranslation();
-  const [sort, setSort] = React.useState<"name" | "updated_at" | "size">();
-  const [reverse, setReverse] = React.useState(false);
-  const files_ = useMemo(() => {
-    if (!sort) return files;
-    return files.sort((a, b) => {
-      if (a[sort] < b[sort]) return reverse ? 1 : -1;
-      if (a[sort] > b[sort]) return reverse ? -1 : 1;
-      return 0;
-    });
-  }, [files, sort, reverse]);
+  // const [sort, setSort] = React.useState<"name" | "updated_at" | "size">();
+  // const [reverse, setReverse] = React.useState(false);
+  // const files_ = useMemo(() => {
+  //   if (!sort) return files;
+  //   return files.sort((a, b) => {
+  //     if (a[sort] < b[sort]) return reverse ? 1 : -1;
+  //     if (a[sort] > b[sort]) return reverse ? -1 : 1;
+  //     return 0;
+  //   });
+  // }, [files, sort, reverse]);
+  const { sort, setSort } = useContext(IContext);
   return (
     <VStack className="list-box" w="full">
       <HStack className="list-title" w="full" p="2">
@@ -164,11 +165,16 @@ const List = ({ files }: { files: File[] }) => {
                   : "unset"
               }
               onClick={() => {
-                if (sort === item.name) {
-                  setReverse(!reverse);
+                if (sort.orderBy === item.name) {
+                  setSort({
+                    ...sort,
+                    reverse: !sort.reverse,
+                  });
                 } else {
-                  setSort(item.name as any);
-                  setReverse(false);
+                  setSort({
+                    orderBy: item.name as any,
+                    reverse: false,
+                  });
                 }
               }}
             >
@@ -177,7 +183,7 @@ const List = ({ files }: { files: File[] }) => {
           );
         })}
       </HStack>
-      {files_.map((file) => {
+      {files.map((file) => {
         return <ListItem key={file.name} file={file} />;
       })}
     </VStack>
@@ -291,7 +297,6 @@ const Grid_ = ({
   files: File[];
   setShowImage: (name: string) => void;
 }) => {
-  const location = useLocation();
   return (
     <Box>
       <Grid
