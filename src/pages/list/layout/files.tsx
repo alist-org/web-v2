@@ -24,6 +24,7 @@ import Viewer from "react-viewer";
 import useDownLink from "../../../hooks/useDownLink";
 import { BsArrowDownCircle } from "react-icons/bs";
 import { useEncrypt } from "../../../hooks/useEncrypt";
+import useDownPackage from "../../../hooks/useDownPackage";
 
 const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();
@@ -35,6 +36,7 @@ const ListItem = ({ file }: FileProps) => {
   const [cursorIcon, setCursorIcon] = useState<boolean>(false);
   const ItemBox = getSetting("animation") === "true" ? ScaleFade : Box;
   const encrypt = useEncrypt();
+  const downPack = useDownPackage();
   const props =
     getSetting("animation") === "true"
       ? {
@@ -94,9 +96,13 @@ const ListItem = ({ file }: FileProps) => {
                 as={BsArrowDownCircle}
                 onClick={() => {
                   // console.log(file);
+                  if (file.type === 1) {
+                    downPack([file]);
+                    return;
+                  }
                   window.open(encrypt(`${link}/${file.name}`), "_blank");
                 }}
-                display={cursor && show && file.type !== 1 ? "block" : "none"}
+                display={cursor && show ? "block" : "none"}
                 zIndex={99}
                 onMouseOver={() => setCursorIcon(true)}
                 onMouseLeave={() => setCursorIcon(false)}

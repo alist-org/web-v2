@@ -21,8 +21,10 @@ import { Link } from "react-router-dom";
 import useDownLink from "../../../hooks/useDownLink";
 import { copyToClip } from "../../../utils/copy-clip";
 import { useEncrypt } from "../../../hooks/useEncrypt";
+import useDownPackage from "../../../hooks/useDownPackage";
 
 const Header = () => {
+  const downPack = useDownPackage();
   const { t } = useTranslation();
   const link = useDownLink();
   const encrypt = useEncrypt();
@@ -49,7 +51,7 @@ const Header = () => {
         )}
       </Link>
       <HStack className="buttons" spacing="2">
-        {type === "file" && (
+        {(
           <Tooltip
             shouldWrapChildren
             hasArrow
@@ -61,6 +63,10 @@ const Header = () => {
               boxSize={6}
               as={BsFillArrowDownCircleFill}
               onClick={() => {
+                if(type==="folder"){
+                  downPack(files);
+                  return;
+                }
                 let url = encrypt(link);
                 window.open(url, "_blank");
               }}

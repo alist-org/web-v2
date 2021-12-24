@@ -1031,6 +1031,11 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
+"@types/streamsaver@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/streamsaver/-/streamsaver-2.0.1.tgz#fa5e5b891d1b282be3078c232a30ee004b8e0be0"
+  integrity sha512-I49NtT8w6syBI3Zg3ixCyygTHoTVMY0z2TMRcTgccdIsVd2MwlKk7ITLHLsJtgchUHcOd7QEARG9h0ifcA6l2Q==
+
 "@types/tinycolor2@1.4.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.2.tgz#721ca5c5d1a2988b4a886e35c2ffc5735b6afbdf"
@@ -1878,6 +1883,11 @@ source-map@^0.5.0, source-map@^0.5.7:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
+
+streamsaver@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/streamsaver/-/streamsaver-2.0.5.tgz#3212f0e908fcece5b3a65591094475cf87850d00"
+  integrity sha512-KIWtBvi8A6FiFZGNSyuIZRZM6C8AvnWTiCx/TYa7so420vC5sQwcBKkdqInuGWoWMfeWy/P+/cRqMtWVf4RW9w==
 
 style-value-types@4.1.4:
   version "4.1.4"

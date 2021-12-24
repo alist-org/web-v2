@@ -24,6 +24,7 @@
     "react-jinke-music-player": "^4.24.2",
     "react-router-dom": "^5.2.1",
     "react-viewer": "^3.2.2",
+    "streamsaver": "^2.0.5",
     "ts-md5": "^1.2.10"
   },
   "devDependencies": {
@@ -31,6 +32,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-pdf": "^5.0.9",
     "@types/react-router-dom": "^5.1.8",
+    "@types/streamsaver": "^2.0.1",
     "@vitejs/plugin-react-refresh": "^1.3.1",
     "typescript": "^4.3.2",
     "vite": "^2.5.1",
