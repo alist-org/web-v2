@@ -9,8 +9,6 @@ import { useEncrypt } from "./useEncrypt";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
-// TODO check cors
-
 let totalSize = 0;
 
 let Downloading = false;
@@ -29,7 +27,7 @@ const useDownPackage = () => {
   const toastIdRef = useRef<any>();
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const { password } = useContext(IContext);
+  const { password,getSetting } = useContext(IContext);
   // pre: 前缀
   const FileToDownFile = async (
     pre: string,
@@ -87,20 +85,51 @@ const useDownPackage = () => {
   }, []);
 
   return async (files: File[]) => {
+    // 检查是否有文件
+    if (files.length === 0) {
+      toast({
+        title: t("No file selected"),
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    // 检查是否跨账号
+    if (pathname === "/") {
+      if (!files[0].driver && files.length > 1) {
+        toast({
+          title: t("Not support cross-account package download"),
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      }
+    }
+    // 检查是否允许跨域
+    const nocors = getSetting("no cors").split(",")
+    if(nocors.includes(files[0].driver)){
+      toast({
+        title: t("Not support no-cors package download"),
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
     Downloading = true;
     toastIdRef.current = toast({
       title: t("Downloading"),
       description: t("Fetching directory structure"),
       status: "info",
       duration: null,
-      // position: "top",
       isClosable: false,
       variant: "subtle",
     });
     let pre = "";
     let saveName = pathname.split("/").pop();
     if (files.length === 1) {
-      // pre = files[0].name;
       saveName = files[0].name;
     }
     streamSaver.mitm = "/mitm.html";
@@ -143,7 +172,6 @@ const useDownPackage = () => {
             name = name.replace(`${saveName}/`, "");
           }
           const url = encrypt(pathJoin(link, it.value));
-          // console.log(name, url);
           return fetch(url).then((res) => {
             ctrl.enqueue({
               name,

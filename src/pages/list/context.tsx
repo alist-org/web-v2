@@ -150,36 +150,50 @@ const IContextProvider = (props: any) => {
       });
   };
   const initialSettings = useCallback(() => {
-    request.get("settings").then((resp) => {
-      const res = resp.data;
-      if (res.code === 200) {
-        Settings = res.data;
-        setSettingLoaded(true);
-        document.title = getSetting("title") || "Alist";
-        const version = getSetting("version") || "Unknown";
-        console.log(
-          `%c Alist %c ${version} %c https://github.com/Xhofe/alist`,
-          "color: #fff; background: #5f5f5f",
-          "color: #fff; background: #4bc729",
-          ""
-        );
-        if (getSetting("favicon")) {
-          const link = (document.querySelector("link[rel*='icon']") ||
-            document.createElement("link")) as HTMLLinkElement;
-          link.type = "image/x-icon";
-          link.rel = "shortcut icon";
-          link.href = getSetting("favicon");
-          document.getElementsByTagName("head")[0].appendChild(link);
+    request
+      .get("settings")
+      .then((resp) => {
+        const res = resp.data;
+        if (res.code === 200) {
+          Settings = res.data;
+          setSettingLoaded(true);
+          document.title = getSetting("title") || "Alist";
+          const version = getSetting("version") || "Unknown";
+          console.log(
+            `%c Alist %c ${version} %c https://github.com/Xhofe/alist`,
+            "color: #fff; background: #5f5f5f",
+            "color: #fff; background: #4bc729",
+            ""
+          );
+          if (getSetting("favicon")) {
+            const link = (document.querySelector("link[rel*='icon']") ||
+              document.createElement("link")) as HTMLLinkElement;
+            link.type = "image/x-icon";
+            link.rel = "shortcut icon";
+            link.href = getSetting("favicon");
+            document.getElementsByTagName("head")[0].appendChild(link);
+          }
+        } else {
+          toast({
+            title: t(res.message),
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
         }
-      } else {
+      })
+      .catch((err) => {
+        // setType("error");
+        // setMsg(err.message);
+        // setSettingLoaded(true);
         toast({
-          title: t(res.message),
+          title: t("Error"),
+          description: err.message,
           status: "error",
-          duration: 3000,
-          isClosable: true,
+          duration: null,
+          // isClosable: true,
         });
-      }
-    });
+      });
   }, []);
   useEffect(() => {
     initialSettings();
