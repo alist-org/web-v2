@@ -14,11 +14,13 @@ import {
   MenuList,
   Link,
   Text,
+  Icon,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import flvjs from "flv.js";
 import { useEncrypt } from "../../../hooks/useEncrypt";
 import { Link as ReactLink, useHistory } from "react-router-dom";
+import { BsCardList } from "react-icons/bs";
 
 export const type = 3;
 export const exts = [];
@@ -124,7 +126,13 @@ const Video = ({ file }: FileProps) => {
   return (
     <Box w="full" className="video-preview-box">
       <Menu>
-        <MenuButton w="full" colorScheme="gray" as={Button} mb={2}>
+        <MenuButton
+          rightIcon={<Icon boxSize={6} as={BsCardList} />}
+          w="full"
+          colorScheme="gray"
+          as={Button}
+          mb={2}
+        >
           <Text
             w="full"
             textOverflow="ellipsis"
