@@ -12,6 +12,7 @@ import {
   Flex,
   HStack,
   useBreakpointValue,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,22 +23,48 @@ import { getFileSize } from "../../../utils/file";
 import getIcon from "../../../utils/icon";
 import Viewer from "react-viewer";
 import useDownLink from "../../../hooks/useDownLink";
-import { BsArrowDownCircle } from "react-icons/bs";
 import { useEncrypt } from "../../../hooks/useEncrypt";
 import useDownPackage from "../../../hooks/useDownPackage";
+import {
+  Menu,
+  Item,
+  Separator,
+  Submenu,
+  useContextMenu,
+  theme,
+  animation,
+} from "react-contexify";
+import "react-contexify/dist/ReactContexify.css";
+import { BsArrowDownCircle } from "react-icons/bs";
+import {
+  FcAlphabeticalSortingAz,
+  FcSupport,
+  FcTodoList,
+  FcInternal,
+  FcLink,
+  FcNumericalSorting12,
+  FcCalendar,
+  FcRefresh,
+} from "react-icons/fc";
+
+const MENU_ID = "list-menu";
 
 const ListItem = ({ file }: FileProps) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const { getSetting } = useContext(IContext);
   const [cursor, setCursor] = useState<boolean>(false);
-  const show = useBreakpointValue({ base: false, md: true });
+  const isShow = useBreakpointValue({ base: false, md: true });
   const link = useDownLink();
   const [cursorIcon, setCursorIcon] = useState<boolean>(false);
   const ItemBox = getSetting("animation") === "true" ? ScaleFade : Box;
   const encrypt = useEncrypt();
   const downPack = useDownPackage();
   const MyLinkBox = cursor ? Box : LinkBox;
+  const { show } = useContextMenu({
+    id: MENU_ID,
+    props: file,
+  });
   const props =
     getSetting("animation") === "true"
       ? {
@@ -59,6 +86,9 @@ const ListItem = ({ file }: FileProps) => {
         }}
         onMouseOver={() => setCursor(true)}
         onMouseLeave={() => setCursor(false)}
+        onContextMenu={(e) => {
+          show(e);
+        }}
       >
         <LinkOverlay
           as={cursorIcon ? Box : Link}
@@ -101,7 +131,7 @@ const ListItem = ({ file }: FileProps) => {
                   }
                   window.open(encrypt(`${link}/${file.name}`), "_blank");
                 }}
-                display={cursor && show ? "block" : "none"}
+                display={cursor && isShow ? "block" : "none"}
                 zIndex={99}
                 onMouseOver={() => setCursorIcon(true)}
                 onMouseLeave={() => setCursorIcon(false)}
@@ -146,6 +176,7 @@ const List = ({ files }: { files: File[] }) => {
   //   });
   // }, [files, sort, reverse]);
   const { sort, setSort } = useContext(IContext);
+  const menuTheme = useColorModeValue(theme.light, theme.dark);
   return (
     <VStack className="list-box" w="full">
       <HStack className="list-title" w="full" p="2">
@@ -191,6 +222,78 @@ const List = ({ files }: { files: File[] }) => {
       {files.map((file) => {
         return <ListItem key={file.name} file={file} />;
       })}
+      <Menu id={MENU_ID} theme={menuTheme} animation={animation.fade}>
+        <Item
+          onClick={({ event, props, triggerEvent, data }) => {
+            console.log(event, props, triggerEvent, data);
+          }}
+        >
+          <Flex align="center">
+            <Icon boxSize={5} as={FcTodoList} mr={2} />
+            {t("Multiple choice")}
+          </Flex>
+        </Item>
+        <Separator />
+        <Submenu
+          label={
+            <Flex align="center">
+              <Icon as={FcSupport} boxSize={5} mr={2} />
+              {t("Operations")}
+            </Flex>
+          }
+        >
+          <Item>
+            <Flex align="center">
+              <Icon as={FcInternal} boxSize={5} mr={2} />
+              {t("Download")}
+            </Flex>
+          </Item>
+          <Item>
+            <Flex align="center">
+              <Icon as={FcLink} boxSize={5} mr={2} />
+              {t("Copy link")}
+            </Flex>
+          </Item>
+        </Submenu>
+        <Submenu
+          label={
+            <Flex align="center">
+              <Icon as={FcRefresh} boxSize={5} mr={2} />
+              {t("Sort by")}
+            </Flex>
+          }
+        >
+          {[
+            { name: "name", icon: FcAlphabeticalSortingAz },
+            { name: "size", icon: FcNumericalSorting12 },
+            { name: "updated_at", icon: FcCalendar },
+          ].map((item) => {
+            return (
+              <Item
+                key={item.name}
+                onClick={() => {
+                  if (sort.orderBy === item.name) {
+                    setSort({
+                      ...sort,
+                      reverse: !sort.reverse,
+                    });
+                  } else {
+                    setSort({
+                      orderBy: item.name as any,
+                      reverse: false,
+                    });
+                  }
+                }}
+              >
+                <Flex align="center">
+                  <Icon as={item.icon} boxSize={5} mr={2} />
+                  {t(item.name)}
+                </Flex>
+              </Item>
+            );
+          })}
+        </Submenu>
+      </Menu>
     </VStack>
   );
 };
