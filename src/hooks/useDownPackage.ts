@@ -4,7 +4,7 @@ import { File, IContext } from "../pages/list/context";
 import useDownLink from "./useDownLink";
 import { useLocation } from "react-router-dom";
 import request from "../utils/public";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useEncrypt } from "./useEncrypt";
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 // TODO check cors
 
 let totalSize = 0;
+
+let Downloading = false;
 
 const pathJoin = (...paths: string[]) => {
   return paths.join("/").replace(/\/{2,}/g, "/");
@@ -24,6 +26,7 @@ const trimSlash = (str: string) => {
 const useDownPackage = () => {
   const link = useDownLink();
   const toast = useToast();
+  const toastIdRef = useRef<any>();
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const { password } = useContext(IContext);
@@ -62,12 +65,37 @@ const useDownPackage = () => {
 
   const encrypt = useEncrypt();
 
-  return async (files: File[]) => {
+  const tips = (event: any) => {
+    const tip = t("Leaving the page will interrupt the download.");
     toast({
-      title: t("Start download"),
-      status: "info",
+      title: tip,
+      status: "warning",
       duration: 3000,
       isClosable: true,
+    });
+    if (Downloading) {
+      event.preventDefault();
+      (event || window.event).returnValue = tip;
+      return tip;
+    }
+  };
+  useEffect(() => {
+    window.onbeforeunload = tips;
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, []);
+
+  return async (files: File[]) => {
+    Downloading = true;
+    toastIdRef.current = toast({
+      title: t("Downloading"),
+      description: t("Fetching directory structure"),
+      status: "info",
+      duration: null,
+      // position: "top",
+      isClosable: false,
+      variant: "subtle",
     });
     let pre = "";
     let saveName = pathname.split("/").pop();
@@ -80,12 +108,25 @@ const useDownPackage = () => {
     for (const file of files) {
       const res = await FileToDownFile(pre, file);
       if (typeof res === "string") {
+        toast.closeAll();
+        Downloading = false;
+        toast({
+          title: t(res),
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
         return res;
       } else {
         downFiles.push(...res);
       }
     }
-    // console.log(downFiles);
+    toast.update(toastIdRef.current as any, {
+      title: t("Downloading"),
+      description: t("Downloading files"),
+      duration: null,
+      variant: "subtle",
+    });
     let fileArr = downFiles.values();
     console.log(totalSize);
     let fileStream = streamSaver.createWriteStream(`${saveName}.zip`, {
@@ -116,6 +157,8 @@ const useDownPackage = () => {
       return readableZipStream
         .pipeTo(fileStream)
         .then(() => {
+          toast.closeAll();
+          Downloading = false;
           toast({
             title: t("Success to download"),
             status: "success",
@@ -124,6 +167,8 @@ const useDownPackage = () => {
           });
         })
         .catch((err: any) => {
+          toast.closeAll();
+          Downloading = false;
           toast({
             title: t("Failed to download"),
             description: err.message,
