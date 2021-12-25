@@ -37,7 +37,7 @@ const Files = lazy(() => import("./files"));
 const File = lazy(() => import("./file"));
 
 const KuttyHero = () => {
-  console.log("KuttyHero");
+  // console.log("KuttyHero");
   const bgColor = useColorModeValue("transparent", "gray.700");
   const { isOpen, onClose, onOpen } = useDisclosure();
   const initialRef = React.useRef();
