@@ -27,7 +27,7 @@ const useDownPackage = () => {
   const toastIdRef = useRef<any>();
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const { password,getSetting } = useContext(IContext);
+  const { password, getSetting } = useContext(IContext);
   // pre: 前缀
   const FileToDownFile = async (
     pre: string,
@@ -65,13 +65,13 @@ const useDownPackage = () => {
 
   const tips = (event: any) => {
     const tip = t("Leaving the page will interrupt the download.");
-    toast({
-      title: tip,
-      status: "warning",
-      duration: 3000,
-      isClosable: true,
-    });
     if (Downloading) {
+      toast({
+        title: tip,
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
       event.preventDefault();
       (event || window.event).returnValue = tip;
       return tip;
@@ -95,21 +95,9 @@ const useDownPackage = () => {
       });
       return;
     }
-    // 检查是否跨账号
-    if (pathname === "/") {
-      if (!files[0].driver && files.length > 1) {
-        toast({
-          title: t("Not support cross-account package download"),
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-        return;
-      }
-    }
     // 检查是否允许跨域
-    const nocors = getSetting("no cors").split(",")
-    if(nocors.includes(files[0].driver)){
+    const nocors = getSetting("no cors").split(",");
+    if (files.find((f) => nocors.includes(f.driver))) {
       toast({
         title: t("Not support no-cors package download"),
         status: "warning",
@@ -127,15 +115,17 @@ const useDownPackage = () => {
       isClosable: false,
       variant: "subtle",
     });
-    let pre = "";
     let saveName = pathname.split("/").pop();
     if (files.length === 1) {
       saveName = files[0].name;
     }
-    streamSaver.mitm = "/mitm.html";
+    if (pathname === "/" && files.length > 1) {
+      saveName = t("root");
+    }
+    streamSaver.mitm = "/public/mitm.html";
     const downFiles: string[] = [];
     for (const file of files) {
-      const res = await FileToDownFile(pre, file);
+      const res = await FileToDownFile("", file);
       if (typeof res === "string") {
         toast.closeAll();
         Downloading = false;
@@ -171,7 +161,10 @@ const useDownPackage = () => {
           if (files.length === 1) {
             name = name.replace(`${saveName}/`, "");
           }
-          const url = encrypt(pathJoin(link, it.value));
+          const url = encrypt(
+            `${link}${it.value.startsWith("/") ? "" : "/"}${it.value}`
+          );
+          // console.log(name, url);
           return fetch(url).then((res) => {
             ctrl.enqueue({
               name,
