@@ -37,6 +37,7 @@ const ListItem = ({ file }: FileProps) => {
   const ItemBox = getSetting("animation") === "true" ? ScaleFade : Box;
   const encrypt = useEncrypt();
   const downPack = useDownPackage();
+  const MyLinkBox = cursor ? Box : LinkBox;
   const props =
     getSetting("animation") === "true"
       ? {
@@ -46,7 +47,7 @@ const ListItem = ({ file }: FileProps) => {
       : {};
   return (
     <ItemBox style={{ width: "100%" }} {...props}>
-      <LinkBox
+      <MyLinkBox
         className="list-item"
         p="2"
         w="full"
@@ -60,13 +61,11 @@ const ListItem = ({ file }: FileProps) => {
         onMouseLeave={() => setCursor(false)}
       >
         <LinkOverlay
-          as={Link}
+          as={cursorIcon ? Box : Link}
           to={encodeURI(
-            cursorIcon
-              ? pathname
-              : `${pathname.endsWith("/") ? pathname.slice(0, -1) : pathname}/${
-                  file.name
-                }`
+            `${pathname.endsWith("/") ? pathname.slice(0, -1) : pathname}/${
+              file.name
+            }`
           )}
         >
           <HStack spacing={2}>
@@ -129,7 +128,7 @@ const ListItem = ({ file }: FileProps) => {
             </Text>
           </HStack>
         </LinkOverlay>
-      </LinkBox>
+      </MyLinkBox>
     </ItemBox>
   );
 };
