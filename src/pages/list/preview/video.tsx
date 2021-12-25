@@ -13,6 +13,7 @@ import {
   MenuItem,
   MenuList,
   Link,
+  Text,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import flvjs from "flv.js";
@@ -124,13 +125,23 @@ const Video = ({ file }: FileProps) => {
     <Box w="full" className="video-preview-box">
       <Menu>
         <MenuButton w="full" colorScheme="gray" as={Button} mb={2}>
-          {file.name}
+          <Text
+            w="full"
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
+            overflow="hidden"
+          >
+            {file.name}
+          </Text>
         </MenuButton>
         <MenuList w="full" zIndex={999}>
           {videoFiles.map((f) => (
             <MenuItem key={f.name} w="full">
               <Link
-                w="full"
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
+                overflow="hidden"
+                maxW="85vw"
                 as={ReactLink}
                 _hover={{
                   textDecoration: "none",
