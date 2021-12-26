@@ -96,11 +96,7 @@ const Header = () => {
                     })
                     .join("\n");
                 }
-                if (navigator.clipboard) {
-                  navigator.clipboard.writeText(content);
-                } else {
-                  copyToClip(content);
-                }
+                copyToClip(content);
                 toast({
                   title: t("copied"),
                   status: "success",

@@ -10,7 +10,6 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { IContext, FileProps } from "../../context";
 import { formatDate } from "../../../../utils/date";
@@ -18,16 +17,13 @@ import { getFileSize } from "../../../../utils/file";
 import getIcon from "../../../../utils/icon";
 import useDownLink from "../../../../hooks/useDownLink";
 import { useEncrypt } from "../../../../hooks/useEncrypt";
-import useDownPackage from "../../../../hooks/useDownPackage";
 import {
   useContextMenu,
 } from "react-contexify";
-import { BsArrowDownCircle } from "react-icons/bs";
 import { MENU_ID } from "./list";
 
 
 const ListItem = ({ file }: FileProps) => {
-  const { t } = useTranslation();
   const { pathname } = useLocation();
   const { getSetting } = useContext(IContext);
   const [cursor, setCursor] = useState<boolean>(false);
@@ -36,7 +32,6 @@ const ListItem = ({ file }: FileProps) => {
   const [cursorIcon, setCursorIcon] = useState<boolean>(false);
   const ItemBox = getSetting("animation") === "true" ? ScaleFade : Box;
   const encrypt = useEncrypt();
-  const downPack = useDownPackage();
   const MyLinkBox = cursor ? Box : LinkBox;
   const { show } = useContextMenu({
     id: MENU_ID,
@@ -95,24 +90,6 @@ const ListItem = ({ file }: FileProps) => {
               >
                 {file.name}
               </Text>
-              <Icon
-                cursor="pointer"
-                ml={2}
-                boxSize={5}
-                as={BsArrowDownCircle}
-                onClick={() => {
-                  // console.log(file);
-                  if (file.type === 1) {
-                    downPack([file]);
-                    return;
-                  }
-                  window.open(encrypt(`${link}/${file.name}`), "_blank");
-                }}
-                display={cursor && isShow ? "block" : "none"}
-                zIndex={99}
-                onMouseOver={() => setCursorIcon(true)}
-                onMouseLeave={() => setCursorIcon(false)}
-              />
             </Flex>
             <Text
               className="list-item-size"

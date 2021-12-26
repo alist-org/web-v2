@@ -5,6 +5,7 @@ import {
   Flex,
   HStack,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,10 +26,13 @@ import {
   FcInternal,
   FcLink,
   FcNumericalSorting12,
-  FcCalendar,
+  FcClock,
   FcRefresh,
 } from "react-icons/fc";
 import ListItem from "./item";
+import useFileUrl from "../../../../hooks/useFileDownLink";
+import useDownPackage from "../../../../hooks/useDownPackage";
+import { copyToClip } from "../../../../utils/copy-clip";
 
 export const MENU_ID = "list-menu";
 
@@ -36,6 +40,9 @@ const List = ({ files }: { files: File[] }) => {
   const { t } = useTranslation();
   const { sort, setSort } = useContext(IContext);
   const menuTheme = useColorModeValue(theme.light, theme.dark);
+  const toast = useToast();
+  const getFileUrl = useFileUrl();
+  const downPack = useDownPackage();
   return (
     <VStack className="list-box" w="full">
       <HStack className="list-title" w="full" p="2">
@@ -101,13 +108,34 @@ const List = ({ files }: { files: File[] }) => {
             </Flex>
           }
         >
-          <Item>
+          <Item
+            onClick={({ props }) => {
+              const file = props as File;
+              if (file.type === 1) {
+                downPack([file]);
+                return;
+              }
+              window.open(getFileUrl(props), "_blank");
+            }}
+          >
             <Flex align="center">
               <Icon as={FcInternal} boxSize={5} mr={2} />
               {t("Download")}
             </Flex>
           </Item>
-          <Item>
+          <Item
+            onClick={({ props }) => {
+              const file = props as File;
+              const url = getFileUrl(props);
+              copyToClip(url);
+              toast({
+                title: t("copied"),
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          >
             <Flex align="center">
               <Icon as={FcLink} boxSize={5} mr={2} />
               {t("Copy link")}
@@ -125,7 +153,7 @@ const List = ({ files }: { files: File[] }) => {
           {[
             { name: "name", icon: FcAlphabeticalSortingAz },
             { name: "size", icon: FcNumericalSorting12 },
-            { name: "updated_at", icon: FcCalendar },
+            { name: "updated_at", icon: FcClock },
           ].map((item) => {
             return (
               <Item
@@ -156,6 +184,5 @@ const List = ({ files }: { files: File[] }) => {
     </VStack>
   );
 };
-
 
 export default List;
