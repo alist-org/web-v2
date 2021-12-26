@@ -113,7 +113,7 @@ const useDownPackage = () => {
       status: "info",
       duration: null,
       isClosable: false,
-      variant: "subtle",
+      // variant: "subtle",
     });
     let saveName = pathname.split("/").pop();
     if (files.length === 1) {

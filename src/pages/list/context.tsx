@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory, useLocation } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import request from "../../utils/public";
 
 export interface File {
@@ -65,6 +66,8 @@ export interface ContextProps {
   msg: string;
   sort: Sort;
   setSort: (sort: Sort) => void;
+  multiSelect: boolean;
+  setMultiSelect: (value: boolean | ((val: boolean) => boolean)) => void;
 }
 
 export const IContext = createContext<ContextProps>({
@@ -79,6 +82,8 @@ export const IContext = createContext<ContextProps>({
   msg: "",
   sort: { reverse: false },
   setSort: () => {},
+  multiSelect: false,
+  setMultiSelect: () => {},
 });
 
 const IContextProvider = (props: any) => {
@@ -98,6 +103,7 @@ const IContextProvider = (props: any) => {
     orderBy: undefined,
     reverse: false,
   });
+  const [multiSelect, setMultiSelect] = useLocalStorage("multiSelect", false);
 
   const sortFiles = (files: File[]) => {
     const { orderBy, reverse } = sort;
@@ -224,6 +230,8 @@ const IContextProvider = (props: any) => {
         msg,
         sort,
         setSort,
+        multiSelect,
+        setMultiSelect,
       }}
       {...props}
     />

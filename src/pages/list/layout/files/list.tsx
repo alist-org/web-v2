@@ -6,6 +6,7 @@ import {
   HStack,
   useColorModeValue,
   useToast,
+  Checkbox,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
@@ -38,11 +39,12 @@ export const MENU_ID = "list-menu";
 
 const List = ({ files }: { files: File[] }) => {
   const { t } = useTranslation();
-  const { sort, setSort } = useContext(IContext);
+  const { sort, setSort, multiSelect, setMultiSelect } = useContext(IContext);
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
   const getFileUrl = useFileUrl();
   const downPack = useDownPackage();
+  const checkboxBorderColor = useColorModeValue("gray.300", "gray.500");
   return (
     <VStack className="list-box" w="full">
       <HStack className="list-title" w="full" p="2">
@@ -52,36 +54,47 @@ const List = ({ files }: { files: File[] }) => {
           { name: "updated_at", base: 0, md: 1 / 3, textAlign: "right" },
         ].map((item) => {
           return (
-            <Text
-              className={`list-title-${item.name}`}
-              key={item.name}
+            <Flex
               w={{ base: item.base, md: item.md }}
-              fontSize="sm"
-              fontWeight="bold"
-              color="gray.500"
-              textAlign={item.textAlign as any}
-              cursor="pointer"
-              display={
-                item.name === "updated_at"
-                  ? { base: "none", md: "unset" }
-                  : "unset"
-              }
-              onClick={() => {
-                if (sort.orderBy === item.name) {
-                  setSort({
-                    ...sort,
-                    reverse: !sort.reverse,
-                  });
-                } else {
-                  setSort({
-                    orderBy: item.name as any,
-                    reverse: false,
-                  });
-                }
-              }}
+              key={item.name}
+              align="center"
             >
-              {t(item.name)}
-            </Text>
+              {multiSelect && item.name === "name" && (
+                <Checkbox
+                  mr={2}
+                  borderColor={checkboxBorderColor}
+                />
+              )}
+              <Text
+                w="full"
+                className={`list-title-${item.name}`}
+                fontSize="sm"
+                fontWeight="bold"
+                color="gray.500"
+                textAlign={item.textAlign as any}
+                cursor="pointer"
+                display={
+                  item.name === "updated_at"
+                    ? { base: "none", md: "unset" }
+                    : "unset"
+                }
+                onClick={() => {
+                  if (sort.orderBy === item.name) {
+                    setSort({
+                      ...sort,
+                      reverse: !sort.reverse,
+                    });
+                  } else {
+                    setSort({
+                      orderBy: item.name as any,
+                      reverse: false,
+                    });
+                  }
+                }}
+              >
+                {t(item.name)}
+              </Text>
+            </Flex>
           );
         })}
       </HStack>
@@ -90,8 +103,8 @@ const List = ({ files }: { files: File[] }) => {
       })}
       <Menu id={MENU_ID} theme={menuTheme} animation={animation.fade}>
         <Item
-          onClick={({ event, props, triggerEvent, data }) => {
-            console.log(event, props, triggerEvent, data);
+          onClick={() => {
+            setMultiSelect(!multiSelect);
           }}
         >
           <Flex align="center">
@@ -126,6 +139,15 @@ const List = ({ files }: { files: File[] }) => {
           <Item
             onClick={({ props }) => {
               const file = props as File;
+              if (file.type === 1) {
+                toast({
+                  title: t("Can't copy folder direact link"),
+                  status: "warning",
+                  duration: 3000,
+                  isClosable: true,
+                });
+                return;
+              }
               const url = getFileUrl(props);
               copyToClip(url);
               toast({

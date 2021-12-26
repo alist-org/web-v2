@@ -8,6 +8,8 @@ import {
   Flex,
   HStack,
   useBreakpointValue,
+  Checkbox,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -17,22 +19,18 @@ import { getFileSize } from "../../../../utils/file";
 import getIcon from "../../../../utils/icon";
 import useDownLink from "../../../../hooks/useDownLink";
 import { useEncrypt } from "../../../../hooks/useEncrypt";
-import {
-  useContextMenu,
-} from "react-contexify";
+import { useContextMenu } from "react-contexify";
 import { MENU_ID } from "./list";
-
 
 const ListItem = ({ file }: FileProps) => {
   const { pathname } = useLocation();
-  const { getSetting } = useContext(IContext);
+  const { getSetting, multiSelect } = useContext(IContext);
   const [cursor, setCursor] = useState<boolean>(false);
-  const isShow = useBreakpointValue({ base: false, md: true });
-  const link = useDownLink();
+  // const isShow = useBreakpointValue({ base: false, md: true });
   const [cursorIcon, setCursorIcon] = useState<boolean>(false);
   const ItemBox = getSetting("animation") === "true" ? ScaleFade : Box;
-  const encrypt = useEncrypt();
   const MyLinkBox = cursor ? Box : LinkBox;
+  const checkboxBorderColor = useColorModeValue("gray.300", "gray.500");
   const { show } = useContextMenu({
     id: MENU_ID,
     props: file,
@@ -76,6 +74,14 @@ const ListItem = ({ file }: FileProps) => {
               align="center"
               w={{ base: 3 / 4, md: "50%" }}
             >
+              {multiSelect && (
+                <Checkbox
+                  onMouseOver={() => setCursorIcon(true)}
+                  onMouseLeave={() => setCursorIcon(false)}
+                  mr={2}
+                  borderColor={checkboxBorderColor}
+                />
+              )}
               <Icon
                 color={getSetting("icon color")}
                 boxSize={6}
