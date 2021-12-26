@@ -129,7 +129,7 @@ const List = ({ files }: { files: File[] }) => {
         >
           <Flex align="center">
             <Icon boxSize={5} as={FcTodoList} mr={2} />
-            {t("Multiple choice")}
+            {t("Multiple select")}
           </Flex>
         </Item>
         <Separator />

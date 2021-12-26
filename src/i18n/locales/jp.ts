@@ -105,6 +105,11 @@ const zh = {
   "animation": "アニメーション",
   "when there are a lot of files, the animation will freeze when opening": "ファイルが多い場合、開く時にアニメーションが凍結します",
   "Deprecated": "時代遅れ",
+  "Multiple select": "複数選択",
+  "Operations": "操作する",
+  "Can't copy folder direact link": "フォルダのダイレクトリンクをコピーできません",
+  "Copy link": "リンクをコピー",
+  "Sort by": "選別",
 }
 
 export default zh

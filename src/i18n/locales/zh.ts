@@ -105,6 +105,11 @@ const zh = {
   "animation": "动画",
   "when there are a lot of files, the animation will freeze when opening": "当文件数量较多时，打开文件时动画会卡顿",
   "Deprecated": "已过时",
+  "Multiple select": "多选",
+  "Operations": "操作",
+  "Can't copy folder direact link": "不能复制文件夹直链",
+  "Copy link": "复制链接",
+  "Sort by": "排序",
 }
 
 export default zh
