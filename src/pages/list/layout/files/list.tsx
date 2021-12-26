@@ -68,6 +68,7 @@ const List = ({ files }: { files: File[] }) => {
             >
               {multiSelect && item.name === "name" && (
                 <Checkbox
+                  colorScheme="green"
                   mr={2}
                   borderColor={checkboxBorderColor}
                   isIndeterminate={

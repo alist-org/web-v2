@@ -133,6 +133,7 @@ const IContextProvider = (props: any) => {
       setLastFiles(files);
     }
     setType("loading");
+    setSelectFiles([]);
     // setFiles([]);
     request
       .post("path", { path: location.pathname, password: password })
