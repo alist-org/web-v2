@@ -29,10 +29,13 @@ const Header = () => {
   const link = useDownLink();
   const encrypt = useEncrypt();
   const toast = useToast();
-  const { show, setShow, type, getSetting, files, password } =
+  const { show, setShow, type, getSetting, files, multiSelect, selectFiles } =
     useContext(IContext);
   const logos = getSetting("logo");
-  const logo = useColorModeValue(logos.split(",").shift(), logos.split(",").pop()) as string;
+  const logo = useColorModeValue(
+    logos.split(",").shift(),
+    logos.split(",").pop()
+  ) as string;
   return (
     <Flex className="header" px="2" py="2" justify="space-between" w="full">
       <Link to="/" className="logo">
@@ -51,7 +54,7 @@ const Header = () => {
         )}
       </Link>
       <HStack className="buttons" spacing="2">
-        {(
+        {
           <Tooltip
             shouldWrapChildren
             hasArrow
@@ -63,7 +66,11 @@ const Header = () => {
               boxSize={6}
               as={BsFillArrowDownCircleFill}
               onClick={() => {
-                if(type==="folder"){
+                if (multiSelect) {
+                  downPack(selectFiles);
+                  return;
+                }
+                if (type === "folder") {
                   downPack(files);
                   return;
                 }
@@ -72,7 +79,7 @@ const Header = () => {
               }}
             />
           </Tooltip>
-        )}
+        }
         {type !== "error" && (
           <Tooltip
             shouldWrapChildren
@@ -89,7 +96,11 @@ const Header = () => {
                 if (type === "file") {
                   content = encrypt(link);
                 } else {
-                  content = files
+                  let files_ = files;
+                  if (multiSelect) {
+                    files_ = selectFiles;
+                  }
+                  content = files_
                     .filter((file) => file.type !== 1)
                     .map((file) => {
                       return encrypt(`${link}/${file.name}`);

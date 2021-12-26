@@ -68,6 +68,8 @@ export interface ContextProps {
   setSort: (sort: Sort) => void;
   multiSelect: boolean;
   setMultiSelect: (value: boolean | ((val: boolean) => boolean)) => void;
+  selectFiles: File[];
+  setSelectFiles: (files: File[]) => void;
 }
 
 export const IContext = createContext<ContextProps>({
@@ -84,6 +86,8 @@ export const IContext = createContext<ContextProps>({
   setSort: () => {},
   multiSelect: false,
   setMultiSelect: () => {},
+  selectFiles: [],
+  setSelectFiles: () => {},
 });
 
 const IContextProvider = (props: any) => {
@@ -104,6 +108,7 @@ const IContextProvider = (props: any) => {
     reverse: false,
   });
   const [multiSelect, setMultiSelect] = useLocalStorage("multiSelect", false);
+  const [selectFiles, setSelectFiles] = useState<File[]>([]);
 
   const sortFiles = (files: File[]) => {
     const { orderBy, reverse } = sort;
@@ -232,6 +237,8 @@ const IContextProvider = (props: any) => {
         setSort,
         multiSelect,
         setMultiSelect,
+        selectFiles,
+        setSelectFiles,
       }}
       {...props}
     />

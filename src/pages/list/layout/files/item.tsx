@@ -24,7 +24,8 @@ import { MENU_ID } from "./list";
 
 const ListItem = ({ file }: FileProps) => {
   const { pathname } = useLocation();
-  const { getSetting, multiSelect } = useContext(IContext);
+  const { getSetting, multiSelect, selectFiles, setSelectFiles } =
+    useContext(IContext);
   const [cursor, setCursor] = useState<boolean>(false);
   // const isShow = useBreakpointValue({ base: false, md: true });
   const [cursorIcon, setCursorIcon] = useState<boolean>(false);
@@ -80,6 +81,14 @@ const ListItem = ({ file }: FileProps) => {
                   onMouseLeave={() => setCursorIcon(false)}
                   mr={2}
                   borderColor={checkboxBorderColor}
+                  isChecked={selectFiles.includes(file)}
+                  onChange={() => {
+                    if (selectFiles.includes(file)) {
+                      setSelectFiles(selectFiles.filter((f) => f !== file));
+                    } else {
+                      setSelectFiles([...selectFiles, file]);
+                    }
+                  }}
                 />
               )}
               <Icon

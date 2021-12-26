@@ -39,7 +39,14 @@ export const MENU_ID = "list-menu";
 
 const List = ({ files }: { files: File[] }) => {
   const { t } = useTranslation();
-  const { sort, setSort, multiSelect, setMultiSelect } = useContext(IContext);
+  const {
+    sort,
+    setSort,
+    multiSelect,
+    setMultiSelect,
+    setSelectFiles,
+    selectFiles,
+  } = useContext(IContext);
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
   const getFileUrl = useFileUrl();
@@ -63,6 +70,18 @@ const List = ({ files }: { files: File[] }) => {
                 <Checkbox
                   mr={2}
                   borderColor={checkboxBorderColor}
+                  isIndeterminate={
+                    selectFiles.length > 0 &&
+                    selectFiles.length !== files.length
+                  }
+                  isChecked={selectFiles.length === files.length}
+                  onChange={() => {
+                    if (selectFiles.length === files.length) {
+                      setSelectFiles([]);
+                    } else {
+                      setSelectFiles(files);
+                    }
+                  }}
                 />
               )}
               <Text
