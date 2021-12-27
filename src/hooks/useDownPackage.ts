@@ -85,6 +85,7 @@ const useDownPackage = () => {
   }, []);
 
   return async (files: File[]) => {
+    totalSize = 0;
     // 检查是否有文件
     if (files.length === 0) {
       toast({
@@ -145,7 +146,6 @@ const useDownPackage = () => {
       duration: null,
     });
     let fileArr = downFiles.values();
-    console.log(totalSize);
     let fileStream = streamSaver.createWriteStream(`${saveName}.zip`, {
       size: totalSize,
     });

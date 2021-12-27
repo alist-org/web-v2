@@ -27,7 +27,7 @@ export default function Ss(props:any) {
         border="solid transparent"
         shadow="lg"
         roundedLeft="lg"
-        bg={useColorModeValue("transparent", "gray.700")}
+        bg={useColorModeValue("white", "gray.700")}
       >
         {props.list&&<Unfold />}
         <Language /> 
