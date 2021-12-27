@@ -110,6 +110,14 @@ const zh = {
   "Can't copy folder direact link": "フォルダのダイレクトリンクをコピーできません",
   "Copy link": "リンクをコピー",
   "Sort by": "選別",
+  "No file selected": "ファイルが選択されていません",
+  "Not support no-cors package download": "CORSをサポートしていないパッケージのダウンロードはサポートされていません",
+  "Downloading": "ダウンロード中",
+  "Fetching directory structure": "ディレクトリ構造を取得中",
+  "Downloading files": "ファイルをダウンロード中",
+  "Success to download": "ダウンロードに成功しました",
+  "Failed to download": "ダウンロードに失敗しました",
+  "Leaving the page will interrupt the download": "ページを離れるとダウンロードが中断されます",
 }
 
 export default zh
