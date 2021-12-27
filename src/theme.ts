@@ -13,6 +13,9 @@ const config: ThemeConfig = {
 
 const styles: Styles = {
   global: (props) => ({
+    ".chakra-ui-light": {
+      bgColor: "#F4F4F4",
+    },
     "html,body,#root,.App": {
       margin: 0,
       padding: 0,

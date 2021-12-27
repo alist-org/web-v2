@@ -38,7 +38,7 @@ const File = lazy(() => import("./file"));
 
 const KuttyHero = () => {
   // console.log("KuttyHero");
-  const bgColor = useColorModeValue("transparent", "gray.700");
+  const bgColor = useColorModeValue("white", "gray.700");
   const { isOpen, onClose, onOpen } = useDisclosure();
   const initialRef = React.useRef();
   const history = useHistory();
@@ -99,7 +99,7 @@ const KuttyHero = () => {
         <Nav />
         <Box
           className="main-box"
-          rounded="lg"
+          rounded="xl"
           shadow="lg"
           bgColor={bgColor}
           w="full"
@@ -137,7 +137,7 @@ const KuttyHero = () => {
         {type !== "loading" && readme && (
           <Box
             className="readme-box"
-            rounded="lg"
+            rounded="xl"
             shadow="lg"
             bgColor={bgColor}
             w="full"
