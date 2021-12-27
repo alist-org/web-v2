@@ -66,6 +66,11 @@ const Header = () => {
               boxSize={6}
               as={BsFillArrowDownCircleFill}
               onClick={() => {
+                if (type === "file") {
+                  let url = encrypt(link);
+                  window.open(url, "_blank");
+                  return;
+                }
                 if (multiSelect) {
                   downPack(selectFiles);
                   return;
@@ -74,8 +79,6 @@ const Header = () => {
                   downPack(files);
                   return;
                 }
-                let url = encrypt(link);
-                window.open(url, "_blank");
               }}
             />
           </Tooltip>

@@ -6,7 +6,7 @@ export const useEncrypt = ()=>{
   const {getSetting,password} = useContext(IContext);
   return (url:string)=>{
     if(getSetting('check down link')!=="true" || password===''){
-      return url;
+      return encodeURI(url);
     }
     const name = url.split('/').pop();
     const token = localStorage.getItem("admin-token");

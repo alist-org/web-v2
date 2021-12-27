@@ -31,7 +31,7 @@ import {
   FcRefresh,
 } from "react-icons/fc";
 import ListItem from "./item";
-import useFileUrl from "../../../../hooks/useFileDownLink";
+import useFileUrl from "../../../../hooks/useFileUrl";
 import useDownPackage from "../../../../hooks/useDownPackage";
 import { copyToClip } from "../../../../utils/copy-clip";
 
@@ -148,7 +148,7 @@ const List = ({ files }: { files: File[] }) => {
                 downPack([file]);
                 return;
               }
-              window.open(getFileUrl(props), "_blank");
+              window.open(getFileUrl(file), "_blank");
             }}
           >
             <Flex align="center">
@@ -168,7 +168,7 @@ const List = ({ files }: { files: File[] }) => {
                 });
                 return;
               }
-              const url = getFileUrl(props);
+              const url = getFileUrl(file);
               copyToClip(url);
               toast({
                 title: t("copied"),
