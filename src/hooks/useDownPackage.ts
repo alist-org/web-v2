@@ -64,7 +64,7 @@ const useDownPackage = () => {
   const encrypt = useEncrypt();
 
   const tips = (event: any) => {
-    const tip = t("Leaving the page will interrupt the download.");
+    const tip = t("Leaving the page will interrupt the download");
     if (Downloading) {
       toast({
         title: tip,
@@ -113,7 +113,6 @@ const useDownPackage = () => {
       status: "info",
       duration: null,
       isClosable: false,
-      // variant: "subtle",
     });
     let saveName = pathname.split("/").pop();
     if (files.length === 1) {
@@ -144,7 +143,6 @@ const useDownPackage = () => {
       title: t("Downloading"),
       description: t("Downloading files"),
       duration: null,
-      variant: "subtle",
     });
     let fileArr = downFiles.values();
     console.log(totalSize);

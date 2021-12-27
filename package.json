@@ -16,7 +16,7 @@
     "flv.js": "^1.6.2",
     "framer-motion": "^4",
     "i18next": "^21.3.3",
-    "md-editor-rt": "^1.2.2",
+    "md-editor-rt": "^1.4.1",
     "react": "^17.0.0",
     "react-contexify": "^5.0.0",
     "react-dom": "^17.0.0",

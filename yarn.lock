@@ -1461,10 +1461,10 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-md-editor-rt@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/md-editor-rt/-/md-editor-rt-1.2.2.tgz#cfe90d4ebe0a3971d32e2f79613bbc0ad390a4b3"
-  integrity sha512-/+FbdN61OFrtlAnWKg1EZVHJgaUSCH9OZQv2k8lYzbWijQQTlERgFwWbvHqwmS4CybHAXvgl9r2hV1Xr8i3JnA==
+md-editor-rt@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/md-editor-rt/-/md-editor-rt-1.4.1.tgz#bad2e057c7e8e5d88a4d130a9ab7683d7b531bc2"
+  integrity sha512-hXJ9DEBFr36uPVQg084P50o0wTL0y6AGRQm7b11717kpcFj4bGXGArbAjKunNgqUMvB5rJD+hTGkR7XB5jWGGA==
 
 mini-create-react-context@^0.4.0:
   version "0.4.1"
