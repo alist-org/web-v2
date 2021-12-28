@@ -114,7 +114,7 @@ const zh = {
   "Not support no-cors package download": "不支持不允许跨域的文件打包下载",
   "Downloading": "正在下载",
   "Fetching directory structure": "正在获取目录结构",
-  "Downloading files": "正在下载文件",
+  "Downloading files, don't close or refresh the page": "正在下载文件，请勿关闭或刷新页面",
   "Success to download": "下载成功",
   "Failed to download": "下载失败",
   "Leaving the page will interrupt the download": "离开页面会中断下载",

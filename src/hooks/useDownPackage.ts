@@ -142,7 +142,7 @@ const useDownPackage = () => {
     }
     toast.update(toastIdRef.current as any, {
       title: t("Downloading"),
-      description: t("Downloading files"),
+      description: t("Downloading files, don't close or refresh the page"),
       duration: null,
     });
     let fileArr = downFiles.values();

@@ -114,7 +114,7 @@ const zh = {
   "Not support no-cors package download": "CORSをサポートしていないパッケージのダウンロードはサポートされていません",
   "Downloading": "ダウンロード中",
   "Fetching directory structure": "ディレクトリ構造を取得中",
-  "Downloading files": "ファイルをダウンロード中",
+  "Downloading files, don't close or refresh the page": "ファイルをダウンロード中、ページを閉じるかリフレッシュしないでください",
   "Success to download": "ダウンロードに成功しました",
   "Failed to download": "ダウンロードに失敗しました",
   "Leaving the page will interrupt the download": "ページを離れるとダウンロードが中断されます",
