@@ -42,7 +42,7 @@ const Nav = () => {
               <BreadcrumbLink
                 isCurrentPage={isLast}
                 wordBreak="break-word"
-                as={Link}
+                as={isLast ? undefined : Link}
                 to={encodeURI(pathname)}
                 _hover={{
                   textDecoration: "none",
