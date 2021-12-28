@@ -14,10 +14,11 @@ import {
   Link as Clink,
   useToast,
   Tooltip,
+  Collapse,
 } from "@chakra-ui/react";
 import { BsGearFill } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
-import { MdCached, MdStorage } from "react-icons/md";
+import { MdCached, MdKeyboardArrowRight, MdStorage } from "react-icons/md";
 import { SiMetabase } from "react-icons/si";
 import { DiGithubAlt } from "react-icons/di";
 import { BiExit } from "react-icons/bi";
@@ -33,18 +34,39 @@ import { useTranslation } from "react-i18next";
 import admin, { changeToken } from "../../utils/admin";
 import Overlay from "../../components/overlay";
 import useTitle from "../../hooks/useTitle";
+import { IconType } from "react-icons";
 
 const Login = lazy(() => import("./login"));
 const Settings = lazy(() => import("./settings"));
 const Accounts = lazy(() => import("./accounts"));
 const Metas = lazy(() => import("./metas"));
 
-const NavItems = [
+interface NavItem {
+  name: string;
+  to: string;
+  icon?: IconType;
+  component?: React.LazyExoticComponent<() => JSX.Element>;
+  children?: NavItem[];
+}
+
+const NavItems: NavItem[] = [
   {
     name: "Settings",
     to: "settings",
     icon: BsGearFill,
-    component: Settings,
+    // component: Settings,
+    children: [
+      {
+        name: "Frontend",
+        to: "settings/0",
+        component: Settings,
+      },
+      {
+        name: "Backend",
+        to: "settings/1",
+        component: Settings,
+      },
+    ],
   },
   {
     name: "Accounts",
@@ -60,7 +82,23 @@ const NavItems = [
   },
 ];
 
+const getAllNavItems = (items: NavItem[], acc: NavItem[] = []) => {
+  items.forEach((item) => {
+    acc.push(item);
+    if (item.children) {
+      getAllNavItems(item.children, acc);
+    }
+  });
+  return acc;
+};
+
 export default function Swibc() {
+  const disclosureSet = {} as any;
+  for (const item of NavItems) {
+    if (item.children) {
+      disclosureSet[item.name] = useDisclosure();
+    }
+  }
   const sidebar = useDisclosure();
   const { t } = useTranslation();
   const match = useRouteMatch();
@@ -87,8 +125,9 @@ export default function Swibc() {
 
   const NavItem = (props: any) => {
     const { icon, children, ...rest } = props;
+    const MyLink: any = props.to ? Link : Box;
     return (
-      <Link to={`${match.url}/${props.to}`}>
+      <MyLink to={`${match.url}/${props.to}`}>
         <Flex
           align="center"
           px="4"
@@ -117,7 +156,7 @@ export default function Swibc() {
           )}
           {children}
         </Flex>
-      </Link>
+      </MyLink>
     );
   };
 
@@ -160,11 +199,44 @@ export default function Swibc() {
         aria-label="Main Navigation"
       >
         {NavItems.map((item) => {
-          return (
-            <NavItem to={item.to} icon={item.icon} key={item.name}>
-              {t(item.name)}
-            </NavItem>
-          );
+          if (!item.children) {
+            return (
+              <NavItem to={item.to} icon={item.icon} key={item.name}>
+                {t(item.name)}
+              </NavItem>
+            );
+          } else {
+            return (
+              <Box key={item.name}>
+                <NavItem
+                  icon={item.icon}
+                  onClick={disclosureSet[item.name].onToggle}
+                >
+                  {t(item.name)}
+                  <Icon
+                    as={MdKeyboardArrowRight}
+                    ml="auto"
+                    transform={
+                      disclosureSet[item.name].isOpen ? "rotate(90deg)" : ""
+                    }
+                  />
+                </NavItem>
+                <Collapse in={disclosureSet[item.name].isOpen}>
+                  {item.children.map((child) => (
+                    <NavItem
+                      pl="12"
+                      py="2"
+                      to={child.to}
+                      icon={child.icon}
+                      key={child.name}
+                    >
+                      {t(child.name)}
+                    </NavItem>
+                  ))}
+                </Collapse>
+              </Box>
+            );
+          }
         })}
       </Flex>
     </Box>
@@ -285,11 +357,13 @@ export default function Swibc() {
                 </Center>
               }
             >
-              {NavItems.map((item) => {
+              {getAllNavItems(NavItems).map((item) => {
                 return (
-                  <Route path={`${match.url}/${item.to}`} key={item.name}>
-                    <item.component />
-                  </Route>
+                  item.component && (
+                    <Route path={`${match.url}/${item.to}`} key={item.name}>
+                      <item.component />
+                    </Route>
+                  )
                 );
               })}
               <Route path={`${match.url}/login`}>

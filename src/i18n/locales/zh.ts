@@ -118,6 +118,8 @@ const zh = {
   "Success to download": "下载成功",
   "Failed to download": "下载失败",
   "Leaving the page will interrupt the download": "离开页面会中断下载",
+  "Frontend": "前端",
+  "Backend": "后端",
 }
 
 export default zh

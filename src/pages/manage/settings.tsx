@@ -13,6 +13,7 @@ import {
 import admin from "../../utils/admin";
 import { useTranslation } from "react-i18next";
 import FormItem from "../../components/form-item";
+import { useLocation } from "react-router-dom";
 
 interface SettingItem {
   key: string;
@@ -27,20 +28,25 @@ const Settings = () => {
   const toast = useToast();
   const { t } = useTranslation();
   const [settings, setSettings] = useState<SettingItem[]>([]);
+  const { pathname } = useLocation();
   const refreshSettings = () => {
-    admin.get("settings").then((resp) => {
-      const res = resp.data;
-      if (res.code !== 200) {
-        toast({
-          title: t(res.message),
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      } else {
-        setSettings(res.data);
-      }
-    });
+    admin
+      .get("settings", {
+        params: { group: parseInt(pathname.split("/").pop() || "0") },
+      })
+      .then((resp) => {
+        const res = resp.data;
+        if (res.code !== 200) {
+          toast({
+            title: t(res.message),
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          setSettings(res.data);
+        }
+      });
   };
   useEffect(() => {
     refreshSettings();

@@ -118,6 +118,8 @@ const zh = {
   "Success to download": "ダウンロードに成功しました",
   "Failed to download": "ダウンロードに失敗しました",
   "Leaving the page will interrupt the download": "ページを離れるとダウンロードが中断されます",
+  "Frontend": "フロントエンド",
+  "Backend": "バックエンド",
 }
 
 export default zh
