@@ -117,7 +117,7 @@ export default function Swibc() {
         history.push(`${url}login`);
       } else {
         if (match.url === location.pathname) {
-          history.push(`${url}settings`);
+          history.push(`${url}settings/0`);
         }
       }
     });
@@ -127,7 +127,14 @@ export default function Swibc() {
     const { icon, children, ...rest } = props;
     const MyLink: any = props.to ? Link : Box;
     return (
-      <MyLink to={`${match.url}/${props.to}`}>
+      <MyLink
+        to={`${match.url}/${props.to}`}
+        onClick={() => {
+          if (props.to) {
+            document.title = `${children} - ${t("Alist Manage")}`;
+          }
+        }}
+      >
         <Flex
           align="center"
           px="4"

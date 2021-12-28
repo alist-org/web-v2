@@ -44,7 +44,7 @@ const Video = ({ file }: FileProps) => {
       url: url,
       autoplay: getSetting("autoplay video") === "true",
       autoMini: true,
-      autoSize: true,
+      autoSize: false,
       playbackRate: true,
       flip: true,
       rotate: true,
@@ -81,6 +81,12 @@ const Video = ({ file }: FileProps) => {
     };
     if (file.name.toLowerCase().endsWith(".flv")) {
       options.type = "flv";
+    }
+    if (getSetting("artplayer whitelist")) {
+      options.whitelist = getSetting("artplayer whitelist").split(",");
+    }
+    if (getSetting("artplayer autoSize") === "true") {
+      options.autoSize = true;
     }
     // try subtitle
     const filename = file.name.substring(0, file.name.lastIndexOf("."));

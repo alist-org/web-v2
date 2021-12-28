@@ -20,6 +20,7 @@ interface SettingItem {
   value: string;
   description: string;
   type: "string" | "bool" | "select" | "text";
+  access: number;
   group: number;
   values?: string;
   version: string;
