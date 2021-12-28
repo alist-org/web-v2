@@ -11,12 +11,21 @@ import { useTranslation } from "react-i18next";
 
 const Nav = () => {
   const location = useLocation();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-    <Breadcrumb className="nav" w="full" py="1" px="2">
+    <Breadcrumb spacing="1" className="nav" w="full" px="2">
       <BreadcrumbItem>
-        <BreadcrumbLink as={Link} to="/">
-          {t("Home")}
+        <BreadcrumbLink
+          _hover={{
+            textDecoration: "none",
+            bg: "rgba(132,133,141,0.18)",
+          }}
+          p="1"
+          rounded="lg"
+          as={Link}
+          to="/"
+        >
+          🏠{t("Home")}
         </BreadcrumbLink>
       </BreadcrumbItem>
       {location.pathname
@@ -30,7 +39,18 @@ const Nav = () => {
             .join("/");
           return (
             <BreadcrumbItem key={pathname} isCurrentPage={isLast}>
-              <BreadcrumbLink wordBreak="break-word" as={Link} to={encodeURI(pathname)}>
+              <BreadcrumbLink
+                isCurrentPage={isLast}
+                wordBreak="break-word"
+                as={Link}
+                to={encodeURI(pathname)}
+                _hover={{
+                  textDecoration: "none",
+                  bg: "rgba(132,133,141,0.18)",
+                }}
+                p="1"
+                rounded="lg"
+              >
                 {path}
               </BreadcrumbLink>
             </BreadcrumbItem>
