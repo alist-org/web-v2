@@ -26,11 +26,10 @@ const ListItem = ({ file }: FileProps) => {
   const { pathname } = useLocation();
   const { getSetting, multiSelect, selectFiles, setSelectFiles } =
     useContext(IContext);
-  const [cursor, setCursor] = useState<boolean>(false);
   // const isShow = useBreakpointValue({ base: false, md: true });
-  const [cursorIcon, setCursorIcon] = useState<boolean>(false);
+  const [cursorOther, setCursorOther] = useState<boolean>(false);
   const ItemBox = getSetting("animation") === "true" ? ScaleFade : Box;
-  const MyLinkBox = cursor ? Box : LinkBox;
+  // const MyLinkBox = cursorOther ? Box : LinkBox;
   const checkboxBorderColor = useColorModeValue("gray.300", "gray.500");
   const { show } = useContextMenu({
     id: MENU_ID,
@@ -45,7 +44,7 @@ const ListItem = ({ file }: FileProps) => {
       : {};
   return (
     <ItemBox style={{ width: "100%" }} {...props}>
-      <MyLinkBox
+      <LinkBox
         className="list-item"
         p="2"
         w="full"
@@ -55,14 +54,12 @@ const ListItem = ({ file }: FileProps) => {
           transform: "scale(1.01)",
           bgColor: "rgba(132,133,141,0.18)",
         }}
-        onMouseOver={() => setCursor(true)}
-        onMouseLeave={() => setCursor(false)}
         onContextMenu={(e) => {
           show(e);
         }}
       >
         <LinkOverlay
-          as={cursorIcon ? Box : Link}
+          as={cursorOther ? Box : Link}
           to={encodeURI(
             `${pathname.endsWith("/") ? pathname.slice(0, -1) : pathname}/${
               file.name
@@ -78,8 +75,8 @@ const ListItem = ({ file }: FileProps) => {
               {multiSelect && (
                 <Checkbox
                   colorScheme="green"
-                  onMouseOver={() => setCursorIcon(true)}
-                  onMouseLeave={() => setCursorIcon(false)}
+                  onMouseOver={() => setCursorOther(true)}
+                  onMouseLeave={() => setCursorOther(false)}
                   mr={2}
                   borderColor={checkboxBorderColor}
                   isChecked={selectFiles.includes(file)}
@@ -128,7 +125,7 @@ const ListItem = ({ file }: FileProps) => {
             </Text>
           </HStack>
         </LinkOverlay>
-      </MyLinkBox>
+      </LinkBox>
     </ItemBox>
   );
 };
