@@ -42,6 +42,16 @@ const styles: Styles = {
     ".react-viewer img": {
       maxWidth: "unset",
     },
+    // markdown
+    ".md-previewOnly img": {
+      display: "unset",
+    },
+    ".md .default-theme img": {
+      border: "none",
+    },
+    ".md .github-theme img": {
+      bgColor: "transparent",
+    }
   }),
 };
 
