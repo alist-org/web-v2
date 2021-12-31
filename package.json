@@ -18,6 +18,7 @@
     "framer-motion": "^4",
     "i18next": "^21.3.3",
     "md-editor-rt": "^1.4.1",
+    "mitt": "^3.0.0",
     "react": "^17.0.0",
     "react-contexify": "^5.0.0",
     "react-dom": "^17.0.0",

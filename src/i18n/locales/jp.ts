@@ -122,6 +122,10 @@ const zh = {
   "Backend": "バックエンド",
   "Download {{number}} files": "{{number}}ファイルをダウンロード",
   "Copy links of {{number}} files": "{{number}}ファイルのリンクをコピー",
+  "Upload file": "ファイルをアップロード",
+  "Uploading": "アップロード中",
+  "upload": "アップロード",
+  "Allow visitors to upload": "訪問者がファイルをアップロードできるようにする",
 }
 
 export default zh

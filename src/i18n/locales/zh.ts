@@ -122,6 +122,10 @@ const zh = {
   "Backend": "后端",
   "Download {{number}} files": "下载{{number}}个文件",
   "Copy links of {{number}} files": "复制{{number}}个文件的直链",
+  "Upload file": "上传文件",
+  "Uploading": "正在上传",
+  "upload": "上传",
+  "Allow visitors to upload": "允许访客上传",
 }
 
 export default zh

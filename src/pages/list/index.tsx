@@ -17,6 +17,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import IContextProvider, { IContext, File, PathResp, Resp } from "./context";
 import KuttyHero from "./layout";
+import bus from "../../utils/event-bus";
 
 const Do = (props: any) => {
   const {
@@ -30,6 +31,7 @@ const Do = (props: any) => {
     sort,
     password,
     setPassword,
+    setMeta,
   } = useContext(IContext);
   const { t } = useTranslation();
   const history = useHistory();
@@ -49,6 +51,7 @@ const Do = (props: any) => {
       if (res.code === 200) {
         setFiles(sortFiles(res.data.files));
         setType(res.data.type);
+        setMeta(res.data.meta);
       } else {
         toast({
           title: t(res.message),
@@ -76,6 +79,13 @@ const Do = (props: any) => {
       return 0;
     });
   };
+
+  useEffect(() => {
+    bus.on("refresh", refresh);
+    return () => {
+      bus.off("refresh", refresh);
+    };
+  }, []);
 
   useEffect(() => {
     const files_ = sortFiles(files);

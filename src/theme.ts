@@ -62,7 +62,7 @@ const overrides: ThemeOverride = {
 
 const theme = extendTheme(
   overrides,
-  withDefaultColorScheme({ colorScheme: "teal" })
+  withDefaultColorScheme({ colorScheme: "green" })
 );
 
 export default theme;

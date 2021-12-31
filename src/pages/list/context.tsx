@@ -7,9 +7,9 @@ import React, {
   useCallback,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory, useLocation } from "react-router-dom";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import request from "../../utils/public";
+import admin from "../../utils/admin";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 export interface File {
   name: string;
@@ -29,9 +29,14 @@ export interface Resp<T> {
   data: T;
 }
 
+export interface Meta {
+  driver: string;
+  upload: boolean;
+}
+
 export interface PathResp {
   type: TypeType;
-  driver: string;
+  meta: Meta;
   files: File[];
 }
 
@@ -85,6 +90,9 @@ export interface ContextProps {
   setMultiSelect: (value: boolean | ((val: boolean) => boolean)) => void;
   selectFiles: File[];
   setSelectFiles: (files: File[]) => void;
+  meta: Meta;
+  setMeta: (meta: Meta) => void;
+  loggedIn: boolean;
 }
 
 export const IContext = createContext<ContextProps>({
@@ -106,6 +114,9 @@ export const IContext = createContext<ContextProps>({
   selectFiles: [],
   setSelectFiles: () => {},
   setType: () => {},
+  meta: { driver: "", upload: false },
+  setMeta: () => {},
+  loggedIn: false,
 });
 
 const IContextProvider = (props: any) => {
@@ -129,7 +140,7 @@ const IContextProvider = (props: any) => {
   const [show, setShow] = React.useState<string>(
     localStorage.getItem("show") || "list"
   );
-  
+
   const initialSettings = useCallback(() => {
     request
       .get("settings")
@@ -172,13 +183,27 @@ const IContextProvider = (props: any) => {
         });
       });
   }, []);
-  useEffect(() => {
-    initialSettings();
+  const login = useCallback(() => {
+    admin.get("login").then((resp) => {
+      if (resp.data.code === 200) {
+        setLoggedIn(true);
+      }
+    });
   }, []);
 
+  useEffect(() => {
+    initialSettings();
+    login();
+  }, []);
 
   const [showUnfold, setShowUnfold] = React.useState<boolean>(false);
   const [unfold, setUnfold] = React.useState<boolean>(false);
+
+  const [meta, setMeta] = React.useState<Meta>({
+    driver: "",
+    upload: false,
+  });
+  const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
   return (
     <IContext.Provider
       value={{
@@ -206,6 +231,9 @@ const IContextProvider = (props: any) => {
         setMultiSelect,
         selectFiles,
         setSelectFiles,
+        meta,
+        setMeta,
+        loggedIn,
       }}
       {...props}
     />

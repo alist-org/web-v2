@@ -10,7 +10,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -30,6 +29,7 @@ interface Meta {
   path: string;
   password: string;
   hide: string;
+  upload: boolean;
 }
 
 const EmptyMeta = {
@@ -37,6 +37,7 @@ const EmptyMeta = {
   path: "",
   password: "",
   hide: "",
+  upload: false,
 };
 
 const Metas = () => {
@@ -96,6 +97,7 @@ const Metas = () => {
               <Th>{t("path")}</Th>
               <Th>{t("password")}</Th>
               <Th>{t("hide")}</Th>
+              <Th>{t("upload")}</Th>
               <Th>{t("operation")}</Th>
             </Tr>
           </Thead>
@@ -106,6 +108,7 @@ const Metas = () => {
                   <Td>{meta.path}</Td>
                   <Td>{meta.password}</Td>
                   <Td>{meta.hide}</Td>
+                  <Td>{meta.upload ? "true" : "false"}</Td>
                   <Td whiteSpace="nowrap">
                     <Button
                       onClick={() => {
@@ -164,24 +167,40 @@ const Metas = () => {
           <ModalBody pb={6}>
             <VStack spacing="2">
               {[
-                { name: "path", description: "Path" },
-                { name: "password", description: "Password" },
-                { name: "hide", description: "Hide Files(split by ,)" },
+                { name: "path", description: "Path", type: "string" },
+                { name: "password", description: "Password", type: "string" },
+                {
+                  name: "hide",
+                  description: "Hide Files(split by ,)",
+                  type: "string",
+                },
+                {
+                  name: "upload",
+                  description: "Allow visitors to upload",
+                  type: "bool",
+                },
               ].map((item) => {
                 return (
                   <FormItem
                     key={item.name}
                     label={item.name}
-                    type="string"
+                    type={item.type as any}
                     description={item.description}
                     value={(currentMeta as any)[item.name]}
                     required={item.name === "path"}
                     // readOnly={isEdit&&item.name==="path"}
                     onChange={(value) => {
-                      setCurrentMeta({
-                        ...currentMeta,
-                        [item.name]: value,
-                      });
+                      if (item.type !== "bool") {
+                        setCurrentMeta({
+                          ...currentMeta,
+                          [item.name]: value,
+                        });
+                      } else {
+                        setCurrentMeta({
+                          ...currentMeta,
+                          [item.name]: !(currentMeta as any)[item.name],
+                        });
+                      }
                     }}
                   />
                 );

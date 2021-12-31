@@ -9,31 +9,44 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { IContext } from "../context";
 import { FaListUl } from "react-icons/fa";
 // import { AiTwotoneCopy } from "react-icons/ai";
 import { IoIosCopy } from "react-icons/io";
-import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs";
+import {
+  BsFillArrowDownCircleFill,
+  BsFillArrowUpCircleFill,
+} from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { copyToClip } from "../../../utils/copy-clip";
-import useDownPackage from "../../../hooks/useDownPackage";
 import useFileUrl from "../../../hooks/useFileUrl";
+import Uploader, { UploaderHandle } from "./uploader";
 
 const Header = () => {
-  const downPack = useDownPackage();
   const { t } = useTranslation();
   const fileUrl = useFileUrl();
   const toast = useToast();
-  const { show, setShow, type, getSetting, files, multiSelect, selectFiles } =
-    useContext(IContext);
+  const {
+    show,
+    setShow,
+    type,
+    getSetting,
+    files,
+    multiSelect,
+    selectFiles,
+    meta,
+    loggedIn,
+  } = useContext(IContext);
   const logos = getSetting("logo");
   const logo = useColorModeValue(
     logos.split(",").shift(),
     logos.split(",").pop()
   ) as string;
+  const { pathname } = useLocation();
+  const uploadRef = useRef<UploaderHandle>(null);
   return (
     <Flex className="header" px="2" py="2" justify="space-between" w="full">
       <Link to="/" className="logo">
@@ -52,7 +65,7 @@ const Header = () => {
         )}
       </Link>
       <HStack className="buttons" spacing="2">
-        {type === "file" ? (
+        {type === "file" && (
           <Tooltip
             shouldWrapChildren
             hasArrow
@@ -80,21 +93,23 @@ const Header = () => {
               }}
             />
           </Tooltip>
-        ) : (
+        )}
+        {type === "folder" && pathname !== "/" && (meta.upload || loggedIn) && (
           <Tooltip
             shouldWrapChildren
             hasArrow
             placement="bottom"
-            label={t("Upload")}
+            label={t("Upload file")}
           >
             <Icon
               cursor="pointer"
               boxSize={6}
               as={BsFillArrowUpCircleFill}
               onClick={() => {
-                // TODO: upload
+                uploadRef.current!.upload();
               }}
             />
+            <Uploader ref={uploadRef} />
           </Tooltip>
         )}
         {type !== "error" && (
