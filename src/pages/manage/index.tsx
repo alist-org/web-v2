@@ -132,6 +132,7 @@ export default function Swibc() {
         onClick={() => {
           if (props.to) {
             document.title = `${children} - ${t("Alist Manage")}`;
+            sidebar.onClose();
           }
         }}
       >
