@@ -49,8 +49,11 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
         type="file"
         id="upload-input"
         onChange={(e) => {
-          onOpen();
           const file = e.target.files![0];
+          if (!file) {
+            return;
+          }
+          onOpen();
           const form = new FormData();
           form.append("file", file);
           form.append("path", pathname);
@@ -70,6 +73,10 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
             })
             .then((resp) => {
               onClose();
+              const fileInput = document.querySelector(
+                "#upload-input"
+              ) as HTMLInputElement;
+              fileInput.value = "";
               const res: Resp<null> = resp.data;
               toast({
                 title: t(res.message),

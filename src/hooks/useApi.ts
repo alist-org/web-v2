@@ -14,7 +14,6 @@ const useApi = () => {
   //   console.log(error);
   // }
   let path = pathname;
-
   return {
     path: () => {
       return request.post("path", {

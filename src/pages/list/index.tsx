@@ -81,18 +81,15 @@ const Do = (props: any) => {
   };
 
   useEffect(() => {
-    bus.on("refresh", refresh);
-    return () => {
-      bus.off("refresh", refresh);
-    };
-  }, []);
-
-  useEffect(() => {
     const files_ = sortFiles(files);
     setFiles([...files_]);
   }, [sort]);
   useEffect(() => {
     refresh();
+    bus.on("refresh", refresh);
+    return () => {
+      bus.off("refresh", refresh);
+    };
   }, [location.pathname]);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const initialRef = React.useRef();
