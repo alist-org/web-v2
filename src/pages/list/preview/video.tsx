@@ -155,6 +155,7 @@ const Video = ({ file }: FileProps) => {
                 whiteSpace="nowrap"
                 overflow="hidden"
                 maxW="85vw"
+                w="full"
                 as={ReactLink}
                 _hover={{
                   textDecoration: "none",
