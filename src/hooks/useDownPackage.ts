@@ -46,7 +46,7 @@ const useDownPackage = () => {
         // error
         return data.message;
       } else {
-        const files: File[] = data.data;
+        const files: File[] = data.data.files;
         const downFiles: string[] = [];
         for (const f of files) {
           const res = await FileToDownFile(pathJoin(pre, file.name), f);

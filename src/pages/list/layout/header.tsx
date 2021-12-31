@@ -14,7 +14,7 @@ import { IContext } from "../context";
 import { FaListUl } from "react-icons/fa";
 // import { AiTwotoneCopy } from "react-icons/ai";
 import { IoIosCopy } from "react-icons/io";
-import { BsFillArrowDownCircleFill } from "react-icons/bs";
+import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -52,7 +52,7 @@ const Header = () => {
         )}
       </Link>
       <HStack className="buttons" spacing="2">
-        {
+        {type === "file" ? (
           <Tooltip
             shouldWrapChildren
             hasArrow
@@ -69,18 +69,34 @@ const Header = () => {
                   window.open(url, "_blank");
                   return;
                 }
-                if (multiSelect) {
-                  downPack(selectFiles);
-                  return;
-                }
-                if (type === "folder") {
-                  downPack(files);
-                  return;
-                }
+                // if (multiSelect) {
+                //   downPack(selectFiles);
+                //   return;
+                // }
+                // if (type === "folder") {
+                //   downPack(files);
+                //   return;
+                // }
               }}
             />
           </Tooltip>
-        }
+        ) : (
+          <Tooltip
+            shouldWrapChildren
+            hasArrow
+            placement="bottom"
+            label={t("Upload")}
+          >
+            <Icon
+              cursor="pointer"
+              boxSize={6}
+              as={BsFillArrowUpCircleFill}
+              onClick={() => {
+                // TODO: upload
+              }}
+            />
+          </Tooltip>
+        )}
         {type !== "error" && (
           <Tooltip
             shouldWrapChildren

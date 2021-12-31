@@ -120,6 +120,8 @@ const zh = {
   "Leaving the page will interrupt the download": "ページを離れるとダウンロードが中断されます",
   "Frontend": "フロントエンド",
   "Backend": "バックエンド",
+  "Download {{number}} files": "{{number}}ファイルをダウンロード",
+  "Copy links of {{number}} files": "{{number}}ファイルのリンクをコピー",
 }
 
 export default zh

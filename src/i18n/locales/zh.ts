@@ -108,7 +108,7 @@ const zh = {
   "Multiple select": "多选",
   "Operations": "操作",
   "Can't copy folder direact link": "不能复制文件夹直链",
-  "Copy link": "复制链接",
+  "Copy link": "复制直链",
   "Sort by": "排序",
   "No file selected": "未选择文件",
   "Not support no-cors package download": "不支持不允许跨域的文件打包下载",
@@ -120,6 +120,8 @@ const zh = {
   "Leaving the page will interrupt the download": "离开页面会中断下载",
   "Frontend": "前端",
   "Backend": "后端",
+  "Download {{number}} files": "下载{{number}}个文件",
+  "Copy links of {{number}} files": "复制{{number}}个文件的直链",
 }
 
 export default zh

@@ -77,7 +77,7 @@ const List = ({ files }: { files: File[] }) => {
                   }
                   isChecked={selectFiles.length === files.length}
                   onChange={() => {
-                    if (selectFiles.length === files.length) {
+                    if (selectFiles.length !== 0) {
                       setSelectFiles([]);
                     } else {
                       setSelectFiles(files);
@@ -144,6 +144,10 @@ const List = ({ files }: { files: File[] }) => {
           <Item
             onClick={({ props }) => {
               const file = props as File;
+              if (multiSelect) {
+                downPack(selectFiles);
+                return;
+              }
               if (file.type === 1) {
                 downPack([file]);
                 return;
@@ -153,23 +157,35 @@ const List = ({ files }: { files: File[] }) => {
           >
             <Flex align="center">
               <Icon as={FcInternal} boxSize={5} mr={2} />
-              {t("Download")}
+              {multiSelect
+                ? t("Download {{number}} files", { number: selectFiles.length })
+                : t("Download")}
             </Flex>
           </Item>
           <Item
             onClick={({ props }) => {
-              const file = props as File;
-              if (file.type === 1) {
-                toast({
-                  title: t("Can't copy folder direact link"),
-                  status: "warning",
-                  duration: 3000,
-                  isClosable: true,
-                });
-                return;
+              let content = "";
+              if (multiSelect) {
+                content = selectFiles
+                  .filter((file) => file.type !== 1)
+                  .map((file) => {
+                    return getFileUrl(file);
+                  })
+                  .join("\n");
+              } else {
+                const file = props as File;
+                if (file.type === 1) {
+                  toast({
+                    title: t("Can't copy folder direact link"),
+                    status: "warning",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                  return;
+                }
+                content = getFileUrl(file);
               }
-              const url = getFileUrl(file);
-              copyToClip(url);
+              copyToClip(content);
               toast({
                 title: t("copied"),
                 status: "success",
@@ -180,7 +196,11 @@ const List = ({ files }: { files: File[] }) => {
           >
             <Flex align="center">
               <Icon as={FcLink} boxSize={5} mr={2} />
-              {t("Copy link")}
+              {multiSelect
+                ? t("Copy links of {{number}} files", {
+                    number: selectFiles.length,
+                  })
+                : t("Copy link")}
             </Flex>
           </Item>
         </Submenu>
