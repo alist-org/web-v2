@@ -3,7 +3,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { IContext } from "../../context";
-import Viewer from "react-viewer";
+import Viewer from "@xhofe/react-viewer";
 import useDownLink from "../../../../hooks/useDownLink";
 import { useEncrypt } from "../../../../hooks/useEncrypt";
 import Grid_ from "./grid";
@@ -24,6 +24,7 @@ const Files = () => {
       return {
         src: encrypt(`${link}/${file.name}`),
         alt: file.name,
+        thumbnail: file.thumbnail,
       };
     });
   const [visible, setVisible] = React.useState(false);

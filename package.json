@@ -11,6 +11,7 @@
     "@chakra-ui/react": "^1.6.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@xhofe/react-viewer": "^3.2.2",
     "artplayer": "^4.0.8",
     "axios": "^0.24.0",
     "flv.js": "^1.6.2",
@@ -24,7 +25,6 @@
     "react-icons": "^4.3.1",
     "react-jinke-music-player": "^4.24.2",
     "react-router-dom": "^5.2.1",
-    "react-viewer": "^3.2.2",
     "streamsaver": "^2.0.5",
     "ts-md5": "^1.2.10"
   },
