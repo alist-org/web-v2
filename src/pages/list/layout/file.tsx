@@ -2,19 +2,17 @@ import { Button, Center, Heading, Icon, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { FileProps, IContext } from "../context";
-import useDownLink from "../../../hooks/useDownLink";
-import { useEncrypt } from "../../../hooks/useEncrypt";
 import useTitle from "../../../hooks/useTitle";
 import getIcon from "../../../utils/icon";
+import useFileUrl from "../../../hooks/useFileUrl";
 
 const previews = import.meta.globEager("../preview/*.tsx");
 
 const NoPreview = ({ file }: FileProps) => {
   const { getSetting } = useContext(IContext);
   const ext = file.name.split(".").pop() || "";
-  const link = useDownLink();
+  const fileUrl = useFileUrl();
   const { t } = useTranslation();
-  const encrypt = useEncrypt();
   return (
     <Center className="no-preview" p="4">
       <VStack spacing="8">
@@ -26,7 +24,7 @@ const NoPreview = ({ file }: FileProps) => {
         <Heading size="md">{file.name}</Heading>
         <Button
           onClick={() => {
-            window.open(encrypt(link), "_blank");
+            window.open(fileUrl(), "_blank");
           }}
         >
           {t("Download")}

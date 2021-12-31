@@ -2,10 +2,9 @@ import { Box } from "@chakra-ui/layout";
 import React, { lazy, useContext, useEffect } from "react";
 import { useLocation } from "react-router";
 import { FileProps, IContext } from "../context";
-import useDownLink from "../../../hooks/useDownLink";
-import { useEncrypt } from "../../../hooks/useEncrypt";
 import useUnfold from "../../../hooks/useUnfold";
 import request from "../../../utils/public";
+import useFileUrl from "../../../hooks/useFileUrl";
 
 export const type = 2;
 export const exts = [];
@@ -22,9 +21,7 @@ const Pdf = lazy(() => import("./pdf"));
 const Office = ({ file }: FileProps) => {
   const { pathname } = useLocation();
   const { password } = useContext(IContext);
-  let link = useDownLink();
-  const encrypt = useEncrypt();
-  link = encrypt(link);
+  let fileUrl = useFileUrl();
   const { unfold, setShowUnfold } = useUnfold(false);
   const [show, setShow] = React.useState<string>("");
   const [pdf, setPdf] = React.useState("");
@@ -46,7 +43,7 @@ const Office = ({ file }: FileProps) => {
     } else {
       // if (file.driver === "Native")
       if (file.name.endsWith(".pdf")) {
-        setPdf(link);
+        setPdf(fileUrl());
         setShow("pdf");
       } else {
         setShow("office");
@@ -74,7 +71,7 @@ const Office = ({ file }: FileProps) => {
           width="100%"
           height="100%"
           src={`https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
-            link
+            fileUrl()
           )}`}
           frameBorder="0"
         />

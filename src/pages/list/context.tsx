@@ -23,6 +23,18 @@ export interface File {
   time_str?: string;
 }
 
+export interface Resp<T> {
+  code: number;
+  message: string;
+  data: T;
+}
+
+export interface PathResp {
+  type: TypeType;
+  driver: string;
+  files: File[];
+}
+
 export interface FileProps {
   file: File;
   readme?: boolean;
@@ -50,7 +62,9 @@ interface Sort {
 
 export interface ContextProps {
   files: File[];
+  setFiles: (files: File[]) => void;
   type: TypeType;
+  setType: (type: TypeType) => void;
   show: string;
   setShow?: (show: string) => void;
   getSetting: (key: string) => string;
@@ -59,11 +73,12 @@ export interface ContextProps {
   unfold?: boolean;
   setUnfold?: (fold: boolean) => void;
   lastFiles: File[];
+  setLastFiles: (files: File[]) => void;
   password: string;
   setPassword?: (password: string) => void;
   settingLoaded: boolean;
-  refresh: () => void;
   msg: string;
+  setMsg: (msg: string) => void;
   sort: Sort;
   setSort: (sort: Sort) => void;
   multiSelect: boolean;
@@ -74,26 +89,27 @@ export interface ContextProps {
 
 export const IContext = createContext<ContextProps>({
   files: [],
+  setFiles: () => {},
   type: "folder",
   show: "list",
   getSetting: getSetting,
   lastFiles: [],
+  setLastFiles: () => {},
   password: "",
   settingLoaded: false,
-  refresh: () => {},
   msg: "",
+  setMsg: () => {},
   sort: { reverse: false },
   setSort: () => {},
   multiSelect: false,
   setMultiSelect: () => {},
   selectFiles: [],
   setSelectFiles: () => {},
+  setType: () => {},
 });
 
 const IContextProvider = (props: any) => {
-  const location = useLocation();
   const toast = useToast();
-  const history = useHistory();
   const { t } = useTranslation();
   const [files, setFiles] = React.useState<File[]>([]);
   const [lastFiles, setLastFiles] = React.useState<File[]>([]);
@@ -110,57 +126,10 @@ const IContextProvider = (props: any) => {
   const [multiSelect, setMultiSelect] = useLocalStorage("multiSelect", false);
   const [selectFiles, setSelectFiles] = useState<File[]>([]);
 
-  const sortFiles = (files: File[]) => {
-    const { orderBy, reverse } = sort;
-    if (!orderBy) return files;
-    return files.sort((a, b) => {
-      if (a[orderBy] < b[orderBy]) return reverse ? 1 : -1;
-      if (a[orderBy] > b[orderBy]) return reverse ? -1 : 1;
-      return 0;
-    });
-  };
-
-  useEffect(() => {
-    const files_ = sortFiles(files);
-    setFiles([...files_]);
-  }, [sort]);
-
   const [show, setShow] = React.useState<string>(
     localStorage.getItem("show") || "list"
   );
-  const refresh = () => {
-    if (type === "folder") {
-      setLastFiles(files);
-    }
-    setType("loading");
-    setSelectFiles([]);
-    // setFiles([]);
-    request
-      .post("path", { path: location.pathname, password: password })
-      .then((resp) => {
-        const res = resp.data;
-        setMsg(res.message);
-        if (res.code === 200) {
-          setFiles(sortFiles(res.data));
-          setType(res.message);
-        } else {
-          toast({
-            title: t(res.message),
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
-          if (res.code === 1001) {
-            history.push("/@manage");
-          }
-          if (res.code === 401) {
-            setType("unauthorized");
-          } else {
-            setType("error");
-          }
-        }
-      });
-  };
+  
   const initialSettings = useCallback(() => {
     request
       .get("settings")
@@ -195,24 +164,18 @@ const IContextProvider = (props: any) => {
         }
       })
       .catch((err) => {
-        // setType("error");
-        // setMsg(err.message);
-        // setSettingLoaded(true);
         toast({
           title: t("Error"),
           description: err.message,
           status: "error",
           duration: null,
-          // isClosable: true,
         });
       });
   }, []);
   useEffect(() => {
     initialSettings();
   }, []);
-  useEffect(() => {
-    refresh();
-  }, [location.pathname]);
+
 
   const [showUnfold, setShowUnfold] = React.useState<boolean>(false);
   const [unfold, setUnfold] = React.useState<boolean>(false);
@@ -220,7 +183,9 @@ const IContextProvider = (props: any) => {
     <IContext.Provider
       value={{
         files,
+        setFiles,
         type,
+        setType,
         show,
         setShow,
         getSetting,
@@ -229,11 +194,12 @@ const IContextProvider = (props: any) => {
         unfold,
         setUnfold,
         lastFiles,
+        setLastFiles,
         password,
         setPassword,
         settingLoaded,
-        refresh,
         msg,
+        setMsg,
         sort,
         setSort,
         multiSelect,

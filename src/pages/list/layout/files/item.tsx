@@ -7,7 +7,6 @@ import {
   Icon,
   Flex,
   HStack,
-  useBreakpointValue,
   Checkbox,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -17,8 +16,6 @@ import { IContext, FileProps } from "../../context";
 import { formatDate } from "../../../../utils/date";
 import { getFileSize } from "../../../../utils/file";
 import getIcon from "../../../../utils/icon";
-import useDownLink from "../../../../hooks/useDownLink";
-import { useEncrypt } from "../../../../hooks/useEncrypt";
 import { useContextMenu } from "react-contexify";
 import { MENU_ID } from "./list";
 

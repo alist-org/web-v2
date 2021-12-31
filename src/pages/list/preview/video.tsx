@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { FileProps, IContext } from "../context";
 import Artplayer from "artplayer";
-import useDownLink from "../../../hooks/useDownLink";
+import useFolderLink from "../../../hooks/useFolderLink";
 import {
   Box,
   Button,
@@ -18,9 +18,9 @@ import {
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import flvjs from "flv.js";
-import { useEncrypt } from "../../../hooks/useEncrypt";
 import { Link as ReactLink, useHistory } from "react-router-dom";
 import { BsCardList } from "react-icons/bs";
+import useFileUrl from "../../../hooks/useFileUrl";
 
 export const type = 3;
 export const exts = [];
@@ -30,10 +30,9 @@ const Video = ({ file }: FileProps) => {
   const { getSetting, lastFiles } = useContext(IContext);
   const videoFiles = lastFiles.filter((f) => f.type === type);
   const { i18n } = useTranslation();
-  let link = useDownLink();
-  const proxyLink = useDownLink(true);
-  const encrypt = useEncrypt();
-  link = encrypt(link);
+  let fileUrl = useFileUrl();
+  let link = fileUrl();
+  const proxyLink = useFolderLink(true);
   const url = DirectDrivers.includes(file.driver) ? link : file.url;
   const history = useHistory();
   let art: Artplayer;
@@ -104,11 +103,11 @@ const Video = ({ file }: FileProps) => {
       return false;
     });
     if (subtitle) {
-      const preLink = proxyLink.substring(0, link.lastIndexOf("/"));
+      const preLink = proxyLink;
       const subLink = preLink + "/" + subtitle.name;
       options.subtitle = {
         type: subtitleType,
-        url: encrypt(subLink),
+        url: fileUrl(subtitle),
         bilingual: true,
         style: {
           color: "#03A9F4",

@@ -8,21 +8,11 @@ import React, {
 import {
   Box,
   useColorModeValue,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Input,
+  
   Spinner,
   Center,
   VStack,
 } from "@chakra-ui/react";
-import { useHistory, useLocation } from "react-router";
 
 import { useTranslation } from "react-i18next";
 import Header from "./header";
@@ -31,7 +21,7 @@ import Nav from "./nav";
 import Error from "./error";
 import Markdown from "../preview/markdown";
 import Overlay from "../../../components/overlay";
-import IContextProvider, { IContext,File as File_ } from "../context";
+import { IContext,File as File_ } from "../context";
 
 const Files = lazy(() => import("./files"));
 const File = lazy(() => import("./file"));
@@ -39,16 +29,13 @@ const File = lazy(() => import("./file"));
 const KuttyHero = () => {
   // console.log("KuttyHero");
   const bgColor = useColorModeValue("white", "gray.700");
-  const { isOpen, onClose, onOpen } = useDisclosure();
-  const initialRef = React.useRef();
-  const history = useHistory();
+  
   const { t } = useTranslation();
   const {
     getSetting,
     setPassword,
     password,
     settingLoaded,
-    refresh,
     type,
     msg,
     files,
@@ -77,12 +64,6 @@ const KuttyHero = () => {
     }
     return file;
   }, [files, type, settingLoaded]);
-
-  useEffect(() => {
-    if (type === "unauthorized") {
-      onOpen();
-    }
-  }, [type]);
 
   if (!settingLoaded) {
     return (
@@ -148,68 +129,15 @@ const KuttyHero = () => {
         )}
         <Footer />
       </VStack>
-      <Modal
-        initialFocusRef={initialRef as any}
-        isOpen={isOpen}
-        onClose={() => {
-          // history.goBack();
-          onClose();
-        }}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{t("input password")}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <Input
-              type="password"
-              ref={initialRef as any}
-              value={password}
-              onChange={(e) => {
-                setPassword!(e.target.value);
-              }}
-              onKeyUp={(e) => {
-                if (e.key === "Enter") {
-                  localStorage.setItem("password", password);
-                  refresh();
-                  onClose();
-                }
-              }}
-            />
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              onClick={() => {
-                localStorage.setItem("password", password);
-                refresh();
-                onClose();
-              }}
-              mr={3}
-            >
-              {t("ok")}
-            </Button>
-            <Button
-              colorScheme="gray"
-              onClick={() => {
-                history.goBack();
-                onClose();
-              }}
-            >
-              {t("cancle")}
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </Center>
   );
 };
 
-const Layout = () => {
-  return (
-    <IContextProvider>
-      <KuttyHero />
-    </IContextProvider>
-  );
-};
-export default Layout;
+// const Layout = () => {
+//   return (
+//     <IContextProvider>
+//       <KuttyHero />
+//     </IContextProvider>
+//   );
+// };
+export default KuttyHero;

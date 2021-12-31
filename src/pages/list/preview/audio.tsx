@@ -12,22 +12,20 @@ import ReactJkMusicPlayer, {
 } from "react-jinke-music-player";
 import "react-jinke-music-player/assets/index.css";
 import { FileProps, IContext } from "../context";
-import useDownLink from "../../../hooks/useDownLink";
-import { useEncrypt } from "../../../hooks/useEncrypt";
 import getIcon from "../../../utils/icon";
+import useFileUrl from "../../../hooks/useFileUrl";
 
 export const type = 4;
 export const exts = [];
 
 const Audio = ({ file }: FileProps) => {
-  const { lastFiles, getSetting, password } = useContext(IContext);
+  const { lastFiles, getSetting } = useContext(IContext);
   const theme = useColorModeValue("light", "dark");
   const { t, i18n } = useTranslation();
   const [audioLists, setAudioLists] = React.useState<
     ReactJkMusicPlayerAudioListProps[]
   >([]);
-  const link = useDownLink();
-  const encrypt = useEncrypt();
+  const fileUrl = useFileUrl();
   const cover =
     getSetting("music cover") ||
     "https://store.heytapimage.com/cdo-portal/feedback/202110/30/d43c41c5d257c9bc36366e310374fb19.png";
@@ -35,18 +33,17 @@ const Audio = ({ file }: FileProps) => {
   useEffect(() => {
     const audio: ReactJkMusicPlayerAudioListProps = {
       name: file.name,
-      musicSrc: encrypt(link),
+      musicSrc: fileUrl(),
       cover: cover,
       singer: singer,
     };
     if (file.thumbnail) {
       audio.cover = file.thumbnail;
     }
-    const pre = link.slice(0, link.lastIndexOf("/"));
     const audioList = lastFiles
       .filter((item) => item.name !== file.name && item.type === type)
       .map((item) => {
-        let link = encrypt(`${pre}/${item.name}`);
+        let link = fileUrl(item);
         const audio = {
           name: item.name,
           musicSrc: link,

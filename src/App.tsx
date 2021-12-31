@@ -6,7 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-const Index = lazy(() => import('./pages/list/layout'))
+const Index = lazy(() => import('./pages/list'))
 const Manage = lazy(() => import('./pages/manage'))
 
 function App() {

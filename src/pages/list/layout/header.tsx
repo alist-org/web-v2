@@ -18,16 +18,14 @@ import { BsFillArrowDownCircleFill } from "react-icons/bs";
 import { BsFillGridFill } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import useDownLink from "../../../hooks/useDownLink";
 import { copyToClip } from "../../../utils/copy-clip";
-import { useEncrypt } from "../../../hooks/useEncrypt";
 import useDownPackage from "../../../hooks/useDownPackage";
+import useFileUrl from "../../../hooks/useFileUrl";
 
 const Header = () => {
   const downPack = useDownPackage();
   const { t } = useTranslation();
-  const link = useDownLink();
-  const encrypt = useEncrypt();
+  const fileUrl = useFileUrl();
   const toast = useToast();
   const { show, setShow, type, getSetting, files, multiSelect, selectFiles } =
     useContext(IContext);
@@ -67,7 +65,7 @@ const Header = () => {
               as={BsFillArrowDownCircleFill}
               onClick={() => {
                 if (type === "file") {
-                  let url = encrypt(link);
+                  let url = fileUrl();
                   window.open(url, "_blank");
                   return;
                 }
@@ -97,7 +95,7 @@ const Header = () => {
               onClick={() => {
                 let content = "";
                 if (type === "file") {
-                  content = encrypt(link);
+                  content = fileUrl();
                 } else {
                   let files_ = files;
                   if (multiSelect) {
@@ -106,7 +104,7 @@ const Header = () => {
                   content = files_
                     .filter((file) => file.type !== 1)
                     .map((file) => {
-                      return encrypt(`${link}/${file.name}`);
+                      return fileUrl(file);
                     })
                     .join("\n");
                 }

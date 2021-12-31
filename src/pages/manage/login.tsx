@@ -28,7 +28,7 @@ const Login = () => {
           duration: 3000,
           isClosable: true,
         });
-        history.push("settings");
+        history.push("settings/0");
       } else {
         toast({
           title: t(res.message),

@@ -4,7 +4,7 @@ import {
 import React, { useContext } from "react";
 import { IContext } from "../../context";
 import Viewer from "@xhofe/react-viewer";
-import useDownLink from "../../../../hooks/useDownLink";
+import useFolderLink from "../../../../hooks/useFolderLink";
 import { useEncrypt } from "../../../../hooks/useEncrypt";
 import Grid_ from "./grid";
 import List from "./list";
@@ -15,7 +15,8 @@ const Files = () => {
   if (getSetting("hide readme file") === "true") {
     files_ = files_.filter((file) => file.name.toLowerCase() !== "readme.md");
   }
-  const link_ = useDownLink();
+  // use link_ because of refresh
+  const link_ = useFolderLink();
   const [link, setLink] = React.useState(link_);
   const encrypt = useEncrypt();
   const images = files_

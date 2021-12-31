@@ -1,7 +1,7 @@
 import streamSaver from "streamsaver";
 import "../utils/zip-stream.js";
 import { File, IContext } from "../pages/list/context";
-import useDownLink from "./useDownLink";
+import useFolderLink from "./useFolderLink";
 import { useLocation } from "react-router-dom";
 import request from "../utils/public";
 import { useContext, useEffect, useRef } from "react";
@@ -22,7 +22,7 @@ const trimSlash = (str: string) => {
 };
 
 const useDownPackage = () => {
-  const link = useDownLink();
+  const link = useFolderLink();
   const toast = useToast();
   const toastIdRef = useRef<any>();
   const { t } = useTranslation();
