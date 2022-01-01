@@ -18,6 +18,7 @@ import useApi from "../../hooks/useApi";
 import IContextProvider, { IContext, File, PathResp, Resp } from "./context";
 import KuttyHero from "./layout";
 import bus from "../../utils/event-bus";
+import "./styles/index.css";
 
 const Do = (props: any) => {
   const {

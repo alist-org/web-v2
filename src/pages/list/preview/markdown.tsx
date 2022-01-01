@@ -1,13 +1,16 @@
 import React, { useContext, useEffect } from "react";
 import { FileProps, IContext } from "../context";
 import axios from "axios";
-import Editor from "md-editor-rt";
-import "md-editor-rt/lib/style.css";
 import { useColorModeValue } from "@chakra-ui/color-mode";
 import { Spinner } from "@chakra-ui/spinner";
-import { Center } from "@chakra-ui/layout";
+import { Box, Center } from "@chakra-ui/layout";
 import { useTranslation } from "react-i18next";
 import useFileUrl from "../../../hooks/useFileUrl";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeHighlight from "rehype-highlight";
+import "../styles/github-markdown.css";
 
 export const type = 5;
 export const exts = [];
@@ -51,13 +54,17 @@ const Markdown = ({ file, readme }: FileProps) => {
   }, []);
   if (content) {
     return (
-      <Editor
-        previewTheme={(getSetting("markdown theme") as any) || "vuepress"}
-        modelValue={content}
-        previewOnly
-        theme={theme}
-        language={i18n.language === "zh" ? "zh-CN" : "en-US"}
-      />
+      <Box className="markdown-body">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[
+            rehypeRaw,
+            [rehypeHighlight, { ignoreMissing: true }],
+          ]}
+        >
+          {content}
+        </ReactMarkdown>
+      </Box>
     );
   } else {
     return (
