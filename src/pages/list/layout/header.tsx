@@ -94,24 +94,26 @@ const Header = () => {
             />
           </Tooltip>
         )}
-        {type === "folder" && pathname !== "/" && (meta.upload || loggedIn) && (
-          <Tooltip
-            shouldWrapChildren
-            hasArrow
-            placement="bottom"
-            label={t("Upload file")}
-          >
-            <Icon
-              cursor="pointer"
-              boxSize={6}
-              as={BsFillArrowUpCircleFill}
-              onClick={() => {
-                uploadRef.current!.upload();
-              }}
-            />
-            <Uploader ref={uploadRef} />
-          </Tooltip>
-        )}
+        {type === "folder" &&
+          !getSetting("no upload").split(",").includes(meta.driver) &&
+          (meta.upload || loggedIn) && (
+            <Tooltip
+              shouldWrapChildren
+              hasArrow
+              placement="bottom"
+              label={t("Upload file")}
+            >
+              <Icon
+                cursor="pointer"
+                boxSize={6}
+                as={BsFillArrowUpCircleFill}
+                onClick={() => {
+                  uploadRef.current!.upload();
+                }}
+              />
+              <Uploader ref={uploadRef} />
+            </Tooltip>
+          )}
         {type !== "error" && (
           <Tooltip
             shouldWrapChildren
