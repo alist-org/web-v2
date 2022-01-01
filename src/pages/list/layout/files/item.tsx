@@ -71,6 +71,12 @@ const ListItem = ({ file }: FileProps) => {
             >
               {multiSelect && (
                 <Checkbox
+                  // p="0.5"
+                  // rounded="base"
+                  _hover={{
+                    bgColor: "green.300",
+                    rounded: "sm",
+                  }}
                   colorScheme="green"
                   onMouseOver={() => setCursorOther(true)}
                   onMouseLeave={() => setCursorOther(false)}
