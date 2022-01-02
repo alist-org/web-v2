@@ -37,7 +37,6 @@ const styles: Styles = {
     },
     // markdown
     ".markdown-body img": {
-      maxWidth: "unset",
       display: "unset",
     },
   }),
