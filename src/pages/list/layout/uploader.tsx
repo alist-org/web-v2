@@ -6,6 +6,7 @@ import {
   useDisclosure,
   useToast,
   Heading,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { t } from "@chakra-ui/styled-system/dist/types/utils";
 import React, {
@@ -41,7 +42,7 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
   const [progress, setProgress] = useState(50);
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const bgColor = useColorModeValue("gray.100", "gray.600");
   return (
     <Box>
       <Input
@@ -97,7 +98,7 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
           position="fixed"
           bottom="20px"
           right="20px"
-          bgColor="gray.100"
+          bgColor={bgColor}
           rounded="lg"
           p={4}
         >
