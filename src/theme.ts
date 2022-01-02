@@ -24,9 +24,6 @@ const styles: Styles = {
     ".test": {
       bg: mode("white", "gray.800")(props),
     },
-    ".md": {
-      bg: "transparent !important",
-    },
     // react jinke music player
     ".react-jinke-music-player-main svg": {
       display: "unset",
@@ -38,20 +35,11 @@ const styles: Styles = {
     ".react-jinke-music-player-main.dark-theme .music-player-panel": {
       bg: "transparent",
     },
-    // react-viewer
-    ".react-viewer img": {
-      maxWidth: "unset",
-    },
     // markdown
-    ".md-previewOnly img": {
+    ".markdown-body img": {
+      maxWidth: "unset",
       display: "unset",
     },
-    ".md .default-theme img": {
-      border: "none",
-    },
-    ".md .github-theme img": {
-      bgColor: "transparent",
-    }
   }),
 };
 
