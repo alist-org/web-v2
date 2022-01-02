@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { getSetting } from "../context";
 
 const Nav = () => {
   const location = useLocation();
@@ -25,7 +26,7 @@ const Nav = () => {
           as={Link}
           to="/"
         >
-          🏠{t("Home")}
+          {getSetting("home emoji")}{t("Home")}
         </BreadcrumbLink>
       </BreadcrumbItem>
       {location.pathname
