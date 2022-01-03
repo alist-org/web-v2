@@ -8,6 +8,7 @@ import {
   Spinner,
   Tooltip,
   useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
 import React, { useContext, useRef } from "react";
 import { IContext } from "../context";
@@ -97,22 +98,24 @@ const Header = () => {
         {type === "folder" &&
           !getSetting("no upload").split(",").includes(meta.driver) &&
           (meta.upload || loggedIn) && (
-            <Tooltip
-              shouldWrapChildren
-              hasArrow
-              placement="bottom"
-              label={t("Upload file")}
-            >
-              <Icon
-                cursor="pointer"
-                boxSize={6}
-                as={BsFillArrowUpCircleFill}
-                onClick={() => {
-                  uploadRef.current!.upload();
-                }}
-              />
+            <Box>
+              <Tooltip
+                shouldWrapChildren
+                hasArrow
+                placement="bottom"
+                label={t("Upload file")}
+              >
+                <Icon
+                  cursor="pointer"
+                  boxSize={6}
+                  as={BsFillArrowUpCircleFill}
+                  onClick={() => {
+                    uploadRef.current!.upload();
+                  }}
+                />
+              </Tooltip>
               <Uploader ref={uploadRef} />
-            </Tooltip>
+            </Box>
           )}
         {type !== "error" && (
           <Tooltip

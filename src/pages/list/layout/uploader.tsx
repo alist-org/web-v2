@@ -21,6 +21,7 @@ import { useLocation } from "react-router-dom";
 import request from "../../../utils/public";
 import { IContext, Resp } from "../context";
 import bus from "../../../utils/event-bus";
+import ReactDOM from "react-dom";
 
 export interface UploaderHandle {
   upload: () => void;
@@ -43,6 +44,7 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
   const { t } = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const bgColor = useColorModeValue("gray.100", "gray.600");
+  const [msg, setMsg] = useState("Uploading");
   return (
     <Box>
       <Input
@@ -69,6 +71,9 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
                   const complete =
                     ((progressEvent.loaded / progressEvent.total) * 100) | 0;
                   setProgress(complete);
+                  if (complete === 100) {
+                    setMsg("Back-end processing");
+                  }
                 }
               },
             })
@@ -103,7 +108,7 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
           p={4}
         >
           <Heading mb={2} fontSize={20}>
-            {t("Uploading")}
+            {t(msg)}...
           </Heading>
           <Progress
             hasStripe={true}

@@ -126,6 +126,7 @@ const zh = {
   "Uploading": "アップロード中",
   "upload": "アップロード",
   "Allow visitors to upload": "訪問者がファイルをアップロードできるようにする",
+  "Back-end processing": "バックエンド処理",
 }
 
 export default zh

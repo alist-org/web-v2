@@ -126,6 +126,7 @@ const zh = {
   "Uploading": "正在上传",
   "upload": "上传",
   "Allow visitors to upload": "允许访客上传",
+  "Back-end processing": "后端处理中",
 }
 
 export default zh
