@@ -3,14 +3,14 @@ import { IContext } from "../pages/list/context";
 import { md5_16 } from "../utils/md5";
 
 export const useEncrypt = ()=>{
-  const {getSetting,password} = useContext(IContext);
+  const {getSetting,password,loggedIn} = useContext(IContext);
   return (url:string)=>{
     if(getSetting('check down link')!=="true" || password===''){
       return encodeURI(url);
     }
     const name = url.split('/').pop();
     const token = localStorage.getItem("admin-token");
-    if(token) {
+    if(loggedIn) {
       const sign = md5_16(`alist-${token}-${name}`);
       return encodeURI(`${url}?sign=${sign}`);
     }
