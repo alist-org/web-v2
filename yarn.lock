@@ -1090,10 +1090,10 @@
     "@rollup/pluginutils" "^4.1.1"
     react-refresh "^0.10.0"
 
-"@xhofe/react-viewer@^3.2.2":
-  version "3.2.2"
-  resolved "https://registry.npmjs.org/@xhofe/react-viewer/-/react-viewer-3.2.2.tgz#1c92a49202b91c75c299721df48da6e1afad880e"
-  integrity sha512-PmDoeqsMIT+Ut7lJAYph0FsBjZUodb4tzL/2qn+L+wPZgL1M27Lf1h/t7ycglUHu+REq9oN7JS3VBJbd5yBgOw==
+"@xhofe/react-viewer@^3.2.3":
+  version "3.2.3"
+  resolved "https://registry.npmjs.org/@xhofe/react-viewer/-/react-viewer-3.2.3.tgz#f0b64bd5cae1a1ff4619bc86e23da3e58bad3f5f"
+  integrity sha512-hIBcoLrFfuSXHc0FGfoV7JpE2BPNEVfQtrkbhw9nRGp96BPShTIBT7NTuGBk/J7TO+zLBXLP8LemQfE6jaXIfA==
   dependencies:
     classnames "^2.2.5"
 
