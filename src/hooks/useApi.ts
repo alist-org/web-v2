@@ -5,7 +5,7 @@ import { IContext } from "../pages/list/context";
 import { useLocation } from "react-router-dom";
 
 const useApi = () => {
-  const { password } = useContext(IContext);
+  const { password, page } = useContext(IContext);
   const { pathname } = useLocation();
   // let path = window.location.href.substring(window.location.origin.length);
   // try {
@@ -19,6 +19,8 @@ const useApi = () => {
       return request.post("path", {
         path,
         password,
+        page_num: page.page_num,
+        page_size: page.page_size,
       });
     },
   };

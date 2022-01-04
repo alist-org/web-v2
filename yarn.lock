@@ -800,6 +800,11 @@
   dependencies:
     "@chakra-ui/utils" "1.8.2"
 
+"@choc-ui/paginator@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.npmjs.org/@choc-ui/paginator/-/paginator-3.2.2.tgz#c96562ef63e4d2b17e6941fa006dffb4976fa882"
+  integrity sha512-BSm+0XMNRMMOQW39BpdzfHpWegG2mSv3tRCfKRoU7TNrIDmPjv/LKShmBnXFd93dosBqicuKOUS5gjWt+Tmagg==
+
 "@emotion/babel-plugin@^11.3.0":
   version "11.3.0"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.3.0.tgz#3a16850ba04d8d9651f07f3fb674b3436a4fb9d7"

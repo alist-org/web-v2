@@ -1,4 +1,4 @@
-import { useToast } from "@chakra-ui/react";
+import { Center, Spinner, useToast } from "@chakra-ui/react";
 import React, {
   createContext,
   useState,
@@ -32,6 +32,7 @@ export interface Resp<T> {
 export interface Meta {
   driver: string;
   upload: boolean;
+  total: number;
 }
 
 export interface PathResp {
@@ -58,11 +59,16 @@ export const getSetting = (key: string): string => {
   return setting ? setting.value : "";
 };
 
-type TypeType = "file" | "folder" | "error" | "loading" | "unauthorized";
+type TypeType = "file" | "folder" | "error" | "loading" | "unauthorized" | "nexting";
 
 interface Sort {
   orderBy?: "name" | "updated_at" | "size";
   reverse: boolean;
+}
+
+interface Page {
+  page_num: number;
+  page_size: number;
 }
 
 export interface ContextProps {
@@ -93,6 +99,8 @@ export interface ContextProps {
   meta: Meta;
   setMeta: (meta: Meta) => void;
   loggedIn: boolean;
+  page: Page;
+  setPage: (page: Page) => void;
 }
 
 export const IContext = createContext<ContextProps>({
@@ -114,9 +122,11 @@ export const IContext = createContext<ContextProps>({
   selectFiles: [],
   setSelectFiles: () => {},
   setType: () => {},
-  meta: { driver: "", upload: false },
+  meta: { driver: "", upload: false, total: 0 },
   setMeta: () => {},
   loggedIn: false,
+  page: { page_num: 1, page_size: 30 },
+  setPage: () => {},
 });
 
 const IContextProvider = (props: any) => {
@@ -140,6 +150,11 @@ const IContextProvider = (props: any) => {
   const [show, setShow] = React.useState<string>(
     localStorage.getItem("show") || "list"
   );
+
+  const [page, setPage] = React.useState<Page>({
+    page_num: 1,
+    page_size: 30,
+  });
 
   const initialSettings = useCallback(() => {
     request
@@ -165,6 +180,10 @@ const IContextProvider = (props: any) => {
             link.href = getSetting("favicon");
             document.getElementsByTagName("head")[0].appendChild(link);
           }
+          setPage({
+            ...page,
+            page_size: parseInt(getSetting("default page size") || "30"),
+          });
         } else {
           toast({
             title: t(res.message),
@@ -202,8 +221,16 @@ const IContextProvider = (props: any) => {
   const [meta, setMeta] = React.useState<Meta>({
     driver: "",
     upload: false,
+    total: 0,
   });
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
+  if (!settingLoaded) {
+    return (
+      <Center w="full" h="100vh">
+        <Spinner color={getSetting("icon color") || "teal.300"} size="xl" />
+      </Center>
+    );
+  }
   return (
     <IContext.Provider
       value={{
@@ -234,6 +261,8 @@ const IContextProvider = (props: any) => {
         meta,
         setMeta,
         loggedIn,
+        page,
+        setPage,
       }}
       {...props}
     />

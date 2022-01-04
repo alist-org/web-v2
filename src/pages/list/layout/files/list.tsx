@@ -158,7 +158,7 @@ const List = ({ files }: { files: File[] }) => {
             <Flex align="center">
               <Icon as={FcInternal} boxSize={5} mr={2} />
               {multiSelect
-                ? t("Download {{number}} files", { number: selectFiles.length })
+                ? t("Package download {{number}} files", { number: selectFiles.length })
                 : t("Download")}
             </Flex>
           </Item>

@@ -19,7 +19,7 @@ interface SettingItem {
   key: string;
   value: string;
   description: string;
-  type: "string" | "bool" | "select" | "text";
+  type: "string" | "bool" | "select" | "text" | "number";
   access: number;
   group: number;
   values?: string;
@@ -74,6 +74,12 @@ const Settings = () => {
               setSettings(
                 settings.map((setting) => {
                   if (setting.key === item.key) {
+                    if (item.type === "number") {
+                      return {
+                        ...setting,
+                        value: (value as number).toString(),
+                      };
+                    }
                     if (item.type !== "bool") {
                       return { ...setting, value: value as string };
                     } else {

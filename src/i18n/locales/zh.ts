@@ -120,7 +120,7 @@ const zh = {
   "Leaving the page will interrupt the download": "离开页面会中断下载",
   "Frontend": "前端",
   "Backend": "后端",
-  "Download {{number}} files": "下载{{number}}个文件",
+  "Package download {{number}} files": "打包下载{{number}}个文件",
   "Copy links of {{number}} files": "复制{{number}}个文件的直链",
   "Upload file": "上传文件",
   "Uploading": "正在上传",

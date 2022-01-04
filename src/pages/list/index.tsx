@@ -33,26 +33,53 @@ const Do = (props: any) => {
     password,
     setPassword,
     setMeta,
+    getSetting,
+    setPage,
+    page,
   } = useContext(IContext);
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
   const toast = useToast();
   const { path } = useApi();
-  const refresh = () => {
+  const refresh = (all = true) => {
+    console.log("refresh");
+    const loadType = getSetting("load type");
     if (type === "folder") {
       setLastFiles(files);
     }
-    setType("loading");
-    setSelectFiles([]);
-    setFiles([]);
+    if (
+      page.page_num === 1 ||
+      loadType === "all" ||
+      loadType === "pagination" ||
+      all
+    ) {
+      setType("loading");
+      setSelectFiles([]);
+      setFiles([]);
+    } else {
+      setType("nexting");
+    }
     path().then((resp) => {
       const res: Resp<PathResp> = resp.data;
       setMsg(res.message);
       if (res.code === 200) {
-        setFiles(sortFiles(res.data.files));
-        setType(res.data.type);
+        if (res.data.type === "file") {
+          setFiles(res.data.files);
+        } else {
+          if (
+            page.page_num === 1 ||
+            loadType === "all" ||
+            loadType === "pagination" ||
+            all
+          ) {
+            setFiles(sortFiles(res.data.files));
+          } else {
+            setFiles([...files, ...res.data.files]);
+          }
+        }
         setMeta(res.data.meta);
+        setType(res.data.type);
       } else {
         toast({
           title: t(res.message),
@@ -81,17 +108,34 @@ const Do = (props: any) => {
     });
   };
 
+  const nextPage = () => {
+    refresh(false);
+  };
+  const allRefresh = () => {
+    if (page.page_num !== 1) {
+      setPage({
+        page_num: 1,
+        page_size: page.page_size,
+      });
+    }
+    refresh(true);
+  };
+
   useEffect(() => {
     const files_ = sortFiles(files);
     setFiles([...files_]);
   }, [sort]);
+
   useEffect(() => {
-    refresh();
-    bus.on("refresh", refresh);
+    allRefresh();
+    bus.on("refresh", allRefresh);
     return () => {
-      bus.off("refresh", refresh);
+      bus.off("refresh", allRefresh);
     };
   }, [location.pathname]);
+  useEffect(() => {
+    nextPage();
+  }, [page]);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const initialRef = React.useRef();
   useEffect(() => {

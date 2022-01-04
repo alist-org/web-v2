@@ -65,13 +65,6 @@ const KuttyHero = () => {
     return file;
   }, [files, type, settingLoaded]);
 
-  if (!settingLoaded) {
-    return (
-      <Center w="full" h="100vh">
-        <Spinner color={getSetting("icon color") || "teal.300"} size="xl" />
-      </Center>
-    );
-  }
   return (
     <Center className="index-box" w="full">
       <Overlay list />
@@ -104,7 +97,7 @@ const KuttyHero = () => {
                   </Center>
                 }
               >
-                {type === "folder" ? (
+                {type === "folder" || type === "nexting" ? (
                   <Files />
                 ) : type === "file" ? (
                   <File />

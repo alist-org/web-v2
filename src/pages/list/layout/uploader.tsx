@@ -8,11 +8,9 @@ import {
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { t } from "@chakra-ui/styled-system/dist/types/utils";
 import React, {
   forwardRef,
   useContext,
-  useEffect,
   useImperativeHandle,
   useState,
 } from "react";
@@ -21,7 +19,6 @@ import { useLocation } from "react-router-dom";
 import request from "../../../utils/public";
 import { IContext, Resp } from "../context";
 import bus from "../../../utils/event-bus";
-import ReactDOM from "react-dom";
 
 export interface UploaderHandle {
   upload: () => void;
