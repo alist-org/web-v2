@@ -1,6 +1,4 @@
-import {
-  Box,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { IContext } from "../../context";
 import Viewer from "@xhofe/react-viewer";

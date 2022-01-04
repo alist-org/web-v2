@@ -19,6 +19,7 @@ import IContextProvider, { IContext, File, PathResp, Resp } from "./context";
 import KuttyHero from "./layout";
 import bus from "../../utils/event-bus";
 import "./styles/index.css";
+import useChangeEffect from "../../hooks/useChangeEffect";
 
 const Do = (props: any) => {
   const {
@@ -36,6 +37,7 @@ const Do = (props: any) => {
     getSetting,
     setPage,
     page,
+    settingLoaded,
   } = useContext(IContext);
   const { t } = useTranslation();
   const history = useHistory();
@@ -43,6 +45,9 @@ const Do = (props: any) => {
   const toast = useToast();
   const { path } = useApi();
   const refresh = (all = true) => {
+    if (!settingLoaded) {
+      return;
+    }
     console.log("refresh");
     const loadType = getSetting("load type");
     if (type === "folder") {
@@ -133,7 +138,7 @@ const Do = (props: any) => {
       bus.off("refresh", allRefresh);
     };
   }, [location.pathname]);
-  useEffect(() => {
+  useChangeEffect(() => {
     nextPage();
   }, [page]);
   const { isOpen, onClose, onOpen } = useDisclosure();

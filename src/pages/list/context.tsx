@@ -163,7 +163,6 @@ const IContextProvider = (props: any) => {
         const res = resp.data;
         if (res.code === 200) {
           Settings = res.data;
-          setSettingLoaded(true);
           document.title = getSetting("title") || "Alist";
           const version = getSetting("version") || "Unknown";
           console.log(
@@ -184,6 +183,7 @@ const IContextProvider = (props: any) => {
             ...page,
             page_size: parseInt(getSetting("default page size") || "30"),
           });
+          setSettingLoaded(true);
         } else {
           toast({
             title: t(res.message),

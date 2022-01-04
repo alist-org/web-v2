@@ -94,7 +94,7 @@ const AutoLoadMore = () => {
 };
 
 const Pagination_ = () => {
-  const { type, files, meta, setPage, page, getSetting } = useContext(IContext);
+  const { meta, setPage, page } = useContext(IContext);
   const size = useBreakpointValue({
     base: "xs",
     md: "sm",
