@@ -15,6 +15,7 @@ import {
   Link,
   Text,
   Icon,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import flvjs from "flv.js";
@@ -36,6 +37,10 @@ const Video = ({ file }: FileProps) => {
   const url = DirectDrivers.includes(file.driver) ? link : file.url;
   const history = useHistory();
   let art: Artplayer;
+  const subtitleSize = useBreakpointValue({
+    base: "30px",
+    md: "50px",
+  });
   useEffect(() => {
     let options: any = {
       container: "#video-player",
@@ -111,7 +116,7 @@ const Video = ({ file }: FileProps) => {
         bilingual: true,
         style: {
           color: "#03A9F4",
-          "font-size": "30px",
+          "font-size": subtitleSize,
         },
       };
     }
