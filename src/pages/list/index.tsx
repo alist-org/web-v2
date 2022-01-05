@@ -20,6 +20,7 @@ import KuttyHero from "./layout";
 import bus from "../../utils/event-bus";
 import "./styles/index.css";
 import useChangeEffect from "../../hooks/useChangeEffect";
+import useSyncCallback from "../../hooks/useSyncCallback";
 
 let notTurnPage = false;
 
@@ -46,11 +47,12 @@ const Do = (props: any) => {
   const location = useLocation();
   const toast = useToast();
   const { path } = useApi();
-  const refresh = (all = true) => {
+  const refresh = useSyncCallback(() => {
     if (!settingLoaded) {
       return;
     }
     console.log("refresh");
+    console.log(page);
     const loadType = getSetting("load type");
     if (type === "folder") {
       setLastFiles(files);
@@ -58,8 +60,7 @@ const Do = (props: any) => {
     if (
       page.page_num === 1 ||
       loadType === "all" ||
-      loadType === "pagination" ||
-      all
+      loadType === "pagination"
     ) {
       setType("loading");
       setSelectFiles([]);
@@ -77,8 +78,7 @@ const Do = (props: any) => {
           if (
             page.page_num === 1 ||
             loadType === "all" ||
-            loadType === "pagination" ||
-            all
+            loadType === "pagination"
           ) {
             setFiles(sortFiles(res.data.files));
           } else {
@@ -104,7 +104,7 @@ const Do = (props: any) => {
         }
       }
     });
-  };
+  });
   const sortFiles = (files: File[]) => {
     const { orderBy, reverse } = sort;
     if (!orderBy) return files;
@@ -116,11 +116,11 @@ const Do = (props: any) => {
   };
 
   const nextPage = () => {
-    if(notTurnPage) {
+    if (notTurnPage) {
       notTurnPage = false;
       return;
-    };
-    refresh(false);
+    }
+    refresh();
   };
   const allRefresh = () => {
     if (page.page_num !== 1) {
@@ -130,7 +130,7 @@ const Do = (props: any) => {
         page_size: page.page_size,
       });
     }
-    refresh(true);
+    refresh();
   };
 
   useEffect(() => {

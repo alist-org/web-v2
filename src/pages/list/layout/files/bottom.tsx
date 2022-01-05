@@ -38,6 +38,7 @@ const LoadMore = () => {
 // TODO page2 load 2 pages
 const AutoLoadMore = () => {
   const { type, files, meta, setPage, page, getSetting } = useContext(IContext);
+  console.log(files.length, meta.total);
   const noMore = files.length >= meta.total;
   const dom = useRef<HTMLDivElement>(null);
   // const loadMore = useDebounce(() => {
@@ -61,7 +62,7 @@ const AutoLoadMore = () => {
       dom.current.getBoundingClientRect().top;
     if (top <= viewPortHeight) {
       if (type !== "nexting") {
-        console.log("load more");
+        console.log("auto load more");
         window.removeEventListener("scroll", bindHandleScroll);
         setPage({
           ...page,
@@ -131,6 +132,9 @@ const Bottom = () => {
     case "load more":
       return <LoadMore />;
     case "auto load more":
+      if (type === "nexting") {
+        return null;
+      }
       return <AutoLoadMore />;
     case "pagination":
       return <Pagination_ />;
