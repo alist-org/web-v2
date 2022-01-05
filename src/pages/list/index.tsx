@@ -21,6 +21,8 @@ import bus from "../../utils/event-bus";
 import "./styles/index.css";
 import useChangeEffect from "../../hooks/useChangeEffect";
 
+let notTurnPage = false;
+
 const Do = (props: any) => {
   const {
     type,
@@ -114,10 +116,15 @@ const Do = (props: any) => {
   };
 
   const nextPage = () => {
+    if(notTurnPage) {
+      notTurnPage = false;
+      return;
+    };
     refresh(false);
   };
   const allRefresh = () => {
     if (page.page_num !== 1) {
+      notTurnPage = true;
       setPage({
         page_num: 1,
         page_size: page.page_size,
