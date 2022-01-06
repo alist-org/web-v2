@@ -33,7 +33,7 @@ const Nav = () => {
         .slice(1)
         .split("/")
         .map((path, index) => {
-          const isLast = location.pathname.endsWith(path);
+          const isLast = index === location.pathname.split("/").length - 2;
           const pathname = location.pathname
             .split("/")
             .slice(0, index + 2)
