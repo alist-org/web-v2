@@ -15,7 +15,7 @@ import {
   BsFillMarkdownFill,
 } from "react-icons/bs";
 import { DiAndroid } from "react-icons/di";
-import { FaDatabase } from "react-icons/fa";
+import { FaDatabase, FaBook } from "react-icons/fa";
 import { IoIosFolder } from "react-icons/io";
 
 const iconMap = {
@@ -25,6 +25,7 @@ const iconMap = {
   apk: DiAndroid,
   db: FaDatabase,
   md: BsFillMarkdownFill,
+  epub: FaBook,
 };
 
 const getIcon = (type: number, ext: string) => {
