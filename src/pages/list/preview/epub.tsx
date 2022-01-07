@@ -1,6 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { ReactReader } from "react-reader";
+import useFileUrl from "../../../hooks/useFileUrl";
 import useUnfold from "../../../hooks/useUnfold";
 import { FileProps } from "../context";
 
@@ -16,6 +17,7 @@ const Epub = ({ file }: FileProps) => {
     setLocation(epubcifi);
   };
   const { unfold } = useUnfold(true);
+  const fileUrl = useFileUrl();
   return (
     <Box
       w="full"
@@ -30,7 +32,7 @@ const Epub = ({ file }: FileProps) => {
       <ReactReader
         location={location}
         locationChanged={locationChanged}
-        url={file.url}
+        url={fileUrl()}
         // getRendition={(rendition) => {
         //   rendition.themes.register("custom", {
         //     '*': {
