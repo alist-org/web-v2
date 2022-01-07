@@ -35,6 +35,7 @@ const LoadMore = () => {
   );
 };
 
+let nexting = false;
 // TODO page2 load 2 pages
 const AutoLoadMore = () => {
   const { type, files, meta, setPage, page, getSetting } = useContext(IContext);
@@ -61,6 +62,9 @@ const AutoLoadMore = () => {
       dom.current.getBoundingClientRect() &&
       dom.current.getBoundingClientRect().top;
     if (top <= viewPortHeight) {
+      if (nexting) {
+        return;
+      }
       if (type !== "nexting") {
         console.log("auto load more");
         window.removeEventListener("scroll", bindHandleScroll);
@@ -68,7 +72,10 @@ const AutoLoadMore = () => {
           ...page,
           page_num: page.page_num + 1,
         });
+        nexting = true;
       }
+    }else{
+      nexting = false;
     }
   };
   useEffect(() => {
