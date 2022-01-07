@@ -14,7 +14,7 @@ const config: ThemeConfig = {
 const styles: Styles = {
   global: (props) => ({
     ".chakra-ui-light": {
-      bgColor: "#FAF9F8",//#F4F4F4
+      bgColor: "#FAF9F8", //#F4F4F4
     },
     "html,body,#root,.App": {
       margin: 0,
@@ -34,6 +34,10 @@ const styles: Styles = {
       },
     ".react-jinke-music-player-main.dark-theme .music-player-panel": {
       bg: "transparent",
+    },
+    // react-viewer
+    ".react-viewer img": {
+      maxWidth: "unset",
     },
     // markdown
     ".markdown-body img": {
