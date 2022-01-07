@@ -127,6 +127,9 @@ const zh = {
   "upload": "上传",
   "Allow visitors to upload": "允许访客上传",
   "Back-end processing": "后端处理中",
+  "Confirmation!": "确认！",
+  "Are you sure you want to delete \"{{name}}\" ?": "确定要删除“{{name}}”吗？",
+  "Confirm": "确认",
 }
 
 export default zh

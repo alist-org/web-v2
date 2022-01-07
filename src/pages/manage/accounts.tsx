@@ -18,6 +18,14 @@ import {
   Tr,
   Th,
   Td,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef } from "react";
 import admin from "../../utils/admin";
@@ -88,7 +96,7 @@ interface PropItem {
   values?: string;
 }
 
-function GetDefaultValue(type:"string" | "bool" | "select" | "number") {
+function GetDefaultValue(type: "string" | "bool" | "select" | "number") {
   switch (type) {
     case "string":
       return "";
@@ -238,35 +246,55 @@ const Accounts = () => {
                     >
                       {t("edit")}
                     </Button>
-                    <Button
-                      colorScheme="red"
-                      ml="1"
-                      onClick={() => {
-                        admin
-                          .delete("account", { params: { id: account.id } })
-                          .then((resp) => {
-                            const res = resp.data;
-                            if (res.code !== 200) {
-                              toast({
-                                title: t(res.message),
-                                status: "error",
-                                duration: 3000,
-                                isClosable: true,
-                              });
-                            } else {
-                              toast({
-                                title: t(res.message),
-                                status: "success",
-                                duration: 3000,
-                                isClosable: true,
-                              });
-                              refreshAccounts();
-                            }
-                          });
-                      }}
-                    >
-                      {t("delete")}
-                    </Button>
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button ml="1" colorScheme="red">
+                          {t("delete")}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent whiteSpace="normal">
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader>{t("Confirmation!")}</PopoverHeader>
+                        <PopoverBody>
+                          <Text mb="1">
+                            {t("Are you sure you want to delete \"{{name}}\" ?", {
+                              name: account.name,
+                            })}
+                          </Text>
+                          <Button
+                            colorScheme="red"
+                            onClick={() => {
+                              admin
+                                .delete("account", {
+                                  params: { id: account.id },
+                                })
+                                .then((resp) => {
+                                  const res = resp.data;
+                                  if (res.code !== 200) {
+                                    toast({
+                                      title: t(res.message),
+                                      status: "error",
+                                      duration: 3000,
+                                      isClosable: true,
+                                    });
+                                  } else {
+                                    toast({
+                                      title: t(res.message),
+                                      status: "success",
+                                      duration: 3000,
+                                      isClosable: true,
+                                    });
+                                    refreshAccounts();
+                                  }
+                                });
+                            }}
+                          >
+                            {t("Confirm")}
+                          </Button>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Popover>
                   </Td>
                 </Tr>
               );
@@ -293,7 +321,7 @@ const Accounts = () => {
                 value={currentAccount.type}
                 values={Object.keys(drivers)}
                 onChange={(value) => {
-                  const newAccount:any = {...currentAccount};
+                  const newAccount: any = { ...currentAccount };
                   newAccount.type = value;
                   for (const item of drivers[value as string]) {
                     if (!Object.keys(newAccount).includes(item.name)) {

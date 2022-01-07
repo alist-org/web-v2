@@ -127,6 +127,9 @@ const zh = {
   "upload": "アップロード",
   "Allow visitors to upload": "訪問者がファイルをアップロードできるようにする",
   "Back-end processing": "バックエンド処理",
+  "Confirmation!": "確認！",
+  "Are you sure you want to delete \"{{name}}\" ?": "「{{name}}」を削除してもよろしいですか？",
+  "Confirm": "確認",
 }
 
 export default zh

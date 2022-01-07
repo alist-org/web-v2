@@ -18,6 +18,14 @@ import {
   HStack,
   Button,
   VStack,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  Text,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -119,35 +127,54 @@ const Metas = () => {
                     >
                       {t("edit")}
                     </Button>
-                    <Button
-                      colorScheme="red"
-                      ml="1"
-                      onClick={() => {
-                        admin
-                          .delete("meta", { params: { id: meta.id } })
-                          .then((resp) => {
-                            const res = resp.data;
-                            if (res.code !== 200) {
-                              toast({
-                                title: t(res.message),
-                                status: "error",
-                                duration: 3000,
-                                isClosable: true,
-                              });
-                            } else {
-                              toast({
-                                title: t(res.message),
-                                status: "success",
-                                duration: 3000,
-                                isClosable: true,
-                              });
-                              refreshMetas();
-                            }
-                          });
-                      }}
-                    >
-                      {t("delete")}
-                    </Button>
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button ml="1" colorScheme="red">
+                          {t("delete")}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent whiteSpace="normal">
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader>{t("Confirmation!")}</PopoverHeader>
+                        <PopoverBody>
+                          <Text mb="1">
+                            {t('Are you sure you want to delete "{{name}}" ?', {
+                              name: meta.path,
+                            })}
+                          </Text>
+                          <Button
+                            colorScheme="red"
+                            ml="1"
+                            onClick={() => {
+                              admin
+                                .delete("meta", { params: { id: meta.id } })
+                                .then((resp) => {
+                                  const res = resp.data;
+                                  if (res.code !== 200) {
+                                    toast({
+                                      title: t(res.message),
+                                      status: "error",
+                                      duration: 3000,
+                                      isClosable: true,
+                                    });
+                                  } else {
+                                    toast({
+                                      title: t(res.message),
+                                      status: "success",
+                                      duration: 3000,
+                                      isClosable: true,
+                                    });
+                                    refreshMetas();
+                                  }
+                                });
+                            }}
+                          >
+                            {t("Confirm")}
+                          </Button>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Popover>
                   </Td>
                 </Tr>
               );
