@@ -47,15 +47,19 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
       <Input
         display="none"
         type="file"
+        multiple
         id="upload-input"
         onChange={(e) => {
-          const file = e.target.files![0];
-          if (!file) {
+          const files = e.target.files;
+          const file = files![0];
+          if (!files || !file) {
             return;
           }
           onOpen();
           const form = new FormData();
-          form.append("file", file);
+          for (let i = 0; i < files.length; i++) {
+            form.append("files", files[i], files[i].name);
+          }
           form.append("path", pathname);
           form.append("password", password);
           request
@@ -87,9 +91,7 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
                 duration: 3000,
                 isClosable: true,
               });
-              if (res.code === 200) {
-                bus.emit("refresh");
-              }
+              bus.emit("refresh");
             });
         }}
       />
