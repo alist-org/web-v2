@@ -86,7 +86,7 @@ const Metas = () => {
             editDisclosure.onOpen();
           }}
         >
-          {t("add")}
+          {t("Add")}
         </Button>
         <Button
           colorScheme="orange"
@@ -95,7 +95,7 @@ const Metas = () => {
             refreshMetas();
           }}
         >
-          {t("refresh")}
+          {t("Refresh")}
         </Button>
       </HStack>
       <Box overflowX="auto">
@@ -125,12 +125,12 @@ const Metas = () => {
                         editDisclosure.onOpen();
                       }}
                     >
-                      {t("edit")}
+                      {t("Edit")}
                     </Button>
                     <Popover>
                       <PopoverTrigger>
                         <Button ml="1" colorScheme="red">
-                          {t("delete")}
+                          {t("Delete")}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent whiteSpace="normal">
@@ -237,7 +237,7 @@ const Metas = () => {
 
           <ModalFooter>
             <Button mr={3} colorScheme="gray" onClick={editDisclosure.onClose}>
-              {t("cancle")}
+              {t("Cancle")}
             </Button>
             <Button
               onClick={() => {
@@ -269,7 +269,7 @@ const Metas = () => {
                   });
               }}
             >
-              {t("save")}
+              {t("Save")}
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -203,7 +203,7 @@ const Accounts = () => {
             editDisclosure.onOpen();
           }}
         >
-          {t("add")}
+          {t("Add")}
         </Button>
         <Button
           colorScheme="orange"
@@ -212,7 +212,7 @@ const Accounts = () => {
             refreshAccounts();
           }}
         >
-          {t("refresh")}
+          {t("Refresh")}
         </Button>
       </HStack>
       <Box overflowX="auto">
@@ -244,12 +244,12 @@ const Accounts = () => {
                         editDisclosure.onOpen();
                       }}
                     >
-                      {t("edit")}
+                      {t("Edit")}
                     </Button>
                     <Popover>
                       <PopoverTrigger>
                         <Button ml="1" colorScheme="red">
-                          {t("delete")}
+                          {t("Delete")}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent whiteSpace="normal">
@@ -393,7 +393,7 @@ const Accounts = () => {
 
           <ModalFooter>
             <Button mr={3} colorScheme="gray" onClick={editDisclosure.onClose}>
-              {t("cancle")}
+              {t("Cancle")}
             </Button>
             <Button
               onClick={() => {
@@ -426,7 +426,7 @@ const Accounts = () => {
                   });
               }}
             >
-              {t("save")}
+              {t("Save")}
             </Button>
           </ModalFooter>
         </ModalContent>

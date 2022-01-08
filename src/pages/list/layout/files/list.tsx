@@ -30,10 +30,14 @@ import {
   FcClock,
   FcRefresh,
 } from "react-icons/fc";
+import { MdDeleteForever } from "react-icons/md";
 import ListItem from "./item";
 import useFileUrl from "../../../../hooks/useFileUrl";
 import useDownPackage from "../../../../hooks/useDownPackage";
 import { copyToClip } from "../../../../utils/copy-clip";
+import admin from "../../../../utils/admin";
+import { useLocation } from "react-router-dom";
+import bus from "../../../../utils/event-bus";
 
 export const MENU_ID = "list-menu";
 
@@ -46,12 +50,14 @@ const List = ({ files }: { files: File[] }) => {
     setMultiSelect,
     setSelectFiles,
     selectFiles,
+    loggedIn,
   } = useContext(IContext);
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
   const getFileUrl = useFileUrl();
   const downPack = useDownPackage();
   const checkboxBorderColor = useColorModeValue("gray.300", "gray.500");
+  const { pathname } = useLocation();
   return (
     <VStack className="list-box" w="full">
       <HStack className="list-title" w="full" p="2">
@@ -158,7 +164,9 @@ const List = ({ files }: { files: File[] }) => {
             <Flex align="center">
               <Icon as={FcInternal} boxSize={5} mr={2} />
               {multiSelect
-                ? t("Package download {{number}} files", { number: selectFiles.length })
+                ? t("Package download {{number}} files", {
+                    number: selectFiles.length,
+                  })
                 : t("Download")}
             </Flex>
           </Item>
@@ -203,6 +211,52 @@ const List = ({ files }: { files: File[] }) => {
                 : t("Copy link")}
             </Flex>
           </Item>
+          {loggedIn && (
+            <Item
+              onClick={({ props }) => {
+                const names = [];
+                if (multiSelect) {
+                  selectFiles.forEach((file) => {
+                    names.push(file.name);
+                  });
+                } else {
+                  const file = props as File;
+                  names.push(file.name);
+                }
+                admin
+                  .delete("files", {
+                    data: {
+                      names,
+                      path: pathname,
+                    },
+                  })
+                  .then((resp) => {
+                    const res = resp.data;
+                    toast({
+                      title: t(res.message),
+                      status: res.code === 200 ? "success" : "error",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                    bus.emit("refresh");
+                  });
+              }}
+            >
+              <Flex align="center">
+                <Icon
+                  as={MdDeleteForever}
+                  color={useColorModeValue("red.400", "red.300")}
+                  boxSize={6}
+                  mr={1}
+                />
+                {multiSelect
+                  ? t("Delete {{number}} files", {
+                      number: selectFiles.length,
+                    })
+                  : t("Delete")}
+              </Flex>
+            </Item>
+          )}
         </Submenu>
         <Submenu
           label={
