@@ -189,7 +189,7 @@ const Metas = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{isEdit ? t("save") : t("add")}</ModalHeader>
+          <ModalHeader>{isEdit ? t("Save") : t("Add")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <VStack spacing="2">

@@ -309,7 +309,7 @@ const Accounts = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{isEdit ? t("save") : t("add")}</ModalHeader>
+          <ModalHeader>{isEdit ? t("Save") : t("Add")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <SimpleGrid minChildWidth="250px" spacing="2">
