@@ -1,0 +1,55 @@
+name: release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+    name: Release
+    runs-on: ${{ matrix.platform }}
+    steps:
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: v2
+          path: alist-web
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Checkout web repo
+        uses: actions/checkout@v2
+        with:
+          repository: alist-org/assets
+          ref: main
+          path: assets
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Build
+        run: |
+          mv alist-web/build.sh .
+          bash build.sh
+
+      - name: Upload asserts files
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.MY_TOKEN }}
+          branch: cdn
+          directory: assets
+          repository: alist-org/assets
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release/*
