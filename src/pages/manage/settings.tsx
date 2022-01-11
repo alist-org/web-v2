@@ -147,7 +147,7 @@ const Settings = () => {
             });
           }}
         >
-          {t("save")}
+          {t("Save")}
         </Button>
       </Flex>
     </Box>
