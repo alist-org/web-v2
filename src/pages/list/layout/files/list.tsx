@@ -127,7 +127,7 @@ const List = ({ files }: { files: File[] }) => {
       {files.map((file) => {
         return <ListItem key={file.name} file={file} />;
       })}
-      <Menu id={MENU_ID} theme={menuTheme} animation={animation.fade}>
+      <Menu id={MENU_ID} theme={menuTheme} animation={animation.scale}>
         <Item
           onClick={() => {
             setMultiSelect(!multiSelect);
