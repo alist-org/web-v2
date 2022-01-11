@@ -17,7 +17,7 @@ BUILD_CDN() {
   mv dist/index.html ../dist
   cd ../assets
   rm -rf assets
-  mv ../alist-web/assets .
+  mv ../alist-web/dist/assets .
   git add .
   git config --local user.email "i@nn.ci"
   git config --local user.name "Xhofe"
