@@ -45,7 +45,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MY_TOKEN }}
-          branch: v2
+          branch: main
           directory: assets
           repository: alist-org/assets
 

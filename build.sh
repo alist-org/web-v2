@@ -13,19 +13,16 @@ BUILD_CDN() {
   cd alist-web
   yarn
   webCommit=$(git log --pretty=format:"%h" -1)
-  yarn build --base="https://cdn.jsdelivr.net/gh/alist-org/assets@v2/$webCommit"
+  yarn build --base="https://cdn.jsdelivr.net/gh/alist-org/assets@$webCommit"
   mv dist/index.html ../dist
-  mkdir "../assets/$webCommit"
-  mv dist/assets ../assets/$webCommit
-  cd ..
-}
-
-COMMIT_ASSETS() {
-  cd assets
+  cd ../assets
+  rm -rf assets
+  mv ./alist-web/assets .
   git add .
   git config --local user.email "i@nn.ci"
   git config --local user.name "Xhofe"
   git commit --allow-empty -m "upload $webCommit assets files" -a
+  git tag -a $webCommit -m "upload $webCommit assets files"
   cd ..
 }
 
@@ -38,5 +35,4 @@ MAKE_RELEASE() {
 mkdir dist
 BUILD_LOCAL
 BUILD_CDN
-COMMIT_ASSETS
 MAKE_RELEASE
