@@ -10,8 +10,8 @@ const Error = ({ msg }: { msg: string }) => {
       <Heading
         display="inline-block"
         size="xl"
-        bgGradient="linear(to-r, teal.400, teal.600)"
-        backgroundClip="text"
+        // bgGradient="linear(to-r, teal.400, teal.600)"
+        // backgroundClip="text"
       >
         {t("ERROR")}
       </Heading>
@@ -23,8 +23,8 @@ const Error = ({ msg }: { msg: string }) => {
       </Text> */}
       <Link to="/">
         <Button
-          bgGradient="linear(to-r, teal.400, teal.500, teal.600)"
-          color="white"
+          // bgGradient="linear(to-r, teal.400, teal.500, teal.600)"
+          // color="white"
           variant="solid"
         >
           {t("Back Home")}
