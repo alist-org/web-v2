@@ -74,7 +74,7 @@ const AutoLoadMore = () => {
         });
         nexting = true;
       }
-    }else{
+    } else {
       nexting = false;
     }
   };
@@ -107,6 +107,9 @@ const Pagination_ = () => {
     base: "xs",
     md: "sm",
   });
+  if (page.page_size >= meta.total) {
+    return null;
+  }
   return (
     <Flex mt={2} alignItems="center" w="full" justifyContent="center">
       <Pagination
@@ -128,7 +131,7 @@ const Pagination_ = () => {
   );
 };
 
-const Bottom = () => {
+const Page = () => {
   const { getSetting, meta, type } = useContext(IContext);
   const loadType = getSetting("load type");
   // console.log(loadType);
@@ -149,4 +152,4 @@ const Bottom = () => {
   return null;
 };
 
-export default Bottom;
+export default Page;

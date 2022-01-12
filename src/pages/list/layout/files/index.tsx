@@ -6,7 +6,7 @@ import useFolderLink from "../../../../hooks/useFolderLink";
 import { useEncrypt } from "../../../../hooks/useEncrypt";
 import Grid_ from "./grid";
 import List from "./list";
-import Bottom from "./bottom";
+import Page from "./page";
 
 const Files = () => {
   const { files, show, getSetting } = useContext(IContext);
@@ -42,7 +42,7 @@ const Files = () => {
           files={files_}
         />
       )}
-      <Bottom />
+      <Page />
       <Viewer
         visible={visible}
         activeIndex={index}
