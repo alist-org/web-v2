@@ -36,7 +36,7 @@ const zh = {
   "status": "状态",
   "Edit": "编辑",
   "Delete": "删除",
-  "Cancle": "取消",
+  "Cancel": "取消",
   "select": "选择",
   "Native": "本地",
   "AliDrive": "阿里云盘",

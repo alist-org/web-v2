@@ -206,7 +206,7 @@ const Do = (props: any) => {
                 onClose();
               }}
             >
-              {t("cancle")}
+              {t("Cancel")}
             </Button>
           </ModalFooter>
         </ModalContent>

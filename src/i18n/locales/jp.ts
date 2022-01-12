@@ -36,7 +36,7 @@ const zh = {
   "status": "状態",
   "Edit": "編集者",
   "Delete": "削除する",
-  "Cancle": "キャンセル",
+  "Cancel": "キャンセル",
   "select": "選択する",
   "Native": "ネイティブ",
   "AliDrive": "阿里雲盤",

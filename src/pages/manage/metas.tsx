@@ -237,7 +237,7 @@ const Metas = () => {
 
           <ModalFooter>
             <Button mr={3} colorScheme="gray" onClick={editDisclosure.onClose}>
-              {t("Cancle")}
+              {t("Cancel")}
             </Button>
             <Button
               onClick={() => {
