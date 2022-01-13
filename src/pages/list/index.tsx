@@ -88,12 +88,14 @@ const Do = (props: any) => {
         setMeta(res.data.meta);
         setType(res.data.type);
       } else {
-        toast({
-          title: t(res.message),
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
+        if (password || res.code !== 401) {
+          toast({
+            title: t(res.message),
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
         if (res.code === 1001) {
           history.push("/@manage");
         }
