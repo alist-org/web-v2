@@ -93,7 +93,7 @@ const AutoLoadMore = () => {
       ) : (
         <Spinner
           ref={dom}
-          color={getSetting("icon color") || "teal.300"}
+          color={getSetting("icon color") || "#1890ff"}
           size="lg"
         />
       )}

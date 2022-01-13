@@ -54,7 +54,7 @@ const Header = () => {
         {logo.includes("http") ? (
           <Image
             fallback={
-              <Spinner color={getSetting("icon color") || "teal.300"} />
+              <Spinner color={getSetting("icon color") || "#1890ff"} />
             }
             rounded="lg"
             h="44px"

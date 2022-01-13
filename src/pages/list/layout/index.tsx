@@ -81,7 +81,7 @@ const KuttyHero = () => {
           {type === "loading" ? (
             <Center w="full" py="4">
               <Spinner
-                color={getSetting("icon color") || "teal.300"}
+                color={getSetting("icon color") || "#1890ff"}
                 size="xl"
               />
             </Center>
@@ -91,7 +91,7 @@ const KuttyHero = () => {
                 fallback={
                   <Center h="full">
                     <Spinner
-                      color={getSetting("icon color") || "teal.300"}
+                      color={getSetting("icon color") || "#1890ff"}
                       size="xl"
                     />
                   </Center>

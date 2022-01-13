@@ -18,7 +18,7 @@ const ImagePreview = ({ file }: FileProps) => {
       <Image
         maxH="75vh"
         fallback={
-          <Spinner color={getSetting("icon color") || "teal.300"} size="xl" />
+          <Spinner color={getSetting("icon color") || "#1890ff"} size="xl" />
         }
         rounded="lg"
         src={url}

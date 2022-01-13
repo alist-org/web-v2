@@ -13,6 +13,7 @@ import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IContext, File } from "../../context";
 import getIcon from "../../../../utils/icon";
+import { BeatLoader } from "react-spinners";
 
 const Card = ({
   file,
@@ -79,6 +80,7 @@ const Card = ({
                   maxH="full"
                   maxW="full"
                   src={file.thumbnail}
+                  fallback={<BeatLoader color={getSetting("icon color")} size="15" />}
                 />
               ) : (
                 <Icon

@@ -62,7 +62,7 @@ const Audio = ({ file }: FileProps) => {
       <Center p="8" w="full">
         <Heading display="inline-flex" alignItems="center">
           <Icon
-            color={getSetting("icon color") || "teal.300"}
+            color={getSetting("icon color") || "#1890ff"}
             as={getIcon(file.type, "")}
           />
           {t("Enjoy the music")}...

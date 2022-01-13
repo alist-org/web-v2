@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import request from "../../utils/public";
 import admin from "../../utils/admin";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import { ClimbingBoxLoader } from "react-spinners";
 
 export interface File {
   name: string;
@@ -227,7 +228,8 @@ const IContextProvider = (props: any) => {
   if (!settingLoaded) {
     return (
       <Center w="full" h="100vh">
-        <Spinner color={getSetting("icon color") || "teal.300"} size="xl" />
+        {/* <Spinner color={getSetting("icon color") || "#1890ff"} size="xl" /> */}
+        <ClimbingBoxLoader color="#1890ff" loading={true} size="20" />
       </Center>
     );
   }
