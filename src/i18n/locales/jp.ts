@@ -42,7 +42,7 @@ const zh = {
   "AliDrive": "阿里雲盤",
   "input password": "パスワードを入力してください",
   "ok": "OK",
-  "copied": "コピーされた",
+  "Copied": "コピーされた",
   "Size": "サイズ",
   "size": "サイズ",
   "Modified": "時間を修正する",

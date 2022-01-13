@@ -11,3 +11,10 @@ export const copyToClip = (content: string) => {
   document.execCommand("copy");
   document.body.removeChild(aux);
 };
+
+export const readFromClip = () => {
+  if (navigator.clipboard) {
+    return navigator.clipboard.readText();
+  }
+  return Promise.resolve('');
+}

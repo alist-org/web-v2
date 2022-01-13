@@ -31,7 +31,7 @@ import React, { useEffect, useRef } from "react";
 import admin from "../../utils/admin";
 import { useTranslation } from "react-i18next";
 import FormItem from "../../components/form-item";
-
+import { copyToClip, readFromClip } from "../../utils/copy-clip";
 interface Account {
   id: number;
   name: string;
@@ -246,6 +246,31 @@ const Accounts = () => {
                     >
                       {t("Edit")}
                     </Button>
+                    <Button
+                      ml={1}
+                      colorScheme="green"
+                      onClick={() => {
+                        const info = JSON.stringify(
+                          account,
+                          (k, v) => {
+                            if (k === "id") {
+                              return undefined;
+                            }
+                            return v;
+                          },
+                          2
+                        );
+                        copyToClip(info);
+                        toast({
+                          title: t("Copied"),
+                          status: "success",
+                          duration: 3000,
+                          isClosable: true,
+                        });
+                      }}
+                    >
+                      {t("Copy")}
+                    </Button>
                     <Popover>
                       <PopoverTrigger>
                         <Button ml="1" colorScheme="red">
@@ -258,7 +283,7 @@ const Accounts = () => {
                         <PopoverHeader>{t("Confirmation!")}</PopoverHeader>
                         <PopoverBody>
                           <Text mb="1">
-                            {t("Are you sure you want to delete \"{{name}}\" ?", {
+                            {t('Are you sure you want to delete "{{name}}" ?', {
                               name: account.name,
                             })}
                           </Text>
@@ -394,6 +419,30 @@ const Accounts = () => {
           <ModalFooter>
             <Button mr={3} colorScheme="gray" onClick={editDisclosure.onClose}>
               {t("Cancel")}
+            </Button>
+            <Button
+              mr={3}
+              colorScheme="green"
+              onClick={() => {
+                readFromClip().then((info) => {
+                  try {
+                    const account = JSON.parse(info);
+                    if (currentAccount.id) {
+                      account.id = currentAccount.id;
+                    }
+                    setcurrentAccount(account);
+                  } catch (e) {
+                    toast({
+                      title: t("Invalid JSON"),
+                      status: "error",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                  }
+                });
+              }}
+            >
+              {t("Paste")}
             </Button>
             <Button
               onClick={() => {

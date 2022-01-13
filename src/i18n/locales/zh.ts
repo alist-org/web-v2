@@ -42,7 +42,7 @@ const zh = {
   "AliDrive": "阿里云盘",
   "input password": "请输入密码",
   "ok": "确定",
-  "copied": "已复制",
+  "Copied": "已复制",
   "Size": "大小",
   "size": "大小",
   "Modified": "修改时间",
@@ -131,6 +131,8 @@ const zh = {
   "Are you sure you want to delete \"{{name}}\" ?": "确定要删除“{{name}}”吗？",
   "Confirm": "确认",
   "Delete {{number}} files": "删除{{number}}个文件",
+  "Copy": "复制",
+  "Paste": "粘贴",
 }
 
 export default zh

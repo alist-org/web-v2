@@ -195,7 +195,7 @@ const List = ({ files }: { files: File[] }) => {
               }
               copyToClip(content);
               toast({
-                title: t("copied"),
+                title: t("Copied"),
                 status: "success",
                 duration: 3000,
                 isClosable: true,
