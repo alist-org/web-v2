@@ -80,7 +80,7 @@ const Card = ({
                   maxH="full"
                   maxW="full"
                   src={file.thumbnail}
-                  fallback={<BeatLoader color={getSetting("icon color")} size="15" />}
+                  fallback={<BeatLoader color={getSetting("icon color")} size={15} />}
                 />
               ) : (
                 <Icon

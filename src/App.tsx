@@ -13,7 +13,7 @@ function App() {
           fallback={
             <Center h="100vh">
               {/* <Spinner color="#1890ff" size="xl" /> */}
-              <ClimbingBoxLoader color="#1890ff" loading={true} size="20" />
+              <ClimbingBoxLoader color="#1890ff" loading={true} size={20} />
             </Center>
           }
         >
