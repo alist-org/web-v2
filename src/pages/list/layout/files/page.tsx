@@ -107,18 +107,22 @@ const Pagination_ = () => {
     base: "xs",
     md: "sm",
   });
+  const pageNeighbours = useBreakpointValue({
+    base: 1,
+    md: 2,
+  });
   if (page.page_size >= meta.total) {
     return null;
   }
   return (
     <Flex mt={2} alignItems="center" w="full" justifyContent="center">
       <Pagination
-        defaultCurrent={page.page_num}
+        current={page.page_num}
         colorScheme="twitter"
         total={meta.total}
         paginationProps={{ display: "flex" }}
         pageSize={page.page_size}
-        pageNeighbours={2}
+        pageNeighbours={pageNeighbours}
         size={size}
         onChange={(page_num) => {
           setPage({
