@@ -122,8 +122,8 @@ const ListItem = ({ file }: FileProps) => {
             >
               {file.time_str
                 ? file.time_str
-                : file.driver === "Lanzou"
-                ? "-"
+                // : file.driver === "Lanzou"
+                // ? "-"
                 : formatDate(file.updated_at)}
             </Text>
           </HStack>
