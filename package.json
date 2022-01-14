@@ -1,11 +1,27 @@
 {
-  "name": "react-template",
+  "name": "alist-web",
   "version": "0.0.0",
+  "author": {
+    "name": "Xhofe",
+    "email": "i@nn.ci",
+    "url": "https://www.nn.ci"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alist-org/alist-web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Xhofe/alist/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://alist-doc.nn.ci",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^1.7.4",

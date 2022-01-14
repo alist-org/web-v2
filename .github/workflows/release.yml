@@ -48,7 +48,12 @@ jobs:
           branch: main
           directory: assets
           repository: alist-org/assets
-
+          
+      - name: Publish npm
+        run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
       - name: Release
         uses: softprops/action-gh-release@v1
         with:

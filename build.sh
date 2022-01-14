@@ -9,12 +9,12 @@ BUILD_LOCAL() {
   cd ..
 }
 
-BUILD_CDN() {
+BUILD_JSDELIVR() {
   cd alist-web
   yarn
   webCommit=$(git log --pretty=format:"%h" -1)
   yarn build --base="https://cdn.jsdelivr.net/gh/alist-org/assets@$webCommit"
-  mv dist/index.html ../dist
+  mv dist/index.html ../dist/jsdelivr.html
   cd ../assets
   rm -rf assets
   mv ../alist-web/dist/assets .
@@ -26,6 +26,15 @@ BUILD_CDN() {
   cd ..
 }
 
+BUILD_UNPKG_ZHIMG() {
+  cd alist-web
+  version=$(git describe --abbrev=0 --tags | awk -F- '{print $1}')
+  sed -i -e "s/0.0.0/$version/g" package.json
+  yarn build --base="https://unpkg.zhimg.com/alist-web@$version/dist"
+  cp dist/index.html ../dist/zhimg.html
+  cd ..
+}
+
 MAKE_RELEASE() {
   mkdir release
   tar -czvf release/dist.tar.gz dist/*
@@ -34,5 +43,6 @@ MAKE_RELEASE() {
 
 mkdir dist
 BUILD_LOCAL
-BUILD_CDN
+BUILD_JSDELIVR
+BUILD_UNPKG_ZHIMG
 MAKE_RELEASE
