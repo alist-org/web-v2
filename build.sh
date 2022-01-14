@@ -28,7 +28,7 @@ BUILD_JSDELIVR() {
 
 BUILD_UNPKG_ZHIMG() {
   cd alist-web
-  version=$(git describe --abbrev=0 --tags | awk -F- '{print $1}')
+  version=$(git describe --abbrev=0 --tags)
   sed -i -e "s/0.0.0/$version/g" package.json
   yarn build --base="https://unpkg.zhimg.com/alist-web@$version/dist"
   cp dist/index.html ../dist/zhimg.html
