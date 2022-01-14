@@ -40,6 +40,14 @@ jobs:
         run: |
           mv alist-web/build.sh .
           bash build.sh
+      
+      - name: Publish npm
+        run: |
+          cd alist-web
+          yarn publish
+          cd ..
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload asserts files
         uses: ad-m/github-push-action@master
@@ -48,11 +56,6 @@ jobs:
           branch: main
           directory: assets
           repository: alist-org/assets
-          
-      - name: Publish npm
-        run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         
       - name: Release
         uses: softprops/action-gh-release@v1
