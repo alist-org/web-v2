@@ -24,6 +24,7 @@ const Card = ({
 }) => {
   const location = useLocation();
   const { getSetting } = useContext(IContext);
+  const [error, setError] = React.useState(false);
   const to = `${
     location.pathname.endsWith("/")
       ? location.pathname.slice(0, -1)
@@ -73,14 +74,19 @@ const Card = ({
               p="1"
               className="grid-item-thumbnail"
             >
-              {file.thumbnail ? (
+              {file.thumbnail && !error ? (
                 <Image
                   rounded="lg"
                   shadow="lg"
                   maxH="full"
                   maxW="full"
                   src={file.thumbnail}
-                  fallback={<BeatLoader color={getSetting("icon color")} size={15} />}
+                  fallback={
+                    <BeatLoader color={getSetting("icon color")} size={15} />
+                  }
+                  onError={() => {
+                    setError(true);
+                  }}
                 />
               ) : (
                 <Icon
