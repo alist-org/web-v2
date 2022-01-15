@@ -23,6 +23,7 @@ import useChangeEffect from "../../hooks/useChangeEffect";
 import useSyncCallback from "../../hooks/useSyncCallback";
 
 let notTurnPage = false;
+let inputPass = false;
 
 const Do = (props: any) => {
   const {
@@ -88,15 +89,22 @@ const Do = (props: any) => {
         setMeta(res.data.meta);
         setType(res.data.type);
       } else {
-        if (password || res.code !== 401) {
+        if (res.code === 401 && inputPass) {
           toast({
             title: t(res.message),
             status: "error",
             duration: 3000,
             isClosable: true,
           });
+          inputPass = false;
         }
         if (res.code === 1001) {
+          toast({
+            title: t(res.message),
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+          });
           history.push("/@manage");
         }
         if (res.code === 401) {
@@ -183,6 +191,7 @@ const Do = (props: any) => {
               onKeyUp={(e) => {
                 if (e.key === "Enter") {
                   localStorage.setItem("password", password);
+                  inputPass = true;
                   refresh();
                   onClose();
                 }
@@ -194,6 +203,7 @@ const Do = (props: any) => {
             <Button
               onClick={() => {
                 localStorage.setItem("password", password);
+                inputPass = true;
                 refresh();
                 onClose();
               }}
