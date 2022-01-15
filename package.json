@@ -29,7 +29,7 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@xhofe/react-viewer": "^3.2.3",
-    "artplayer": "^4.2.1",
+    "artplayer": "^4.2.3",
     "axios": "^0.24.0",
     "flv.js": "^1.6.2",
     "framer-motion": "^5.5.6",

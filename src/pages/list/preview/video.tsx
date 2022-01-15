@@ -22,6 +22,7 @@ import flvjs from "flv.js";
 import { Link as ReactLink, useHistory } from "react-router-dom";
 import { BsCardList } from "react-icons/bs";
 import useFileUrl from "../../../hooks/useFileUrl";
+import { isMobile, userAgent } from "../../../utils/compatibility";
 
 export const type = 3;
 export const exts = [];
@@ -82,12 +83,27 @@ const Video = ({ file }: FileProps) => {
           flvPlayer.load();
         },
       },
+      moreVideoAttr: {
+        "webkit-playsinline": true,
+        playsInline: true,
+        // controls: true,
+      },
     };
     if (file.name.toLowerCase().endsWith(".flv")) {
       options.type = "flv";
     }
     if (getSetting("artplayer whitelist")) {
       options.whitelist = getSetting("artplayer whitelist").split(",");
+    } else {
+      options.whitelist = [];
+    }
+    const useArt =
+      !isMobile ||
+      options.whitelist.some((item: string) => {
+        return item === "*" || userAgent.indexOf(item) > -1;
+      });
+    if (!useArt) {
+      options.moreVideoAttr.controls = true;
     }
     if (getSetting("artplayer autoSize") === "true") {
       options.autoSize = true;

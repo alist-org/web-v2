@@ -1156,10 +1156,10 @@ aria-hidden@^1.1.1:
   dependencies:
     tslib "^1.0.0"
 
-artplayer@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.npmjs.org/artplayer/-/artplayer-4.2.1.tgz#5cb310d344acc768d01e9f88417fb0d6616287b5"
-  integrity sha512-DFWuzvCtDfXq541mk9ctqeyAWbICm9FoR1RxpXDEPGhf2PN/8KL72YY5udWjlXGpFeoRwl1nGPuTmq5KWRR2SA==
+artplayer@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/artplayer/-/artplayer-4.2.3.tgz#5e0202500f008a75a86cbe2376940871529cae02"
+  integrity sha512-t42q//wJ2TwOIzLQ0vMIryktqYk9pzmMI911LH2MOswges+RozUcpxjQIu/XAFyQRKYchdN90tNlyJry7crDDw==
   dependencies:
     option-validator "^2.0.6"
     screenfull "^5.1.0"
