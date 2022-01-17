@@ -47,11 +47,12 @@ const Do = (props: any) => {
   const history = useHistory();
   const location = useLocation();
   const toast = useToast();
-  const { path } = useApi();
+  const { path,cancel } = useApi();
   const refresh = useSyncCallback(() => {
     if (!settingLoaded) {
       return;
     }
+    cancel();
     console.log("refresh");
     console.log(page);
     const loadType = getSetting("load type");
