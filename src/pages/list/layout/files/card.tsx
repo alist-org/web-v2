@@ -14,6 +14,8 @@ import { Link, useLocation } from "react-router-dom";
 import { IContext, File } from "../../context";
 import getIcon from "../../../../utils/icon";
 import { BeatLoader } from "react-spinners";
+import { useContextMenu } from "react-contexify";
+import { MENU_ID } from "./contextmenu";
 
 const Card = ({
   file,
@@ -41,6 +43,10 @@ const Card = ({
           in: true,
         }
       : {};
+  const { show } = useContextMenu({
+    id: MENU_ID,
+    props: file,
+  });
   return (
     <ItemBox {...props}>
       <Tooltip label={file.name} gutter={8} placement="auto">
@@ -52,6 +58,9 @@ const Card = ({
           cursor="pointer"
           onClick={() => {
             setShowImage(file.name);
+          }}
+          onContextMenu={(e) => {
+            show(e);
           }}
         >
           <Flex

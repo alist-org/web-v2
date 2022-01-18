@@ -7,6 +7,7 @@ import { useEncrypt } from "../../../../hooks/useEncrypt";
 import Grid_ from "./grid";
 import List from "./list";
 import Page from "./page";
+import ContextMenu from "./contextmenu";
 
 const Files = () => {
   const { files, show, getSetting } = useContext(IContext);
@@ -54,6 +55,7 @@ const Files = () => {
         }}
         images={images}
       />
+      <ContextMenu />
     </Box>
   );
 };

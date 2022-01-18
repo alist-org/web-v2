@@ -1,0 +1,228 @@
+import {
+  Icon,
+  Flex,
+  useColorModeValue,
+  useToast,
+} from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { IContext, File } from "../../context";
+import {
+  Menu,
+  Item,
+  Separator,
+  Submenu,
+  theme,
+  animation,
+} from "react-contexify";
+import "react-contexify/dist/ReactContexify.css";
+import {
+  FcAlphabeticalSortingAz,
+  FcSupport,
+  FcTodoList,
+  FcInternal,
+  FcLink,
+  FcNumericalSorting12,
+  FcClock,
+  FcRefresh,
+} from "react-icons/fc";
+import { MdDeleteForever } from "react-icons/md";
+import useFileUrl from "../../../../hooks/useFileUrl";
+import useDownPackage from "../../../../hooks/useDownPackage";
+import { copyToClip } from "../../../../utils/copy-clip";
+import admin from "../../../../utils/admin";
+import { useLocation } from "react-router-dom";
+import bus from "../../../../utils/event-bus";
+
+export const MENU_ID = "list-menu";
+
+const ContextMenu = () => {
+  const { t } = useTranslation();
+  const {
+    sort,
+    setSort,
+    multiSelect,
+    setMultiSelect,
+    selectFiles,
+    loggedIn,
+  } = useContext(IContext);
+  const menuTheme = useColorModeValue(theme.light, theme.dark);
+  const toast = useToast();
+  const getFileUrl = useFileUrl();
+  const downPack = useDownPackage();
+  const { pathname } = useLocation();
+  return (
+    <Menu id={MENU_ID} theme={menuTheme} animation={animation.scale}>
+      <Item
+        onClick={() => {
+          setMultiSelect(!multiSelect);
+        }}
+      >
+        <Flex align="center">
+          <Icon boxSize={5} as={FcTodoList} mr={2} />
+          {t("Multiple select")}
+        </Flex>
+      </Item>
+      <Separator />
+      <Submenu
+        label={
+          <Flex align="center">
+            <Icon as={FcSupport} boxSize={5} mr={2} />
+            {t("Operations")}
+          </Flex>
+        }
+      >
+        <Item
+          onClick={({ props }) => {
+            const file = props as File;
+            if (multiSelect) {
+              downPack(selectFiles);
+              return;
+            }
+            if (file.type === 1) {
+              downPack([file]);
+              return;
+            }
+            window.open(getFileUrl(file), "_blank");
+          }}
+        >
+          <Flex align="center">
+            <Icon as={FcInternal} boxSize={5} mr={2} />
+            {multiSelect
+              ? t("Package download {{number}} files", {
+                  number: selectFiles.length,
+                })
+              : t("Download")}
+          </Flex>
+        </Item>
+        <Item
+          onClick={({ props }) => {
+            let content = "";
+            if (multiSelect) {
+              content = selectFiles
+                .filter((file) => file.type !== 1)
+                .map((file) => {
+                  return getFileUrl(file);
+                })
+                .join("\n");
+            } else {
+              const file = props as File;
+              if (file.type === 1) {
+                toast({
+                  title: t("Can't copy folder direact link"),
+                  status: "warning",
+                  duration: 3000,
+                  isClosable: true,
+                });
+                return;
+              }
+              content = getFileUrl(file);
+            }
+            copyToClip(content);
+            toast({
+              title: t("Copied"),
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          }}
+        >
+          <Flex align="center">
+            <Icon as={FcLink} boxSize={5} mr={2} />
+            {multiSelect
+              ? t("Copy links of {{number}} files", {
+                  number: selectFiles.length,
+                })
+              : t("Copy link")}
+          </Flex>
+        </Item>
+        {loggedIn && (
+          <Item
+            onClick={({ props }) => {
+              const names = [];
+              if (multiSelect) {
+                selectFiles.forEach((file) => {
+                  names.push(file.name);
+                });
+              } else {
+                const file = props as File;
+                names.push(file.name);
+              }
+              admin
+                .delete("files", {
+                  data: {
+                    names,
+                    path: pathname,
+                  },
+                })
+                .then((resp) => {
+                  const res = resp.data;
+                  toast({
+                    title: t(res.message),
+                    status: res.code === 200 ? "success" : "error",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                  bus.emit("refresh");
+                });
+            }}
+          >
+            <Flex align="center">
+              <Icon
+                as={MdDeleteForever}
+                color={useColorModeValue("red.400", "red.300")}
+                boxSize={6}
+                mr={1}
+              />
+              {multiSelect
+                ? t("Delete {{number}} files", {
+                    number: selectFiles.length,
+                  })
+                : t("Delete")}
+            </Flex>
+          </Item>
+        )}
+      </Submenu>
+      <Submenu
+        label={
+          <Flex align="center">
+            <Icon as={FcRefresh} boxSize={5} mr={2} />
+            {t("Sort by")}
+          </Flex>
+        }
+      >
+        {[
+          { name: "name", icon: FcAlphabeticalSortingAz },
+          { name: "size", icon: FcNumericalSorting12 },
+          { name: "updated_at", icon: FcClock },
+        ].map((item) => {
+          return (
+            <Item
+              key={item.name}
+              onClick={() => {
+                if (sort.orderBy === item.name) {
+                  setSort({
+                    ...sort,
+                    reverse: !sort.reverse,
+                  });
+                } else {
+                  setSort({
+                    orderBy: item.name as any,
+                    reverse: false,
+                  });
+                }
+              }}
+            >
+              <Flex align="center">
+                <Icon as={item.icon} boxSize={5} mr={2} />
+                {t(item.name)}
+              </Flex>
+            </Item>
+          );
+        })}
+      </Submenu>
+    </Menu>
+  );
+};
+
+export default ContextMenu;

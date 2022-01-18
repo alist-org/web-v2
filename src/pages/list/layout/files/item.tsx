@@ -17,7 +17,7 @@ import { formatDate } from "../../../../utils/date";
 import { getFileSize } from "../../../../utils/file";
 import getIcon from "../../../../utils/icon";
 import { useContextMenu } from "react-contexify";
-import { MENU_ID } from "./list";
+import { MENU_ID } from "./contextmenu";
 
 const ListItem = ({ file }: FileProps) => {
   const { pathname } = useLocation();
