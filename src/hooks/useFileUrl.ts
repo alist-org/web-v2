@@ -4,7 +4,7 @@ import { useEncrypt } from "./useEncrypt";
 import { useContext } from "react";
 const useFileUrl = (proxy = false) => {
   const link = useFolderLink(proxy);
-  const encrpy = useEncrypt();
+  const encrypt = useEncrypt();
   const { files } = useContext(IContext);
   return (file: File | undefined = undefined) => {
     if (!file) {
@@ -14,7 +14,7 @@ const useFileUrl = (proxy = false) => {
     if (!url.endsWith(file.name)) {
       url = `${url}/${file.name}`;
     }
-    return encrpy(url);
+    return encrypt(url);
   };
 };
 export default useFileUrl;
