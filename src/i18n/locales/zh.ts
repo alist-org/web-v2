@@ -40,8 +40,8 @@ const zh = {
   "select": "选择",
   "Native": "本地",
   "AliDrive": "阿里云盘",
-  "input password": "请输入密码",
-  "ok": "确定",
+  "Input password": "请输入密码",
+  "Ok": "确定",
   "Copied": "已复制",
   "Size": "大小",
   "size": "大小",
@@ -133,6 +133,8 @@ const zh = {
   "Delete {{number}} files": "删除{{number}}个文件",
   "Copy": "复制",
   "Paste": "粘贴",
+  "New folder": "新建文件夹",
+  "Folder name": "文件夹名称",
 }
 
 export default zh

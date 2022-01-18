@@ -47,12 +47,12 @@ const Do = (props: any) => {
   const history = useHistory();
   const location = useLocation();
   const toast = useToast();
-  const { path,cancel } = useApi();
+  const { path,cancelPath } = useApi();
   const refresh = useSyncCallback(() => {
     if (!settingLoaded) {
       return;
     }
-    cancel();
+    cancelPath();
     console.log("refresh");
     console.log(page);
     const loadType = getSetting("load type");
@@ -179,7 +179,7 @@ const Do = (props: any) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{t("input password")}</ModalHeader>
+          <ModalHeader>{t("Input password")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Input
@@ -210,7 +210,7 @@ const Do = (props: any) => {
               }}
               mr={3}
             >
-              {t("ok")}
+              {t("Ok")}
             </Button>
             <Button
               colorScheme="gray"

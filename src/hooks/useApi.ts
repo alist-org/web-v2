@@ -5,7 +5,11 @@ import { IContext } from "../pages/list/context";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-let cancel: any;
+const pathJoin = (...paths: string[]) => {
+  return paths.join("/").replace(/\/{2,}/g, "/");
+};
+
+let cancelPath: any;
 const CancelToken = axios.CancelToken;
 const useApi = () => {
   const { password, page } = useContext(IContext);
@@ -29,13 +33,20 @@ const useApi = () => {
         },
         {
           cancelToken: new CancelToken(function executor(c) {
-            cancel = c;
+            cancelPath = c;
           }),
         }
       );
     },
-    cancel: () => {
-      cancel && cancel();
+    cancelPath: () => {
+      cancelPath && cancelPath();
+    },
+    mkdir: (name: string) => {
+      return admin.post("mkdir", { name, path });
+    },
+    rename: (name: string, old: string) => {
+      const path_ = pathJoin(path, old);
+      return admin.post("rename", { name, path: path_ });
     },
   };
 };
