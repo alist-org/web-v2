@@ -7,7 +7,8 @@ import { useEncrypt } from "../../../../hooks/useEncrypt";
 import Grid_ from "./grid";
 import List from "./list";
 import Page from "./page";
-import ContextMenu from "./contextmenu";
+import ContextMenu, { MENU_ID } from "./contextmenu";
+import { useContextMenu } from "react-contexify";
 
 const Files = () => {
   const { files, show, getSetting } = useContext(IContext);
@@ -30,8 +31,20 @@ const Files = () => {
     });
   const [visible, setVisible] = React.useState(false);
   const [index, setIndex] = React.useState(0);
+  const { show: showContextMenu } = useContextMenu({
+    id: MENU_ID,
+    props: undefined,
+  });
   return (
-    <Box className="files-box" w="full">
+    <Box
+      onContextMenu={(e) => {
+        console.log(e)
+        
+        showContextMenu(e);
+      }}
+      className="files-box"
+      w="full"
+    >
       {show === "list" ? (
         <List files={files_} />
       ) : (

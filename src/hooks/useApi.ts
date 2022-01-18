@@ -42,7 +42,8 @@ const useApi = () => {
       cancelPath && cancelPath();
     },
     mkdir: (name: string) => {
-      return admin.post("mkdir", { name, path });
+      const path_ = pathJoin(path, name);
+      return admin.post("mkdir", { path: path_ });
     },
     rename: (name: string, old: string) => {
       const path_ = pathJoin(path, old);

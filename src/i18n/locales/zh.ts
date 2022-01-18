@@ -135,6 +135,8 @@ const zh = {
   "Paste": "粘贴",
   "New folder": "新建文件夹",
   "Folder name": "文件夹名称",
+  "Rename": "重命名",
+  "New name": "新名称",
 }
 
 export default zh

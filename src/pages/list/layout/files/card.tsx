@@ -60,6 +60,13 @@ const Card = ({
             setShowImage(file.name);
           }}
           onContextMenu={(e) => {
+            if (e && e.stopPropagation) {
+              e.stopPropagation(); // W3C
+            } else {
+              if (window && window.event) {
+                window.event.cancelBubble = true; // Old IE
+              }
+            }
             show(e);
           }}
         >

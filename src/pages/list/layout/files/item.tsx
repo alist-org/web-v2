@@ -52,6 +52,13 @@ const ListItem = ({ file }: FileProps) => {
           bgColor: "rgba(132,133,141,0.18)",
         }}
         onContextMenu={(e) => {
+          if (e && e.stopPropagation) {
+            e.stopPropagation(); // W3C
+          } else {
+            if (window && window.event) {
+              window.event.cancelBubble = true; // Old IE
+            }
+          }
           show(e);
         }}
       >
@@ -122,9 +129,9 @@ const ListItem = ({ file }: FileProps) => {
             >
               {file.time_str
                 ? file.time_str
-                // : file.driver === "Lanzou"
-                // ? "-"
-                : formatDate(file.updated_at)}
+                : // : file.driver === "Lanzou"
+                  // ? "-"
+                  formatDate(file.updated_at)}
             </Text>
           </HStack>
         </LinkOverlay>

@@ -9,6 +9,7 @@ import {
   Submenu,
   theme,
   animation,
+  PredicateParams,
 } from "react-contexify";
 import "react-contexify/dist/ReactContexify.css";
 import {
@@ -47,7 +48,16 @@ const ContextMenu = () => {
   const downPack = useDownPackage();
   const { pathname } = useLocation();
   const [isOpen, setIsOpen] = React.useState<IsOpenSet>({});
-  const [file, setFile] = React.useState<File | null>(null);
+  function isItemDisabled({
+    props,
+    data,
+    triggerEvent,
+  }: PredicateParams<File, string>) {
+    // use the parameters to determine if you want to disable the item or not
+    // you get the idea
+    return props === undefined;
+  }
+
   return (
     <React.Fragment>
       {isOpen.newFolder && (
@@ -80,9 +90,6 @@ const ContextMenu = () => {
             setIsOpen({ ...isOpen, newFolder: true });
           }}
         />
-        <Rename onOpen={()=>{
-          setIsOpen({ ...isOpen, rename: true });
-        }} />
         <Separator />
         <Submenu
           label={
@@ -92,7 +99,13 @@ const ContextMenu = () => {
             </Flex>
           }
         >
+          <Rename
+            onOpen={() => {
+              setIsOpen({ ...isOpen, rename: true });
+            }}
+          />
           <Item
+            disabled={isItemDisabled}
             onClick={({ props }) => {
               const file = props as File;
               if (multiSelect) {
@@ -117,6 +130,7 @@ const ContextMenu = () => {
           </Item>
 
           <Item
+            disabled={isItemDisabled}
             onClick={({ props }) => {
               let content = "";
               if (multiSelect) {
@@ -159,6 +173,7 @@ const ContextMenu = () => {
           </Item>
           {loggedIn && (
             <Item
+              disabled={isItemDisabled}
               onClick={({ props }) => {
                 const names = [];
                 if (multiSelect) {

@@ -18,12 +18,13 @@ interface ModalInputProps {
   title: string;
   onSubmit: (text: string) => void;
   type: string;
+  defaultValue?: string;
 }
 
 const ModalInput = (props: ModalInputProps) => {
   const { t } = useTranslation();
   const initialRef = React.useRef();
-  const [val, setVal] = React.useState("");
+  const [val, setVal] = React.useState(props.defaultValue || "");
   return (
     <Modal
       initialFocusRef={initialRef as any}

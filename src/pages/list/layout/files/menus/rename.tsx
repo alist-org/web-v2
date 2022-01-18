@@ -1,22 +1,45 @@
-import { Icon, Flex, useDisclosure, useToast, Box } from "@chakra-ui/react";
+import {
+  Icon,
+  Flex,
+  useDisclosure,
+  useToast,
+  Box,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { Item } from "react-contexify";
+import { Item, PredicateParams } from "react-contexify";
 import "react-contexify/dist/ReactContexify.css";
 import { useTranslation } from "react-i18next";
-import { FcPlus } from "react-icons/fc";
+import { CgRename } from "react-icons/cg";
 import ModalInput from "../../../../../components/modal-input";
 import useApi from "../../../../../hooks/useApi";
 import bus from "../../../../../utils/event-bus";
 import { File, IContext } from "../../../context";
 
-let currentFile: File;
+let currentFile: File = {
+  name: "",
+  size: 0,
+  type: 0,
+  driver: "",
+  updated_at: "",
+  thumbnail: "",
+  url: "",
+};
 
-const Rename = (props: { onOpen: () => void }) => {
+const Rename = (props: {
+  onOpen: () => void;
+  // disabled: ({
+  //   props,
+  //   data,
+  //   triggerEvent,
+  // }: PredicateParams<File, string>) => boolean;
+}) => {
   const { loggedIn } = useContext(IContext);
   const { t } = useTranslation();
   if (!loggedIn) return null;
   return (
     <Item
+      disabled={(props as any).propsFromTrigger === undefined}
       onClick={() => {
         currentFile = (props as any).propsFromTrigger;
         console.log(currentFile);
@@ -24,7 +47,12 @@ const Rename = (props: { onOpen: () => void }) => {
       }}
     >
       <Flex align="center">
-        <Icon boxSize={5} as={FcPlus} mr={2} />
+        <Icon
+          color={useColorModeValue("blue.400", "blue.300")}
+          boxSize={5}
+          as={CgRename}
+          mr={2}
+        />
         {t("Rename")}
       </Flex>
     </Item>
@@ -46,6 +74,7 @@ export const RenameInput = (props: { onClose: () => void }) => {
         onClose();
         props.onClose();
       }}
+      defaultValue={currentFile.name}
       onSubmit={(text) => {
         rename(text, currentFile.name).then((resp) => {
           const res = resp.data;
