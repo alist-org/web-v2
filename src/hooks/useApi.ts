@@ -49,6 +49,13 @@ const useApi = () => {
       const path_ = pathJoin(path, old);
       return admin.post("rename", { name, path: path_ });
     },
+    move: (names: string[], dir: string) => {
+      return admin.post("move",{
+        src_dir: path,
+        dst_dir: dir,
+        names
+      })
+    }
   };
 };
 

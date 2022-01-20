@@ -31,6 +31,7 @@ import { useLocation } from "react-router-dom";
 import bus from "../../../../utils/event-bus";
 import NewFolder, { NewFolderInput } from "./menus/new-folder";
 import Rename, { RenameInput } from "./menus/rename";
+import Move, { MoveSelect } from "./menus/move";
 
 export const MENU_ID = "list-menu";
 
@@ -74,6 +75,13 @@ const ContextMenu = () => {
           }}
         />
       )}
+      {isOpen.move && (
+        <MoveSelect
+          onClose={() => {
+            setIsOpen({ ...isOpen, move: false });
+          }}
+        />
+      )}
       <Menu id={MENU_ID} theme={menuTheme} animation={animation.scale}>
         <Item
           onClick={() => {
@@ -102,6 +110,11 @@ const ContextMenu = () => {
           <Rename
             onOpen={() => {
               setIsOpen({ ...isOpen, rename: true });
+            }}
+          />
+          <Move
+            onOpen={() => {
+              setIsOpen({ ...isOpen, move: true });
             }}
           />
           <Item

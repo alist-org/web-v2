@@ -14,3 +14,7 @@ export function getFileSize(size: number){
       return (size / Math.pow(num, 3)).toFixed(2) + "G"; //G
   return (size / Math.pow(num, 4)).toFixed(2) + "T"; //T
 }
+
+export const pathJoin = (...paths: string[]) => {
+  return paths.join("/").replace(/\/{2,}/g, "/");
+};
