@@ -75,6 +75,7 @@ export const MoveSelect = (props: { onClose: () => void }) => {
   const [loading, setLoading] = React.useState(false);
   return (
     <Modal
+      size="xl"
       isOpen={isOpen}
       onClose={() => {
         props.onClose();
