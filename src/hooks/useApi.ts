@@ -55,6 +55,13 @@ const useApi = () => {
         dst_dir: dir,
         names
       })
+    },
+    copy: (names: string[], dir: string) => {
+      return admin.post("copy",{
+        src_dir: path,
+        dst_dir: dir,
+        names
+      })
     }
   };
 };

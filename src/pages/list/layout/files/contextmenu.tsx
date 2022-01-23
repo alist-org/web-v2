@@ -32,6 +32,7 @@ import bus from "../../../../utils/event-bus";
 import NewFolder, { NewFolderInput } from "./menus/new-folder";
 import Rename, { RenameInput } from "./menus/rename";
 import Move, { MoveSelect } from "./menus/move";
+import Copy, { CopySelect } from "./menus/copy";
 
 export const MENU_ID = "list-menu";
 
@@ -82,6 +83,13 @@ const ContextMenu = () => {
           }}
         />
       )}
+      {isOpen.copy && (
+        <CopySelect
+          onClose={() => {
+            setIsOpen({ ...isOpen, copy: false });
+          }}
+        />
+      )}
       <Menu id={MENU_ID} theme={menuTheme} animation={animation.scale}>
         <Item
           onClick={() => {
@@ -115,6 +123,11 @@ const ContextMenu = () => {
           <Move
             onOpen={() => {
               setIsOpen({ ...isOpen, move: true });
+            }}
+          />
+          <Copy
+            onOpen={() => {
+              setIsOpen({ ...isOpen, copy: true });
             }}
           />
           <Item
