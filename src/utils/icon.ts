@@ -29,11 +29,6 @@ const iconMap = {
 };
 
 const getIcon = (type: number, ext: string) => {
-  for (const [extensions, icon] of Object.entries(iconMap)) {
-    if (extensions.split(",").includes(ext.toLowerCase())) {
-      return icon;
-    }
-  }
   switch (type) {
     case 1:
       return IoIosFolder;
@@ -59,6 +54,11 @@ const getIcon = (type: number, ext: string) => {
     case 6:
       return BsFillFileEarmarkImageFill;
     default:
+      for (const [extensions, icon] of Object.entries(iconMap)) {
+        if (extensions.split(",").includes(ext.toLowerCase())) {
+          return icon;
+        }
+      }
       return BsFillFileEarmarkMinusFill;
   }
 };
