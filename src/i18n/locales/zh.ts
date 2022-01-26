@@ -1,7 +1,7 @@
 const zh = {
   "Welcome to React": "欢迎使用React。",
   "Go to page": "前往{{page}}",
-  "Powered by project": "由{{project}}驱动",
+  // "Powered by project": "由{{project}}驱动",
   "Change language": "更改语言",
   "Switch to color mode": "切换到{{color}}模式",
   "dark": "深色",

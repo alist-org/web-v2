@@ -1,7 +1,7 @@
 const zh = {
   "Welcome to React": "Reactへようこそ。",
   "Go to page": "{{page}}に移動します",
-  "Powered by project": "{{project}}によって駆動",
+  // "Powered by project": "{{project}}によって駆動",
   "Change language": "言語を変えてください",
   "Switch to color mode": "{{color}}モードに切り替えます",
   "dark": "暗色",
