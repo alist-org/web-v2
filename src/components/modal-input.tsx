@@ -19,6 +19,7 @@ interface ModalInputProps {
   onSubmit: (text: string) => void;
   type: string;
   defaultValue?: string;
+  loading?: boolean;
 }
 
 const ModalInput = (props: ModalInputProps) => {
@@ -59,6 +60,7 @@ const ModalInput = (props: ModalInputProps) => {
               props.onSubmit(val);
             }}
             mr={3}
+            isLoading={props.loading}
           >
             {t("Ok")}
           </Button>

@@ -29,25 +29,27 @@ const NewFolder = (props: { onOpen: () => void }) => {
     </Box>
   );
 };
-export const NewFolderInput = (props: {
-  onClose: () => void;
-}) => {
+export const NewFolderInput = (props: { onClose: () => void }) => {
   const { isOpen, onClose, onOpen } = useDisclosure({
     defaultIsOpen: true,
   });
   const { mkdir } = useApi();
   const toast = useToast();
   const { t } = useTranslation();
+  const [loading, setLoading] = React.useState(false);
   return (
     <ModalInput
       title="Folder name"
       isOpen={isOpen}
-      onClose={()=>{
+      loading={loading}
+      onClose={() => {
         onClose();
         props.onClose();
       }}
       onSubmit={(text) => {
+        setLoading(true);
         mkdir(text).then((resp) => {
+          setLoading(false);
           const res = resp.data;
           toast({
             title: t(res.message),

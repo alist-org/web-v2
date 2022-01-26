@@ -66,17 +66,21 @@ export const RenameInput = (props: { onClose: () => void }) => {
   const { rename } = useApi();
   const toast = useToast();
   const { t } = useTranslation();
+  const [loading, setLoading] = React.useState(false);
   return (
     <ModalInput
       title="New name"
       isOpen={isOpen}
+      loading={loading}
       onClose={() => {
         onClose();
         props.onClose();
       }}
       defaultValue={currentFile.name}
       onSubmit={(text) => {
+        setLoading(true);
         rename(text, currentFile.name).then((resp) => {
+          setLoading(false);
           const res = resp.data;
           toast({
             title: t(res.message),
