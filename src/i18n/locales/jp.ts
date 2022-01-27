@@ -52,7 +52,7 @@ const zh = {
   "DESC": "降順",
   "Name": "ファイル名",
   "Download": "ダウンロード",
-  "Home": "表紙",
+  "Home": "ホーム",
   "fold": "折りたたむ",
   "unfold": "展開する",
   "Already the first page": "もう1ページ目だ",
@@ -131,6 +131,17 @@ const zh = {
   "Are you sure you want to delete \"{{name}}\" ?": "「{{name}}」を削除してもよろしいですか？",
   "Confirm": "確認",
   "Delete {{number}} files": "{{number}}ファイルを削除",
+  "Copy": "コピー",
+  "Paste": "ペースト",
+  "New folder": "新しいフォルダ",
+  "Folder name": "フォルダ名",
+  "Rename": "名前を変更",
+  "New name": "新しい名前",
+  "Move": "移動",
+  "Select folder": "フォルダを選択",
+  "Move {{number}} files": "{{number}}ファイルを移動",
+  "Please select a folder": "フォルダを選択してください",
+  "Copy {{number}} files": "{{number}}ファイルをコピー",
 }
 
 export default zh

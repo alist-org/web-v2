@@ -141,6 +141,7 @@ const zh = {
   "Select folder": "选择文件夹",
   "Move {{number}} files": "移动 {{number}} 个文件",
   "Please select a folder": "请选择一个文件夹",
+  "Copy {{number}} files": "复制 {{number}} 个文件",
 }
 
 export default zh
