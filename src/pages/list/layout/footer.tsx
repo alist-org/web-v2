@@ -11,7 +11,7 @@ const Footer = () => {
       <VStack>
         <HStack spacing="2" className="line0">
           <Link isExternal href="https://github.com/Xhofe/alist">
-            {t("Powered by project", { project: "Alist" })}
+            {t("Powered by {{project}}", { project: "Alist" })}
           </Link>
           <span>|</span>
           <ReactLink to="/@manage">{t("Manage")}</ReactLink>

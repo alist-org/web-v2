@@ -6,7 +6,7 @@ const en = {
   "dark": "dark",
   "light": "light",
   "home": "home",
-  "Powered by project": "Powered by {{project}}",
+  // "Powered by {{project}}": "Powered by {{project}}",
   "name": "Name",
   "size": "Size",
   "updated_at": "Modified",
