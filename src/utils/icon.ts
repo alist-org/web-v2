@@ -15,20 +15,28 @@ import {
   BsFillMarkdownFill,
 } from "react-icons/bs";
 import { DiAndroid } from "react-icons/di";
-import { FaDatabase, FaBook } from "react-icons/fa";
+import { FaDatabase, FaBook, FaCompactDisc } from "react-icons/fa";
 import { IoIosFolder } from "react-icons/io";
 
 const iconMap = {
   "dmg,ipa": BsApple,
-  exe: BsWindows,
+  "exe,msi": BsWindows,
   "zip,gz,rar,7z,tar,jar,xz": BsFillFileEarmarkZipFill,
   apk: DiAndroid,
   db: FaDatabase,
   md: BsFillMarkdownFill,
   epub: FaBook,
+  iso: FaCompactDisc,
 };
 
 const getIcon = (type: number, ext: string) => {
+  if (type !== 1) {
+    for (const [extensions, icon] of Object.entries(iconMap)) {
+      if (extensions.split(",").includes(ext.toLowerCase())) {
+        return icon;
+      }
+    }
+  }
   switch (type) {
     case 1:
       return IoIosFolder;
@@ -54,11 +62,6 @@ const getIcon = (type: number, ext: string) => {
     case 6:
       return BsFillFileEarmarkImageFill;
     default:
-      for (const [extensions, icon] of Object.entries(iconMap)) {
-        if (extensions.split(",").includes(ext.toLowerCase())) {
-          return icon;
-        }
-      }
       return BsFillFileEarmarkMinusFill;
   }
 };
