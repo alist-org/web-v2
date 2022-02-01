@@ -40,7 +40,7 @@ interface Account {
   // password: string;
   // refresh_token: string;
   // access_token: string;
-  root_folder: string;
+  // root_folder: string;
   // limit: number;
   // order_by: string;
   // order_direction: string;
@@ -68,7 +68,7 @@ const EmptyAccount: Account = {
   // password: "",
   // refresh_token: "",
   // access_token: "",
-  root_folder: "",
+  // root_folder: "",
   // limit: 0,
   // order_by: "",
   // order_direction: "",
