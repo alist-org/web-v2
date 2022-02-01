@@ -13,7 +13,8 @@ BUILD_JSDELIVR() {
   cd alist-web
   yarn
   webCommit=$(git log --pretty=format:"%h" -1)
-  yarn build --base="https://cdn.jsdelivr.net/gh/alist-org/assets@$webCommit"
+  gitTag=$(git describe --long --tags --always)
+  yarn build --base="https://cdn.jsdelivr.net/gh/alist-org/assets@$gitTag"
   mv dist/index.html ../dist/jsdelivr.html
   cd ../assets
   rm -rf assets
@@ -21,8 +22,8 @@ BUILD_JSDELIVR() {
   git add .
   git config --local user.email "i@nn.ci"
   git config --local user.name "Xhofe"
-  git commit --allow-empty -m "upload $webCommit assets files" -a
-  git tag -a $webCommit -m "upload $webCommit assets files"
+  git commit --allow-empty -m "upload $gitTag assets files" -a
+  git tag -a $gitTag -m "upload $gitTag assets files"
   cd ..
 }
 
