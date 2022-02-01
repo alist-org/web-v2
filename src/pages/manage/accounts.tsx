@@ -94,17 +94,33 @@ interface PropItem {
   required: boolean;
   description?: string;
   values?: string;
+  default?: string;
 }
 
-function GetDefaultValue(type: "string" | "bool" | "select" | "number") {
+function GetDefaultValue(
+  type: "string" | "bool" | "select" | "number",
+  value?: string
+) {
   switch (type) {
     case "string":
+      if (value) {
+        return value;
+      }
       return "";
     case "bool":
+      if (value) {
+        return value === "true";
+      }
       return false;
     case "select":
+      if (value) {
+        return value;
+      }
       return "";
     case "number":
+      if (value) {
+        return parseInt(value);
+      }
       return 0;
   }
 }
@@ -350,7 +366,10 @@ const Accounts = () => {
                   newAccount.type = value;
                   for (const item of drivers[value as string]) {
                     if (!Object.keys(newAccount).includes(item.name)) {
-                      newAccount[item.name] = GetDefaultValue(item.type);
+                      newAccount[item.name] = GetDefaultValue(
+                        item.type,
+                        item.default
+                      );
                     }
                   }
                   setcurrentAccount(newAccount);
