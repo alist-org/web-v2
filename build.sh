@@ -35,6 +35,15 @@ BUILD_UNPKG_ZHIMG() {
   cd ..
 }
 
+BUILD_UNPKG() {
+  cd alist-web
+  version=$(git describe --abbrev=0 --tags)
+  sed -i -e "s/0.0.0/$version/g" package.json
+  yarn build --base="https://unpkg.com/alist-web@$version/dist"
+  cp dist/index.html ../dist/unpkg.html
+  cd ..
+}
+
 MAKE_RELEASE() {
   mkdir release
   tar -czvf release/dist.tar.gz dist/*
@@ -44,5 +53,6 @@ MAKE_RELEASE() {
 mkdir dist
 BUILD_LOCAL
 BUILD_JSDELIVR
-BUILD_UNPKG_ZHIMG
+# BUILD_UNPKG_ZHIMG
+BUILD_UNPKG
 MAKE_RELEASE
