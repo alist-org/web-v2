@@ -11,6 +11,7 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 import "../styles/github-markdown.css";
+// import jschardet from "jschardet";
 
 export const type = 5;
 export const exts = [];
@@ -29,14 +30,23 @@ const Markdown = ({ file, readme }: FileProps) => {
     }
     axios
       .get(link, {
-        transformResponse: [
-          (data) => {
-            return data;
-          },
-        ],
+        // transformResponse: [
+        //   (data) => {
+        //     return data;
+        //   },
+        // ],
+        responseType: "blob",
       })
-      .then((resp) => {
-        const res = resp.data;
+      .then(async (resp) => {
+        const blob = resp.data;
+        let res = await blob.text();
+        // const encoding = jschardet.detect(res).encoding;
+        // console.log(encoding);
+        // if (encoding === "windows-1252") {
+        if (res.includes("�")) {
+          const decoder = new TextDecoder("gbk");
+          res = decoder.decode(await blob.arrayBuffer());
+        }
         if (file.name.endsWith(".md")) {
           setContent(res);
         } else {
