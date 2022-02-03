@@ -60,7 +60,13 @@ export const getSetting = (key: string): string => {
   return setting ? setting.value : "";
 };
 
-type TypeType = "file" | "folder" | "error" | "loading" | "unauthorized" | "nexting";
+type TypeType =
+  | "file"
+  | "folder"
+  | "error"
+  | "loading"
+  | "unauthorized"
+  | "nexting";
 
 interface Sort {
   orderBy?: "name" | "updated_at" | "size";
@@ -204,6 +210,9 @@ const IContextProvider = (props: any) => {
       });
   }, []);
   const login = useCallback(() => {
+    if (!localStorage.getItem("admin-token")) {
+      return;
+    }
     admin.get("login").then((resp) => {
       if (resp.data.code === 200) {
         setLoggedIn(true);
