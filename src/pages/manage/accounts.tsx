@@ -477,7 +477,7 @@ const Accounts = () => {
                         duration: 3000,
                         isClosable: true,
                       });
-                      if (!isEdit) {
+                      if (!isEdit && res.code !== 400) {
                         refreshAccounts();
                         editDisclosure.onClose();
                       }
