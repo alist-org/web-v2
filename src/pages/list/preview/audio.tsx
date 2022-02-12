@@ -41,7 +41,7 @@ const Audio = ({ file }: FileProps) => {
       audio.cover = file.thumbnail;
     }
     const audioList = lastFiles
-      .filter((item) => item.name !== file.name && item.type === type)
+      // .filter((item) => item.name !== file.name && item.type === type)
       .map((item) => {
         let link = fileUrl(item);
         const audio = {
@@ -55,7 +55,12 @@ const Audio = ({ file }: FileProps) => {
         }
         return audio;
       });
-    setAudioLists([audio, ...audioList]);
+    if (audioList.length > 0) {
+      setAudioLists(audioList);
+    } else {
+      setAudioLists([audio]);
+    }
+    // setAudioLists([audio, ...audioList]);
   }, []);
   return (
     <Box className="audio-box" w="full">
@@ -78,6 +83,7 @@ const Audio = ({ file }: FileProps) => {
           left: 20,
           bottom: 20,
         }}
+        playIndex={audioLists.findIndex((item) => item.name === file.name)}
       />
     </Box>
   );
