@@ -30,7 +30,7 @@ const Audio = ({ file }: FileProps) => {
   const mobile = useBreakpointValue({
     base: true,
     md: false,
-  })
+  });
   const cover =
     getSetting("music cover") ||
     "https://store.heytapimage.com/cdo-portal/feedback/202110/30/d43c41c5d257c9bc36366e310374fb19.png";
@@ -47,6 +47,7 @@ const Audio = ({ file }: FileProps) => {
     }
     const audioList = lastFiles
       // .filter((item) => item.name !== file.name && item.type === type)
+      .filter((item) => item.type === type)
       .map((item) => {
         let link = fileUrl(item);
         const audio = {
