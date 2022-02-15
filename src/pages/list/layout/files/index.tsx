@@ -9,13 +9,21 @@ import List from "./list";
 import Page from "./page";
 import ContextMenu, { MENU_ID } from "./contextmenu";
 import { useContextMenu } from "react-contexify";
+import { useLocation } from "react-router-dom";
+import { pathJoin } from "../../../../utils/file";
 
 const Files = () => {
-  const { files, show, getSetting } = useContext(IContext);
+  const { files, show, hideFiles } = useContext(IContext);
   let files_ = files;
-  if (getSetting("hide readme file") === "true") {
-    files_ = files_.filter((file) => file.name.toLowerCase() !== "readme.md");
-  }
+  const { pathname } = useLocation();
+  files_ = files_.filter((file) => {
+    for (const reg of hideFiles) {
+      if (reg.test(pathJoin(pathname, file.name))) {
+        return false;
+      }
+    }
+    return true;
+  });
   // use link_ because of refresh
   const link_ = useFolderLink();
   const [link, setLink] = React.useState(link_);
@@ -38,8 +46,8 @@ const Files = () => {
   return (
     <Box
       onContextMenu={(e) => {
-        console.log(e)
-        
+        console.log(e);
+
         showContextMenu(e);
       }}
       className="files-box"

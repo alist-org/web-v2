@@ -108,6 +108,7 @@ export interface ContextProps {
   loggedIn: boolean;
   page: Page;
   setPage: (page: Page) => void;
+  hideFiles: RegExp[];
 }
 
 export const IContext = createContext<ContextProps>({
@@ -134,6 +135,7 @@ export const IContext = createContext<ContextProps>({
   loggedIn: false,
   page: { page_num: 1, page_size: 30 },
   setPage: () => {},
+  hideFiles: [],
 });
 
 const IContextProvider = (props: any) => {
@@ -163,6 +165,8 @@ const IContextProvider = (props: any) => {
     page_size: 30,
   });
 
+  const [hideFiles, setHideFiles] = React.useState<RegExp[]>([]);
+
   const initialSettings = useCallback(() => {
     request
       .get("settings")
@@ -185,6 +189,18 @@ const IContextProvider = (props: any) => {
             link.rel = "shortcut icon";
             link.href = getSetting("favicon");
             document.getElementsByTagName("head")[0].appendChild(link);
+          }
+          if (getSetting("hide files")) {
+            let hideFiles = getSetting("hide files")
+              .split(/\n/g)
+              .filter((item) => !!item.trim())
+              .map((item) => {
+                item = item.trim();
+                let str = item.replace(/^\/(.*)\/([a-z]*)$/, "$1");
+                let args = item.replace(/^\/(.*)\/([a-z]*)$/, "$2");
+                return new RegExp(str, args);
+              });
+            setHideFiles(hideFiles);
           }
           setPage({
             ...page,
@@ -274,6 +290,7 @@ const IContextProvider = (props: any) => {
         loggedIn,
         page,
         setPage,
+        hideFiles,
       }}
       {...props}
     />
