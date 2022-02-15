@@ -81,7 +81,7 @@ const zh = {
   "for sort": "用于排序",
   "icon color": "图标颜色",
   "text types": "文本类型",
-  "hide readme file": "隐藏readme文件",
+  "hide files": "隐藏文件",
   "music cover": "音乐封面",
   "site beian": "站点备案",
   "ERROR": "错误",
@@ -142,6 +142,7 @@ const zh = {
   "Move {{number}} files": "移动 {{number}} 个文件",
   "Please select a folder": "请选择一个文件夹",
   "Copy {{number}} files": "复制 {{number}} 个文件",
+  "hide files, support RegExp, one per line":"隐藏文件，支持正则表达式，每行一个",
 }
 
 export default zh

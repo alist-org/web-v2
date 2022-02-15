@@ -81,7 +81,7 @@ const zh = {
   "for sort": "ソートに使う",
   "icon color": "アイコンの色",
   "text types": "テキストタイプ",
-  "hide readme file": "readmeファイルを隠す",
+  "hide file": "ファイルを隠す",
   "music cover": "音楽カバー",
   "site beian": "サイト登録",
   "ERROR": "エラー",
