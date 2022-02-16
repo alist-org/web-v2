@@ -133,6 +133,7 @@ export const MoveSelect = (props: { onClose: () => void }) => {
               });
             }}
             mr={3}
+            isLoading={loading}
           >
             {t("Ok")}
           </Button>
@@ -141,7 +142,6 @@ export const MoveSelect = (props: { onClose: () => void }) => {
             onClick={() => {
               props.onClose();
             }}
-            isLoading={loading}
           >
             {t("Cancel")}
           </Button>
