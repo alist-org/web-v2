@@ -15,6 +15,7 @@ import "react-jinke-music-player/assets/index.css";
 import { FileProps, IContext } from "../context";
 import getIcon from "../../../utils/icon";
 import useFileUrl from "../../../hooks/useFileUrl";
+import useLocalStorage from "../../../hooks/useLocalStorage";
 
 export const type = 4;
 export const exts = [];
@@ -27,6 +28,7 @@ const Audio = ({ file }: FileProps) => {
     ReactJkMusicPlayerAudioListProps[]
   >([]);
   const fileUrl = useFileUrl();
+  const [volume, setVolume] = useLocalStorage("volume", 0.5);
   const mobile = useBreakpointValue({
     base: true,
     md: false,
@@ -91,6 +93,8 @@ const Audio = ({ file }: FileProps) => {
         }}
         playIndex={audioLists.findIndex((item) => item.name === file.name)}
         sortableOptions={{ disabled: mobile }}
+        defaultVolume={volume}
+        onAudioVolumeChange={(v) => setVolume(v)}
       />
     </Box>
   );
