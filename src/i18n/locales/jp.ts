@@ -142,6 +142,8 @@ const zh = {
   "Move {{number}} files": "{{number}}ファイルを移動",
   "Please select a folder": "フォルダを選択してください",
   "Copy {{number}} files": "{{number}}ファイルをコピー",
+  "hide files, support RegExp, one per line":"ファイルを隠す、正規表現をサポートし、1行に1つ",
+  "Install": "インストール",
 }
 
 export default zh
