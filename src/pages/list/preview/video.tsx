@@ -168,7 +168,7 @@ const Video = ({ file }: FileProps) => {
             {file.name}
           </Text>
         </MenuButton>
-        <MenuList w="full" zIndex={999}>
+        <MenuList w="full" maxH="65vh" overflowY="auto" zIndex={999}>
           {videoFiles.map((f) => (
             <MenuItem key={f.name} w="full">
               <Link
