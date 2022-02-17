@@ -7,7 +7,7 @@ import {
   Link,
   VStack,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FileProps, IContext } from "../context";
 import getIcon from "../../../utils/icon";
@@ -23,6 +23,7 @@ const Ipa = ({ file }: FileProps) => {
   const fileUrl = useFileUrl();
   const { t } = useTranslation();
   const url = fileUrl();
+  const [installing, setInstalling] = useState(false);
   return (
     <Center className="no-preview" p="4">
       <VStack spacing="8">
@@ -43,10 +44,19 @@ const Ipa = ({ file }: FileProps) => {
           <Link
             href={
               "itms-services://?action=download-manifest&url=" +
-              `${host}i/${btoa(url)}/ipa.plist`
+              `${host}i/${btoa(url)
+                .replaceAll("/", "_")
+                .replaceAll("=", "-")}/ipa.plist`
             }
           >
-            <Button colorScheme="green">{t("Install")}</Button>
+            <Button
+              onClick={() => {
+                setInstalling(true);
+              }}
+              colorScheme="green"
+            >
+              {installing ? t("Installing") : t("Install")}
+            </Button>
           </Link>
         </HStack>
       </VStack>

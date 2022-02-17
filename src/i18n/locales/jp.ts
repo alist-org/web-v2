@@ -144,6 +144,7 @@ const zh = {
   "Copy {{number}} files": "{{number}}ファイルをコピー",
   "hide files, support RegExp, one per line":"ファイルを隠す、正規表現をサポートし、1行に1つ",
   "Install": "インストール",
+  "Installing": "インストール中",
 }
 
 export default zh
