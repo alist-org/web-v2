@@ -6,6 +6,22 @@ import theme from "./theme";
 import "./i18n";
 // import Overlay from './components/overlay'
 
+declare global {
+  interface Window {
+    [key: string]: any;
+  }
+}
+
+const dynamicCdn = window.ALIST.cdn;
+// @ts-ignore
+window.__dynamicImportHandler__ = function (importer) {
+  return dynamicCdn + "assets/" + importer;
+};
+// @ts-ignore
+window.__dynamicImportPreload__ = function (preloads: Array<string>) {
+  return preloads.map((preload) => dynamicCdn + preload);
+};
+
 ReactDOM.render(
   <React.StrictMode>
     {/* <div> */}
