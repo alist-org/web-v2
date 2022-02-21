@@ -11,6 +11,7 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 import "../styles/github-markdown.css";
+import { chakra, FormControl, FormLabel, Switch } from "@chakra-ui/react";
 // import jschardet from "jschardet";
 
 export const type = 5;
@@ -19,9 +20,12 @@ export const exts = [];
 const Markdown = ({ file, readme }: FileProps) => {
   const theme = useColorModeValue("light", "dark");
   const [content, setContent] = React.useState("");
+  const [srcDoc, setSrcDoc] = React.useState("");
   const { getSetting } = useContext(IContext);
   let link = useFileUrl(true)(file);
   const { i18n } = useTranslation();
+  const html = file.name.endsWith(".html");
+  const [render, setRender] = React.useState(false);
   const refresh = () => {
     if (readme) {
       if (file.type === -1) {
@@ -47,6 +51,9 @@ const Markdown = ({ file, readme }: FileProps) => {
           const decoder = new TextDecoder("gbk");
           res = decoder.decode(await blob.arrayBuffer());
         }
+        if (html) {
+          setSrcDoc(res);
+        }
         if (file.name.endsWith(".md")) {
           setContent(res);
         } else {
@@ -64,16 +71,42 @@ const Markdown = ({ file, readme }: FileProps) => {
   }, []);
   if (content) {
     return (
-      <Box className="markdown-body">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[
-            rehypeRaw,
-            [rehypeHighlight, { ignoreMissing: true }],
-          ]}
-        >
-          {content}
-        </ReactMarkdown>
+      <Box w="full">
+        {html && (
+          <FormControl display="flex" alignItems="center" m="1">
+            <FormLabel htmlFor="render" mb="0">Render?</FormLabel>
+            <Switch
+              id="render"
+              isChecked={render}
+              onChange={() => {
+                setRender(!render);
+              }}
+            />
+          </FormControl>
+        )}
+        {render ? (
+          <iframe
+            srcDoc={srcDoc}
+            style={{
+              width: "100%",
+              borderRadius: "0.75rem",
+              boxShadow: "#00000031 0px 1px 10px 5px",
+              minHeight: "70vh",
+            }}
+          ></iframe>
+        ) : (
+          <Box className="markdown-body">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[
+                rehypeRaw,
+                [rehypeHighlight, { ignoreMissing: true }],
+              ]}
+            >
+              {content}
+            </ReactMarkdown>
+          </Box>
+        )}
       </Box>
     );
   } else {
