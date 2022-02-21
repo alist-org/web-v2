@@ -3,7 +3,7 @@ cd alist-web
 version=$(git describe --abbrev=0 --tags)
 sed -i -e "s/0.0.0/$version/g" package.json
 yarn
-yarn build --base="CDN_URL"
+yarn build
 cp -r dist ../
 
 # github
