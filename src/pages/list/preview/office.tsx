@@ -1,10 +1,11 @@
-import { Box } from "@chakra-ui/layout";
+import { Box, Stack } from "@chakra-ui/layout";
 import React, { lazy, useContext, useEffect } from "react";
 import { useLocation } from "react-router";
 import { FileProps, IContext } from "../context";
 import useUnfold from "../../../hooks/useUnfold";
 import request from "../../../utils/public";
 import useFileUrl from "../../../hooks/useFileUrl";
+import { Radio, RadioGroup } from "@chakra-ui/react";
 
 export const type = 2;
 export const exts = [];
@@ -25,6 +26,20 @@ const Office = ({ file }: FileProps) => {
   const { unfold, setShowUnfold } = useUnfold(false);
   const [show, setShow] = React.useState<string>("");
   const [pdf, setPdf] = React.useState("");
+  const url = fileUrl();
+  const [office, setOffice] = React.useState("office");
+  const previews = [
+    {
+      name: "office",
+      url: `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
+        url
+      )}`,
+    },
+    {
+      name: "google",
+      url: `https://docs.google.com/gview?url=${url}&embedded=true`,
+    },
+  ];
   const refresh = () => {
     if (file.driver === "AliDrive") {
       request
@@ -67,14 +82,30 @@ const Office = ({ file }: FileProps) => {
       className="office-preview-box"
     >
       {show === "office" && (
-        <iframe
-          width="100%"
-          height="100%"
-          src={`https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
-            fileUrl()
-          )}`}
-          frameBorder="0"
-        />
+        <Box w="full" h="full">
+          <RadioGroup m="1" onChange={setOffice} value={office}>
+            <Stack direction="row">
+              {previews.map((preview) => (
+                <Radio value={preview.name} key={preview.name}>
+                  {preview.name}
+                </Radio>
+              ))}
+            </Stack>
+          </RadioGroup>
+          {previews.map(
+            (preview) =>
+              preview.name === office && (
+                <iframe
+                  width="100%"
+                  style={{
+                    height: "calc(100% - 24px - 0.25rem)",
+                  }}
+                  src={preview.url}
+                  frameBorder="0"
+                />
+              )
+          )}
+        </Box>
       )}
       {show === "pdf" && <Pdf url={pdf} unfold={unfold || false} />}
     </Box>
