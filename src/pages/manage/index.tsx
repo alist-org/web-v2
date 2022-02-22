@@ -107,7 +107,7 @@ export default function Swibc() {
   const toast = useToast();
   useTitle(t("Alist Manage"));
   useEffect(() => {
-    admin.get("login").then((resp) => {
+    admin.post("login").then((resp) => {
       const res = resp.data;
       let url = match.url;
       if (!url.endsWith("/")) {

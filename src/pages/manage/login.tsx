@@ -19,7 +19,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const login = () => {
     changeToken(password);
-    admin.get("login").then((resp) => {
+    admin.post("login").then((resp) => {
       const res = resp.data;
       if (res.code === 200) {
         toast({
