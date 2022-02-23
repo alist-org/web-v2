@@ -33,6 +33,7 @@ import NewFolder, { NewFolderInput } from "./menus/new-folder";
 import Rename, { RenameInput } from "./menus/rename";
 import Move, { MoveSelect } from "./menus/move";
 import Copy, { CopySelect } from "./menus/copy";
+import Refresh from "./menus/refresh";
 
 export const MENU_ID = "list-menu";
 
@@ -101,6 +102,7 @@ const ContextMenu = () => {
             {t("Multiple select")}
           </Flex>
         </Item>
+        <Refresh />
         <NewFolder
           onOpen={() => {
             setIsOpen({ ...isOpen, newFolder: true });

@@ -50,19 +50,22 @@ const useApi = () => {
       return admin.post("rename", { name, path: path_ });
     },
     move: (names: string[], dir: string) => {
-      return admin.post("move",{
+      return admin.post("move", {
         src_dir: path,
         dst_dir: dir,
-        names
-      })
+        names,
+      });
     },
     copy: (names: string[], dir: string) => {
-      return admin.post("copy",{
+      return admin.post("copy", {
         src_dir: path,
         dst_dir: dir,
-        names
-      })
-    }
+        names,
+      });
+    },
+    refresh: () => {
+      return admin.post("refresh", { path });
+    },
   };
 };
 
