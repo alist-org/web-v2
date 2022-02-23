@@ -37,7 +37,9 @@ const Office = ({ file }: FileProps) => {
     },
     {
       name: "google",
-      url: `https://docs.google.com/gview?url=${url}&embedded=true`,
+      url: `https://docs.google.com/gview?url=${encodeURIComponent(
+        url
+      )}&embedded=true`,
     },
   ];
   const refresh = () => {
