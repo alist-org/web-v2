@@ -19,7 +19,7 @@ import { FaDatabase, FaBook, FaCompactDisc } from "react-icons/fa";
 import { IoIosFolder } from "react-icons/io";
 
 const iconMap = {
-  "dmg,ipa": BsApple,
+  "dmg,ipa,plist": BsApple,
   "exe,msi": BsWindows,
   "zip,gz,rar,7z,tar,jar,xz": BsFillFileEarmarkZipFill,
   apk: DiAndroid,
