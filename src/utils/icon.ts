@@ -27,6 +27,7 @@ const iconMap = {
   md: BsFillMarkdownFill,
   epub: FaBook,
   iso: FaCompactDisc,
+  m3u8: BsFillFileEarmarkPlayFill,
 };
 
 const getIcon = (type: number, ext: string) => {

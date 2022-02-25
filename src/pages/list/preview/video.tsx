@@ -5,9 +5,7 @@ import useFolderLink from "../../../hooks/useFolderLink";
 import {
   Box,
   Button,
-  Center,
   chakra,
-  HStack,
   Menu,
   MenuButton,
   MenuItem,
@@ -24,10 +22,11 @@ import { Link as ReactLink, useHistory } from "react-router-dom";
 import { BsCardList } from "react-icons/bs";
 import useFileUrl from "../../../hooks/useFileUrl";
 import { isMobile, userAgent } from "../../../utils/compatibility";
+import Hls from "hls.js";
 
 export const type = 3;
-export const exts = [];
-const DirectDrivers = ["Native", "GoogleDrive"];
+export const exts = ["m3u8"];
+// const DirectDrivers = ["Native", "GoogleDrive"];
 
 const Video = ({ file }: FileProps) => {
   const { getSetting, lastFiles } = useContext(IContext);
@@ -36,7 +35,7 @@ const Video = ({ file }: FileProps) => {
   let fileUrl = useFileUrl();
   let link = fileUrl();
   const proxyLink = useFolderLink(true);
-  const url = DirectDrivers.includes(file.driver) ? link : file.url;
+  const url = file.name.endsWith(".m3u8") ? link : file.url;
   const history = useHistory();
   let art: Artplayer;
   const subtitleSize = useBreakpointValue({
@@ -72,7 +71,7 @@ const Video = ({ file }: FileProps) => {
       //   crossOrigin: "anonymous",
       // },
       customType: {
-        flv: function (video: HTMLMediaElement, url: string, art: Artplayer) {
+        flv: function (video: HTMLMediaElement, url: string) {
           const flvPlayer = flvjs.createPlayer(
             {
               type: "flv",
@@ -82,6 +81,11 @@ const Video = ({ file }: FileProps) => {
           );
           flvPlayer.attachMediaElement(video);
           flvPlayer.load();
+        },
+        m3u8: function (video: HTMLMediaElement, url: string) {
+          var hls = new Hls();
+          hls.loadSource(url);
+          hls.attachMedia(video);
         },
       },
       moreVideoAttr: {
