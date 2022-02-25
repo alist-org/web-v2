@@ -8,8 +8,8 @@ cp -r dist ../
 
 # github
 cd ../assets
-rm -rf assets
-cp -r ../dist/assets .
+rm -rf dist
+cp -r ../dist .
 git add .
 git config --local user.email "i@nn.ci"
 git config --local user.name "Xhofe"
