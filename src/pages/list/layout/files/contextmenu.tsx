@@ -48,6 +48,7 @@ const ContextMenu = () => {
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
   const getFileUrl = useFileUrl();
+  const getFileUrlDecode = useFileUrl(false, false);
   const downPack = useDownPackage();
   const { pathname } = useLocation();
   const [isOpen, setIsOpen] = React.useState<IsOpenSet>({});
@@ -197,6 +198,48 @@ const ContextMenu = () => {
                     number: selectFiles.length,
                   })
                 : t("Copy link")}
+            </Flex>
+          </Item>
+          <Item
+            disabled={isItemDisabled}
+            onClick={({ props }) => {
+              let content = "";
+              if (multiSelect) {
+                content = selectFiles
+                  .filter((file) => file.type !== 1)
+                  .map((file) => {
+                    return getFileUrlDecode(file);
+                  })
+                  .join("\n");
+              } else {
+                const file = props as File;
+                if (file.type === 1) {
+                  toast({
+                    title: t("Can't copy folder direact link"),
+                    status: "warning",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                  return;
+                }
+                content = getFileUrlDecode(file);
+              }
+              copyToClip(content);
+              toast({
+                title: t("Copied"),
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          >
+            <Flex align="center">
+              <Icon as={FcLink} boxSize={5} mr={2} />
+              {(multiSelect
+                ? t("Copy links of {{number}} files", {
+                    number: selectFiles.length,
+                  })
+                : t("Copy link")) + "(Decode)"}
             </Flex>
           </Item>
           {loggedIn && (
