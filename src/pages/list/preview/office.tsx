@@ -22,7 +22,7 @@ const Pdf = lazy(() => import("./pdf"));
 const Office = ({ file }: FileProps) => {
   const { pathname } = useLocation();
   const { password } = useContext(IContext);
-  let fileUrl = useFileUrl();
+  let fileUrl = useFileUrl(false, false);
   const { unfold, setShowUnfold } = useUnfold(false);
   const [show, setShow] = React.useState<string>("");
   const [pdf, setPdf] = React.useState("");
@@ -98,6 +98,7 @@ const Office = ({ file }: FileProps) => {
             (preview) =>
               preview.name === office && (
                 <iframe
+                  key={preview.name}
                   width="100%"
                   style={{
                     height: "calc(100% - 24px - 0.25rem)",

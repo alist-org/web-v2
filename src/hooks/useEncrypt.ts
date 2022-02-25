@@ -13,12 +13,12 @@ export const useEncrypt = () => {
     const token = localStorage.getItem("admin-token");
     if (loggedIn) {
       const sign = md5_16(`alist-${token}-${name}`);
-      return link + encode ? encodeURI(`?sign=${sign}`) : `?sign=${sign}`;
+      return link + (encode ? encodeURI(`?sign=${sign}`) : `?sign=${sign}`);
     }
     if (!password) {
       return link;
     }
     const pw = md5_16(`alist-${password}-${name}`);
-    return link + encode ? encodeURI(`?pw=${pw}`) : `?pw=${pw}`;
+    return link + (encode ? encodeURI(`?pw=${pw}`) : `?pw=${pw}`);
   };
 };
