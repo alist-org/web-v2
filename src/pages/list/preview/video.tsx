@@ -16,6 +16,7 @@ import {
   Text,
   Icon,
   useBreakpointValue,
+  Wrap,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import flvjs from "flv.js";
@@ -190,27 +191,38 @@ const Video = ({ file }: FileProps) => {
         </MenuList>
       </Menu>
       <Box w="full" h="60vh" id="video-player"></Box>
-      <Center mt="2" w="full">
-        <HStack spacing="2">
-          <Button
-            colorScheme="telegram"
-            as={chakra.a}
-            href={`iina://weblink?url=${link}`}
-          >
-            IINA
-          </Button>
-          <Button
-            colorScheme="yellow"
-            as={chakra.a}
-            href={`potplayer://${link}`}
-          >
-            PotPlayer
-          </Button>
-          <Button colorScheme="orange" as={chakra.a} href={`vlc://${link}`}>
-            VLC
-          </Button>
-        </HStack>
-      </Center>
+      <Wrap mt="2" spacing="2" justify="center">
+        <Button
+          colorScheme="purple"
+          as={chakra.a}
+          href={`iina://weblink?url=${link}`}
+        >
+          IINA
+        </Button>
+        <Button colorScheme="yellow" as={chakra.a} href={`potplayer://${link}`}>
+          PotPlayer
+        </Button>
+        <Button colorScheme="orange" as={chakra.a} href={`vlc://${link}`}>
+          VLC
+        </Button>
+        <Button colorScheme="teal" as={chakra.a} href={`nplayer-${link}`}>
+          nPlayer
+        </Button>
+        <Button
+          colorScheme="blue"
+          as={chakra.a}
+          href={`intent:${link}#Intent;package=com.mxtech.videoplayer.ad;S.title=${file.name};end`}
+        >
+          MXPlayer
+        </Button>
+        <Button
+          colorScheme="blue"
+          as={chakra.a}
+          href={`intent:${link}#Intent;package=com.mxtech.videoplayer.pro;S.title=${file.name};end`}
+        >
+          MXPlayer Pro
+        </Button>
+      </Wrap>
     </Box>
   );
 };
