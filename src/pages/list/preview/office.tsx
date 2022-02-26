@@ -6,6 +6,7 @@ import useUnfold from "../../../hooks/useUnfold";
 import request from "../../../utils/public";
 import useFileUrl from "../../../hooks/useFileUrl";
 import { Radio, RadioGroup } from "@chakra-ui/react";
+import Pdf from "./pdf";
 
 export const type = 2;
 export const exts = [];
@@ -17,7 +18,7 @@ declare namespace aliyun {
   function config(options: { mount: Element; url: string }): Config;
 }
 
-const Pdf = lazy(() => import("./pdf"));
+// const Pdf = lazy(() => import("./pdf"));
 
 const Office = ({ file }: FileProps) => {
   const { pathname } = useLocation();
