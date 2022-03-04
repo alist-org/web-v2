@@ -53,7 +53,7 @@ const overrides: ThemeOverride = {
 
 const theme = extendTheme(
   overrides,
-  withDefaultColorScheme({ colorScheme: "twitter" })
+  withDefaultColorScheme({ colorScheme: "twitter" }),
 );
 
 export default theme;
