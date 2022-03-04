@@ -1,7 +1,7 @@
 import React from 'react';
 import ToTop from './to-top';
 import Ss from './site-settings';
-import { Box } from '@chakra-ui/layout';
+import { Box } from '@chakra-ui/react';
 
 const Overlay = (props:any) => {
   return <Box className="overlay" zIndex="100">

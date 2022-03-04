@@ -1,6 +1,6 @@
-import { Box, Stack } from "@chakra-ui/layout";
+import { Box, Stack } from "@chakra-ui/react";
+import { useLocation } from "react-router-dom";
 import React, { lazy, useContext, useEffect } from "react";
-import { useLocation } from "react-router";
 import { FileProps, IContext } from "../context";
 import useUnfold from "../../../hooks/useUnfold";
 import request from "../../../utils/public";
@@ -33,13 +33,13 @@ const Office = ({ file }: FileProps) => {
     {
       name: "office",
       url: `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
-        url
+        url,
       )}`,
     },
     {
       name: "google",
       url: `https://docs.google.com/gview?url=${encodeURIComponent(
-        url
+        url,
       )}&embedded=true`,
     },
   ];
@@ -107,7 +107,7 @@ const Office = ({ file }: FileProps) => {
                   src={preview.url}
                   frameBorder="0"
                 />
-              )
+              ),
           )}
         </Box>
       )}

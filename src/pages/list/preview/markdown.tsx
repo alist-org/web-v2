@@ -1,9 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { FileProps, IContext } from "../context";
 import axios from "axios";
-import { useColorModeValue } from "@chakra-ui/color-mode";
-import { Spinner } from "@chakra-ui/spinner";
-import { Box, Center } from "@chakra-ui/layout";
+import { Spinner, useColorModeValue } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import useFileUrl from "../../../hooks/useFileUrl";
 import ReactMarkdown from "react-markdown";
@@ -58,7 +57,7 @@ const Markdown = ({ file, readme }: FileProps) => {
           setContent(res);
         } else {
           setContent(
-            "```" + file.name.split(".").pop() + "\n" + res + "\n" + "```"
+            "```" + file.name.split(".").pop() + "\n" + res + "\n" + "```",
           );
         }
       });
@@ -74,7 +73,9 @@ const Markdown = ({ file, readme }: FileProps) => {
       <Box w="full">
         {html && (
           <FormControl display="flex" alignItems="center" m="1">
-            <FormLabel htmlFor="render" mb="0">Render?</FormLabel>
+            <FormLabel htmlFor="render" mb="0">
+              Render?
+            </FormLabel>
             <Switch
               id="render"
               isChecked={render}
