@@ -20,7 +20,7 @@ export const exts = ["ipa"];
 const Ipa = ({ file }: FileProps) => {
   const { getSetting } = useContext(IContext);
   const ext = file.name.split(".").pop() || "";
-  const fileUrl = useFileUrl(false, false);
+  const fileUrl = useFileUrl();
   const { t } = useTranslation();
   const url = fileUrl();
   const [installing, setInstalling] = useState(false);
