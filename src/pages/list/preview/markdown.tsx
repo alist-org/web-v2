@@ -5,18 +5,14 @@ import { Spinner, useColorModeValue } from "@chakra-ui/react";
 import { Box, Center } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import useFileUrl from "../../../hooks/useFileUrl";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
-import rehypeHighlight from "rehype-highlight";
-import "../styles/github-markdown.css";
-import { chakra, FormControl, FormLabel, Switch } from "@chakra-ui/react";
+import { FormControl, FormLabel, Switch } from "@chakra-ui/react";
+import Markdown from "~/components/markdown";
 // import jschardet from "jschardet";
 
 export const type = 5;
 export const exts = [];
 
-const Markdown = ({ file, readme }: FileProps) => {
+const MarkdownPreview = ({ file, readme }: FileProps) => {
   const theme = useColorModeValue("light", "dark");
   const [content, setContent] = React.useState("");
   const [srcDoc, setSrcDoc] = React.useState("");
@@ -57,7 +53,7 @@ const Markdown = ({ file, readme }: FileProps) => {
           setContent(res);
         } else {
           setContent(
-            "```" + file.name.split(".").pop() + "\n" + res + "\n" + "```",
+            "```" + file.name.split(".").pop() + "\n" + res + "\n" + "```"
           );
         }
       });
@@ -97,15 +93,7 @@ const Markdown = ({ file, readme }: FileProps) => {
           ></iframe>
         ) : (
           <Box className="markdown-body">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[
-                rehypeRaw,
-                [rehypeHighlight, { ignoreMissing: true }],
-              ]}
-            >
-              {content}
-            </ReactMarkdown>
+            <Markdown>{content}</Markdown>
           </Box>
         )}
       </Box>
@@ -119,4 +107,4 @@ const Markdown = ({ file, readme }: FileProps) => {
   }
 };
 
-export default Markdown;
+export default MarkdownPreview;

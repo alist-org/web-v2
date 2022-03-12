@@ -4,10 +4,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 const Index = lazy(() => import("./pages/list"));
 const Manage = lazy(() => import("./pages/manage"));
 import { ClimbingBoxLoader } from "react-spinners";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <div className="App">
+      <div><Toaster/></div>
       <Router>
         <Suspense
           fallback={

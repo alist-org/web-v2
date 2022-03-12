@@ -1,4 +1,4 @@
-import { Center, Spinner, useToast } from "@chakra-ui/react";
+import { Center, Spinner, useColorModeValue, useToast } from "@chakra-ui/react";
 import React, {
   createContext,
   useState,
@@ -11,6 +11,8 @@ import request from "../../utils/public";
 import admin from "../../utils/admin";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { ClimbingBoxLoader } from "react-spinners";
+import htoast from "react-hot-toast";
+import Markdown from "~/components/markdown";
 
 export interface File {
   name: string;
@@ -166,6 +168,7 @@ const IContextProvider = (props: any) => {
   });
 
   const [hideFiles, setHideFiles] = React.useState<RegExp[]>([]);
+  const darkMode = useColorModeValue(false, true);
 
   const initialSettings = useCallback(() => {
     request
@@ -189,6 +192,18 @@ const IContextProvider = (props: any) => {
             link.rel = "shortcut icon";
             link.href = getSetting("favicon");
             document.getElementsByTagName("head")[0].appendChild(link);
+          }
+          if (getSetting("announcement")) {
+            htoast((t) => <Markdown>{getSetting("announcement")}</Markdown>, {
+              position: "top-right",
+              style: darkMode
+                ? {
+                    borderRadius: "10px",
+                    background: "#333",
+                    color: "#fff",
+                  }
+                : undefined,
+            });
           }
           if (getSetting("hide files")) {
             let hideFiles = getSetting("hide files")
