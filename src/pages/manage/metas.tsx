@@ -38,6 +38,7 @@ interface Meta {
   password: string;
   hide: string;
   upload: boolean;
+  only_shows: string;
 }
 
 const EmptyMeta = {
@@ -46,6 +47,7 @@ const EmptyMeta = {
   password: "",
   hide: "",
   upload: false,
+  only_shows: "",
 };
 
 const Metas = () => {
@@ -199,6 +201,11 @@ const Metas = () => {
                 {
                   name: "hide",
                   description: "Hide Files(split by ,)",
+                  type: "string",
+                },
+                {
+                  name: "only_shows",
+                  description: "Only show files(split by ,)",
                   type: "string",
                 },
                 {
