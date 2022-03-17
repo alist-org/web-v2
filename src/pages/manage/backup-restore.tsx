@@ -74,7 +74,13 @@ const BackupRestore = () => {
       addLog("get metas success");
       data.metas = res3.data;
     }
-    download("data.json", data);
+    addLog("download backup file...");
+    download(
+      `${
+        data.settings.find((item) => item.key === "title")?.value || "alist"
+      }.json`,
+      data
+    );
   };
   const restore = async () => {
     setLog("choose data file...");
