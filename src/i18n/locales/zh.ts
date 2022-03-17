@@ -145,6 +145,9 @@ const zh = {
   "hide files, support RegExp, one per line":"隐藏文件，支持正则表达式，每行一个",
   "Install": "安装",
   "Installing": "安装中",
+  "Backup & Restore": "备份与还原",
+  "Backup": "备份",
+  "Restore": "还原",
 }
 
 export default zh

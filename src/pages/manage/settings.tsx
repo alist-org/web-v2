@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import FormItem from "../../components/form-item";
 import { useLocation } from "react-router-dom";
 
-interface SettingItem {
+export interface SettingItem {
   key: string;
   value: string;
   description: string;

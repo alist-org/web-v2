@@ -32,7 +32,7 @@ import admin from "../../utils/admin";
 import { useTranslation } from "react-i18next";
 import FormItem from "../../components/form-item";
 import { copyToClip, readFromClip } from "../../utils/copy-clip";
-interface Account {
+export interface Account {
   id: number;
   name: string;
   type: string;

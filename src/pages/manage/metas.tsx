@@ -32,7 +32,7 @@ import { useTranslation } from "react-i18next";
 import admin from "../../utils/admin";
 import FormItem from "../../components/form-item";
 
-interface Meta {
+export interface Meta {
   id: number;
   path: string;
   password: string;
