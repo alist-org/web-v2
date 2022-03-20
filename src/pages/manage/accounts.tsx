@@ -98,11 +98,11 @@ interface PropItem {
 }
 
 function GetDefaultValue(
-  type: "string" | "bool" | "select" | "number",
+  type: "string" | "bool" | "select" | "number" | "text",
   value?: string
 ) {
   switch (type) {
-    case "string":
+    case "string" || "text":
       if (value) {
         return value;
       }
