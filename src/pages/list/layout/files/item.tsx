@@ -64,11 +64,12 @@ const ListItem = ({ file }: FileProps) => {
       >
         <LinkOverlay
           as={cursorOther ? Box : Link}
-          to={encodeURI(
-            `${pathname.endsWith("/") ? pathname.slice(0, -1) : pathname}/${
-              file.name
-            }`
-          )}
+          to={`${pathname.endsWith("/") ? pathname.slice(0, -1) : pathname}/${
+            file.name
+          }`
+            .split("/")
+            .map((item) => encodeURIComponent(item))
+            .join("/")}
         >
           <HStack spacing={2}>
             <Flex

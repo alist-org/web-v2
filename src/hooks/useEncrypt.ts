@@ -5,7 +5,8 @@ import { md5_16 } from "../utils/md5";
 export const useEncrypt = () => {
   const { getSetting, password, loggedIn } = useContext(IContext);
   return (url: string, encode = true) => {
-    const link = encode ? encodeURI(url) : url;
+    const u = new URL(url);
+    const link = encode ? u.toString() : url;
     if (getSetting("check down link") !== "true") {
       return link;
     }

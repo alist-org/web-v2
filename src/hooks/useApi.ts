@@ -20,7 +20,7 @@ const useApi = () => {
   // } catch (error) {
   //   console.log(error);
   // }
-  let path = pathname;
+  let path = decodeURIComponent(pathname);
   return {
     path: () => {
       return request.post(

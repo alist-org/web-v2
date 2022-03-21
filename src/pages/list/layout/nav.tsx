@@ -44,7 +44,7 @@ const Nav = () => {
                 isCurrentPage={isLast}
                 wordBreak="break-word"
                 as={isLast ? undefined : Link}
-                to={encodeURI(pathname)}
+                to={(pathname)}
                 _hover={{
                   textDecoration: "none",
                   bg: "rgba(132,133,141,0.18)",
@@ -52,7 +52,7 @@ const Nav = () => {
                 p="1"
                 rounded="lg"
               >
-                {path}
+                {decodeURIComponent(path)}
               </BreadcrumbLink>
             </BreadcrumbItem>
           );
