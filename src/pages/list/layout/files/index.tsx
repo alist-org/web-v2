@@ -65,17 +65,19 @@ const Files = () => {
         />
       )}
       <Page />
-      <Viewer
-        visible={visible}
-        activeIndex={index}
-        onClose={() => {
-          setVisible(false);
-        }}
-        onChange={(_, index) => {
-          setIndex(index);
-        }}
-        images={images}
-      />
+      {visible && (
+        <Viewer
+          visible={visible}
+          activeIndex={index}
+          onClose={() => {
+            setVisible(false);
+          }}
+          onChange={(_, index) => {
+            setIndex(index);
+          }}
+          images={images}
+        />
+      )}
       <ContextMenu />
     </Box>
   );
