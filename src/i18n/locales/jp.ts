@@ -145,6 +145,10 @@ const zh = {
   "hide files, support RegExp, one per line":"ファイルを隠す、正規表現をサポートし、1行に1つ",
   "Install": "インストール",
   "Installing": "インストール中",
+  "Backup & Restore": "バックアップと復元",
+  "Backup": "バックアップ",
+  "Restore": "復元",
+  "Virtual path": "仮想パス",
 }
 
 export default zh

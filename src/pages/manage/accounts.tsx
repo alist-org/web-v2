@@ -32,7 +32,7 @@ import admin from "../../utils/admin";
 import { useTranslation } from "react-i18next";
 import FormItem from "../../components/form-item";
 import { copyToClip, readFromClip } from "../../utils/copy-clip";
-interface Account {
+export interface Account {
   id: number;
   name: string;
   type: string;
@@ -98,11 +98,11 @@ interface PropItem {
 }
 
 function GetDefaultValue(
-  type: "string" | "bool" | "select" | "number",
+  type: "string" | "bool" | "select" | "number" | "text",
   value?: string
 ) {
   switch (type) {
-    case "string":
+    case "string" || "text":
       if (value) {
         return value;
       }
@@ -128,7 +128,7 @@ function GetDefaultValue(
 const CommonItems: PropItem[] = [
   {
     name: "name",
-    label: "name",
+    label: "Virtual path",
     type: "string",
     required: true,
   },
@@ -235,7 +235,7 @@ const Accounts = () => {
         <Table w="full">
           <Thead>
             <Tr>
-              <Th>{t("name")}</Th>
+              <Th>{t("Virtual path")}</Th>
               <Th>{t("type")}</Th>
               <Th>{t("root_folder")}</Th>
               <Th>{t("index")}</Th>
