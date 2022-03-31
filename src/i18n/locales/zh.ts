@@ -148,6 +148,7 @@ const zh = {
   "Backup & Restore": "备份与还原",
   "Backup": "备份",
   "Restore": "还原",
+  "Virtual path": "虚拟路径",
 }
 
 export default zh

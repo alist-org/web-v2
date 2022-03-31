@@ -128,7 +128,7 @@ function GetDefaultValue(
 const CommonItems: PropItem[] = [
   {
     name: "name",
-    label: "name",
+    label: "Virtual path",
     type: "string",
     required: true,
   },
@@ -235,7 +235,7 @@ const Accounts = () => {
         <Table w="full">
           <Thead>
             <Tr>
-              <Th>{t("name")}</Th>
+              <Th>{t("Virtual path")}</Th>
               <Th>{t("type")}</Th>
               <Th>{t("root_folder")}</Th>
               <Th>{t("index")}</Th>
