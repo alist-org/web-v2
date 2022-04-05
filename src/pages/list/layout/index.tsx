@@ -1,14 +1,7 @@
-import React, {
-  lazy,
-  Suspense,
-  useContext,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { lazy, Suspense, useContext, useEffect, useMemo } from "react";
 import {
   Box,
   useColorModeValue,
-  
   Spinner,
   Center,
   VStack,
@@ -21,7 +14,7 @@ import Nav from "./nav";
 import Error from "./error";
 import Markdown from "../preview/markdown";
 import Overlay from "../../../components/overlay";
-import { IContext,File as File_ } from "../context";
+import { IContext, File as File_ } from "../context";
 
 const Files = lazy(() => import("./files"));
 const File = lazy(() => import("./file"));
@@ -29,7 +22,7 @@ const File = lazy(() => import("./file"));
 const KuttyHero = () => {
   // console.log("KuttyHero");
   const bgColor = useColorModeValue("white", "gray.700");
-  
+
   const { t } = useTranslation();
   const {
     getSetting,
@@ -39,30 +32,34 @@ const KuttyHero = () => {
     type,
     msg,
     files,
+    meta,
   } = useContext(IContext);
 
   const readme = useMemo(() => {
     if (type === "file") {
       return undefined;
     }
-    const file = files.find((file) => file.name.toLowerCase() === "readme.md");
-    if (
-      file === undefined &&
-      location.pathname === "/" &&
-      getSetting("home readme url")
-    ) {
-      const homeReadmeFile: File_ = {
-        name: "README.md",
-        size: 0,
-        type: -1,
-        driver: "local",
-        updated_at: "",
-        thumbnail: "",
-        url: getSetting("home readme url"),
-      };
-      return homeReadmeFile;
+    const readmeFile: File_ = {
+      name: "README.md",
+      size: 0,
+      type: -1,
+      driver: "local",
+      updated_at: "",
+      thumbnail: "",
+      url: meta.readme,
+    };
+    if (meta.readme) {
+      return readmeFile;
     }
-    return file;
+    const file = files.find((file) => file.name.toLowerCase() === "readme.md");
+    if (file) {
+      return file;
+    }
+    if (getSetting("global readme url")) {
+      readmeFile.url = getSetting("global readme url");
+      return readmeFile;
+    }
+    return undefined;
   }, [files, type, settingLoaded]);
 
   return (

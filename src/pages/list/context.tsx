@@ -36,6 +36,7 @@ export interface Meta {
   driver: string;
   upload: boolean;
   total: number;
+  readme: string;
 }
 
 export interface PathResp {
@@ -132,7 +133,7 @@ export const IContext = createContext<ContextProps>({
   selectFiles: [],
   setSelectFiles: () => {},
   setType: () => {},
-  meta: { driver: "", upload: false, total: 0 },
+  meta: { driver: "", upload: false, total: 0, readme: "" },
   setMeta: () => {},
   loggedIn: false,
   page: { page_num: 1, page_size: 30 },
@@ -263,6 +264,7 @@ const IContextProvider = (props: any) => {
     driver: "",
     upload: false,
     total: 0,
+    readme: "",
   });
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
   if (!settingLoaded) {
