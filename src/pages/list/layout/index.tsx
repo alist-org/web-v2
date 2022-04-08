@@ -108,7 +108,7 @@ const KuttyHero = () => {
             </Box>
           )}
         </Box>
-        {type !== "loading" && readme && (
+        {type === "folder" && readme && (
           <Box
             className="readme-box"
             rounded="xl"
