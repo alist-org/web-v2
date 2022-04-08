@@ -172,7 +172,9 @@ const Do = (props: any) => {
     return false;
   };
   useEffect(() => {
-    switchToSearch();
+    if(!switchToSearch()){
+      allRefresh();
+    }
   }, [location.search]);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const initialRef = React.useRef();
