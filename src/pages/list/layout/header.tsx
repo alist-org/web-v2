@@ -66,113 +66,117 @@ const Header = () => {
         )}
       </Link>
       <HStack className="buttons" spacing="2">
-        {type === "folder" && <Search isSearch={isSearch} setIsSearch={setIsSearch} />}
-        {!isSearch&&<SlideFade in={!isSearch} offsetX="20px" offsetY={0}>
-          <HStack spacing="2">
-            {type === "file" && (
-              <Tooltip
-                shouldWrapChildren
-                hasArrow
-                placement="bottom"
-                label={t("Download")}
-              >
-                <Icon
-                  cursor="pointer"
-                  boxSize={6}
-                  as={BsFillArrowDownCircleFill}
-                  onClick={() => {
-                    if (type === "file") {
-                      let url = fileUrl();
-                      window.open(url, "_blank");
-                      return;
-                    }
-                  }}
-                />
-              </Tooltip>
-            )}
-            {type === "folder" &&
-              !getSetting("no upload").split(",").includes(meta.driver) &&
-              (meta.upload || loggedIn) && (
-                <Box>
-                  <Tooltip
-                    shouldWrapChildren
-                    hasArrow
-                    placement="bottom"
-                    label={t("Upload file")}
-                  >
-                    <Icon
-                      cursor="pointer"
-                      boxSize={6}
-                      as={BsFillArrowUpCircleFill}
-                      onClick={() => {
-                        uploadRef.current!.upload();
-                      }}
-                    />
-                  </Tooltip>
-                  <Uploader ref={uploadRef} />
-                </Box>
-              )}
-            {type !== "error" && (
-              <Tooltip
-                shouldWrapChildren
-                hasArrow
-                placement="bottom"
-                label={t("Copy direct link")}
-              >
-                <Icon
-                  cursor="pointer"
-                  boxSize={6}
-                  as={IoIosCopy}
-                  onClick={() => {
-                    let content = "";
-                    if (type === "file") {
-                      content = fileUrl();
-                    } else {
-                      let files_ = files;
-                      if (multiSelect) {
-                        files_ = selectFiles;
+        {["folder", "search"].includes(type) && (
+          <Search isSearch={isSearch} setIsSearch={setIsSearch} />
+        )}
+        {!isSearch && (
+          <SlideFade in={!isSearch} offsetX="20px" offsetY={0}>
+            <HStack spacing="2">
+              {type === "file" && (
+                <Tooltip
+                  shouldWrapChildren
+                  hasArrow
+                  placement="bottom"
+                  label={t("Download")}
+                >
+                  <Icon
+                    cursor="pointer"
+                    boxSize={6}
+                    as={BsFillArrowDownCircleFill}
+                    onClick={() => {
+                      if (type === "file") {
+                        let url = fileUrl();
+                        window.open(url, "_blank");
+                        return;
                       }
-                      content = files_
-                        .filter((file) => file.type !== 1)
-                        .map((file) => {
-                          return fileUrl(file);
-                        })
-                        .join("\n");
-                    }
-                    copyToClip(content);
-                    toast({
-                      title: t("Copied"),
-                      status: "success",
-                      duration: 3000,
-                      isClosable: true,
-                    });
+                    }}
+                  />
+                </Tooltip>
+              )}
+              {type === "folder" &&
+                !getSetting("no upload").split(",").includes(meta.driver) &&
+                (meta.upload || loggedIn) && (
+                  <Box>
+                    <Tooltip
+                      shouldWrapChildren
+                      hasArrow
+                      placement="bottom"
+                      label={t("Upload file")}
+                    >
+                      <Icon
+                        cursor="pointer"
+                        boxSize={6}
+                        as={BsFillArrowUpCircleFill}
+                        onClick={() => {
+                          uploadRef.current!.upload();
+                        }}
+                      />
+                    </Tooltip>
+                    <Uploader ref={uploadRef} />
+                  </Box>
+                )}
+              {type !== "error" && (
+                <Tooltip
+                  shouldWrapChildren
+                  hasArrow
+                  placement="bottom"
+                  label={t("Copy direct link")}
+                >
+                  <Icon
+                    cursor="pointer"
+                    boxSize={6}
+                    as={IoIosCopy}
+                    onClick={() => {
+                      let content = "";
+                      if (type === "file") {
+                        content = fileUrl();
+                      } else {
+                        let files_ = files;
+                        if (multiSelect) {
+                          files_ = selectFiles;
+                        }
+                        content = files_
+                          .filter((file) => file.type !== 1)
+                          .map((file) => {
+                            return fileUrl(file);
+                          })
+                          .join("\n");
+                      }
+                      copyToClip(content);
+                      toast({
+                        title: t("Copied"),
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    }}
+                  />
+                </Tooltip>
+              )}
+              <Tooltip
+                shouldWrapChildren
+                hasArrow
+                placement="bottom"
+                label={t("switch to layout view", {
+                  layout: t(show === "list" ? "grid" : "list"),
+                })}
+              >
+                <Icon
+                  boxSize={6}
+                  cursor="pointer"
+                  onClick={() => {
+                    setShow!(show === "list" ? "grid" : "list");
+                    localStorage.setItem(
+                      "show",
+                      show === "list" ? "grid" : "list"
+                    );
                   }}
+                  as={show === "list" ? BsFillGridFill : FaListUl}
                 />
               </Tooltip>
-            )}
-            <Tooltip
-              shouldWrapChildren
-              hasArrow
-              placement="bottom"
-              label={t("switch to layout view", {
-                layout: t(show === "list" ? "grid" : "list"),
-              })}
-            >
-              <Icon
-                boxSize={6}
-                cursor="pointer"
-                onClick={() => {
-                  setShow!(show === "list" ? "grid" : "list");
-                  localStorage.setItem(
-                    "show",
-                    show === "list" ? "grid" : "list"
-                  );
-                }}
-                as={show === "list" ? BsFillGridFill : FaListUl}
-              />
-            </Tooltip>
-          </HStack>
-        </SlideFade>}
+            </HStack>
+          </SlideFade>
+        )}
       </HStack>
     </Flex>
   );
