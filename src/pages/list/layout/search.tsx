@@ -17,10 +17,9 @@ const Search = (props: SearchProps) => {
   const [keyword, setKeyword] = useState("");
   const search = () => {
     // console.log(keyword);
-    history.push(`?search=${keyword}`);
+    history.push(`?s=${keyword}`);
   };
   const history = useHistory();
-  // if (!getSetting("search")) return null;
   useEffect(() => {
     if (props.isSearch) {
       inputRef.current?.focus();
@@ -41,6 +40,7 @@ const Search = (props: SearchProps) => {
       document.removeEventListener("click", cancelSearch);
     };
   }, [props.isSearch]);
+  // if (!getSetting("enable search")) return null;
   return (
     <HStack
       spacing={2}
