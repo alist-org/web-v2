@@ -30,7 +30,7 @@ const Results = () => {
   const search = () => {
     const searchParams = new URLSearchParams(location.search);
     const path = location.pathname;
-    const keyword = searchParams.get("search");
+    const keyword = searchParams.get("s");
     if(!keyword) return;
     setLoading(true);
     request

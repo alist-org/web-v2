@@ -164,7 +164,7 @@ const Do = (props: any) => {
   }, [page]);
   const switchToSearch = () => {
     const query = new URLSearchParams(location.search);
-    const search = query.get("search");
+    const search = query.get("s");
     if (search) {
       setType("search");
       return true;
