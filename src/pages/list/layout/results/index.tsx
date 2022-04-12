@@ -31,6 +31,7 @@ const Results = () => {
     const searchParams = new URLSearchParams(location.search);
     const path = location.pathname;
     const keyword = searchParams.get("search");
+    if(!keyword) return;
     setLoading(true);
     request
       .post("search", {
