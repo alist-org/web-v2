@@ -69,7 +69,8 @@ type TypeType =
   | "error"
   | "loading"
   | "unauthorized"
-  | "nexting";
+  | "nexting"
+  | "search";
 
 interface Sort {
   orderBy?: "name" | "updated_at" | "size";

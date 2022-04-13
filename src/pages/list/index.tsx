@@ -47,9 +47,12 @@ const Do = (props: any) => {
   const history = useHistory();
   const location = useLocation();
   const toast = useToast();
-  const { path,cancelPath } = useApi();
+  const { path, cancelPath } = useApi();
   const refresh = useSyncCallback(() => {
     if (!settingLoaded) {
+      return;
+    }
+    if (switchToSearch()) {
       return;
     }
     cancelPath();
@@ -159,6 +162,20 @@ const Do = (props: any) => {
   useChangeEffect(() => {
     nextPage();
   }, [page]);
+  const switchToSearch = () => {
+    const query = new URLSearchParams(location.search);
+    const search = query.get("s");
+    if (search) {
+      setType("search");
+      return true;
+    }
+    return false;
+  };
+  useEffect(() => {
+    if(!switchToSearch()){
+      allRefresh();
+    }
+  }, [location.search]);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const initialRef = React.useRef();
   useEffect(() => {

@@ -15,6 +15,7 @@ import Error from "./error";
 import Markdown from "../preview/markdown";
 import Overlay from "../../../components/overlay";
 import { IContext, File as File_ } from "../context";
+import Results from "./results";
 
 const Files = lazy(() => import("./files"));
 const File = lazy(() => import("./file"));
@@ -98,6 +99,8 @@ const KuttyHero = () => {
                   <Files />
                 ) : type === "file" ? (
                   <File />
+                ) : type === "search" ? (
+                  <Results />
                 ) : (
                   <Error msg={msg} />
                 )}
@@ -105,7 +108,7 @@ const KuttyHero = () => {
             </Box>
           )}
         </Box>
-        {type !== "loading" && readme && (
+        {type === "folder" && readme && (
           <Box
             className="readme-box"
             rounded="xl"
