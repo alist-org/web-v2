@@ -3,24 +3,47 @@
   <head>
     <!-- customize head -->
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/alist-org/logo@main/logo.svg" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://cdn.jsdelivr.net/gh/alist-org/logo@main/logo.svg"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="referrer" content="no-referrer">
+    <meta name="referrer" content="no-referrer" />
     <meta name="generator" content="Alist V2" />
     <script src="https://g.alicdn.com/IMM/office-js/1.1.5/aliyun-web-office-sdk.min.js"></script>
+    <script>
+      window.matchMediaBak = window.matchMedia;
+      window.matchMedia = function (e) {
+        let result = window.matchMediaBak(e);
+        if (!result.addEventListener) {
+          result.addEventListener = function (event, listener) {
+            result.addListener(listener);
+          };
+          result.removeEventListener = function (event, listener) {
+            result.removeListener(listener);
+          };
+        }
+        return result;
+      };
+      this.globalThis || (this.globalThis = this);
+    </script>
     <title>Loading...</title>
   </head>
   <body>
     <script>
       window.ALIST = {
-        cdn:"/CDN_URL/",
-        api:undefined,
-      }
+        cdn: "/CDN_URL/",
+        api: undefined,
+      };
     </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <noscript>
-      <strong>We're sorry but alist doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but alist doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong
+      >
     </noscript>
     <!-- customize body -->
   </body>
