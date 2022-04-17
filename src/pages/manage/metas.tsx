@@ -39,6 +39,7 @@ export interface Meta {
   hide: string;
   upload: boolean;
   only_shows: string;
+  readme: string;
 }
 
 const EmptyMeta = {
@@ -48,6 +49,7 @@ const EmptyMeta = {
   hide: "",
   upload: false,
   only_shows: "",
+  readme: "",
 };
 
 const Metas = () => {
@@ -213,6 +215,11 @@ const Metas = () => {
                   description: "Allow visitors to upload",
                   type: "bool",
                 },
+                {
+                  name: "readme",
+                  description: "Readme url",
+                  type: "string",
+                }
               ].map((item) => {
                 return (
                   <FormItem

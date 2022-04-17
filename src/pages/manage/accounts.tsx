@@ -172,6 +172,7 @@ const Accounts = () => {
     React.useState<Account>(EmptyAccount);
   const [isEdit, setIsEdit] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [addAccountLoading, setAddAccountLoading] = React.useState(false);
   const editDisclosure = useDisclosure();
   const initialDrivers = () => {
     admin.get("drivers").then((resp) => {
@@ -464,11 +465,14 @@ const Accounts = () => {
               {t("Paste")}
             </Button>
             <Button
+              isLoading={addAccountLoading}
               onClick={() => {
                 console.log(currentAccount);
+                setAddAccountLoading(true);
                 admin
                   .post(`account/${isEdit ? "save" : "create"}`, currentAccount)
                   .then((resp) => {
+                    setAddAccountLoading(false);
                     const res = resp.data;
                     if (res.code !== 200) {
                       toast({
