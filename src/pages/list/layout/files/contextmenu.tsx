@@ -21,6 +21,7 @@ import {
   FcNumericalSorting12,
   FcClock,
   FcRefresh,
+  FcDownload
 } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
 import useFileUrl from "../../../../hooks/useFileUrl";
@@ -158,12 +159,18 @@ const ContextMenu = () => {
                 : t("Download")}
             </Flex>
           </Item>
+
           <Item
             disabled={isItemDisabled}
             onClick={({ props }) => {
               let content = "";
               if (multiSelect) {
-                
+                content = selectFiles
+                  .filter((file) => file.type !== 1)
+                  .map((file) => {
+                    return getFileUrlDecode(file);
+                  })
+                  .join("\n");
               } else {
                 const file = props as File;
                 if (file.type === 1) {
@@ -176,7 +183,7 @@ const ContextMenu = () => {
                   return;
                 }
                 content = getFileUrlDecode(file);
-              }
+              }              
               downloadWithAria2(content);
               toast({
                 title: t("Sent"),
@@ -187,12 +194,55 @@ const ContextMenu = () => {
             }}
           >
             <Flex align="center">
-              <Icon as={FcLink} boxSize={5} mr={2} />
+              <Icon as={FcDownload} boxSize={5} mr={2} />
               {multiSelect
                 ? t("Send {{number}} links to Aria2", {
                     number: selectFiles.length,
                   })
                 : t("Send to Aria2")}
+            </Flex>
+          </Item>
+
+          <Item
+            disabled={isItemDisabled}
+            onClick={({ props }) => {
+              let content = "";
+              if (multiSelect) {
+                content = selectFiles
+                  .filter((file) => file.type !== 1)
+                  .map((file) => {
+                    return getFileUrl(file);
+                  })
+                  .join("\n");
+              } else {
+                const file = props as File;
+                if (file.type === 1) {
+                  toast({
+                    title: t("Can't copy folder direact link"),
+                    status: "warning",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                  return;
+                }
+                content = getFileUrl(file);
+              }
+              copyToClip(content);
+              toast({
+                title: t("Copied"),
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          >
+            <Flex align="center">
+              <Icon as={FcLink} boxSize={5} mr={2} />
+              {multiSelect
+                ? t("Copy links of {{number}} files", {
+                    number: selectFiles.length,
+                  })
+                : t("Copy link")}
             </Flex>
           </Item>
           {loggedIn && (
