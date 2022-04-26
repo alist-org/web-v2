@@ -149,6 +149,10 @@ const zh = {
   "Backup": "备份",
   "Restore": "还原",
   "Virtual path": "虚拟路径",
+  "Send to Aria2": "发送到Aria2",
+  "Send {{number}} links to Aria2": "发送 {{number}} 个链接到Aria2",
+  "Can't download folder with Aria2": "Aria2不能下载文件夹",
+  "Sent": "已发送",
 }
 
 export default zh

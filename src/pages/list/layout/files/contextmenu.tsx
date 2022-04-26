@@ -21,6 +21,7 @@ import {
   FcNumericalSorting12,
   FcClock,
   FcRefresh,
+  FcDownload
 } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
 import useFileUrl from "../../../../hooks/useFileUrl";
@@ -34,6 +35,8 @@ import Rename, { RenameInput } from "./menus/rename";
 import Move, { MoveSelect } from "./menus/move";
 import Copy, { CopySelect } from "./menus/copy";
 import Refresh from "./menus/refresh";
+import { downloadWithAria2 } from "~/utils/aria2";
+import { isEmpty, isNil } from "lodash";
 
 export const MENU_ID = "list-menu";
 
@@ -43,7 +46,7 @@ interface IsOpenSet {
 
 const ContextMenu = () => {
   const { t } = useTranslation();
-  const { sort, setSort, multiSelect, setMultiSelect, selectFiles, loggedIn } =
+  const { sort, setSort, multiSelect, setMultiSelect, selectFiles, loggedIn, aria2 } =
     useContext(IContext);
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
@@ -155,6 +158,58 @@ const ContextMenu = () => {
                     number: selectFiles.length,
                   })
                 : t("Download")}
+            </Flex>
+          </Item>
+          
+          <Item
+            disabled={isItemDisabled}
+            onClick={({ props }) => {
+              let content = "";
+              if (multiSelect) {
+                content = selectFiles
+                  .filter((file) => file.type !== 1)
+                  .map((file) => {
+                    return getFileUrlDecode(file);
+                  })
+                  .join("\n");
+              } else {
+                const file = props as File;
+                if (file.type === 1) {
+                  toast({
+                    title: t("Can't download folder with Aria2"),
+                    status: "warning",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                  return;
+                }
+                content = getFileUrlDecode(file);
+              }
+              if(isEmpty(aria2.rpcUrl) || isEmpty(aria2.rpcSecret)) {
+                toast({
+                  title: t("Aria2 is not configured"),
+                  status: "error",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              } else {
+                downloadWithAria2(content, aria2);
+                toast({
+                  title: t("Sent"),
+                  status: "success",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              }
+            }}
+          >
+            <Flex align="center">
+              <Icon as={FcDownload} boxSize={5} mr={2} />
+              {multiSelect
+                ? t("Send {{number}} links to Aria2", {
+                    number: selectFiles.length,
+                  })
+                : t("Send to Aria2")}
             </Flex>
           </Item>
 
