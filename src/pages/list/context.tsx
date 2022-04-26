@@ -13,7 +13,6 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import { ClimbingBoxLoader } from "react-spinners";
 import htoast from "react-hot-toast";
 import Markdown from "~/components/markdown";
-import { dataAttr } from "@chakra-ui/utils";
 
 export interface File {
   name: string;
