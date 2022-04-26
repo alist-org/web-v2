@@ -184,7 +184,7 @@ const ContextMenu = () => {
                   return;
                 }
                 content = getFileUrlDecode(file);
-              }              
+              }
               if(isEmpty(aria2.rpcUrl) || isEmpty(aria2.rpcSecret)) {
                 toast({
                   title: t("Aria2 is not configured"),

@@ -280,13 +280,13 @@ const IContextProvider = (props: any) => {
         let setting = res.data;
         let url = setting.filter((item: { key: string; }) =>
           item.key === "Aria2 RPC url"
-        ).map((item: { value: any; }) => {
+        ).map((item: { value: string; }) => {
           return item.value;
         });
 
         let secret = setting.filter((item: { key: string; }) =>
           item.key === "Aria2 RPC secret"
-        ).map((item: { value: any; }) => {
+        ).map((item: { value: string; }) => {
           return item.value;
         });
         setAria2({
