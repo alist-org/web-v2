@@ -13,6 +13,7 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import { ClimbingBoxLoader } from "react-spinners";
 import htoast from "react-hot-toast";
 import Markdown from "~/components/markdown";
+import { dataAttr } from "@chakra-ui/utils";
 
 export interface File {
   name: string;
@@ -82,6 +83,11 @@ interface Page {
   page_size: number;
 }
 
+interface Aria2 {
+  rpcUrl: string;
+  rpcSecret: string;
+}
+
 export interface ContextProps {
   files: File[];
   setFiles: (files: File[]) => void;
@@ -113,6 +119,8 @@ export interface ContextProps {
   page: Page;
   setPage: (page: Page) => void;
   hideFiles: RegExp[];
+  aria2: Aria2;
+  setAria2: (aria2: Aria2) => void;
 }
 
 export const IContext = createContext<ContextProps>({
@@ -140,6 +148,8 @@ export const IContext = createContext<ContextProps>({
   page: { page_num: 1, page_size: 30 },
   setPage: () => {},
   hideFiles: [],
+  aria2: { rpcUrl: "", rpcSecret: "" },
+  setAria2: () => { },
 });
 
 const IContextProvider = (props: any) => {
@@ -167,6 +177,11 @@ const IContextProvider = (props: any) => {
   const [page, setPage] = React.useState<Page>({
     page_num: 1,
     page_size: 30,
+  });
+
+  const [aria2, setAria2] = React.useState<Aria2>({
+    rpcUrl: "",
+    rpcSecret: "",
   });
 
   const [hideFiles, setHideFiles] = React.useState<RegExp[]>([]);
@@ -223,6 +238,12 @@ const IContextProvider = (props: any) => {
             ...page,
             page_size: parseInt(getSetting("default page size") || "30"),
           });
+          // setAria2({
+          //   rpcUrl: getSetting("Aria2 RPC url"),
+          //   rpcSecret: getSetting("Aria2 RPC secret"),
+          // });
+          // console.log(aria2);
+          
           setSettingLoaded(true);
         } else {
           toast({
@@ -253,9 +274,34 @@ const IContextProvider = (props: any) => {
     });
   }, []);
 
+  const aria2Config = useCallback(() => {
+    admin.get("settings?group=1").then((resp) => {
+      let res = resp.data;
+      if (res.code === 200) {
+        let setting = res.data;
+        let url = setting.filter((item: { key: string; }) =>
+          item.key === "Aria2 RPC url"
+        ).map((item: { value: any; }) => {
+          return item.value;
+        });
+
+        let secret = setting.filter((item: { key: string; }) =>
+          item.key === "Aria2 RPC secret"
+        ).map((item: { value: any; }) => {
+          return item.value;
+        });
+        setAria2({
+          rpcUrl: url,
+          rpcSecret: secret
+        })
+      }
+    });
+  }, []);
+
   useEffect(() => {
     initialSettings();
     login();
+    aria2Config();
   }, []);
 
   const [showUnfold, setShowUnfold] = React.useState<boolean>(false);
@@ -309,6 +355,7 @@ const IContextProvider = (props: any) => {
         page,
         setPage,
         hideFiles,
+        aria2,
       }}
       {...props}
     />

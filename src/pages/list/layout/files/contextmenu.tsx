@@ -36,6 +36,7 @@ import Move, { MoveSelect } from "./menus/move";
 import Copy, { CopySelect } from "./menus/copy";
 import Refresh from "./menus/refresh";
 import { downloadWithAria2 } from "~/utils/aria2";
+import { isEmpty, isNil } from "lodash";
 
 export const MENU_ID = "list-menu";
 
@@ -45,7 +46,7 @@ interface IsOpenSet {
 
 const ContextMenu = () => {
   const { t } = useTranslation();
-  const { sort, setSort, multiSelect, setMultiSelect, selectFiles, loggedIn } =
+  const { sort, setSort, multiSelect, setMultiSelect, selectFiles, loggedIn, aria2 } =
     useContext(IContext);
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
@@ -184,13 +185,24 @@ const ContextMenu = () => {
                 }
                 content = getFileUrlDecode(file);
               }              
-              downloadWithAria2(content);
-              toast({
-                title: t("Sent"),
-                status: "success",
-                duration: 3000,
-                isClosable: true,
-              });
+              console.log("before send to aria2:" + aria2);
+              
+              if(isEmpty(aria2.rpcUrl) || isEmpty(aria2.rpcSecret)) {
+                toast({
+                  title: t("Aria2 is not configured"),
+                  status: "error",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              } else {
+                downloadWithAria2(content, aria2);
+                toast({
+                  title: t("Sent"),
+                  status: "success",
+                  duration: 3000,
+                  isClosable: true,
+                });
+              }
             }}
           >
             <Flex align="center">
