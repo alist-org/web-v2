@@ -185,8 +185,6 @@ const ContextMenu = () => {
                 }
                 content = getFileUrlDecode(file);
               }              
-              console.log("before send to aria2:" + aria2);
-              
               if(isEmpty(aria2.rpcUrl) || isEmpty(aria2.rpcSecret)) {
                 toast({
                   title: t("Aria2 is not configured"),
@@ -255,6 +253,48 @@ const ContextMenu = () => {
                     number: selectFiles.length,
                   })
                 : t("Copy link")}
+            </Flex>
+          </Item>
+          <Item
+            disabled={isItemDisabled}
+            onClick={({ props }) => {
+              let content = "";
+              if (multiSelect) {
+                content = selectFiles
+                  .filter((file) => file.type !== 1)
+                  .map((file) => {
+                    return getFileUrlDecode(file);
+                  })
+                  .join("\n");
+              } else {
+                const file = props as File;
+                if (file.type === 1) {
+                  toast({
+                    title: t("Can't copy folder direact link"),
+                    status: "warning",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                  return;
+                }
+                content = getFileUrlDecode(file);
+              }
+              copyToClip(content);
+              toast({
+                title: t("Copied"),
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+          >
+            <Flex align="center">
+              <Icon as={FcLink} boxSize={5} mr={2} />
+              {(multiSelect
+                ? t("Copy links of {{number}} files", {
+                    number: selectFiles.length,
+                  })
+                : t("Copy link")) + "(Decode)"}
             </Flex>
           </Item>
           {loggedIn && (
