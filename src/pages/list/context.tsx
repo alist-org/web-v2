@@ -148,7 +148,7 @@ export const IContext = createContext<ContextProps>({
   setPage: () => {},
   hideFiles: [],
   aria2: { rpcUrl: "", rpcSecret: "" },
-  setAria2: () => { },
+  setAria2: () => {},
 });
 
 const IContextProvider = (props: any) => {
@@ -271,19 +271,13 @@ const IContextProvider = (props: any) => {
     admin.get("settings?group=1").then((resp) => {
       let res = resp.data;
       if (res.code === 200) {
-        let setting = res.data;
-        let url = setting.find((item: { key: string; }) =>
-          item.key === "Aria2 RPC url"
-        );
-        url = url ? url.value : "";
-        let secret = setting.find((item: { key: string; }) =>
-          item.key === "Aria2 RPC secret"
-        );
-        secret = secret ? secret.value : "";
+        let setting: Setting[] = res.data;
+        let url = setting.find((item) => item.key === "Aria2 RPC url");
+        let secret = setting.find((item) => item.key === "Aria2 RPC secret");
         setAria2({
-          rpcUrl: url,
-          rpcSecret: secret
-        })
+          rpcUrl: url?.value || "",
+          rpcSecret: secret?.value || "",
+        });
       }
     });
   }, []);

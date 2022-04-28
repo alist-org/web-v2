@@ -21,7 +21,7 @@ import {
   FcNumericalSorting12,
   FcClock,
   FcRefresh,
-  FcDownload
+  FcDownload,
 } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
 import useFileUrl from "../../../../hooks/useFileUrl";
@@ -45,8 +45,15 @@ interface IsOpenSet {
 
 const ContextMenu = () => {
   const { t } = useTranslation();
-  const { sort, setSort, multiSelect, setMultiSelect, selectFiles, loggedIn, aria2 } =
-    useContext(IContext);
+  const {
+    sort,
+    setSort,
+    multiSelect,
+    setMultiSelect,
+    selectFiles,
+    loggedIn,
+    aria2,
+  } = useContext(IContext);
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
   const getFileUrl = useFileUrl();
@@ -159,58 +166,60 @@ const ContextMenu = () => {
                 : t("Download")}
             </Flex>
           </Item>
-          
-          <Item
-            disabled={isItemDisabled}
-            onClick={({ props }) => {
-              let content = "";
-              if (multiSelect) {
-                content = selectFiles
-                  .filter((file) => file.type !== 1)
-                  .map((file) => {
-                    return getFileUrlDecode(file);
-                  })
-                  .join("\n");
-              } else {
-                const file = props as File;
-                if (file.type === 1) {
+
+          {loggedIn && (
+            <Item
+              disabled={isItemDisabled}
+              onClick={({ props }) => {
+                let content = "";
+                if (multiSelect) {
+                  content = selectFiles
+                    .filter((file) => file.type !== 1)
+                    .map((file) => {
+                      return getFileUrlDecode(file);
+                    })
+                    .join("\n");
+                } else {
+                  const file = props as File;
+                  if (file.type === 1) {
+                    toast({
+                      title: t("Can't download folder with Aria2"),
+                      status: "warning",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                    return;
+                  }
+                  content = getFileUrlDecode(file);
+                }
+                if (!aria2.rpcUrl) {
                   toast({
-                    title: t("Can't download folder with Aria2"),
-                    status: "warning",
+                    title: t("Aria2 is not configured"),
+                    status: "error",
                     duration: 3000,
                     isClosable: true,
                   });
-                  return;
+                } else {
+                  downloadWithAria2(content, aria2);
+                  toast({
+                    title: t("Sent"),
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                  });
                 }
-                content = getFileUrlDecode(file);
-              }
-              if(!aria2.rpcUrl) {
-                toast({
-                  title: t("Aria2 is not configured"),
-                  status: "error",
-                  duration: 3000,
-                  isClosable: true,
-                });
-              } else {
-                downloadWithAria2(content, aria2);
-                toast({
-                  title: t("Sent"),
-                  status: "success",
-                  duration: 3000,
-                  isClosable: true,
-                });
-              }
-            }}
-          >
-            <Flex align="center">
-              <Icon as={FcDownload} boxSize={5} mr={2} />
-              {multiSelect
-                ? t("Send {{number}} links to Aria2", {
-                    number: selectFiles.length,
-                  })
-                : t("Send to Aria2")}
-            </Flex>
-          </Item>
+              }}
+            >
+              <Flex align="center">
+                <Icon as={FcDownload} boxSize={5} mr={2} />
+                {multiSelect
+                  ? t("Send {{number}} links to Aria2", {
+                      number: selectFiles.length,
+                    })
+                  : t("Send to Aria2")}
+              </Flex>
+            </Item>
+          )}
 
           <Item
             disabled={isItemDisabled}
