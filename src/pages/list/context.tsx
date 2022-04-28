@@ -272,17 +272,14 @@ const IContextProvider = (props: any) => {
       let res = resp.data;
       if (res.code === 200) {
         let setting = res.data;
-        let url = setting.filter((item: { key: string; }) =>
+        let url = setting.find((item: { key: string; }) =>
           item.key === "Aria2 RPC url"
-        ).map((item: { value: string; }) => {
-          return item.value;
-        });
-
-        let secret = setting.filter((item: { key: string; }) =>
+        );
+        url = url ? url.value : "";
+        let secret = setting.find((item: { key: string; }) =>
           item.key === "Aria2 RPC secret"
-        ).map((item: { value: string; }) => {
-          return item.value;
-        });
+        );
+        secret = secret ? secret.value : "";
         setAria2({
           rpcUrl: url,
           rpcSecret: secret

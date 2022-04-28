@@ -36,7 +36,6 @@ import Move, { MoveSelect } from "./menus/move";
 import Copy, { CopySelect } from "./menus/copy";
 import Refresh from "./menus/refresh";
 import { downloadWithAria2 } from "~/utils/aria2";
-import { isEmpty, isNil } from "lodash";
 
 export const MENU_ID = "list-menu";
 
@@ -185,7 +184,7 @@ const ContextMenu = () => {
                 }
                 content = getFileUrlDecode(file);
               }
-              if(isEmpty(aria2.rpcUrl) || isEmpty(aria2.rpcSecret)) {
+              if(!aria2.rpcUrl) {
                 toast({
                   title: t("Aria2 is not configured"),
                   status: "error",

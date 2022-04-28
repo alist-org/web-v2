@@ -6,8 +6,8 @@ export const downloadWithAria2 = (content: string, aria2: { rpcUrl: string; rpcS
     if (linkArr.length > 0) {
         let url = aria2.rpcUrl;
         let secret = aria2.rpcSecret
-        if (!(url && secret)) {
-            console.log("aria2 url 和 token 不能为空");
+        if (!(url)) {
+            console.log("rpcUrl 不能为空");
         } else {
             for (let link of linkArr) {
                 let id = md5_16(link);
@@ -20,7 +20,6 @@ export const downloadWithAria2 = (content: string, aria2: { rpcUrl: string; rpcS
                         [link]
                     ]
                 }
-                console.log(data);
                 axios
                     .post(url, data)
                     .then(async (resp) => {
