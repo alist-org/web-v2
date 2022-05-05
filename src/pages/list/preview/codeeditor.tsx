@@ -31,130 +31,85 @@
 // 	}
 // };
 
-import Editor, { loader } from "@monaco-editor/react";
-import { Box, Select, Button, Flex, Spacer, useColorModeValue, useToast } from "@chakra-ui/react";
+import Editor from "@monaco-editor/react";
+import {
+  Box,
+  Select,
+  Button,
+  Flex,
+  Spacer,
+  useColorModeValue,
+  useToast,
+  Heading,
+} from "@chakra-ui/react";
 import React from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useFileUrl from "../../../hooks/useFileUrl";
-import { FileProps, IContext } from "../context";
+import { FileProps } from "../context";
 import request from "../../../utils/public";
-import { useHistory } from "react-router-dom";
 
-export const type = 10;
+export const type = -1;
 export const exts = [];
 
-const CodeEditor = ({ file, readme }: FileProps) => {
-    const theme = useColorModeValue("light", "dark");
-    const { t } = useTranslation();
-    const toast = useToast();
-    const { pathname } = useLocation()
+const CodeEditor = ({ file }: FileProps) => {
+  const theme = useColorModeValue("light", "dark");
+  const { t } = useTranslation();
+  const toast = useToast();
+  const { pathname } = useLocation();
 
-    const [content, setContent] = React.useState<string | undefined>("")
-    const [ext, setExt] = React.useState("")
+  const [content, setContent] = React.useState<string | undefined>("");
 
-    const fileTypes: { [key: string]: string } = {
-        ts: "TypeScript",
-        js: "JavaScript",
-        css: "CSS",
-        less: "LESS",
-        scss: "SCSS",
-        json: "JSON",
-        html: "HTML",
-        dockerfile: "DOCKERFILE",
-        php: "PHP",
-        py: "Python",
-        cs: "C#",
-        go: "GO",
-        cpp: "C++",
-        h: "C++",
-        ps: "Powershell",
-        md: "Markdown",
-        diff: "Diff",
-        java: "Java",
-        xml: "XML",
-        vb: "VB",
-        coffee: "CoffeeScript",
-        bat: "Batch",
-        lua: "Lua",
-        ruby: "Ruby",
-        sass: "SASS",
-        r: "R",
-        obc: "Objective-C",
-    }
+  let link = useFileUrl(true)(file);
+  const getContent = () => {
+    axios.get(link).then(async (resp) => {
+      setContent(resp.data);
+    });
+  };
 
-    const fileopts = Array.from(
-        new Set(Object.keys(fileTypes).map((key) => {return fileTypes[key]}))
-    ).map((f, index) => 
-        <option value={f} key={index}>{f}</option>
-    )
+  const handleSaveButton: React.MouseEventHandler = async () => {
+    const folder = pathname.substring(0, pathname.lastIndexOf("/") || 1);
+    const form = new FormData();
+    form.append("files", new Blob([content as string]), file.name);
+    form.append("path", folder);
+    request
+      .post("upload", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((resp) => {
+        const res = resp.data;
+        toast({
+          title: t(res.message),
+          status: res.code === 200 ? "success" : "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      });
+  };
+  React.useEffect(() => {
+    getContent();
+  }, []);
 
-    let link = useFileUrl(true)(file)
-    let fileext = file.name.split(".").pop() as string
-    const getContent = () => {
-        axios.get(link).then(
-            async (resp) => {
-                setExt(fileext)
-                setContent(resp.data)
-            }
-        )
-    }
+  return (
+    <Box>
+      <Editor
+        height="70vh"
+        value={content}
+        path={file.name}
+        theme={theme === "light" ? "light" : "vs-dark"}
+        onChange={(value) => setContent(value)}
+      />
+      <Flex m="2">
+        <Spacer />
+        <Button mt="5" onClick={handleSaveButton}>
+          {t("Save")}
+        </Button>
+      </Flex>
+    </Box>
+  );
+};
 
-    const handelOptsChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
-        console.log(event.target.value)
-        setExt(event.target.value)
-    }
-    const handleSaveButton: React.MouseEventHandler = async (e) => {
-        const folder = pathname.substring(0, pathname.lastIndexOf("/") || 1)
-        const form = new FormData();
-        form.append("files", new Blob([content as string]), file.name);
-        form.append("path", folder);
-        request.post("upload", form, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            }
-        }).then((resp) => {
-            const res = resp.data
-            toast({
-              title: t(res.message),
-              status: res.code === 200 ? "success" : "error",
-              duration: 3000,
-              isClosable: true,
-            });
-        })
-    }
-    React.useEffect(() =>{
-        getContent()
-    }, [])
-
-    return (
-        <Box>
-            <Flex m="2">
-                <Box>
-                    {file.name}
-                </Box>
-                <Spacer />
-                <Select w={140}
-                    value={ext}
-                    onChange={handelOptsChange}
-                >
-                    {fileopts}
-                </Select>
-            </Flex>
-            <Editor
-                height="60vh"
-                value={content}
-                language={ext}
-                theme={theme === "light" ? "light" : "vs-dark"}
-                onChange={value => setContent(value)}
-            /> 
-            <Flex m="2">
-                <Spacer />
-                <Button mt="5" onClick={handleSaveButton}>Save</Button>
-            </Flex>
-        </Box>
-    )
-}
-
-export default CodeEditor
+export default CodeEditor;

@@ -22,7 +22,6 @@ import {
   FcClock,
   FcRefresh,
   FcDownload,
-  FcEditImage,
 } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
 import useFileUrl from "../../../../hooks/useFileUrl";
@@ -55,7 +54,7 @@ const ContextMenu = () => {
     loggedIn,
     aria2,
   } = useContext(IContext);
-  const history = useHistory()
+  const history = useHistory();
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
   const getFileUrl = useFileUrl();
@@ -129,17 +128,6 @@ const ContextMenu = () => {
             </Flex>
           }
         >
-          <Item
-            disabled={isItemDisabled}
-            onClick={({ props })=>{
-              const file = props as File
-              history.push(file.name + "?edit=true")
-          }}>
-            <Flex align="center">
-              <Icon as={FcEditImage} boxSize={5} mr={2} />
-              {t("Edit")}
-            </Flex>
-          </Item>
           <Rename
             onOpen={() => {
               setIsOpen({ ...isOpen, rename: true });
