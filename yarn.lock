@@ -960,6 +960,21 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
+"@monaco-editor/loader@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/loader/-/loader-1.3.1.tgz#35d198fb13a983dd49e9e448a172b6a9da309411"
+  integrity sha512-LfpAO6e54SZQW0nnI1sWKO4XtAlNx3WHXYZixeVy0HhZ4txGPOok4rs2u4dSi2+iRWeL198cZ2FlFQKr8mH+cw==
+  dependencies:
+    state-local "^1.0.6"
+
+"@monaco-editor/react@^4.4.4":
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/react/-/react-4.4.4.tgz#8d6b0ac144e2b673f85408e30f1facafff9b7aab"
+  integrity sha512-yQsYnVkgP5RC5ZMoRVCXSBn4D4hLUOgoQK+AZJpVY57NDXmEb57OVaaYKh8/RTzxkpuLV278hKNw5DnuzlgQwg==
+  dependencies:
+    "@monaco-editor/loader" "^1.3.1"
+    prop-types "^15.7.2"
+
 "@popperjs/core@^2.9.3":
   version "2.11.2"
   resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
@@ -2508,6 +2523,11 @@ mitt@^3.0.0:
   resolved "https://registry.npmjs.org/mitt/-/mitt-3.0.0.tgz#69ef9bd5c80ff6f57473e8d89326d01c414be0bd"
   integrity sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==
 
+monaco-editor@^0.33.0:
+  version "0.33.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.33.0.tgz#842e244f3750a2482f8a29c676b5684e75ff34af"
+  integrity sha512-VcRWPSLIUEgQJQIE0pVT8FcGBIgFoxz7jtqctE+IiCxWugD0DwgyQBcZBhdSrdMC84eumoqMZsGl2GTreOzwqw==
+
 mri@^1.1.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/mri/-/mri-1.2.0.tgz#6721480fec2a11a4889861115a48b6cbe7cc8f0b"
@@ -3107,6 +3127,11 @@ space-separated-tokens@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.1.tgz#43193cec4fb858a2ce934b7f98b7f2c18107098b"
   integrity sha512-ekwEbFp5aqSPKaqeY1PGrlGQxPNaq+Cnx4+bE2D8sciBQrHpbwoBbawqTN2+6jPs9IdWxxiUcN0K2pkczD3zmw==
+
+state-local@^1.0.6:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/state-local/-/state-local-1.0.7.tgz#da50211d07f05748d53009bee46307a37db386d5"
+  integrity sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==
 
 streamsaver@^2.0.6:
   version "2.0.6"

@@ -78,6 +78,9 @@ const Do = (props: any) => {
       setMsg(res.message);
       if (res.code === 200) {
         if (res.data.type === "file") {
+          if (switchToEdit()) {
+            res.data.files[0].type = 10
+          }
           setFiles(res.data.files);
         } else {
           if (
@@ -171,6 +174,14 @@ const Do = (props: any) => {
     }
     return false;
   };
+  const switchToEdit = () => {
+    const query = new URLSearchParams(location.search);
+    const search = query.get("edit");
+    if (search) {
+      return true
+    }
+    return false
+  }
   useEffect(() => {
     if(!switchToSearch()){
       allRefresh();
