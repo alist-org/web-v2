@@ -28,7 +28,7 @@ import useFileUrl from "../../../../hooks/useFileUrl";
 import useDownPackage from "../../../../hooks/useDownPackage";
 import { copyToClip } from "../../../../utils/copy-clip";
 import admin from "../../../../utils/admin";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import bus from "../../../../utils/event-bus";
 import NewFolder, { NewFolderInput } from "./menus/new-folder";
 import Rename, { RenameInput } from "./menus/rename";
@@ -54,6 +54,7 @@ const ContextMenu = () => {
     loggedIn,
     aria2,
   } = useContext(IContext);
+  const history = useHistory();
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
   const getFileUrl = useFileUrl();

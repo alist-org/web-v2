@@ -1,26 +1,24 @@
 import React, { useContext, useEffect } from "react";
 import { FileProps, IContext } from "../context";
 import axios from "axios";
-import { Spinner, useColorModeValue } from "@chakra-ui/react";
+import { HStack, Spinner } from "@chakra-ui/react";
 import { Box, Center } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
 import useFileUrl from "../../../hooks/useFileUrl";
 import { FormControl, FormLabel, Switch } from "@chakra-ui/react";
 import Markdown from "~/components/markdown";
+import CodeEditor from "./codeeditor";
 // import jschardet from "jschardet";
 
 export const type = 5;
 export const exts = [];
 
 const MarkdownPreview = ({ file, readme }: FileProps) => {
-  const theme = useColorModeValue("light", "dark");
   const [content, setContent] = React.useState("");
   const [srcDoc, setSrcDoc] = React.useState("");
-  const { getSetting } = useContext(IContext);
+  const { getSetting,loggedIn } = useContext(IContext);
   let link = useFileUrl(true)(file);
-  const { i18n } = useTranslation();
   const html = file.name.endsWith(".html");
-  const [render, setRender] = React.useState(false);
+  const [show, setShow] = React.useState("preview");
   const refresh = () => {
     if (readme) {
       if (file.type === -1) {
@@ -29,19 +27,11 @@ const MarkdownPreview = ({ file, readme }: FileProps) => {
     }
     axios
       .get(link, {
-        // transformResponse: [
-        //   (data) => {
-        //     return data;
-        //   },
-        // ],
         responseType: "blob",
       })
       .then(async (resp) => {
         const blob = resp.data;
         let res = await blob.text();
-        // const encoding = jschardet.detect(res).encoding;
-        // console.log(encoding);
-        // if (encoding === "windows-1252") {
         if (res.includes("�")) {
           const decoder = new TextDecoder("gbk");
           res = decoder.decode(await blob.arrayBuffer());
@@ -67,21 +57,37 @@ const MarkdownPreview = ({ file, readme }: FileProps) => {
   if (content) {
     return (
       <Box w="full">
-        {html && (
-          <FormControl display="flex" alignItems="center" m="1">
-            <FormLabel htmlFor="render" mb="0">
-              Render?
-            </FormLabel>
-            <Switch
-              id="render"
-              isChecked={render}
-              onChange={() => {
-                setRender(!render);
-              }}
-            />
-          </FormControl>
-        )}
-        {render ? (
+        <HStack>
+          {html && (
+            <FormControl display="flex" alignItems="center" width="auto" m="1">
+              <FormLabel htmlFor="render" mb="0">
+                Render?
+              </FormLabel>
+              <Switch
+                id="render"
+                isChecked={show === "render"}
+                onChange={() => {
+                  setShow(show === "render" ? "preview" : "render");
+                }}
+              />
+            </FormControl>
+          )}
+          {!readme && loggedIn && (
+            <FormControl display="flex" alignItems="center" width="auto" m="1">
+              <FormLabel htmlFor="render" mb="0">
+                Edit?
+              </FormLabel>
+              <Switch
+                id="edit"
+                isChecked={show === "edit"}
+                onChange={() => {
+                  setShow(show === "edit" ? "preview" : "edit");
+                }}
+              />
+            </FormControl>
+          )}
+        </HStack>
+        {show === "render" ? (
           <iframe
             srcDoc={srcDoc}
             style={{
@@ -91,6 +97,8 @@ const MarkdownPreview = ({ file, readme }: FileProps) => {
               minHeight: "70vh",
             }}
           ></iframe>
+        ) : show === "edit" ? (
+          <CodeEditor file={file} />
         ) : (
           <Box className="markdown-body">
             <Markdown>{content}</Markdown>
