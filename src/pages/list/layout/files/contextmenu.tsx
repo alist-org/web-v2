@@ -21,19 +21,21 @@ import {
   FcNumericalSorting12,
   FcClock,
   FcRefresh,
+  FcDownload,
 } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
 import useFileUrl from "../../../../hooks/useFileUrl";
 import useDownPackage from "../../../../hooks/useDownPackage";
 import { copyToClip } from "../../../../utils/copy-clip";
 import admin from "../../../../utils/admin";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import bus from "../../../../utils/event-bus";
 import NewFolder, { NewFolderInput } from "./menus/new-folder";
 import Rename, { RenameInput } from "./menus/rename";
 import Move, { MoveSelect } from "./menus/move";
 import Copy, { CopySelect } from "./menus/copy";
 import Refresh from "./menus/refresh";
+import { downloadWithAria2 } from "~/utils/aria2";
 
 export const MENU_ID = "list-menu";
 
@@ -43,8 +45,16 @@ interface IsOpenSet {
 
 const ContextMenu = () => {
   const { t } = useTranslation();
-  const { sort, setSort, multiSelect, setMultiSelect, selectFiles, loggedIn } =
-    useContext(IContext);
+  const {
+    sort,
+    setSort,
+    multiSelect,
+    setMultiSelect,
+    selectFiles,
+    loggedIn,
+    aria2,
+  } = useContext(IContext);
+  const history = useHistory();
   const menuTheme = useColorModeValue(theme.light, theme.dark);
   const toast = useToast();
   const getFileUrl = useFileUrl();
@@ -157,6 +167,60 @@ const ContextMenu = () => {
                 : t("Download")}
             </Flex>
           </Item>
+
+          {loggedIn && (
+            <Item
+              disabled={isItemDisabled}
+              onClick={({ props }) => {
+                let content = "";
+                if (multiSelect) {
+                  content = selectFiles
+                    .filter((file) => file.type !== 1)
+                    .map((file) => {
+                      return getFileUrlDecode(file);
+                    })
+                    .join("\n");
+                } else {
+                  const file = props as File;
+                  if (file.type === 1) {
+                    toast({
+                      title: t("Can't download folder with Aria2"),
+                      status: "warning",
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                    return;
+                  }
+                  content = getFileUrlDecode(file);
+                }
+                if (!aria2.rpcUrl) {
+                  toast({
+                    title: t("Aria2 is not configured"),
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                } else {
+                  downloadWithAria2(content, aria2);
+                  toast({
+                    title: t("Sent"),
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                  });
+                }
+              }}
+            >
+              <Flex align="center">
+                <Icon as={FcDownload} boxSize={5} mr={2} />
+                {multiSelect
+                  ? t("Send {{number}} links to Aria2", {
+                      number: selectFiles.length,
+                    })
+                  : t("Send to Aria2")}
+              </Flex>
+            </Item>
+          )}
 
           <Item
             disabled={isItemDisabled}

@@ -37,6 +37,7 @@ const Audio = ({ file }: FileProps) => {
     getSetting("music cover") ||
     "https://store.heytapimage.com/cdo-portal/feedback/202110/30/d43c41c5d257c9bc36366e310374fb19.png";
   const singer = t("unknown");
+  const [playIndex, setPlayIndex] = React.useState(0);
   useEffect(() => {
     const audio: ReactJkMusicPlayerAudioListProps = {
       name: file.name,
@@ -68,7 +69,7 @@ const Audio = ({ file }: FileProps) => {
     } else {
       setAudioLists([audio]);
     }
-    // setAudioLists([audio, ...audioList]);
+    setPlayIndex(audioList.findIndex((item) => item.name === file.name));
   }, []);
   return (
     <Box className="audio-box" w="full">
@@ -91,7 +92,8 @@ const Audio = ({ file }: FileProps) => {
           left: 20,
           bottom: 20,
         }}
-        playIndex={audioLists.findIndex((item) => item.name === file.name)}
+        playIndex={playIndex}
+        onPlayIndexChange={setPlayIndex}
         sortableOptions={{ disabled: mobile }}
         defaultVolume={volume}
         onAudioVolumeChange={(v) => setVolume(v)}
