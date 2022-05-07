@@ -25,12 +25,12 @@ const Search = (props: SearchProps) => {
       inputRef.current?.focus();
     }
     const switchSearch = (e: KeyboardEvent) => {
-      if (["f", "F"].includes(e.key) && e.ctrlKey) {
+      if (["k", "K"].includes(e.key) && e.ctrlKey) {
         props.setIsSearch(!props.isSearch);
         e.preventDefault();
       }
     };
-    document.addEventListener("keydown", switchSearch);
+    if(getSetting("enable search") === "true"){document.addEventListener("keydown", switchSearch);}
     const cancelSearch = (e: MouseEvent) => {
       props.setIsSearch(false);
     };
@@ -40,7 +40,7 @@ const Search = (props: SearchProps) => {
       document.removeEventListener("click", cancelSearch);
     };
   }, [props.isSearch]);
-  // if (!getSetting("enable search")) return null;
+  if (getSetting("enable search") !== "true") return null;
   return (
     <HStack
       spacing={2}
