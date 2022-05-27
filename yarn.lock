@@ -1214,13 +1214,12 @@ aria-hidden@^1.1.1:
   dependencies:
     tslib "^1.0.0"
 
-artplayer@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/artplayer/-/artplayer-4.3.1.tgz#8e1203129a17f19b6fe5de216d04f1bd139d6bb7"
-  integrity sha512-X0yD+PR4n07W9KMZpqX3R9kWzDF6QNaBDoeXzZU8kcFEgAwiueC4nkLR4NIVEuX02GWEEWfQgZ7Q2rNn6tLIrA==
+artplayer@^4.4.3:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/artplayer/-/artplayer-4.4.3.tgz#9387d30ecac836f4918d6c083a6cb66d97932ed3"
+  integrity sha512-RdIWInmYJquUfSuM2h/dh4MjH9SR0fcQoFWL38GgT55RuvjbiVnH/lWZASeEBveCnA1jntVDpiCZYf54wGOENQ==
   dependencies:
     option-validator "^2.0.6"
-    screenfull "^6.0.1"
 
 axios@^0.26.0:
   version "0.26.0"
@@ -3082,11 +3081,6 @@ scheduler@^0.20.2:
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-
-screenfull@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-6.0.1.tgz#3b71e6f06b72d817a8d3be73c45ebe71fa8da1ce"
-  integrity sha512-yzQW+j4zMUBQC51xxWaoDYjxOtl8Kn+xvue3p6v/fv2pIi1jH4AldgVLU8TBfFVgH2x3VXlf3+YiA/AYIPlaew==
 
 semver@^6.3.0:
   version "6.3.0"
