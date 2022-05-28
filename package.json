@@ -31,7 +31,7 @@
     "@emotion/styled": "^11.8.1",
     "@monaco-editor/react": "^4.4.4",
     "@xhofe/react-viewer": "^3.2.3",
-    "artplayer": "^4.3.1",
+    "artplayer": "^4.4.3",
     "axios": "^0.26.0",
     "flv.js": "^1.6.2",
     "framer-motion": "^5.5.6",

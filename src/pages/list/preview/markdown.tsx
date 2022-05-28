@@ -14,8 +14,7 @@ export const exts = [];
 
 const MarkdownPreview = ({ file, readme }: FileProps) => {
   const [content, setContent] = React.useState("");
-  const [srcDoc, setSrcDoc] = React.useState("");
-  const { getSetting,loggedIn } = useContext(IContext);
+  const { getSetting, loggedIn } = useContext(IContext);
   let link = useFileUrl(true)(file);
   const html = file.name.endsWith(".html");
   const [show, setShow] = React.useState("preview");
@@ -36,16 +35,7 @@ const MarkdownPreview = ({ file, readme }: FileProps) => {
           const decoder = new TextDecoder("gbk");
           res = decoder.decode(await blob.arrayBuffer());
         }
-        if (html) {
-          setSrcDoc(res);
-        }
-        if (file.name.endsWith(".md")) {
-          setContent(res);
-        } else {
-          setContent(
-            "```" + file.name.split(".").pop() + "\n" + res + "\n" + "```"
-          );
-        }
+        setContent(res);
       });
   };
   useEffect(() => {
@@ -89,7 +79,7 @@ const MarkdownPreview = ({ file, readme }: FileProps) => {
         </HStack>
         {show === "render" ? (
           <iframe
-            srcDoc={srcDoc}
+            srcDoc={content}
             style={{
               width: "100%",
               borderRadius: "0.75rem",
@@ -98,10 +88,19 @@ const MarkdownPreview = ({ file, readme }: FileProps) => {
             }}
           ></iframe>
         ) : show === "edit" ? (
-          <CodeEditor file={file} />
+          <CodeEditor content={content} setContent={setContent} file={file} />
         ) : (
           <Box className="markdown-body">
-            <Markdown>{content}</Markdown>
+            <Markdown>
+              {file.name.endsWith(".md")
+                ? content
+                : "```" +
+                  file.name.split(".").pop() +
+                  "\n" +
+                  content +
+                  "\n" +
+                  "```"}
+            </Markdown>
           </Box>
         )}
       </Box>

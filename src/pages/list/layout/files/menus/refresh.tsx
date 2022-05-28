@@ -10,7 +10,7 @@ import bus from "../../../../../utils/event-bus";
 import { IContext } from "../../../context";
 
 const Refresh = () => {
-  const { loggedIn } = useContext(IContext);
+  const { loggedIn, setPage, page } = useContext(IContext);
   const { t } = useTranslation();
   const { refresh } = useApi();
   const toast = useToast();
@@ -28,6 +28,7 @@ const Refresh = () => {
               isClosable: true,
             });
             if (res.code === 200) {
+              setPage({ ...page, page_num: 1 });
               bus.emit("refresh");
             }
           });
