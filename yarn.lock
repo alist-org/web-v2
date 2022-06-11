@@ -1214,6 +1214,11 @@ aria-hidden@^1.1.1:
   dependencies:
     tslib "^1.0.0"
 
+artplayer-plugin-danmuku@^4.4.6:
+  version "4.4.6"
+  resolved "https://registry.npmmirror.com/artplayer-plugin-danmuku/-/artplayer-plugin-danmuku-4.4.6.tgz#3f01a60f71992d8779b3bb028e93929da7a4dcd7"
+  integrity sha512-Q5LWMwzdtFF/SmRQzjD8itMG6v/VghOmHiUe0WM3mnuKRZCS6H4wWsE3dCp95UTPY9GxaRmq0t5T2miVc6/1oQ==
+
 artplayer@^4.4.3:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/artplayer/-/artplayer-4.4.3.tgz#9387d30ecac836f4918d6c083a6cb66d97932ed3"

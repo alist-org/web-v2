@@ -23,7 +23,7 @@ import { BsCardList } from "react-icons/bs";
 import useFileUrl from "../../../hooks/useFileUrl";
 import { isMobile, userAgent } from "../../../utils/compatibility";
 import Hls from "hls.js";
-
+import artplayerPluginDanmuku from "artplayer-plugin-danmuku"
 export const type = 3;
 export const exts = ["m3u8"];
 // const DirectDrivers = ["Native", "GoogleDrive"];
@@ -140,6 +140,39 @@ const Video = ({ file }: FileProps) => {
           "font-size": subtitleSize,
         },
       };
+    }
+    const danmu = lastFiles.find((f) => {
+      const fName = f.name;
+      if (!fName.startsWith(filename)) {
+        return false;
+      }
+      for (const ext of ["xml"]) {
+        if (fName.endsWith(ext)) {
+          return true;
+        }
+      }
+      return false;
+    });
+    if (danmu) {
+      options.plugins = [
+        artplayerPluginDanmuku({
+          danmuku: fileUrl(danmu),
+          speed: 5, // 弹幕持续时间，单位秒，范围在[1 ~ 10]
+          opacity: 1, // 弹幕透明度，范围在[0 ~ 1]
+          fontSize: 25, // 字体大小，支持数字和百分比
+          color: '#FFFFFF', // 默认字体颜色
+          mode: 0, // 默认模式，0-滚动，1-静止
+          margin: [0, '0%'], // 弹幕上下边距，支持数字和百分比
+          antiOverlap: false, // 是否防重叠
+          useWorker: true, // 是否使用 web worker
+          synchronousPlayback: false, // 是否同步到播放速度
+          lockTime: 5, // 输入框锁定时间，单位秒，范围在[1 ~ 60]
+          maxLength: 100, // 输入框最大可输入的字数，范围在[0 ~ 500]
+          minWidth: 200, // 输入框最小宽度，范围在[0 ~ 500]，填 0 则为无限制
+          maxWidth: 400, // 输入框最大宽度，范围在[0 ~ Infinity]，填 0 则为 100% 宽度
+          theme: 'dark', // 输入框自定义挂载时的主题色，默认为 dark，可以选填亮色 light
+        })
+      ]
     }
     art = new Artplayer(options);
     art.on("video:ended", () => {
