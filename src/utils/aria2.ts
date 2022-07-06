@@ -14,7 +14,7 @@ export const downloadWithAria2 = (
     } else {
       for (let link of linkArr) {
         let id = md5_16(link);
-        let fileNameArr: string[] = content.split("/");
+        let fileNameArr: string[] = link.split("/");
         let fileName = fileNameArr[fileNameArr.length - 1];
         let options = {
           out: fileName,
