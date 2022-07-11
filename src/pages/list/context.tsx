@@ -160,7 +160,7 @@ const IContextProvider = (props: any) => {
   const [msg, setMsg] = useState("");
   const [settingLoaded, setSettingLoaded] = React.useState<boolean>(false);
   const [password, setPassword] = React.useState<string>(
-    localStorage.getItem("password") || ""
+    localStorage.getItem("alist_password") || ""
   );
   const [sort, setSort] = useState<Sort>({
     orderBy: undefined,
@@ -170,7 +170,7 @@ const IContextProvider = (props: any) => {
   const [selectFiles, setSelectFiles] = useState<File[]>([]);
 
   const [show, setShow] = React.useState<string>(
-    localStorage.getItem("show") || "list"
+    localStorage.getItem("alist_show") || "list"
   );
 
   const [page, setPage] = React.useState<Page>({
@@ -257,7 +257,7 @@ const IContextProvider = (props: any) => {
       });
   }, []);
   const login = useCallback(() => {
-    if (!localStorage.getItem("admin-token")) {
+    if (!localStorage.getItem("alist_admin-token")) {
       return;
     }
     admin.get("login").then((resp) => {

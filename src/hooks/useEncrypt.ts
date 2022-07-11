@@ -10,7 +10,7 @@ export const useEncrypt = () => {
       return link;
     }
     const name = url.split("/").pop();
-    const token = localStorage.getItem("admin-token");
+    const token = localStorage.getItem("alist_admin-token");
     if (loggedIn) {
       const sign = md5_16(`alist-${token}-${name}`);
       return link + (encode ? encodeURI(`?sign=${sign}`) : `?sign=${sign}`);

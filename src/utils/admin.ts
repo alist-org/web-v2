@@ -7,12 +7,22 @@ if (window.ALIST.api) {
   api = window.ALIST.api;
 }
 
+let subfolder = ""
+if (window.ALIST.subfolder) {
+  subfolder = window.ALIST.subfolder;
+}
+if (!subfolder.endsWith("/")) {
+  subfolder = subfolder + "/";
+}
+if (subfolder.startsWith("/")) {
+  subfolder = subfolder.substring(1);
+}
 const instance = axios.create({
-  baseURL: api + "api/admin/",
+  baseURL: api + subfolder + "api/admin/",
   // timeout: 5000
   headers: {
     "Content-Type": "application/json;charset=utf-8",
-    // 'Authorization': localStorage.getItem("admin-token") || "",
+    // 'Authorization': localStorage.getItem("alist_admin-token") || "",
   },
   withCredentials: false,
 });
@@ -47,7 +57,7 @@ instance.interceptors.response.use(
 );
 
 instance.defaults.headers.common["Authorization"] =
-  localStorage.getItem("admin-token") || "";
+  localStorage.getItem("alist_admin-token") || "";
 
 export const changeToken = (password: string) => {
   let token = "";
@@ -56,7 +66,7 @@ export const changeToken = (password: string) => {
   }
   instance.defaults.headers.common["Authorization"] = token;
   publicR.defaults.headers.common["Authorization"] = token;
-  localStorage.setItem("admin-token", token);
+  localStorage.setItem("alist_admin-token", token);
 };
 
 export default instance;

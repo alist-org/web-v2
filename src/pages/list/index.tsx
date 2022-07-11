@@ -208,7 +208,7 @@ const Do = (props: any) => {
               }}
               onKeyUp={(e) => {
                 if (e.key === "Enter") {
-                  localStorage.setItem("password", password);
+                  localStorage.setItem("alist_password", password);
                   inputPass = true;
                   refresh();
                   onClose();
@@ -220,7 +220,7 @@ const Do = (props: any) => {
           <ModalFooter>
             <Button
               onClick={() => {
-                localStorage.setItem("password", password);
+                localStorage.setItem("alist_password", password);
                 inputPass = true;
                 refresh();
                 onClose();

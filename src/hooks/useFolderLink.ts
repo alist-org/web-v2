@@ -13,10 +13,20 @@ const useFolderLink = (proxy = false) => {
   if (type === "file") {
     path = path.substring(0, path.lastIndexOf("/"));
   }
-  if (proxy) {
-    return `${host}p${path}`;
+  let subfolder = ""
+  if (window.ALIST.subfolder) {
+    subfolder = window.ALIST.subfolder;
   }
-  return `${host}d${path}`;
+  if (subfolder.endsWith("/")) {
+    subfolder = subfolder.substring(0, subfolder.length - 1);
+  }
+  if (subfolder.startsWith("/")) {
+    subfolder = subfolder.substring(1);
+  }
+  if (proxy) {
+    return `${host}${subfolder}/p${path}`;
+  }
+  return `${host}${subfolder}/d${path}`;
 };
 
 export default useFolderLink;

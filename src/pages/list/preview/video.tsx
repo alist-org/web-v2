@@ -35,7 +35,7 @@ const Video = ({ file }: FileProps) => {
   let fileUrl = useFileUrl();
   let link = fileUrl();
   const proxyLink = useFolderLink(true);
-  const url = file.name.endsWith(".m3u8") ? link : file.url;
+  const url = link; //file.name.endsWith(".m3u8") ? link : file.url;
   const history = useHistory();
   let art: Artplayer;
   const subtitleSize = useBreakpointValue({

@@ -167,7 +167,7 @@ const Header = () => {
                   onClick={() => {
                     setShow!(show === "list" ? "grid" : "list");
                     localStorage.setItem(
-                      "show",
+                      "alist_show",
                       show === "list" ? "grid" : "list"
                     );
                   }}
