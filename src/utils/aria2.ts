@@ -14,11 +14,17 @@ export const downloadWithAria2 = (
     } else {
       for (let link of linkArr) {
         let id = md5_16(link);
+        let fileNameArr: string[] = link.split("/");
+        let fileName = fileNameArr[fileNameArr.length - 1];
+        let options = {
+          out: fileName,
+          "check-certificate": "false",
+        };
         let data = {
           id: id,
           jsonrpc: "2.0",
           method: "aria2.addUri",
-          params: ["token:" + secret, [link]],
+          params: ["token:" + secret, [link], options],
         };
         axios.post(url, data).then(async (resp) => {
           let res = resp.data;
