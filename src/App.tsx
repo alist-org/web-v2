@@ -7,10 +7,21 @@ import { ClimbingBoxLoader } from "react-spinners";
 import { Toaster } from 'react-hot-toast';
 
 function App() {
+  let subfolder = ""
+  if (window.ALIST.subfolder) {
+    subfolder = window.ALIST.subfolder;
+  }
+  if (subfolder.endsWith("/")) {
+    subfolder = subfolder.substring(0, subfolder.length - 1);
+  }
+  if (subfolder.startsWith("/")) {
+    subfolder = subfolder.substring(1);
+  }
+
   return (
     <div className="App">
       <div><Toaster/></div>
-      <Router>
+      <Router basename={"/" + subfolder} >
         <Suspense
           fallback={
             <Center h="100vh">

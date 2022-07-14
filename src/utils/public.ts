@@ -5,12 +5,22 @@ if (window.ALIST.api) {
   api = window.ALIST.api;
 }
 
+let subfolder = ""
+if (window.ALIST.subfolder) {
+  subfolder = window.ALIST.subfolder;
+}
+if (!subfolder.endsWith("/")) {
+  subfolder = subfolder + "/";
+}
+if (subfolder.startsWith("/")) {
+  subfolder = subfolder.substring(1);
+}
 const instance = axios.create({
-  baseURL: api + "api/public/",
+  baseURL: api + subfolder + "api/public/",
   // timeout: 5000
   headers: {
     "Content-Type": "application/json;charset=utf-8",
-    // 'Authorization': localStorage.getItem("admin-token") || "",
+    // 'Authorization': localStorage.getItem("alist_admin-token") || "",
   },
   withCredentials: false,
 });
@@ -45,6 +55,6 @@ instance.interceptors.response.use(
 );
 
 instance.defaults.headers.common["Authorization"] =
-  localStorage.getItem("admin-token") || "";
+  localStorage.getItem("alist_admin-token") || "";
 
 export default instance;
