@@ -28,6 +28,13 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
+      - run: |
+          cd alist-web
+          npx changelogithub # or changelogithub@0.12 if ensure the stable result
+          cd ..
+        env:
+          GITHUB_TOKEN: ${{secrets.MY_TOKEN}}
+
       - name: Checkout web repo
         uses: actions/checkout@v2
         with:
@@ -57,7 +64,7 @@ jobs:
           branch: main
           directory: assets
           repository: alist-org/assets
-        
+          
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
