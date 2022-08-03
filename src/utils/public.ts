@@ -55,6 +55,6 @@ instance.interceptors.response.use(
 );
 
 instance.defaults.headers.common["Authorization"] =
-  localStorage.getItem("alist_admin-token") || "";
+  localStorage.getItem("access_token") || "";
 
 export default instance;

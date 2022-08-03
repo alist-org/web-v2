@@ -257,10 +257,10 @@ const IContextProvider = (props: any) => {
       });
   }, []);
   const login = useCallback(() => {
-    if (!localStorage.getItem("alist_admin-token")) {
+    if (!localStorage.getItem("access_token")) {
       return;
     }
-    admin.get("login").then((resp) => {
+    admin.get("verify").then((resp) => {
       if (resp.data.code === 200) {
         setLoggedIn(true);
       }
