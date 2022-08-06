@@ -114,8 +114,8 @@ export default function Swibc() {
     const toast = useToast();
     useTitle(t("Alist Manage"));
     useEffect(() => {
-        let urlSearchParams = new URLSearchParams(location.search)
-        let code = urlSearchParams.get("code"), state = urlSearchParams.get("state");
+        const query = new URLSearchParams(location.search);
+        const code = query.get("code"), state = query.get("state");
         if (code && code.length > 0 && state && state.length > 0) {
             admin.post("oauth", {
                 code: code,
@@ -129,12 +129,12 @@ export default function Swibc() {
                 if (res.code === 401) {
                     history.push(`${url}login`);
                 } else {
-                    changeToken(res.data)
+                    changeToken(res.data, false);
                     if (match.url === location.pathname) {
                         history.push(`${url}settings/0`);
                     }
                 }
-            })
+            });
         } else {
             admin.get("verify").then((resp) => {
                 const res = resp.data;
@@ -368,7 +368,7 @@ export default function Swibc() {
                         >
                             <IconButton
                                 onClick={() => {
-                                    changeToken(null);
+                                    changeToken("", false);
                                     history.push(`${match.url}/login`);
                                 }}
                                 colorScheme="blank"

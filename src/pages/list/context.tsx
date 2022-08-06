@@ -257,7 +257,7 @@ const IContextProvider = (props: any) => {
       });
   }, []);
   const login = useCallback(() => {
-    if (!localStorage.getItem("access_token")) {
+    if (!localStorage.getItem("alist_admin-token")) {
       return;
     }
     admin.get("verify").then((resp) => {
