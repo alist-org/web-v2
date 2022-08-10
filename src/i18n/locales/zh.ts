@@ -12,6 +12,7 @@ const zh = {
   "Accounts": "账号",
   "Meta": "元信息",
   "login": "登录",
+  "casdoor login": "casdoor登录",
   "password": "密码",
   "success": "成功",
   "exit": "退出",

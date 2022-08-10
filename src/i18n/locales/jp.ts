@@ -12,6 +12,7 @@ const zh = {
   "Accounts": "アカウント",
   "Meta": "メタ情報",
   "login": "ログイン",
+  "casdoor login": "casdoor ログイン",
   "password": "パスワード",
   "success": "成功",
   "exit": "終了する",

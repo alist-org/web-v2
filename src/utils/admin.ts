@@ -59,14 +59,17 @@ instance.interceptors.response.use(
 instance.defaults.headers.common["Authorization"] =
   localStorage.getItem("alist_admin-token") || "";
 
-export const changeToken = (password: string) => {
-  let token = "";
-  if (password) {
-    token = Md5.hashStr(`https://github.com/Xhofe/alist-${password}`);
+export const changeToken = (token: string, isPassword: boolean) => {
+  if (isPassword && token) {
+    token = Md5.hashStr(`https://github.com/Xhofe/alist-${token}`);
   }
-  instance.defaults.headers.common["Authorization"] = token;
-  publicR.defaults.headers.common["Authorization"] = token;
-  localStorage.setItem("alist_admin-token", token);
+  if (token) {
+    instance.defaults.headers.common["Authorization"] = token;
+    publicR.defaults.headers.common["Authorization"] = token;
+    localStorage.setItem("alist_admin-token", token);
+  } else {
+    localStorage.removeItem("alist_admin-token");
+  }
 };
 
 export default instance;
