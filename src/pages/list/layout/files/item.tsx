@@ -11,16 +11,16 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IContext, FileProps } from "../../context";
 import { formatDate } from "../../../../utils/date";
 import { getFileSize } from "../../../../utils/file";
 import getIcon from "../../../../utils/icon";
 import { useContextMenu } from "react-contexify";
 import { MENU_ID } from "./contextmenu";
+import { getFolderFileUrl } from "~/hooks/usePathName";
 
 const ListItem = ({ file }: FileProps) => {
-  const { pathname } = useLocation();
   const { getSetting, multiSelect, selectFiles, setSelectFiles } =
     useContext(IContext);
   // const isShow = useBreakpointValue({ base: false, md: true });
@@ -64,11 +64,7 @@ const ListItem = ({ file }: FileProps) => {
       >
         <LinkOverlay
           as={cursorOther ? Box : Link}
-          to={encodeURI(
-            `${pathname.endsWith("/") ? pathname.slice(0, -1) : pathname}/${
-              file.name
-            }`
-          )}
+          to={getFolderFileUrl(file.name)}
         >
           <HStack spacing={2}>
             <Flex

@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { useLocation } from "react-router-dom";
+import usePathName from "./usePathName";
 import { IContext } from "../pages/list/context";
 
-const useFolderLink = (proxy = false) => {
+const useFolderPath = (proxy = false) => {
   const { type } = useContext(IContext);
-  let { pathname } = useLocation();
+  const pathname = usePathName();
   let host = import.meta.env.VITE_SERVER_URL as string;
   if (host === "/") {
     host = window.location.origin;
@@ -32,4 +32,4 @@ const useFolderLink = (proxy = false) => {
   return `${host}${subfolder}/d${path}`;
 };
 
-export default useFolderLink;
+export default useFolderPath;

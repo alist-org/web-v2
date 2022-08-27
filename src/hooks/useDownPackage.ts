@@ -1,8 +1,8 @@
 import streamSaver from "streamsaver";
 import "../utils/zip-stream.js";
 import { File, IContext } from "../pages/list/context";
-import useFolderLink from "./useFolderLink";
-import { useLocation } from "react-router-dom";
+import useFolderPath from "./useFolderPath";
+import usePathName from "./usePathName";
 import request from "../utils/public";
 import { useContext, useEffect, useRef } from "react";
 import { useEncrypt } from "./useEncrypt";
@@ -22,11 +22,11 @@ const trimSlash = (str: string) => {
 };
 
 const useDownPackage = () => {
-  const link = useFolderLink();
+  const path = useFolderPath();
   const toast = useToast();
   const toastIdRef = useRef<any>();
   const { t } = useTranslation();
-  const { pathname } = useLocation();
+  const pathname = usePathName();
   const { password, getSetting } = useContext(IContext);
   // pre: 前缀
   const FileToDownFile = async (
@@ -160,7 +160,7 @@ const useDownPackage = () => {
             name = name.replace(`${saveName}/`, "");
           }
           const url = encrypt(
-            `${link}${it.value.startsWith("/") ? "" : "/"}${it.value}`
+            `${path}${it.value.startsWith("/") ? "" : "/"}${it.value}`
           );
           // console.log(name, url);
           return fetch(url).then((res) => {

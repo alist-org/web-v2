@@ -13,6 +13,7 @@ import { IContext, Resp } from "../../context";
 import request from "~/utils/public";
 import { useTranslation } from "react-i18next";
 import Result from "./result";
+import usePathName from "~/hooks/usePathName";
 
 export interface Result {
   path: string;
@@ -23,13 +24,14 @@ export interface Result {
 
 const Results = () => {
   const location = useLocation();
+  const pathname = usePathName();
   const [loading, setLoading] = useState(true);
   const { getSetting } = useContext(IContext);
   const toast = useToast();
   const [results, setResults] = useState<Result[]>([]);
   const search = () => {
     const searchParams = new URLSearchParams(location.search);
-    const path = location.pathname;
+    const path = pathname;
     const keyword = searchParams.get("s");
     if(!keyword) return;
     setLoading(true);

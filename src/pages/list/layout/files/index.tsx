@@ -2,20 +2,20 @@ import { Box } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { IContext } from "../../context";
 import Viewer from "@xhofe/react-viewer";
-import useFolderLink from "../../../../hooks/useFolderLink";
+import useFolderPath from "../../../../hooks/useFolderPath";
 import { useEncrypt } from "../../../../hooks/useEncrypt";
 import Grid_ from "./grid";
 import List from "./list";
 import Page from "./page";
 import ContextMenu, { MENU_ID } from "./contextmenu";
 import { useContextMenu } from "react-contexify";
-import { useLocation } from "react-router-dom";
+import usePathName from "~/hooks/usePathName";
 import { pathJoin } from "../../../../utils/file";
 
 const Files = () => {
   const { files, show, hideFiles } = useContext(IContext);
   let files_ = files;
-  const { pathname } = useLocation();
+  const pathname = usePathName();
   files_ = files_.filter((file) => {
     for (const reg of hideFiles) {
       if (reg.test(pathJoin(pathname, file.name))) {
@@ -25,14 +25,13 @@ const Files = () => {
     return true;
   });
   // use link_ because of refresh
-  const link_ = useFolderLink();
-  const [link, setLink] = React.useState(link_);
+  const path = useFolderPath();
   const encrypt = useEncrypt();
   const images = files_
     .filter((file) => file.type === 6)
     .map((file) => {
       return {
-        src: encrypt(`${link}/${file.name}`),
+        src: encrypt(`${path}/${file.name}`),
         alt: file.name,
         thumbnail: file.thumbnail,
       };

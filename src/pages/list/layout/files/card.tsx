@@ -10,12 +10,13 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IContext, File } from "../../context";
 import getIcon from "../../../../utils/icon";
 import { BeatLoader } from "react-spinners";
 import { useContextMenu } from "react-contexify";
 import { MENU_ID } from "./contextmenu";
+import { getFolderFileUrl } from "~/hooks/usePathName";
 
 const Card = ({
   file,
@@ -24,14 +25,9 @@ const Card = ({
   file: File;
   setShowImage: (name: string) => void;
 }) => {
-  const location = useLocation();
   const { getSetting } = useContext(IContext);
   const [error, setError] = React.useState(false);
-  const to = `${
-    location.pathname.endsWith("/")
-      ? location.pathname.slice(0, -1)
-      : location.pathname
-  }/${file.name}`;
+  const to = getFolderFileUrl(file.name);
   const isImage = file.type === 6;
   const ComponentBox = isImage ? Box : LinkBox;
   const ComponentLink = isImage ? Box : LinkOverlay;
@@ -115,7 +111,7 @@ const Card = ({
             <ComponentLink
               w="full"
               as={isImage ? Box : Link}
-              to={isImage ? "" : encodeURI(to)}
+              to={isImage ? "" : to}
               className="grid-item-name"
             >
               <Text

@@ -1,6 +1,6 @@
 import { Box, Stack } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
-import React, { lazy, useContext, useEffect } from "react";
+import usePathName from "~/hooks/usePathName";
+import React, { useContext, useEffect } from "react";
 import { FileProps, IContext } from "../context";
 import useUnfold from "../../../hooks/useUnfold";
 import request from "../../../utils/public";
@@ -21,7 +21,7 @@ declare namespace aliyun {
 // const Pdf = lazy(() => import("./pdf"));
 
 const Office = ({ file }: FileProps) => {
-  const { pathname } = useLocation();
+  const pathname = usePathName();
   const { password } = useContext(IContext);
   let fileUrl = useFileUrl(false, false);
   const { unfold, setShowUnfold } = useUnfold(false);

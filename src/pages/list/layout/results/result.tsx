@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { encodePathToUrl } from "~/hooks/usePathName";
 import { getFileSize, pathJoin } from "~/utils/file";
 import getIcon from "~/utils/icon";
 import { Result } from ".";
@@ -32,7 +33,7 @@ const Result = (file: Result) => {
             bgColor: "rgba(132,133,141,0.18)",
           }}
         >
-          <LinkOverlay as={Link} to={encodeURI(pathJoin(file.path, file.name))}>
+          <LinkOverlay as={Link} to={encodePathToUrl(pathJoin(file.path, file.name))}>
             <HStack spacing={2}>
               <Flex
                 className="result-name"
