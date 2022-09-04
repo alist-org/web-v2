@@ -1,17 +1,16 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import usePathName, { encodePathToUrl } from "~/hooks/usePathName";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getSetting } from "../context";
 
 const Nav = () => {
-  const location = useLocation();
+  const pathname = usePathName();
   const { t } = useTranslation();
   return (
     <Breadcrumb spacing="1" className="nav" w="full" px="2">
@@ -29,22 +28,22 @@ const Nav = () => {
           {getSetting("home emoji")}{t("Home")}
         </BreadcrumbLink>
       </BreadcrumbItem>
-      {location.pathname
+      {pathname
         .slice(1)
         .split("/")
         .map((path, index) => {
-          const isLast = index === location.pathname.split("/").length - 2;
-          const pathname = location.pathname
+          const isLast = index === pathname.split("/").length - 2;
+          const indexPath = pathname
             .split("/")
             .slice(0, index + 2)
             .join("/");
           return (
-            <BreadcrumbItem key={pathname} isCurrentPage={isLast}>
+            <BreadcrumbItem key={indexPath} isCurrentPage={isLast}>
               <BreadcrumbLink
                 isCurrentPage={isLast}
                 wordBreak="break-word"
                 as={isLast ? undefined : Link}
-                to={encodeURI(pathname)}
+                to={encodePathToUrl(indexPath)}
                 _hover={{
                   textDecoration: "none",
                   bg: "rgba(132,133,141,0.18)",

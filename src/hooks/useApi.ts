@@ -2,7 +2,7 @@ import request from "../utils/public";
 import admin from "../utils/admin";
 import { useContext } from "react";
 import { IContext } from "../pages/list/context";
-import { useLocation } from "react-router-dom";
+import usePathName from "./usePathName";
 import axios from "axios";
 
 const pathJoin = (...paths: string[]) => {
@@ -13,7 +13,7 @@ let cancelPath: any;
 const CancelToken = axios.CancelToken;
 const useApi = () => {
   const { password, page } = useContext(IContext);
-  const { pathname } = useLocation();
+  const pathname = usePathName();
   // let path = window.location.href.substring(window.location.origin.length);
   // try {
   //   path = decodeURI(path);

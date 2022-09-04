@@ -2,7 +2,6 @@ import {
   Box,
   Input,
   Progress,
-  ScaleFade,
   useDisclosure,
   useToast,
   Heading,
@@ -15,7 +14,7 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import usePathName from "~/hooks/usePathName";
 import request from "../../../utils/public";
 import { IContext, Resp } from "../context";
 import bus from "../../../utils/event-bus";
@@ -39,7 +38,7 @@ const Uploader = forwardRef<UploaderHandle>((_props, ref) => {
     },
   }));
   const { password } = useContext(IContext);
-  const { pathname } = useLocation();
+  const pathname = usePathName();
   const toast = useToast();
   const [progress, setProgress] = useState(50);
   const { t } = useTranslation();

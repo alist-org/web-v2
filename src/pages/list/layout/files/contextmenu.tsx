@@ -28,7 +28,7 @@ import useFileUrl from "../../../../hooks/useFileUrl";
 import useDownPackage from "../../../../hooks/useDownPackage";
 import { copyToClip } from "../../../../utils/copy-clip";
 import admin from "../../../../utils/admin";
-import { useLocation, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import bus from "../../../../utils/event-bus";
 import NewFolder, { NewFolderInput } from "./menus/new-folder";
 import Rename, { RenameInput } from "./menus/rename";
@@ -36,6 +36,7 @@ import Move, { MoveSelect } from "./menus/move";
 import Copy, { CopySelect } from "./menus/copy";
 import Refresh from "./menus/refresh";
 import { downloadWithAria2 } from "~/utils/aria2";
+import usePathName from "~/hooks/usePathName";
 
 export const MENU_ID = "list-menu";
 
@@ -60,7 +61,7 @@ const ContextMenu = () => {
   const getFileUrl = useFileUrl();
   const getFileUrlDecode = useFileUrl(false, false);
   const downPack = useDownPackage();
-  const { pathname } = useLocation();
+  const pathname = usePathName();
   const [isOpen, setIsOpen] = React.useState<IsOpenSet>({});
   function isItemDisabled({
     props,

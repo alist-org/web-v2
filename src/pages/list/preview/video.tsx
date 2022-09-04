@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { FileProps, IContext } from "../context";
 import Artplayer from "artplayer";
-import useFolderLink from "../../../hooks/useFolderLink";
 import {
   Box,
   Button,
@@ -34,7 +33,6 @@ const Video = ({ file }: FileProps) => {
   const { i18n } = useTranslation();
   let fileUrl = useFileUrl();
   let link = fileUrl();
-  const proxyLink = useFolderLink(true);
   const url = link; //file.name.endsWith(".m3u8") ? link : file.url;
   const history = useHistory();
   let art: Artplayer;
@@ -129,8 +127,6 @@ const Video = ({ file }: FileProps) => {
       return false;
     });
     if (subtitle) {
-      const preLink = proxyLink;
-      const subLink = preLink + "/" + subtitle.name;
       options.subtitle = {
         type: subtitleType,
         url: fileUrl(subtitle),
@@ -178,7 +174,7 @@ const Video = ({ file }: FileProps) => {
     art.on("video:ended", () => {
       const index = videoFiles.findIndex((f) => f.name === file.name);
       if (index < videoFiles.length - 1) {
-        history.push(encodeURI(videoFiles[index + 1].name));
+        history.push(encodeURIComponent(videoFiles[index + 1].name));
       }
     });
     return () => {
@@ -219,7 +215,7 @@ const Video = ({ file }: FileProps) => {
                 _hover={{
                   textDecoration: "none",
                 }}
-                to={encodeURI(f.name)}
+                to={encodeURIComponent(f.name)}
               >
                 {f.name}
               </Link>

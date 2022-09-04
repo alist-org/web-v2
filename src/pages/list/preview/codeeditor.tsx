@@ -11,11 +11,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
+import usePathName from "~/hooks/usePathName";
 import { useTranslation } from "react-i18next";
-import useFileUrl from "../../../hooks/useFileUrl";
-import { FileProps } from "../context";
 import request from "../../../utils/public";
 import { File } from "../context";
 
@@ -32,7 +29,7 @@ const CodeEditor = ({ file, content, setContent }: CodeEditorProps) => {
   const theme = useColorModeValue("light", "dark");
   const { t } = useTranslation();
   const toast = useToast();
-  const { pathname } = useLocation();
+  const pathname = usePathName();
 
   const handleSaveButton: React.MouseEventHandler = async () => {
     const folder = pathname.substring(0, pathname.lastIndexOf("/") || 1);
